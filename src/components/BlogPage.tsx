@@ -215,7 +215,11 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
           {/* Posts Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.slice(0, 6).map((post, index) => (
-              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer">
+              <Card
+                key={index}
+                className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
+                onClick={() => onPageChange("article-detail")}
+              >
                 <div className="aspect-video overflow-hidden">
                   <ImageWithFallback
                     src={post.image}

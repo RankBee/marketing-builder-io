@@ -245,7 +245,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           <p className="text-xl mb-8 text-purple-100">
             See RankBee in action with your own brand data in just 20 minutes.
           </p>
-          <a href="https://rankbee.ai/meet" target="_blank" rel="noopener noreferrer">
+          <a href="https://rankbee.ai/meet">
             <Button
               size="lg"
               className="bg-white text-cta hover:bg-gray-100 px-8"

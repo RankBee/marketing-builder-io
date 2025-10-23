@@ -23,7 +23,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
     {
       icon: <Target className="w-8 h-8 text-purple-600" />,
       title: "Foundation",
-      description: "Born from 25+ years at Amazon, Tata, and startups��real-world SEO that powers our GAIO tech.",
+      description: "Born from 25+ years at Amazon, Tata, and startups—real-world SEO that powers our GAIO tech.",
       detail: "It's not magic—it's method. Like how we helped a fintech client uncover hidden biases in AI responses and flip them into opportunities."
     },
     {
@@ -46,21 +46,24 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       role: "Founder/CEO/CTO",
       bio: "After leading global SEO at Amazon and launching tools at Skyscanner, Aris built RankBee to tackle the AI era head-on.",
       funFact: "He's obsessed with how one prompt can shift a brand's fate.",
-      image: arisVrakasImage
+      image: arisVrakasImage,
+      linkedinUrl: "https://www.linkedin.com/in/arisvrakas/"
     },
     {
       name: "Yin Noe",
       role: "COO",
       bio: "Three-time founder in cleantech and fintech, Yin raised millions and scaled ops for giants like BYD.",
       funFact: "She joins us to keep things lean and laser-focused on your success.",
-      image: yinNoeImage
+      image: yinNoeImage,
+      linkedinUrl: "https://www.linkedin.com/in/yinnoe/"
     },
     {
       name: "William Gallahue",
       role: "Client Success Lead",
       bio: "18 years in enterprise SEO at Tata and Hilton—Will's your go-to for turning data into doable plans that stick.",
       funFact: "Known for making complex strategies feel simple and actionable.",
-      image: williamGallahueImage
+      image: williamGallahueImage,
+      linkedinUrl: "https://www.linkedin.com/in/williamgallahue/"
     }
   ];
 
@@ -163,10 +166,12 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <p className="text-xs sm:text-sm text-purple-600 italic">
                     Fun fact: {member.funFact}
                   </p>
-                  <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    LinkedIn
-                  </Button>
+                  <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      LinkedIn
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}

@@ -83,12 +83,8 @@ export function CaseStudySection() {
             {/* Right Column - Metrics Grid */}
             <div className="grid grid-cols-2 gap-4">
               {metrics.map((metric, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="bg-white/10 rounded-2xl p-6 space-y-2"
                 >
                   <p className="text-[#cad5e2] text-sm">{metric.label}</p>
@@ -100,7 +96,7 @@ export function CaseStudySection() {
                     />
                   </p>
                   <p className="text-[#90a1b9] text-xs">{metric.description}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

@@ -61,7 +61,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="https://rankbee.ai/meet" target="_blank" rel="noopener noreferrer">
+            <a href="https://rankbee.ai/meet">
               <Button
                 variant="outline"
                 className="border-cta text-cta hover:bg-cta/10"
@@ -69,7 +69,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 Book Demo
               </Button>
             </a>
-            <a href="https://rankbee.ai/sign-in" target="_blank" rel="noopener noreferrer">
+            <a href="https://rankbee.ai/sign-in">
               <Button
                 className="bg-cta hover:bg-cta/90 text-cta-foreground"
               >
@@ -107,7 +107,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 </button>
               ))}
               <div className="pt-2 space-y-2">
-                <a href="https://rankbee.ai/meet" target="_blank" rel="noopener noreferrer" className="block">
+                <a href="https://rankbee.ai/meet" className="block">
                   <Button
                     variant="outline"
                     className="w-full border-cta text-cta hover:bg-cta/10"
@@ -115,7 +115,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     Book Demo
                   </Button>
                 </a>
-                <a href="https://rankbee.ai/sign-in" target="_blank" rel="noopener noreferrer" className="block">
+                <a href="https://rankbee.ai/sign-in" className="block">
                   <Button
                     className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
                   >

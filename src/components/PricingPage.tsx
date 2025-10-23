@@ -87,7 +87,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Plans That Fit Your Growth, No Surprises
+              Plans That Fit Your <span className="text-purple-600">Growth</span>, No Surprises
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Start small or go big—unlimited users, weekly crawls, and insights that pay off fast. First month free on all.

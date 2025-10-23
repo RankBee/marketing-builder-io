@@ -68,7 +68,7 @@ export function ContactPage({ onPageChange }: ContactPageProps) {
             {/* Left: Hero Content */}
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl mb-6 text-gray-900 leading-tight">
-                Reach Out—Let's Make AI Work for You
+                Reach Out—Let's Make <span className="text-purple-600">AI</span> Work for You
               </h1>
               <p className="text-lg sm:text-xl text-gray-600 mb-8">
                 Email, chat, or call. Response in hours, not days.

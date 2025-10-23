@@ -66,7 +66,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              10x Improvement in ChatGPT Visibility in 14 Days
+              10x Improvement in <span className="text-purple-600">ChatGPT</span> Visibility in 14 Days
             </h1>
             
             {/* Description */}

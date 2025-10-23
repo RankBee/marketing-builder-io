@@ -74,7 +74,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              We're RankBee: Real People Powering Smarter AI Wins
+              We're RankBee: Real People Powering Smarter <span className="text-purple-600">AI Wins</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Founded by folks who've scaled SEO at Amazon and beyond, we're here to make Generative AI Optimization feel straightforward—not overwhelming.
@@ -183,7 +183,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl mb-6 text-gray-900 font-bold leading-tight">Why RankBee Exists</h2>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl mb-6 text-gray-900 font-bold leading-tight"><span className="text-purple-600">Why</span> RankBee Exists</h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               The AI search era caught the world unprepared. We built RankBee to change that.
             </p>

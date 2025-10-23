@@ -1,21 +1,39 @@
-import { motion, useMotionValue, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 function AnimatedNumber({ target, suffix = "", prefix = "" }) {
-  const motionValue = useMotionValue(0);
-  const displayValue = useTransform(motionValue, (latest) => {
-    const rounded = Math.round(latest);
-    return `${prefix}${rounded}${suffix}`;
-  });
-  const [isVisible, setIsVisible] = useState(false);
+  const [displayValue, setDisplayValue] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-          motionValue.set(target);
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+
+          const duration = 1.5; // Animation duration in seconds
+          const startTime = Date.now();
+          const startValue = 0;
+
+          const animate = () => {
+            const elapsed = (Date.now() - startTime) / 1000;
+            const progress = Math.min(elapsed / duration, 1);
+
+            if (typeof target === "number") {
+              const current = startValue + (target - startValue) * progress;
+              // Round to 1 decimal place for decimals, otherwise round to nearest integer
+              const rounded = target === Math.floor(target)
+                ? Math.round(current)
+                : Math.round(current * 10) / 10;
+              setDisplayValue(rounded);
+            }
+
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            }
+          };
+
+          requestAnimationFrame(animate);
         }
       },
       { threshold: 0.3 }
@@ -25,9 +43,9 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }) {
     return () => {
       if (ref.current) observer.unobserve(ref.current);
     };
-  }, [isVisible, target, motionValue]);
+  }, [target, hasAnimated]);
 
-  return <motion.span ref={ref}>{displayValue}</motion.span>;
+  return <span ref={ref}>{prefix}{displayValue}{suffix}</span>;
 }
 
 export function CaseStudySection() {

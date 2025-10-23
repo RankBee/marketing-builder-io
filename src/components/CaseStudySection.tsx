@@ -1,4 +1,13 @@
+import { motion } from "motion/react";
+
 export function CaseStudySection() {
+  const metrics = [
+    { label: "Before", value: "6%", description: "Coverage across prompts" },
+    { label: "After", value: "64%", description: "Coverage across prompts" },
+    { label: "Avg. Rank", value: "#2.1", description: "Across top intents" },
+    { label: "Time to Impact", value: "14d", description: "Median across pages" }
+  ];
+
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-brand-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -9,7 +18,7 @@ export function CaseStudySection() {
               <h2 className="text-white text-2xl sm:text-3xl">
                 From 6% to 64% <span className="text-purple-400">ChatGPT Coverage</span> — in 14 Days
               </h2>
-              
+
               <div className="text-[#cad5e2] space-y-4">
                 <p>
                   A pilot customer in consumer electronics identified underperforming attributes and rewrote key pages. After optimization, ChatGPT mentioned their brand in{' '}
@@ -17,7 +26,7 @@ export function CaseStudySection() {
                   <span className="font-bold">6%</span>.
                 </p>
               </div>
-              
+
               <blockquote className="text-slate-200 italic border-l-4 border-white/20 pl-4">
                 "It's like SEO for ChatGPT — but faster, smarter, and measurable." — VP Marketing, Pilot Customer
               </blockquote>
@@ -25,33 +34,20 @@ export function CaseStudySection() {
 
             {/* Right Column - Metrics Grid */}
             <div className="grid grid-cols-2 gap-4">
-              {/* Before Card */}
-              <div className="bg-white/10 rounded-2xl p-6 space-y-2">
-                <p className="text-[#cad5e2] text-sm">Before</p>
-                <p className="text-white text-4xl font-bold">6%</p>
-                <p className="text-[#90a1b9] text-xs">Coverage across prompts</p>
-              </div>
-
-              {/* After Card */}
-              <div className="bg-white/10 rounded-2xl p-6 space-y-2">
-                <p className="text-[#cad5e2] text-sm">After</p>
-                <p className="text-white text-4xl font-bold">64%</p>
-                <p className="text-[#90a1b9] text-xs">Coverage across prompts</p>
-              </div>
-
-              {/* Avg Rank Card */}
-              <div className="bg-white/10 rounded-2xl p-6 space-y-2">
-                <p className="text-[#cad5e2] text-sm">Avg. Rank</p>
-                <p className="text-white text-4xl font-bold">#2.1</p>
-                <p className="text-[#90a1b9] text-xs">Across top intents</p>
-              </div>
-
-              {/* Time to Impact Card */}
-              <div className="bg-white/10 rounded-2xl p-6 space-y-2">
-                <p className="text-[#cad5e2] text-sm">Time to Impact</p>
-                <p className="text-white text-4xl font-bold">14d</p>
-                <p className="text-[#90a1b9] text-xs">Median across pages</p>
-              </div>
+              {metrics.map((metric, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white/10 rounded-2xl p-6 space-y-2"
+                >
+                  <p className="text-[#cad5e2] text-sm">{metric.label}</p>
+                  <p className="text-white text-4xl font-bold">{metric.value}</p>
+                  <p className="text-[#90a1b9] text-xs">{metric.description}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>

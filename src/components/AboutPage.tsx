@@ -133,7 +133,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Meet the Minds Making It Happen</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Meet the Minds <span className="text-purple-600">Making It Happen</span></h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto text-center">
               Our crew: Battle-tested leaders who live and breathe digital growth.
             </p>
@@ -193,9 +193,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           <div className="mb-16">
             <div className="flex items-start gap-4 mb-8">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-red-100">
-                  <span className="text-lg font-bold text-red-600">01</span>
-                </div>
+                <span className="text-lg font-bold text-purple-600">01</span>
               </div>
               <div className="flex-grow">
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">The Shift Nobody Was Ready For</h3>
@@ -215,9 +213,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           <div className="mb-16">
             <div className="flex items-start gap-4 mb-8">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-orange-100">
-                  <span className="text-lg font-bold text-orange-600">02</span>
-                </div>
+                <span className="text-lg font-bold text-purple-600">02</span>
               </div>
               <div className="flex-grow">
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Real Brands, Real Problems</h3>
@@ -251,9 +247,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           <div className="mb-16">
             <div className="flex items-start gap-4 mb-8">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-100">
-                  <span className="text-lg font-bold text-purple-600">03</span>
-                </div>
+                <span className="text-lg font-bold text-purple-600">03</span>
               </div>
               <div className="flex-grow">
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Built by People Who've Been Here Before</h3>

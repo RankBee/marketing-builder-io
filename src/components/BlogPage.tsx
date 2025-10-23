@@ -19,6 +19,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
 
   const blogPosts = [
     {
+      id: "how-geo-tactics-boosted",
       title: "How GEO Tactics Boosted a Startup's AI Rankings 40% in 2 Weeks",
       summary: "Ex-Amazon SEO tips on prompts that stick. Learn the exact strategies we used to help a fintech startup dominate AI responses.",
       date: "Oct 1, 2025",
@@ -28,6 +29,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: true
     },
     {
+      id: "ai-search-revolution",
       title: "The AI Search Revolution: What Marketers Need to Know",
       summary: "ChatGPT and Claude are changing how customers discover brands. Here's your survival guide for the AI-first world.",
       date: "Sep 28, 2025",
@@ -37,6 +39,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "5-prompt-hacks",
       title: "5 Prompt Hacks That Made Our Client #1 in AI Responses",
       summary: "Step-by-step tutorial on crafting prompts that get your brand mentioned first. Includes templates you can use today.",
       date: "Sep 25, 2025",
@@ -46,6 +49,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "traditional-seo-dead",
       title: "Why Traditional SEO Is Dead (And What Replaces It)",
       summary: "The uncomfortable truth about Google's declining influence and how AI search is reshaping discovery.",
       date: "Sep 22, 2025",
@@ -55,6 +59,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "restaurant-chain-visibility",
       title: "Restaurant Chain Sees 200% Visibility Boost Using GAIO",
       summary: "How a regional Italian chain went from invisible to indispensable in AI recommendations. The strategy that changed everything.",
       date: "Sep 18, 2025",
@@ -64,6 +69,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "building-ai-strategy",
       title: "Building Your First AI Optimization Strategy",
       summary: "Complete beginner's guide to GAIO. Everything you need to know to start tracking and improving your AI presence.",
       date: "Sep 15, 2025",

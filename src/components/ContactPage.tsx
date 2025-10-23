@@ -61,20 +61,108 @@ export function ContactPage({ onPageChange }: ContactPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+      {/* Hero + Form Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Reach Out—Let's Make AI Work for You
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Email, chat, or call. Response in hours, not days.
-            </p>
-            <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                Building RankBee taught us: Great tools need great convos. What's on your mind?
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Left: Hero Content */}
+            <div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl mb-6 text-gray-900 leading-tight">
+                Reach Out—Let's Make AI Work for You
+              </h1>
+              <p className="text-lg sm:text-xl text-gray-600 mb-8">
+                Email, chat, or call. Response in hours, not days.
               </p>
+              <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg border border-purple-200">
+                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                  Building RankBee taught us: Great tools need great convos. What's on your mind?
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Contact Form */}
+            <div>
+              <Card className="shadow-lg">
+                <CardContent className="p-6 sm:p-8">
+                  <h2 className="text-2xl mb-6 text-gray-900 font-semibold">Send Us a Message</h2>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid gap-4">
+                      <div>
+                        <Label htmlFor="name">Name *</Label>
+                        <Input
+                          id="name"
+                          value={formData.name}
+                          onChange={(e) => setFormData({...formData, name: e.target.value})}
+                          placeholder="Your name"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="email">Email *</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({...formData, email: e.target.value})}
+                          placeholder="your@email.com"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4">
+                      <div>
+                        <Label htmlFor="company">Company</Label>
+                        <Input
+                          id="company"
+                          value={formData.company}
+                          onChange={(e) => setFormData({...formData, company: e.target.value})}
+                          placeholder="Your company"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="subject">Subject *</Label>
+                        <Select onValueChange={(value) => setFormData({...formData, subject: value})}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="What's this about?" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {subjects.map((subject, index) => (
+                              <SelectItem key={index} value={subject}>
+                                {subject}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="message">Message *</Label>
+                      <Textarea
+                        id="message"
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                        placeholder="Tell us what's on your mind."
+                        rows={4}
+                        required
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                      size="lg"
+                    >
+                      Send Message
+                    </Button>
+
+                    <p className="text-xs text-gray-500 text-center">
+                      Response within 4 hours during business hours.
+                    </p>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
@@ -115,98 +203,6 @@ export function ContactPage({ onPageChange }: ContactPageProps) {
         </div>
       </section>
 
-      {/* Contact Form */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl mb-4 text-gray-900">Send Us a Message</h2>
-            <p className="text-xl text-gray-600">
-              Whether it's a 'how-to' or 'tell me more,' we're here.
-            </p>
-          </div>
-
-          <Card className="shadow-lg">
-            <CardContent className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      placeholder="Your name"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      placeholder="your@email.com"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="company">Company</Label>
-                    <Input
-                      id="company"
-                      value={formData.company}
-                      onChange={(e) => setFormData({...formData, company: e.target.value})}
-                      placeholder="Your company"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="subject">Subject *</Label>
-                    <Select onValueChange={(value) => setFormData({...formData, subject: value})}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="What's this about?" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {subjects.map((subject, index) => (
-                          <SelectItem key={index} value={subject}>
-                            {subject}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="message">Message *</Label>
-                  <Textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    placeholder="Tell us what's on your mind. The more details, the better we can help!"
-                    rows={5}
-                    required
-                  />
-                </div>
-
-                <Button 
-                  type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-                  size="lg"
-                >
-                  Send Message
-                </Button>
-
-                <p className="text-sm text-gray-500 text-center">
-                  We'll get back to you within 4 hours during business hours.
-                </p>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
 
       {/* Fun Facts & Office Info */}
       <section className="py-24 bg-white">

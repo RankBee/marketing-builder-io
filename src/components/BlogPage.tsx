@@ -8,6 +8,7 @@ import { useState } from "react";
 
 interface BlogPageProps {
   onPageChange: (page: string) => void;
+  onSelectArticle?: (articleId: string) => void;
 }
 
 export function BlogPage({ onPageChange }: BlogPageProps) {

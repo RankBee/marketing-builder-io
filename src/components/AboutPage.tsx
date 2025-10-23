@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Target, Zap, Eye, ExternalLink } from "lucide-react";
+import { useRef } from "react";
 import yinNoeImage from 'figma:asset/49edafd48740cd6fe95aa4ed7c2168d9e77e46f0.png';
 import williamGallahueImage from 'figma:asset/332f88e630a8a70ac8890fdc18ce73486a61524a.png';
 import arisVrakasImage from 'figma:asset/b7cf0bf96cdd61b5fdbcc47ebb89f402e22edbab.png';
@@ -12,11 +13,17 @@ interface AboutPageProps {
 }
 
 export function AboutPage({ onPageChange }: AboutPageProps) {
+  const teamSectionRef = useRef<HTMLDivElement>(null);
+
+  const handleMeetTeamClick = () => {
+    teamSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const values = [
     {
       icon: <Target className="w-8 h-8 text-purple-600" />,
       title: "Foundation",
-      description: "Born from 25+ years at Amazon, Tata, and startups—real-world SEO that powers our GAIO tech.",
+      description: "Born from 25+ years at Amazon, Tata, and startups��real-world SEO that powers our GAIO tech.",
       detail: "It's not magic—it's method. Like how we helped a fintech client uncover hidden biases in AI responses and flip them into opportunities."
     },
     {
@@ -74,7 +81,8 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                 In 2024, as AI search exploded, we saw brands scrambling. So Aris (our founder) teamed up with old colleagues to build tools that actually move the needle. Today, we're backed by investors who bet on us because they see the future too.
               </p>
             </div>
-            <Button 
+            <Button
+              onClick={handleMeetTeamClick}
               variant="outline"
               className="border-cta text-cta hover:bg-cta/10"
             >
@@ -119,7 +127,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
+      <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Meet the Minds Making It Happen</h2>

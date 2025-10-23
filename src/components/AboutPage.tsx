@@ -184,28 +184,23 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6 text-gray-900">Behind the Scenes</h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6 text-gray-900">Why RankBee Exists</h2>
               <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
-                We started this because traditional SEO felt outdated in the AI world. When ChatGPT launched, we realized brands needed a completely new playbook.
+                In 2024, something fundamental shifted. ChatGPT, Claude, and Gemini became the new search engines—but most brands were still playing by old SEO rules. Traditional keyword optimization meant nothing when AI wasn't reading your site like Google. It was learning patterns, inferring relevance, and making recommendations based on attributes Google never cared about.
+              </p>
+              <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
+                We watched clients scramble. One fintech company discovered their brand was ranked last by Claude, not because of poor quality, but because their messaging didn't align with how the AI model understood financial authority. Another e-commerce brand realized ChatGPT was recommending competitors because of subtle attribute mismatches. The problem wasn't visibility—it was a complete blindness to how AI actually thinks.
               </p>
               <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
-                Our London office (yes, the coffee really is that good) is where we brainstorm the next breakthrough in AI optimization. From whiteboard sessions to client calls, everything we do is focused on one thing: making your brand impossible to ignore in AI conversations.
+                So Aris brought together battle-tested SEO leaders from Amazon, Skyscanner, and Tata—the folks who'd navigated massive visibility shifts before—and asked: "What if we built tools that spoke the language AI understands?" RankBee was born from that question. Our London office is where we turn that into reality every day, not through guesswork, but through scientific testing and real-world client wins.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="https://rankbee.ai/meet">
-                  <Button
-                    className="bg-cta hover:bg-cta/90 text-cta-foreground text-sm sm:text-base"
-                  >
-                    Let's Chat About Your AI Journey
-                  </Button>
-                </a>
-                <Button 
-                  variant="outline"
-                  className="border-cta text-cta hover:bg-cta/10 text-sm sm:text-base"
+              <a href="https://rankbee.ai/meet">
+                <Button
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground text-sm sm:text-base"
                 >
-                  View Our Work
+                  Let's Chat About Your AI Journey
                 </Button>
-              </div>
+              </a>
             </div>
             <div className="order-1 lg:order-2 lg:pl-8">
               <div className="rounded-lg overflow-hidden shadow-lg">
@@ -216,6 +211,77 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values in Action */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900">How We Live Our Values</h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Foundation, Innovation, and Vision aren't slogans—they're how we make decisions every day.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <Card className="bg-white border-gray-200 hover:border-purple-200 hover:shadow-lg transition-all duration-300">
+              <CardHeader>
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Target className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <CardTitle className="text-xl text-gray-900">Foundation in Practice</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  We don't experiment on your brand. Every recommendation is grounded in 25+ years of real-world optimization experience. When we suggest an attribute shift, we can show you why—backed by data, not hunches.
+                </p>
+                <p className="text-sm text-purple-600 font-medium">
+                  The result: Clients trust us to make bold moves because they know there's expertise behind them.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:border-purple-200 hover:shadow-lg transition-all duration-300">
+              <CardHeader>
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <CardTitle className="text-xl text-gray-900">Innovation Without Chaos</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  We test everything, but we don't overcomplicate. Some teams throw 50 variables at a problem. We identify the 2-3 that matter most and optimize ruthlessly. Speed + precision = real wins.
+                </p>
+                <p className="text-sm text-purple-600 font-medium">
+                  The result: 40% AI visibility improvements in 2 weeks, not months of analysis paralysis.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:border-purple-200 hover:shadow-lg transition-all duration-300">
+              <CardHeader>
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <CardTitle className="text-xl text-gray-900">Vision: Democratizing AI Ops</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  We build for everyone—from solo founders to global enterprises. Your budget shouldn't determine whether you win in AI. That's why our tools scale and our support is genuine, not gatekept.
+                </p>
+                <p className="text-sm text-purple-600 font-medium">
+                  The result: Brands of all sizes can compete fairly in the AI conversation.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

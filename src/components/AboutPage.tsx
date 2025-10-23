@@ -179,38 +179,108 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Behind the Scenes */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6 text-gray-900">Why RankBee Exists</h2>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
-                In 2024, something fundamental shifted. ChatGPT, Claude, and Gemini became the new search engines—but most brands were still playing by old SEO rules. Traditional keyword optimization meant nothing when AI wasn't reading your site like Google. It was learning patterns, inferring relevance, and making recommendations based on attributes Google never cared about.
-              </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
-                We watched clients scramble. One fintech company discovered their brand was ranked last by Claude, not because of poor quality, but because their messaging didn't align with how the AI model understood financial authority. Another e-commerce brand realized ChatGPT was recommending competitors because of subtle attribute mismatches. The problem wasn't visibility—it was a complete blindness to how AI actually thinks.
-              </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
-                So Aris brought together battle-tested SEO leaders from Amazon, Skyscanner, and Tata—the folks who'd navigated massive visibility shifts before—and asked: "What if we built tools that spoke the language AI understands?" RankBee was born from that question. Our London office is where we turn that into reality every day, not through guesswork, but through scientific testing and real-world client wins.
-              </p>
-              <a href="https://rankbee.ai/meet">
-                <Button
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground text-sm sm:text-base"
-                >
-                  Let's Chat About Your AI Journey
-                </Button>
-              </a>
-            </div>
-            <div className="order-1 lg:order-2 lg:pl-8">
-              <div className="rounded-lg overflow-hidden shadow-lg">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1690264421892-46e3af5c3455?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwb2ZmaWNlJTIwY29sbGFib3JhdGlvbnxlbnwxfHx8fDE3NTk4NDI0ODB8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="RankBee team collaborating"
-                  className="w-full h-auto object-cover"
-                />
+      {/* Why RankBee Exists */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl mb-6 text-gray-900 font-bold leading-tight">Why RankBee Exists</h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              The AI search era caught the world unprepared. We built RankBee to change that.
+            </p>
+          </div>
+
+          {/* The Problem */}
+          <div className="mb-16">
+            <div className="flex items-start gap-4 mb-8">
+              <div className="flex-shrink-0">
+                <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-red-100">
+                  <span className="text-lg font-bold text-red-600">01</span>
+                </div>
+              </div>
+              <div className="flex-grow">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">The Shift Nobody Was Ready For</h3>
+                <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-4">
+                  In 2024, ChatGPT, Claude, and Gemini became the new search engines. But most brands were still playing by old SEO rules.
+                </p>
+                <div className="bg-white border-l-4 border-red-500 p-4 sm:p-6 rounded-r-lg">
+                  <p className="text-gray-700 italic">
+                    "Traditional keyword optimization meant nothing. AI wasn't reading your site like Google—it was learning patterns, inferring relevance, and making recommendations based on attributes Google never cared about."
+                  </p>
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* Real Problems */}
+          <div className="mb-16">
+            <div className="flex items-start gap-4 mb-8">
+              <div className="flex-shrink-0">
+                <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-orange-100">
+                  <span className="text-lg font-bold text-orange-600">02</span>
+                </div>
+              </div>
+              <div className="flex-grow">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Real Brands, Real Problems</h3>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <Card className="bg-white border-gray-200 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
+                    <CardHeader>
+                      <CardTitle className="text-lg text-gray-900">Fintech Company</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 leading-relaxed">
+                        Ranked <span className="font-bold text-orange-600">last by Claude</span>, not because of poor quality, but because their messaging didn't align with how the AI model understood financial authority.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-white border-gray-200 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
+                    <CardHeader>
+                      <CardTitle className="text-lg text-gray-900">E-Commerce Brand</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 leading-relaxed">
+                        ChatGPT was recommending <span className="font-bold text-orange-600">competitors instead</span> because of subtle attribute mismatches in their product descriptions.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* The Solution */}
+          <div className="mb-16">
+            <div className="flex items-start gap-4 mb-8">
+              <div className="flex-shrink-0">
+                <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-100">
+                  <span className="text-lg font-bold text-purple-600">03</span>
+                </div>
+              </div>
+              <div className="flex-grow">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Built by People Who've Been Here Before</h3>
+                <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6">
+                  Aris brought together battle-tested SEO leaders from Amazon, Skyscanner, and Tata—the folks who'd navigated massive visibility shifts before. Together, they asked a simple question:
+                </p>
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 p-6 sm:p-8 rounded-lg">
+                  <p className="text-lg sm:text-xl font-bold text-gray-900 italic">
+                    "What if we built tools that actually spoke the language AI understands?"
+                  </p>
+                </div>
+                <p className="text-base sm:text-lg text-gray-600 leading-relaxed mt-6">
+                  RankBee was born from that question. Our London office is where we turn that into reality every day—not through guesswork, but through scientific testing and real-world client wins.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex justify-center pt-8">
+            <a href="https://rankbee.ai/meet">
+              <Button
+                className="bg-cta hover:bg-cta/90 text-cta-foreground text-base sm:text-lg px-8 py-3"
+              >
+                Let's Chat About Your AI Journey
+              </Button>
+            </a>
           </div>
         </div>
       </section>

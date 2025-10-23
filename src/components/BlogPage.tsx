@@ -96,7 +96,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Fresh Takes on AI Search and Brand Magic
+              Fresh Takes on <span className="text-purple-600">AI Search</span> and Brand Magic
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               From prompt hacks to visibility trends—tips from our team to keep you ahead.

@@ -7,7 +7,7 @@ export function CaseStudySection() {
             {/* Left Column - Story */}
             <div className="space-y-6">
               <h2 className="text-white text-2xl sm:text-3xl">
-                From 6% to 64% ChatGPT Coverage — in 14 Days
+                From 6% to 64% <span className="text-purple-400">ChatGPT Coverage</span> — in 14 Days
               </h2>
               
               <div className="text-[#cad5e2] space-y-4">

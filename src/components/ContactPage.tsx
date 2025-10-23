@@ -33,14 +33,14 @@ export function ContactPage({ onPageChange }: ContactPageProps) {
       title: "Live Chat",
       description: "Need immediate help? Our team is online during business hours (9 AM - 6 PM GMT).",
       action: "Start Chat",
-      link: "#"
+      link: "https://rankbee.ai/meet"
     },
     {
       icon: <Phone className="w-6 h-6 text-purple-600" />,
       title: "Schedule a Call",
       description: "Prefer talking? Book a quick 15-minute chat with our team.",
       action: "Book Call",
-      link: "#"
+      link: "https://rankbee.ai/meet"
     }
   ];
 
@@ -102,9 +102,9 @@ export function ContactPage({ onPageChange }: ContactPageProps) {
                   <CardDescription className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
                     {method.description}
                   </CardDescription>
-                  <Button 
+                  <Button
                     className="bg-purple-600 hover:bg-purple-700 text-white text-sm sm:text-base"
-                    onClick={() => method.link === "#" ? onPageChange("demo") : window.open(method.link)}
+                    onClick={() => window.open(method.link)}
                   >
                     {method.action}
                   </Button>

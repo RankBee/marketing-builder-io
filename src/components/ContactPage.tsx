@@ -104,7 +104,7 @@ export function ContactPage({ onPageChange }: ContactPageProps) {
                   </CardDescription>
                   <Button
                     className="bg-purple-600 hover:bg-purple-700 text-white text-sm sm:text-base"
-                    onClick={() => window.open(method.link)}
+                    onClick={() => window.location.href = method.link}
                   >
                     {method.action}
                   </Button>

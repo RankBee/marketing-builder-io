@@ -192,12 +192,13 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                 Our London office (yes, the coffee really is that good) is where we brainstorm the next breakthrough in AI optimization. From whiteboard sessions to client calls, everything we do is focused on one thing: making your brand impossible to ignore in AI conversations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  onClick={() => onPageChange("demo")}
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground text-sm sm:text-base"
-                >
-                  Let's Chat About Your AI Journey
-                </Button>
+                <a href="https://rankbee.ai/meet" target="_blank" rel="noopener noreferrer">
+                  <Button
+                    className="bg-cta hover:bg-cta/90 text-cta-foreground text-sm sm:text-base"
+                  >
+                    Let's Chat About Your AI Journey
+                  </Button>
+                </a>
                 <Button 
                   variant="outline"
                   className="border-cta text-cta hover:bg-cta/10 text-sm sm:text-base"

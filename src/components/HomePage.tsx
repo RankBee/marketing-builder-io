@@ -83,7 +83,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
               >
                 Run Free Visibility Test
               </Button>
-              <a href="https://rankbee.ai/meet" target="_blank" rel="noopener noreferrer">
+              <a href="https://rankbee.ai/meet">
                 <Button
                   size="lg"
                   variant="outline"
@@ -138,7 +138,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             >
               Run Free Visibility Test
             </Button>
-            <a href="https://rankbee.ai/meet" target="_blank" rel="noopener noreferrer">
+            <a href="https://rankbee.ai/meet">
               <Button
                 size="lg"
                 variant="outline"

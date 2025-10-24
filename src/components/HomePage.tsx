@@ -66,7 +66,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              10x Improvement in ChatGPT Visibility in 14 Days
+              10x Improvement in <span className="text-purple-600">ChatGPT</span> Visibility in 14 Days
             </h1>
             
             {/* Description */}
@@ -83,14 +83,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
               >
                 Run Free Visibility Test
               </Button>
-              <Button
-                onClick={() => onPageChange("demo")}
-                size="lg"
-                variant="outline"
-                className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
-              >
-                See the Demo
-              </Button>
+              <a href="https://rankbee.ai/meet">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+                >
+                  Book Demo
+                </Button>
+              </a>
             </div>
           </div>
           
@@ -131,19 +132,21 @@ export function HomePage({ onPageChange }: HomePageProps) {
             Discover how your brand performs in ChatGPT, Gemini, and Claude — and exactly how to improve it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-white text-cta hover:bg-gray-100 px-6 sm:px-8 text-base sm:text-lg"
             >
               Run Free Visibility Test
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg"
-            >
-              See the Demo
-            </Button>
+            <a href="https://rankbee.ai/meet">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg"
+              >
+                Book Demo
+              </Button>
+            </a>
           </div>
         </div>
       </section>

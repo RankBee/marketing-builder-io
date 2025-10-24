@@ -18,6 +18,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
 
   const blogPosts = [
     {
+      id: "how-geo-tactics-boosted",
       title: "How GEO Tactics Boosted a Startup's AI Rankings 40% in 2 Weeks",
       summary: "Ex-Amazon SEO tips on prompts that stick. Learn the exact strategies we used to help a fintech startup dominate AI responses.",
       date: "Oct 1, 2025",
@@ -27,6 +28,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: true
     },
     {
+      id: "ai-search-revolution",
       title: "The AI Search Revolution: What Marketers Need to Know",
       summary: "ChatGPT and Claude are changing how customers discover brands. Here's your survival guide for the AI-first world.",
       date: "Sep 28, 2025",
@@ -36,6 +38,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "5-prompt-hacks",
       title: "5 Prompt Hacks That Made Our Client #1 in AI Responses",
       summary: "Step-by-step tutorial on crafting prompts that get your brand mentioned first. Includes templates you can use today.",
       date: "Sep 25, 2025",
@@ -45,6 +48,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "traditional-seo-dead",
       title: "Why Traditional SEO Is Dead (And What Replaces It)",
       summary: "The uncomfortable truth about Google's declining influence and how AI search is reshaping discovery.",
       date: "Sep 22, 2025",
@@ -54,6 +58,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "restaurant-chain-visibility",
       title: "Restaurant Chain Sees 200% Visibility Boost Using GAIO",
       summary: "How a regional Italian chain went from invisible to indispensable in AI recommendations. The strategy that changed everything.",
       date: "Sep 18, 2025",
@@ -63,6 +68,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       featured: false
     },
     {
+      id: "building-ai-strategy",
       title: "Building Your First AI Optimization Strategy",
       summary: "Complete beginner's guide to GAIO. Everything you need to know to start tracking and improving your AI presence.",
       date: "Sep 15, 2025",
@@ -96,7 +102,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Fresh Takes on AI Search and Brand Magic
+              Fresh Takes on <span className="text-purple-600">AI Search</span> and Brand Magic
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               From prompt hacks to visibility trends—tips from our team to keep you ahead.
@@ -165,7 +171,10 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
                       <span>{featuredPost.readTime}</span>
                     </div>
                   </div>
-                  <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button
+                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                    onClick={() => onPageChange("article-detail")}
+                  >
                     Read Full Article
                   </Button>
                 </div>
@@ -205,7 +214,11 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
           {/* Posts Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.slice(0, 6).map((post, index) => (
-              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer">
+              <Card
+                key={index}
+                className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
+                onClick={() => onPageChange("article-detail")}
+              >
                 <div className="aspect-video overflow-hidden">
                   <ImageWithFallback
                     src={post.image}

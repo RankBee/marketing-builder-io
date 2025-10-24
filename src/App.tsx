@@ -5,11 +5,13 @@ import { HomePage } from "./components/HomePage";
 import { AboutPage } from "./components/AboutPage";
 import { PricingPage } from "./components/PricingPage";
 import { BlogPage } from "./components/BlogPage";
+import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";
 import { ContactPage } from "./components/ContactPage";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
 
   const renderPage = () => {
     switch (currentPage) {
@@ -20,7 +22,9 @@ export default function App() {
       case "pricing":
         return <PricingPage onPageChange={setCurrentPage} />;
       case "blog":
-        return <BlogPage onPageChange={setCurrentPage} />;
+        return <BlogPage onPageChange={setCurrentPage} onSelectArticle={setSelectedArticleId} />;
+      case "article-detail":
+        return <ArticleDetailPage onPageChange={setCurrentPage} />;
       case "demo":
         return <DemoPage onPageChange={setCurrentPage} />;
       case "contact":

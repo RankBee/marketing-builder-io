@@ -4,14 +4,12 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
-import { Calendar, Clock, CheckCircle } from "lucide-react";
+import { Clock, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
-interface DemoPageProps {
-  onPageChange: (page: string) => void;
-}
+interface DemoPageProps {}
 
-export function DemoPage({ onPageChange }: DemoPageProps) {
+export function DemoPage({}: DemoPageProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -63,7 +61,7 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Book a Demo: See RankBee in Action
+              Book a <span className="text-purple-600">Demo</span>: See RankBee in Action
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               We'll walk through your brand's AI snapshot and brainstorm quick fixes. Your time, your agenda.

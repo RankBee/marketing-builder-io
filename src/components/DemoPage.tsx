@@ -4,14 +4,12 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
-import { Calendar, Clock, CheckCircle } from "lucide-react";
+import { Clock, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
-interface DemoPageProps {
-  onPageChange: (page: string) => void;
-}
+interface DemoPageProps {}
 
-export function DemoPage({ onPageChange }: DemoPageProps) {
+export function DemoPage({}: DemoPageProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",

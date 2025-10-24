@@ -7,11 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Mail, MessageCircle, Phone, MapPin, Coffee } from "lucide-react";
 import { useState } from "react";
 
-interface ContactPageProps {
-  onPageChange: (page: string) => void;
-}
+interface ContactPageProps {}
 
-export function ContactPage({ onPageChange }: ContactPageProps) {
+export function ContactPage({}: ContactPageProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",

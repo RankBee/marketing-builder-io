@@ -96,6 +96,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     Book Demo
                   </Button>
                 </a>
+                <a href="https://rankbee.ai/meet">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg"
+              >
+                Book Demo
+              </Button>
+            </a>
               </SignedOut>
 
               <SignedIn>
@@ -174,15 +183,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             >
               Run Free Visibility Test
             </Button>
-            <a href="https://rankbee.ai/meet">
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg"
-              >
-                Book Demo
-              </Button>
-            </a>
+            
           </div>
         </div>
       </section>

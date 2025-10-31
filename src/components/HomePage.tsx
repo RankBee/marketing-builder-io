@@ -123,7 +123,9 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     )}
                   </div>
                 ) : (
-                  
+                  <div className="flex items-center gap-3">
+                    <SafeUserButton showName />
+                  </div>
                 )}
               </SignedIn>
             </div>

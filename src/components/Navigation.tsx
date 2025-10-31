@@ -19,7 +19,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
     { name: "Blog", id: "blog" },
-    { name: "Contact", id: "contact" }
+    { name: "CContact", id: "contact" }
   ];
 
   const handleNavClick = (page: string) => {

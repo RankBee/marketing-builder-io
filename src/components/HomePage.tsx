@@ -100,33 +100,26 @@ export function HomePage({ onPageChange }: HomePageProps) {
 
               <SignedIn>
                 {loaded ? (
-                  <div className="flex items-center gap-3">
-                    <SafeUserButton showName />
-                    {onboarded ? (
-                      <a href={dashboardUrl}>
-                        <Button
-                          size="lg"
-                          className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
-                        >
-                          View Your Dashboard
-                        </Button>
-                      </a>
-                    ) : (
-                      <a href={onboardRedirectUrl}>
-                        <Button
-                          size="lg"
-                          className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
-                        >
-                          Complete Setup
-                        </Button>
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-3">
-                    <SafeUserButton showName />
-                  </div>
-                )}
+                  onboarded ? (
+                    <a href={dashboardUrl}>
+                      <Button
+                        size="lg"
+                        className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
+                      >
+                        View Your Dashboard
+                      </Button>
+                    </a>
+                  ) : (
+                    <a href={onboardRedirectUrl}>
+                      <Button
+                        size="lg"
+                        className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
+                      >
+                        Complete Setup
+                      </Button>
+                    </a>
+                  )
+                ) : null}
               </SignedIn>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import beeIcon from 'figma:asset/ef25d03c2c8bc14e1c4ca571ab905dc20b4bec5f.png';
-import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded } from "../lib/clerk-safe";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded, useSafeUser } from "../lib/clerk-safe";
 import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 
@@ -17,6 +17,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const { isLoaded: orgLoaded } = useOrganization();
   const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
   const loaded = orgLoaded || listLoaded;
+  const { user } = useSafeUser();
 
   const navItems = [
     { name: "Home", id: "home" },
@@ -69,14 +70,16 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="https://rankbee.ai/meet">
-              <Button
-                variant="outline"
-                className="border-cta text-cta hover:bg-cta/10"
-              >
-                Book Demo
-              </Button>
-            </a>
+            <SignedOut>
+              <a href="https://rankbee.ai/meet">
+                <Button
+                  variant="outline"
+                  className="border-cta text-cta hover:bg-cta/10"
+                >
+                  Book Demo
+                </Button>
+              </a>
+            </SignedOut>
 
             <SignedOut>
               <Button
@@ -89,8 +92,18 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
             <SignedIn>
               {loaded ? (
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-4">
                   <SafeUserButton />
+                  {user ? (
+                    <>
+                      <span className="hidden md:inline xl:hidden text-gray-700 font-medium">
+                        {user.firstName || (user.fullName?.split(" ")[0] ?? "")}
+                      </span>
+                      <span className="hidden xl:inline text-gray-700 font-medium">
+                        {user.fullName || user.firstName || ""}
+                      </span>
+                    </>
+                  ) : null}
                   {onboarded ? (
                     <a href={dashboardUrl}>
                       <Button className="bg-gray-900 hover:bg-gray-800 text-white">
@@ -106,7 +119,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   )}
                 </div>
               ) : (
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-4">
                   <SafeUserButton />
                 </div>
               )}
@@ -142,14 +155,16 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 </button>
               ))}
               <div className="pt-2 space-y-2">
-                <a href="https://rankbee.ai/meet" className="block">
-                  <Button
-                    variant="outline"
-                    className="w-full border-cta text-cta hover:bg-cta/10"
-                  >
-                    Book Demo
-                  </Button>
-                </a>
+                <SignedOut>
+                  <a href="https://rankbee.ai/meet" className="block">
+                    <Button
+                      variant="outline"
+                      className="w-full border-cta text-cta hover:bg-cta/10"
+                    >
+                      Book Demo
+                    </Button>
+                  </a>
+                </SignedOut>
 
                 <SignedOut>
                   <Button
@@ -162,7 +177,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
                 <SignedIn>
                   {loaded ? (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <SafeUserButton />
                       {onboarded ? (
                         <a href={dashboardUrl} className="block">
@@ -179,7 +194,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                       )}
                     </div>
                   ) : (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <SafeUserButton />
                     </div>
                   )}

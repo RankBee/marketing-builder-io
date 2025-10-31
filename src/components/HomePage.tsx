@@ -7,13 +7,20 @@ import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";
 import GptPanel from "../imports/GptPanel";
-
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded } from "../lib/clerk-safe";
+import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 
 interface HomePageProps {
   onPageChange: (page: string) => void;
 }
 
 export function HomePage({ onPageChange }: HomePageProps) {
+  const onboarded = useOrgOnboarded();
+  const { isLoaded: orgLoaded } = useOrganization();
+  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
+  const loaded = orgLoaded || listLoaded;
+
   const features = [
     {
       title: "Brand Comparisons",
@@ -76,22 +83,55 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* CTA */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                onClick={() => onPageChange("demo")}
-                size="lg"
-                className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
-              >
-                Run Free Visibility Test
-              </Button>
-              <a href="https://rankbee.ai/meet">
+              <SignedOut>
                 <Button
+                  onClick={() => onPageChange("demo")}
                   size="lg"
-                  variant="outline"
-                  className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
                 >
-                  Book Demo
+                  Run Free Visibility Test
                 </Button>
-              </a>
+                <a href="https://rankbee.ai/meet">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+                  >
+                    Book Demo
+                  </Button>
+                </a>
+              </SignedOut>
+
+              <SignedIn>
+                {loaded ? (
+                  <div className="flex items-center gap-3">
+                    <SafeUserButton showName />
+                    {onboarded ? (
+                      <a href={dashboardUrl}>
+                        <Button
+                          size="lg"
+                          className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
+                        >
+                          View Your Dashboard
+                        </Button>
+                      </a>
+                    ) : (
+                      <a href={onboardRedirectUrl}>
+                        <Button
+                          size="lg"
+                          className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
+                        >
+                          Complete Setup
+                        </Button>
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <SafeUserButton showName />
+                  </div>
+                )}
+              </SignedIn>
             </div>
           </div>
           

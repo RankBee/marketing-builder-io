@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import beeIcon from 'figma:asset/ef25d03c2c8bc14e1c4ca571ab905dc20b4bec5f.png';
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded } from "../lib/clerk-safe";
+import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 
 interface NavigationProps {
   currentPage: string;
@@ -10,6 +13,11 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const onboarded = useOrgOnboarded();
+  const { isLoaded: orgLoaded } = useOrganization();
+  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
+  const loaded = orgLoaded || listLoaded;
+
   const navItems = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
@@ -69,13 +77,40 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 Book Demo
               </Button>
             </a>
-            <a href="https://rankbee.ai/sign-in">
+
+            <SignedOut>
               <Button
                 className="bg-cta hover:bg-cta/90 text-cta-foreground"
+                onClick={() => onPageChange("sign-in")}
               >
                 Sign In
               </Button>
-            </a>
+            </SignedOut>
+
+            <SignedIn>
+              {loaded ? (
+                <div className="flex items-center space-x-3">
+                  <SafeUserButton />
+                  {onboarded ? (
+                    <a href={dashboardUrl}>
+                      <Button className="bg-gray-900 hover:bg-gray-800 text-white">
+                        View Your Dashboard
+                      </Button>
+                    </a>
+                  ) : (
+                    <a href={onboardRedirectUrl}>
+                      <Button className="bg-cta hover:bg-cta/90 text-cta-foreground">
+                        Complete Setup
+                      </Button>
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center space-x-3">
+                  <SafeUserButton />
+                </div>
+              )}
+            </SignedIn>
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,13 +150,40 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     Book Demo
                   </Button>
                 </a>
-                <a href="https://rankbee.ai/sign-in" className="block">
+
+                <SignedOut>
                   <Button
                     className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                    onClick={() => onPageChange("sign-in")}
                   >
                     Sign In
                   </Button>
-                </a>
+                </SignedOut>
+
+                <SignedIn>
+                  {loaded ? (
+                    <div className="flex items-center gap-3">
+                      <SafeUserButton />
+                      {onboarded ? (
+                        <a href={dashboardUrl} className="block">
+                          <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
+                            View Your Dashboard
+                          </Button>
+                        </a>
+                      ) : (
+                        <a href={onboardRedirectUrl} className="block">
+                          <Button className="w-full bg-cta hover:bg-cta/90 text-cta-foreground">
+                            Complete Setup
+                          </Button>
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <SafeUserButton />
+                    </div>
+                  )}
+                </SignedIn>
               </div>
             </div>
           </div>

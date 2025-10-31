@@ -79,8 +79,15 @@ export function useSafeUser() {
  * - Coerces string/number values ("true"/"1") to boolean true
  * - Avoids relying on fields not present in all Clerk versions
  */
-export function useOrgOnboarded(): boolean {
-  if (!publishableKey) return false;
+/**
+ * Safe org onboarding state accessor for components that must also run without ClerkProvider
+ * (e.g., Builder preview without VITE_CLERK_PUBLISHABLE_KEY).
+ * Returns both the computed boolean and whether Clerk data has loaded.
+ */
+export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean } {
+  if (!publishableKey) {
+    return { onboarded: false, loaded: false };
+  }
 
   const { isLoaded: orgLoaded, organization } = useOrganization();
   const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
@@ -120,14 +127,9 @@ export function useOrgOnboarded(): boolean {
   // 3b) Last-resort fallback: legacy mirroring put onboarded under user.publicMetadata
   const userMirrorOnboarded = asBool(uAny?.publicMetadata?.onboarded);
 
-  // Delay returning true/false until at least one source is loaded to avoid flashing the wrong CTA
-  if (!orgLoaded && !listLoaded && !userLoaded) {
-    return false;
-  }
+  const loaded = Boolean(orgLoaded || listLoaded || userLoaded);
+  const onboarded = Boolean(activeOnboarded || memberOnboarded || userMemsOnboarded || userMirrorOnboarded);
 
-  const result = Boolean(activeOnboarded || memberOnboarded || userMemsOnboarded || userMirrorOnboarded);
-
-  // DEV diagnostics to verify why CTA might be wrong
   if ((import.meta as any)?.env?.DEV) {
     // eslint-disable-next-line no-console
     console.log("[OrgCTA][DEV]", {
@@ -139,11 +141,18 @@ export function useOrgOnboarded(): boolean {
       memberOnboarded,
       userMemsOnboarded,
       userMirrorOnboarded,
-      result,
+      onboarded,
+      loaded,
     });
   }
 
-  return result;
+  return { onboarded, loaded };
+}
+
+/** Backwards-compat wrapper */
+export function useOrgOnboarded(): boolean {
+  const { onboarded } = useOrgOnboardingState();
+  return onboarded;
 }
 
 export function SafeSignIn(props: ClerkSignInProps) {

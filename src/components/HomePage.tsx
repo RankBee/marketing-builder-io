@@ -7,19 +7,15 @@ import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";
 import GptPanel from "../imports/GptPanel";
-import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded } from "../lib/clerk-safe";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboardingState } from "../lib/clerk-safe";
 import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
-import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 
 interface HomePageProps {
   onPageChange: (page: string) => void;
 }
 
 export function HomePage({ onPageChange }: HomePageProps) {
-  const onboarded = useOrgOnboarded();
-  const { isLoaded: orgLoaded } = useOrganization();
-  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const loaded = orgLoaded || listLoaded;
+  const { onboarded, loaded } = useOrgOnboardingState();
 
   const features = [
     {

@@ -123,7 +123,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     )}
                   </div>
                 ) : (
-                 
+                  
                 )}
               </SignedIn>
             </div>

@@ -3,7 +3,7 @@
 // while bypassing cache for dynamic/auth pages like /sign-in and /sign-up.
 
 const CACHE_NAME = 'rb-vite-pages-v1';
-const TTL_MS = 1 * 1 * 1000; // 5 minutes
+const TTL_MS = 5 * 60 * 1000; // 5 minutes
 const DYNAMIC_BYPASS = ['/sign-in', '/sign-up'];
 
 self.addEventListener('install', (event) => {

@@ -101,7 +101,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <SignedIn>
                 {loaded ? (
                   <div className="flex items-center gap-3">
-                    
+                    <SafeUserButton showName />
                     {onboarded ? (
                       <a href={dashboardUrl}>
                         <Button
@@ -123,9 +123,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     )}
                   </div>
                 ) : (
-                  <div className="flex items-center gap-3">
-                    <SafeUserButton showName />
-                  </div>
+                 
                 )}
               </SignedIn>
             </div>

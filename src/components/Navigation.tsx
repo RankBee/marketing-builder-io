@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import beeIcon from 'figma:asset/ef25d03c2c8bc14e1c4ca571ab905dc20b4bec5f.png';
-import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded } from "../lib/clerk-safe";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboardingState } from "../lib/clerk-safe";
 import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
-import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 
 interface NavigationProps {
   currentPage: string;
@@ -13,10 +12,7 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const onboarded = useOrgOnboarded();
-  const { isLoaded: orgLoaded } = useOrganization();
-  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const loaded = orgLoaded || listLoaded;
+  const { onboarded, loaded } = useOrgOnboardingState();
 
   const navItems = [
     { name: "Home", id: "home" },

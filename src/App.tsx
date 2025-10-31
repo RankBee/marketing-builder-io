@@ -19,20 +19,8 @@ function pathToPage(pathname: string): string {
       return "sign-in";
     case "/sign-up":
       return "sign-up";
-    case "/about":
-      return "about";
-    case "/pricing":
-      return "pricing";
-    case "/blog":
-      return "blog";
-    case "/article-detail":
-      return "article-detail";
-    case "/demo":
-      return "demo";
-    case "/contact":
-      return "contact";
-    case "/":
     default:
+      // Keep everything else under "/" for instant toggling
       return "home";
   }
 }
@@ -42,12 +30,13 @@ export default function App() {
   // Ensure an active organization is selected so org-based onboarding logic works
   useEnsureActiveOrg();
 
-  // Push browser history when navigating to sign-in/sign-up; reset to "/" otherwise
+  // Push URL only for auth pages; keep "/" for internal marketing pages
   const setPage = (page: string) => {
     setCurrentPage(page);
     try {
       if (typeof window !== "undefined") {
-        const target = page === "home" ? "/" : `/${page}`;
+        const isAuth = page === "sign-in" || page === "sign-up";
+        const target = isAuth ? `/${page}` : "/";
         if (window.location.pathname !== target) {
           window.history.pushState({}, "", target);
         }

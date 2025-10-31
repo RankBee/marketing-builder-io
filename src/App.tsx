@@ -10,6 +10,7 @@ import { DemoPage } from "./components/DemoPage";
 import { ContactPage } from "./components/ContactPage";
 import { SignInPage, SignUpPage } from "./components/AuthPages";
 import { useEnsureActiveOrg } from "./lib/clerk-safe";
+import { Seo } from "./lib/seo";
 
 // Map current location path to our simple page ids
 function pathToPage(pathname: string): string {
@@ -38,7 +39,13 @@ function pathToPage(pathname: string): string {
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<string>("home");
+  const [currentPage, setCurrentPage] = useState<string>(() => {
+    try {
+      return pathToPage(window.location.pathname);
+    } catch {
+      return "home";
+    }
+  });
   // Ensure an active organization is selected so org-based onboarding logic works
   useEnsureActiveOrg();
 
@@ -97,8 +104,56 @@ export default function App() {
     }
   };
 
+  // SEO: per-route meta and canonical
+  const metaByPage: Record<string, { title?: string; description?: string; path: string; noindex?: boolean }> = {
+    home: {
+      title: "AI Visibility for ChatGPT, Claude, Gemini",
+      description: "Optimize your site so AI assistants actually mention your brand. Track rankings, citations, and competitive share-of-voice across models.",
+      path: "/"
+    },
+    about: {
+      title: "About RankBee",
+      description: "Why we built RankBee and how we help teams win AI visibility.",
+      path: "/about"
+    },
+    pricing: {
+      title: "Pricing",
+      description: "Simple pricing to start improving AI visibility.",
+      path: "/pricing"
+    },
+    blog: {
+      title: "Blog",
+      description: "Insights on AI search optimization and LLM-era marketing.",
+      path: "/blog"
+    },
+    demo: {
+      title: "Free Visibility Test",
+      description: "Run a free AI visibility test across ChatGPT, Claude, and Gemini.",
+      path: "/demo"
+    },
+    contact: {
+      title: "Contact",
+      description: "Get in touch with the RankBee team.",
+      path: "/contact"
+    },
+    "sign-in": {
+      title: "Sign In",
+      description: "Access your RankBee account.",
+      path: "/sign-in",
+      noindex: true
+    },
+    "sign-up": {
+      title: "Sign Up",
+      description: "Create your RankBee account.",
+      path: "/sign-up",
+      noindex: true
+    }
+  };
+  const seo = metaByPage[currentPage] || metaByPage.home;
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      <Seo title={seo.title} description={seo.description} path={seo.path} noindex={!!seo.noindex} />
       <Navigation currentPage={currentPage} onPageChange={setPage} />
       <main className="flex-1">{renderPage()}</main>
       <Footer onPageChange={setPage} />

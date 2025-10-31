@@ -15,21 +15,26 @@ if (import.meta.env.DEV) {
   );
 }
 import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 import "./index.css";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { publishableKey } from "./lib/clerk-env";
+import { HelmetProvider } from "react-helmet-async";
 
 const root = document.getElementById("root")!;
 
-createRoot(root).render(
-  publishableKey ? (
-    <ClerkProvider publishableKey={publishableKey}>
-      <App />
-    </ClerkProvider>
-  ) : (
+const appTree = publishableKey ? (
+  <ClerkProvider publishableKey={publishableKey}>
     <App />
-  )
+  </ClerkProvider>
+) : (
+  <App />
+);
+
+createRoot(root).render(
+  <HelmetProvider>
+    {appTree}
+  </HelmetProvider>
 );
 
 // Register service worker for 5-min navigation caching (ISR-like)

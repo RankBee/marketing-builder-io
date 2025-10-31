@@ -33,7 +33,11 @@ Create a .env file with the following:
 - VITE_CLERK_PUBLISHABLE_KEY: Clerk publishable key for the shared instance
 - VITE_APP_URL: Dashboard URL for “View Your Dashboard” (e.g., https://app.rankbee.ai)
 - VITE_ONBOARD_URL: Absolute or path URL for “Complete Setup” (e.g., https://rankbee.ai/onboard or /onboard)
+- VITE_SITE_URL: Canonical base URL used by SEO tags (e.g., https://rankbee.ai)
 - VITE_SIGN_IN_URL (optional): Not required now that Sign In is rendered in this app; keep only if you need custom behavior during local dev
+
+Server-side (Netlify Functions) environment:
+- SITE_URL: Canonical base used by robots/sitemap functions (set in Netlify UI; defaults to https://rankbee.ai)
 
 Routing inside the SPA
 - App-level routing maps paths to pages in [App.tsx](src/App.tsx:39)
@@ -59,8 +63,9 @@ Local development
    - App remains fully buildable/runnable for Builder previews
 
 Build and deploy
-- Build: npm run build
-- Static serve (local): npm start (serves build/ on port 8080)
+- Build SSG locally: npm run build:ssg
+- Preview locally: npx serve build -l 8080
+- Netlify: netlify.toml runs build:ssg and publishes build/. robots.txt and sitemap.xml are served by Netlify Functions with environment-aware rules. Preview/branch deploys send X-Robots-Tag: noindex, nofollow and robots.txt Disallow.
 - Ensure your hosting serves public/sw.js and allows service worker registration at the site root
 
 Security

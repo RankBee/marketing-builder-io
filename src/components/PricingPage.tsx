@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Badge } from "./ui/badge";
 import { Switch } from "./ui/switch";
 import { Check, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { trackMarketingPricingView } from "../lib/analytics";
 
 interface PricingPageProps {
   onPageChange: (page: string) => void;

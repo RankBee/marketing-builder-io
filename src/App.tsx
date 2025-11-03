@@ -31,6 +31,8 @@ function pathToPage(pathname: string): string {
       return "article-detail";
     case "/demo":
       return "demo";
+    case "/meet":
+      return "meet";
     case "/contact":
       return "contact";
     case "/":

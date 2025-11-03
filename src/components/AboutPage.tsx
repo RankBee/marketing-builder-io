@@ -5,7 +5,6 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Target, Zap, Eye, ExternalLink } from "lucide-react";
 import { useRef } from "react";
 import yinNoeImage from 'figma:asset/49edafd48740cd6fe95aa4ed7c2168d9e77e46f0.png';
-import williamGallahueImage from 'figma:asset/332f88e630a8a70ac8890fdc18ce73486a61524a.png';
 import arisVrakasImage from 'figma:asset/b7cf0bf96cdd61b5fdbcc47ebb89f402e22edbab.png';
 
 interface AboutPageProps {
@@ -57,14 +56,6 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       image: yinNoeImage,
       linkedinUrl: "https://www.linkedin.com/in/yinnoe/"
     },
-    {
-      name: "William Gallahue",
-      role: "Client Success Lead",
-      bio: "18 years in enterprise SEO at Tata and Hilton—Will's your go-to for turning data into doable plans that stick.",
-      funFact: "Known for making complex strategies feel simple and actionable.",
-      image: williamGallahueImage,
-      linkedinUrl: "https://www.linkedin.com/in/williamgallahue/"
-    }
   ];
 
   return (

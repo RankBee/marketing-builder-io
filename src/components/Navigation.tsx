@@ -140,19 +140,31 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
-                    currentPage === item.id
-                      ? "text-purple-600 bg-purple-50"
-                      : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
+              {navItems.map((item) =>
+                item.external ? (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-left px-3 py-2 rounded-md transition-colors text-purple-600 bg-purple-50 hover:text-purple-700 hover:bg-purple-100"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
+                      currentPage === item.id
+                        ? "text-purple-600 bg-purple-50"
+                        : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                )
+              )}
               <div className="pt-2 space-y-2">
                 <a href="https://rankbee.ai/meet" className="block">
                   <Button

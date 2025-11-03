@@ -7,6 +7,7 @@ import { PricingPage } from "./components/PricingPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";
+import { MeetPage } from "./components/MeetPage";
 import { ContactPage } from "./components/ContactPage";
 import { SignInPage, SignUpPage } from "./components/AuthPages";
 import { useEnsureActiveOrg } from "./lib/clerk-safe";

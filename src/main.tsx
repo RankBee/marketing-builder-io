@@ -19,6 +19,16 @@ import App from "./App.tsx";
 import "./index.css";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { publishableKey } from "./lib/clerk-env";
+import posthog from 'posthog-js';
+
+// Initialize PostHog
+posthog.init('phc_4mMIzbTx9Qo5FjuQ1nRN2E1KBsqFHpHfv23aV09JTIY', {
+  api_host: 'https://eu.i.posthog.com',
+  session_recording: {
+    maskAllInputs: true,
+    maskInputClassList: ['password', 'credit-card'],
+  },
+});
 
 const root = document.getElementById("root")!;
 

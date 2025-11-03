@@ -19,6 +19,10 @@ interface HomePageProps {
 export function HomePage({ onPageChange }: HomePageProps) {
   const { onboarded, loaded } = useOrgOnboardingState();
 
+  useEffect(() => {
+    trackHomepageViewed();
+  }, []);
+
   const features = [
     {
       title: "Brand Comparisons",

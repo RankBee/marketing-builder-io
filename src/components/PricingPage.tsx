@@ -13,6 +13,10 @@ interface PricingPageProps {
 export function PricingPage({ onPageChange }: PricingPageProps) {
   const [isAnnual, setIsAnnual] = useState(false);
 
+  useEffect(() => {
+    trackMarketingPricingView();
+  }, []);
+
   const plans = [
     {
       name: "Essential",

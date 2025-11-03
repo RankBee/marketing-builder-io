@@ -22,3 +22,11 @@ export function trackSignIn() {
 export function trackDemoRequest() {
   trackEvent('demo_request');
 }
+
+export function trackHomepageViewed() {
+  trackEvent('homepage_viewed');
+}
+
+export function trackMarketingPricingView() {
+  trackEvent('marketing_pricing_view');
+}

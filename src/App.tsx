@@ -71,6 +71,14 @@ export default function App() {
     }
   }, []);
 
+  // Track page views with PostHog
+  useEffect(() => {
+    posthog.capture('page_view', {
+      page: currentPage,
+      path: window.location.pathname,
+    });
+  }, [currentPage]);
+
   const renderPage = () => {
     switch (currentPage) {
       case "home":

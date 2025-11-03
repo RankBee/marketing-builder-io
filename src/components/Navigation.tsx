@@ -147,7 +147,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full text-left px-3 py-2 rounded-md transition-colors text-purple-600 bg-purple-50 hover:text-purple-700 hover:bg-purple-100"
+                    className="block w-full text-left px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
                   >
                     {item.name}
                   </a>

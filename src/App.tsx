@@ -97,6 +97,8 @@ export default function App() {
       case "demo":
         // DemoPage does not require onPageChange props in this bundle
         return <DemoPage />;
+      case "meet":
+        return <MeetPage onPageChange={setPage} />;
       case "contact":
         // ContactPage does not require onPageChange props in this bundle
         return <ContactPage />;

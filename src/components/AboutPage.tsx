@@ -130,7 +130,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-8 mx-auto w-fit">
             {team.map((member, index) => (
               <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center">

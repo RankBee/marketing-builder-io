@@ -22,7 +22,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
-    { name: "Blog", id: "blog" },
+    { name: "Blog", id: "blog", href: "https://geo.rankbee.ai/", external: true },
     { name: "Contact", id: "contact" }
   ];
 

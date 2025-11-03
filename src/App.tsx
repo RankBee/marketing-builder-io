@@ -10,6 +10,7 @@ import { DemoPage } from "./components/DemoPage";
 import { ContactPage } from "./components/ContactPage";
 import { SignInPage, SignUpPage } from "./components/AuthPages";
 import { useEnsureActiveOrg } from "./lib/clerk-safe";
+import posthog from 'posthog-js';
 
 // Map current location path to our simple page ids
 function pathToPage(pathname: string): string {

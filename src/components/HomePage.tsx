@@ -99,15 +99,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 >
                   Start Free Trial
                 </Button>
-                <a href="https://rankbee.ai/meet">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
-                  >
-                    Book Demo
-                  </Button>
-                </a>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+                  onClick={() => onPageChange("demo")}
+                >
+                  Book Demo
+                </Button>
               </SignedOut>
 
               <SignedIn>
@@ -187,15 +186,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 Start Free Trial
               </Button>
             </a>
-            <a href="https://rankbee.ai/meet">
               <Button
                 size="lg"
                 variant="outline"
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg py-2"
+                onClick={() => onPageChange("demo")}
               >
                 Book Demo
               </Button>
-            </a>
           </div>
         </div>
       </section>

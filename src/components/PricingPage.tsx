@@ -61,7 +61,14 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900">Find Your Fit</h2>
           </div>
 
-          <div id="chargebee-pricing-table"></div>
+          <div
+            id="chargebee-pricing-table"
+            style={{
+              minHeight: "1200px",
+              display: "block",
+              width: "100%"
+            }}
+          ></div>
         </div>
       </section>
 

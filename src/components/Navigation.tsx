@@ -83,14 +83,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <SignedOut>
-              <a href="https://rankbee.ai/meet">
-                <Button
-                  variant="outline"
-                  className="border-cta text-cta hover:bg-cta/10"
-                >
-                  Book Demo
-                </Button>
-              </a>
+              <Button
+                variant="outline"
+                className="border-cta text-cta hover:bg-cta/10"
+                onClick={() => onPageChange("demo")}
+              >
+                Book Demo
+              </Button>
             </SignedOut>
 
             <SignedOut>
@@ -180,14 +179,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
               ))}
               <div className="pt-2 space-y-2">
                 <SignedOut>
-                  <a href="https://rankbee.ai/meet" className="block">
-                    <Button
-                      variant="outline"
-                      className="w-full border-cta text-cta hover:bg-cta/10"
-                    >
-                      Book Demo
-                    </Button>
-                  </a>
+                  <Button
+                    variant="outline"
+                    className="w-full border-cta text-cta hover:bg-cta/10"
+                    onClick={() => onPageChange("demo")}
+                  >
+                    Book Demo
+                  </Button>
                 </SignedOut>
 
                 <SignedOut>

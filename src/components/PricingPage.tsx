@@ -45,9 +45,9 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-100">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
+      {/* <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
@@ -64,10 +64,10 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
-      </section>
+      </section> */}
 
       {/* Pricing Table */}
-      <section className="bg-white" style={{ paddingTop: "4px" }}>
+      <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16" />
 
@@ -96,20 +96,14 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             <div className="space-y-6">
               <Card>
                 <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">Why no API on lower tiers?</h4>
-                  <p className="text-gray-600">We prioritize core insights first. Most users find our dashboard has everything they need to track and improve their AI visibility.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
                   <h4 className="text-lg mb-2 text-gray-900">What's included in the free month?</h4>
-                  <p className="text-gray-600">Full access to all features in your chosen plan, including weekly crawls, unlimited users, and all AI model tracking.</p>
+                  <p className="text-gray-600">You get a full tracking package to monitor your AI visibility across all platforms, plus 10 content creation credits to start optimizing your content for AI discovery right away.</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">Can I change plans anytime?</h4>
-                  <p className="text-gray-600">Absolutely! Upgrade or downgrade with no penalties. Your data stays safe, and changes take effect immediately.</p>
+                  <h4 className="text-lg mb-2 text-gray-900">What happens if I cancel?</h4>
+                  <p className="text-gray-600">We offer pro-rated refunds on cancellations. You'll only pay for the time you've used, making it risk-free to try RankBee.</p>
                 </CardContent>
               </Card>
             </div>

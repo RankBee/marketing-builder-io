@@ -94,7 +94,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                Whether you're testing waters or scaling ops, our tiers let you track AI mentions without breaking the bank. Agencies? Hit us up for custom deals.
+                Whether you're testing waters or scaling content operations, our tiers let you optimize your content for AI and track performance without breaking the bank. Agencies? Hit us up for custom deals.
               </p>
             </div>
             

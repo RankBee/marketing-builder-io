@@ -66,6 +66,12 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
 
           <div
             id="chargebee-pricing-table"
+            name="chargebee-pricing-table"
+            data-pricing-table-site="01K71J9W9RW0THGY5E90GSH62X"
+            data-pricing-table-id="01K7P6EN1ZASANTYMEYW7WY5YJ"
+            data-pricing-table-viewport-default-height="1200px"
+            data-pricing-table-auto-select-local-currency="true"
+            data-pricing-table-show-currency-dropdown="false"
             style={{
               minHeight: "1200px",
               display: "block",

@@ -7,13 +7,17 @@ interface FooterProps {
 }
 
 export function Footer({ onPageChange }: FooterProps) {
-  const navItems = [
+  const mainNavItems = [
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
     { name: "Blog", id: "blog" },
     { name: "Contact", id: "contact" },
-    { name: "Demo", id: "demo" },
-    { name: "Privacy Policy", id: "privacy-policy" }
+    { name: "Demo", id: "demo" }
+  ];
+
+  const legalNavItems = [
+    { name: "Privacy Policy", id: "privacy-policy" },
+    { name: "Terms of Service", id: "terms-of-service" }
   ];
 
   const socialLinks = [
@@ -34,16 +38,16 @@ export function Footer({ onPageChange }: FooterProps) {
               <Logo className="h-10" />
             </button>
             
-            {/* Navigation Links */}
+            {/* Main Navigation Links */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
-              {navItems.map((item) => (
+              {mainNavItems.map((item) => (
                 item.id === "blog" ? (
                   <a
                     key={item.id}
                     href="https://geo.rankbee.ai/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
                   >
                     {item.name}
                   </a>
@@ -51,11 +55,24 @@ export function Footer({ onPageChange }: FooterProps) {
                   <button
                     key={item.id}
                     onClick={() => onPageChange(item.id)}
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
                   >
                     {item.name}
                   </button>
                 )
+              ))}
+            </div>
+
+            {/* Legal Links - Smaller, Subdued */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-4 border-t border-gray-200">
+              {legalNavItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => onPageChange(item.id)}
+                  className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 hover:underline transition-colors"
+                >
+                  {item.name}
+                </button>
               ))}
             </div>
           </div>

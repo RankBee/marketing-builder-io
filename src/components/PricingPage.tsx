@@ -1,6 +1,8 @@
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { useEffect } from "react";
+import { trackEvent as trackGTMEvent } from "../lib/gtm";
+import { trackEvent } from "../lib/posthog";
 
 interface PricingPageProps {
   onPageChange: (page: string) => void;
@@ -24,6 +26,33 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           });
           const pricingTable = await chargebee.pricingTable();
           pricingTable.init();
+          
+          // Add click tracking to ChargeBee pricing table
+          // Use event delegation to catch clicks on dynamically loaded buttons
+          setTimeout(() => {
+            const pricingContainer = document.getElementById('chargebee-pricing-table');
+            if (pricingContainer) {
+              pricingContainer.addEventListener('click', (e) => {
+                const target = e.target as HTMLElement;
+                // Check if clicked element or parent is a subscribe/buy button
+                const button = target.closest('button, a[data-cb-type="checkout"]');
+                if (button) {
+                  const buttonText = button.textContent?.trim() || 'Subscribe';
+                  
+                  // Track in both GTM and PostHog
+                  trackGTMEvent('Pricing Click on Subscription', {
+                    page: 'pricing',
+                  });
+                  
+                  trackEvent('Plan Selected', {
+                    location: 'pricing_page',
+                    button_text: buttonText,
+                    interaction_type: 'chargebee_table'
+                  });
+                }
+              });
+            }
+          }, 1000); // Wait for ChargeBee to render
         } catch (error) {
           console.error("ChargeBee initialization error:", error);
         }
@@ -121,7 +150,15 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           <Button
             size="lg"
             className="bg-white text-cta hover:bg-gray-100 px-8"
-            onClick={() => onPageChange("demo")}
+            onClick={() => {
+              trackEvent('CTA Clicked', {
+                button_text: 'Book Your Demo',
+                location: 'pricing_page_footer',
+                variant: 'secondary',
+                destination: 'demo'
+              });
+              onPageChange("demo");
+            }}
           >
             Book Your Demo
           </Button>

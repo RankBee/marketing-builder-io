@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Mail, MessageCircle, Phone, MapPin, Coffee, Calendar, ArrowRight, X, Copy, Check } from "lucide-react";
 import { useIntercom, useTeamAvailability } from "../lib/intercom";
+import { trackEvent } from "../lib/posthog";
 
 interface ContactPageProps {}
 
@@ -42,6 +43,9 @@ export function ContactPage({}: ContactPageProps) {
       await navigator.clipboard.writeText(email);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      trackEvent('Email Copied', {
+        location: 'contact_page_modal'
+      });
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -49,6 +53,10 @@ export function ContactPage({}: ContactPageProps) {
 
   const handleEmailClick = () => {
     console.log('Email button clicked, opening modal...');
+    trackEvent('Contact Method Selected', {
+      method: 'email',
+      location: 'contact_page'
+    });
     setShowEmailModal(true);
     console.log('Modal state after click:', true);
   };
@@ -101,7 +109,14 @@ export function ContactPage({}: ContactPageProps) {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-8 py-6 min-w-[200px] group"
-                onClick={showMessenger}
+                onClick={() => {
+                  trackEvent('Contact Method Selected', {
+                    method: 'live_chat',
+                    location: 'contact_page_hero',
+                    button_variant: 'primary'
+                  });
+                  showMessenger();
+                }}
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
                 Live Chat
@@ -109,7 +124,15 @@ export function ContactPage({}: ContactPageProps) {
               </Button>
               <Button
                 className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-8 py-6 min-w-[200px] group"
-                onClick={() => window.location.href = '/demo'}
+                onClick={() => {
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Book a Call',
+                    location: 'contact_page_hero',
+                    destination: 'demo',
+                    variant: 'primary'
+                  });
+                  window.location.href = '/demo';
+                }}
               >
                 <Calendar className="w-5 h-5 mr-2" />
                 Book a Call
@@ -176,7 +199,14 @@ export function ContactPage({}: ContactPageProps) {
                       <Button
                         className="w-full bg-purple-600 hover:bg-purple-700 text-white"
                         size="lg"
-                        onClick={showMessenger}
+                        onClick={() => {
+                          trackEvent('Contact Method Selected', {
+                            method: 'live_chat',
+                            location: 'contact_page_cards',
+                            team_available: isTeamAvailable
+                          });
+                          showMessenger();
+                        }}
                       >
                         {method.action}
                       </Button>
@@ -184,7 +214,14 @@ export function ContactPage({}: ContactPageProps) {
                       <Button
                         className="w-full bg-purple-600 hover:bg-purple-700 text-white"
                         size="lg"
-                        onClick={() => window.location.href = method.link}
+                        onClick={() => {
+                          trackEvent('CTA Clicked', {
+                            button_text: method.action,
+                            location: 'contact_page_cards',
+                            destination: method.link.replace('/', '')
+                          });
+                          window.location.href = method.link;
+                        }}
                       >
                         {method.action}
                       </Button>

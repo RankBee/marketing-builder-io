@@ -9,10 +9,13 @@ import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";
 import { ContactPage } from "./components/ContactPage";
 import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
+import { TermsOfServicePage } from "./components/TermsOfServicePage";
 import { SignInPage, SignUpPage } from "./components/AuthPages";
 import { useEnsureActiveOrg } from "./lib/clerk-safe";
 import { Seo } from "./lib/seo";
 import { IntercomClient } from "./components/IntercomClinet";
+import { useGTMClerkSync, trackEvent } from "./lib/gtm";
+import { usePostHogClerkSync } from "./lib/posthog";
 
 // Map current location path to our simple page ids
 function pathToPage(pathname: string): string {
@@ -36,6 +39,8 @@ function pathToPage(pathname: string): string {
       return "contact";
     case "/privacy-policy":
       return "privacy-policy";
+    case "/terms-of-service":
+      return "terms-of-service";
     case "/":
     default:
       return "home";
@@ -50,8 +55,15 @@ export default function App() {
       return "home";
     }
   });
+  
   // Ensure an active organization is selected so org-based onboarding logic works
   useEnsureActiveOrg();
+  
+  // Sync Clerk user and org context with GTM dataLayer for automatic event enrichment
+  useGTMClerkSync();
+  
+  // Sync Clerk user and org context with PostHog for user identification and event enrichment
+  usePostHogClerkSync();
 
   // Push browser history when navigating to sign-in/sign-up; reset to "/" otherwise
   const setPage = (page: string) => {
@@ -80,6 +92,31 @@ export default function App() {
       return;
     }
   }, []);
+  
+  // Global page view tracking - tracks all page changes in one place via GTM
+  useEffect(() => {
+    // Map internal page IDs to readable event names
+    const pageEventNames: Record<string, string> = {
+      'home': 'Homepage View',
+      'pricing': 'Pricing View',
+      'demo': 'Demo View',
+      'sign-up': 'Sign Up View',
+      'sign-in': 'Sign In View',
+      'about': 'About View',
+      'blog': 'Blog View',
+      'article-detail': 'Article Detail View',
+      'contact': 'Contact View',
+      'privacy-policy': 'Privacy Policy View',
+      'terms-of-service': 'Terms of Service View',
+    };
+    
+    const eventName = pageEventNames[currentPage] || `${currentPage} View`;
+    
+    trackEvent(eventName, {
+      page: currentPage,
+      page_path: window.location.pathname,
+    });
+  }, [currentPage]);
 
   const renderPage = () => {
     switch (currentPage) {
@@ -101,6 +138,8 @@ export default function App() {
         return <ContactPage />;
       case "privacy-policy":
         return <PrivacyPolicyPage onPageChange={setPage} />;
+      case "terms-of-service":
+        return <TermsOfServicePage onPageChange={setPage} />;
       case "sign-in":
         return <SignInPage />;
       case "sign-up":
@@ -146,6 +185,11 @@ export default function App() {
       title: "Privacy Policy",
       description: "Privacy Policy for RankBee.",
       path: "/privacy-policy"
+    },
+    "terms-of-service": {
+      title: "Terms of Service",
+      description: "Terms of Service for RankBee.",
+      path: "/terms-of-service"
     },
     "sign-in": {
       title: "Sign In",

@@ -9,6 +9,7 @@ import HowItWorks from "../imports/HowItWorks";
 import GptPanel from "../imports/GptPanel";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboardingState } from "../lib/clerk-safe";
 import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { trackEvent } from "../lib/posthog";
 
 interface HomePageProps {
   onPageChange: (page: string) => void;
@@ -89,7 +90,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <SignedOut>
                 <Button
                   size="lg"
-                  onClick={() => onPageChange("sign-up")}
+                  onClick={() => {
+                    trackEvent('CTA Clicked', {
+                      button_text: 'Start Free Trial',
+                      location: 'homepage_hero',
+                      variant: 'primary',
+                      destination: 'sign-up'
+                    });
+                    onPageChange("sign-up");
+                  }}
                   className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [animation:shimmer_2s_ease-in-out_infinite] hover:[animation-play-state:paused]"
                   style={{
                     background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
@@ -103,7 +112,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
                   size="lg"
                   variant="outline"
                   className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
-                  onClick={() => onPageChange("sign-up")}
+                  onClick={() => {
+                    trackEvent('CTA Clicked', {
+                      button_text: 'Book Demo',
+                      location: 'homepage_hero',
+                      variant: 'secondary',
+                      destination: 'sign-up'
+                    });
+                    onPageChange("sign-up");
+                  }}
                 >
                   Book Demo
                 </Button>
@@ -112,7 +129,12 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <SignedIn>
                 {loaded ? (
                   onboarded ? (
-                    <a href={dashboardUrl}>
+                    <a href={dashboardUrl} onClick={() => {
+                      trackEvent('Dashboard Link Clicked', {
+                        location: 'homepage_hero',
+                        user_onboarded: true
+                      });
+                    }}>
                       <Button
                         size="lg"
                         className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
@@ -121,7 +143,12 @@ export function HomePage({ onPageChange }: HomePageProps) {
                       </Button>
                     </a>
                   ) : (
-                    <a href={onboardRedirectUrl}>
+                    <a href={onboardRedirectUrl} onClick={() => {
+                      trackEvent('Onboarding Link Clicked', {
+                        location: 'homepage_hero',
+                        action: 'complete_setup'
+                      });
+                    }}>
                       <Button
                         size="lg"
                         className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
@@ -172,7 +199,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
             Discover how your brand performs in ChatGPT, Gemini, and Claude — and exactly how to improve it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="/sign-up">
+            <a href="/sign-up" onClick={() => {
+              trackEvent('CTA Clicked', {
+                button_text: 'Start Free Trial',
+                location: 'homepage_footer',
+                variant: 'primary',
+                destination: 'sign-up'
+              });
+            }}>
               <Button
                 size="lg"
                 className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -190,7 +224,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 size="lg"
                 variant="outline"
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg py-2"
-                onClick={() => onPageChange("sign-up")}
+                onClick={() => {
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Book Demo',
+                    location: 'homepage_footer',
+                    variant: 'outline',
+                    destination: 'sign-up'
+                  });
+                  onPageChange("sign-up");
+                }}
               >
                 Book Demo
               </Button>

@@ -14,12 +14,61 @@ if (import.meta.env.DEV) {
     ((import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string) || "").slice(0, 12)
   );
 }
+
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { publishableKey } from "./lib/clerk-env";
 import { HelmetProvider } from "react-helmet-async";
+import { getGTMId } from "./lib/gtm";
+import { initPostHog } from "./lib/posthog";
+
+// Initialize GTM dynamically with the correct ID from environment
+if (typeof window !== 'undefined') {
+  const gtmId = getGTMId();
+  if (gtmId) {
+    // Initialize dataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js'
+    });
+    
+    // Inject GTM script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+    const firstScript = document.getElementsByTagName('script')[0];
+    firstScript.parentNode?.insertBefore(script, firstScript);
+    
+    // Add noscript iframe for fallback
+    const noscript = document.createElement('noscript');
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.googletagmanager.com/ns.html?id=${gtmId}`;
+    iframe.height = '0';
+    iframe.width = '0';
+    iframe.style.display = 'none';
+    iframe.style.visibility = 'hidden';
+    noscript.appendChild(iframe);
+    document.body.insertBefore(noscript, document.body.firstChild);
+    
+    if (import.meta.env.DEV) {
+      console.log('[GTM] Initialized with ID:', gtmId);
+    }
+  } else if (import.meta.env.DEV) {
+    console.warn('[GTM] No GTM ID found in environment variables');
+  }
+}
+
+// Initialize PostHog (optional - can be configured via GTM instead)
+initPostHog();
 
 const root = document.getElementById("root")!;
 
@@ -37,12 +86,6 @@ createRoot(root).render(
   </HelmetProvider>
 );
 
-// Register service worker for 5-min navigation caching (ISR-like)
-if (import.meta.env.PROD && "serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-  });
-}
 // Register/unregister service worker appropriately
 // - Only register in production (for 5-min ISR-like caching)
 // - Always unregister in dev to avoid stale caches interfering with env changes

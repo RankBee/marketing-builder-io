@@ -1,5 +1,6 @@
 import { Clock, Video } from "lucide-react";
 import { useEffect, useState } from "react";
+import { trackEvent } from "../lib/posthog";
 
 interface DemoPageProps {
   onPageChange?: (page: string) => void;
@@ -31,6 +32,11 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
       const script = document.createElement("script");
       script.src = "https://assets.calendly.com/assets/external/widget.js";
       script.async = true;
+      script.onload = () => {
+        trackEvent('Calendly Widget Loaded', {
+          location: 'demo_page'
+        });
+      };
       document.body.appendChild(script);
     };
 
@@ -189,6 +195,13 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
         })();
         
         setCalendlyUrl(embedUrl);
+        
+        // Track which calendly variant user is seeing
+        trackEvent('Calendly Region Detected', {
+          region: isEU ? 'EU' : 'Other',
+          timezone: timezone,
+          calendly_url: baseUrl
+        });
       } catch (error) {
         console.error("Location detection error:", error);
         // Default to OTHERS if detection fails

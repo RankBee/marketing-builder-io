@@ -5,6 +5,7 @@ import { Logo } from "./Logo";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded, useSafeUser } from "../lib/clerk-safe";
 import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
+import { trackEvent } from "../lib/posthog";
 
 interface NavigationProps {
   currentPage: string;
@@ -27,7 +28,12 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
     { name: "Contact", id: "contact" }
   ];
 
-  const handleNavClick = (page: string) => {
+  const handleNavClick = (page: string, isMobile: boolean = false) => {
+    trackEvent('Navigation Click', {
+      destination: page,
+      location: isMobile ? 'mobile_menu' : 'desktop_menu',
+      current_page: currentPage
+    });
     onPageChange(page);
     setIsMobileMenuOpen(false);
   };
@@ -57,13 +63,20 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    onClick={() => {
+                      trackEvent('External Link Clicked', {
+                        link_text: 'Blog',
+                        destination_url: 'https://geo.rankbee.ai/',
+                        location: 'desktop_menu'
+                      });
+                    }}
                   >
                     {item.name}
                   </a>
                 ) : (
                   <button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    onClick={() => handleNavClick(item.id, false)}
                     className={`px-3 py-2 rounded-md transition-colors ${
                       currentPage === item.id
                         ? "text-purple-600 bg-purple-50"
@@ -83,7 +96,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
               <Button
                 variant="outline"
                 className="border-cta text-cta hover:bg-cta/10"
-                onClick={() => onPageChange("demo")}
+                onClick={() => {
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Book Demo',
+                    location: 'navigation_desktop',
+                    variant: 'outline',
+                    destination: 'demo'
+                  });
+                  onPageChange("demo");
+                }}
               >
                 Book Demo
               </Button>
@@ -92,7 +113,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
             <SignedOut>
               <Button
                 className="bg-cta hover:bg-cta/90 text-cta-foreground"
-                onClick={() => onPageChange("sign-in")}
+                onClick={() => {
+                  trackEvent('Sign In Clicked', {
+                    location: 'navigation_desktop',
+                    current_page: currentPage
+                  });
+                  onPageChange("sign-in");
+                }}
               >
                 Sign In
               </Button>
@@ -113,13 +140,23 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     </>
                   ) : null}
                   {onboarded ? (
-                    <a href={dashboardUrl}>
+                    <a href={dashboardUrl} onClick={() => {
+                      trackEvent('Dashboard Link Clicked', {
+                        location: 'navigation_desktop',
+                        user_onboarded: true
+                      });
+                    }}>
                       <Button className="bg-gray-900 hover:bg-gray-800 text-white">
                         View Your Dashboard
                       </Button>
                     </a>
                   ) : (
-                    <a href={onboardRedirectUrl}>
+                    <a href={onboardRedirectUrl} onClick={() => {
+                      trackEvent('Onboarding Link Clicked', {
+                        location: 'navigation_desktop',
+                        action: 'complete_setup'
+                      });
+                    }}>
                       <Button className="bg-cta hover:bg-cta/90 text-cta-foreground">
                         Complete Setup
                       </Button>
@@ -157,13 +194,20 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full text-left px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    onClick={() => {
+                      trackEvent('External Link Clicked', {
+                        link_text: 'Blog',
+                        destination_url: 'https://geo.rankbee.ai/',
+                        location: 'mobile_menu'
+                      });
+                    }}
                   >
                     {item.name}
                   </a>
                 ) : (
                   <button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    onClick={() => handleNavClick(item.id, true)}
                     className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
                       currentPage === item.id
                         ? "text-purple-600 bg-purple-50"
@@ -179,7 +223,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   <Button
                     variant="outline"
                     className="w-full border-cta text-cta hover:bg-cta/10"
-                    onClick={() => onPageChange("demo")}
+                    onClick={() => {
+                      trackEvent('CTA Clicked', {
+                        button_text: 'Book Demo',
+                        location: 'navigation_mobile',
+                        variant: 'outline',
+                        destination: 'demo'
+                      });
+                      onPageChange("demo");
+                    }}
                   >
                     Book Demo
                   </Button>
@@ -188,7 +240,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 <SignedOut>
                   <Button
                     className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
-                    onClick={() => onPageChange("sign-in")}
+                    onClick={() => {
+                      trackEvent('Sign In Clicked', {
+                        location: 'navigation_mobile',
+                        current_page: currentPage
+                      });
+                      onPageChange("sign-in");
+                    }}
                   >
                     Sign In
                   </Button>
@@ -199,13 +257,23 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     <div className="flex items-center gap-4">
                       <SafeUserButton />
                       {onboarded ? (
-                        <a href={dashboardUrl} className="block">
+                        <a href={dashboardUrl} className="block" onClick={() => {
+                          trackEvent('Dashboard Link Clicked', {
+                            location: 'navigation_mobile',
+                            user_onboarded: true
+                          });
+                        }}>
                           <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
                             View Your Dashboard
                           </Button>
                         </a>
                       ) : (
-                        <a href={onboardRedirectUrl} className="block">
+                        <a href={onboardRedirectUrl} className="block" onClick={() => {
+                          trackEvent('Onboarding Link Clicked', {
+                            location: 'navigation_mobile',
+                            action: 'complete_setup'
+                          });
+                        }}>
                           <Button className="w-full bg-cta hover:bg-cta/90 text-cta-foreground">
                             Complete Setup
                           </Button>

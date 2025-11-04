@@ -40,12 +40,18 @@ export function PrivacyPolicyPage({ onPageChange }: PrivacyPolicyPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
       </section>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-        <div
-          // @ts-expect-error Termly embed element
-          name="termly-embed"
-          data-id="170d09f1-22b5-4444-bcf7-a340d1c6b17b"
-          className="min-h-[70vh]"
-        />
+        <div className="max-w-4xl mx-auto">
+          <div
+            // @ts-expect-error Termly embed element
+            name="termly-embed"
+            data-id="170d09f1-22b5-4444-bcf7-a340d1c6b17b"
+            className="min-h-[70vh] bg-white border border-gray-200 rounded-lg p-8 sm:p-10 lg:p-12 shadow-sm"
+            style={{
+              fontSize: '1.125rem',
+              lineHeight: '1.8'
+            }}
+          />
+        </div>
       </div>
     </div>
   );

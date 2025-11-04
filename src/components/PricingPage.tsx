@@ -15,13 +15,16 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
     const script = document.createElement("script");
     script.src = "https://js.chargebee.com/v2/chargebee.js";
     script.async = true;
-    script.onload = () => {
-      const chargebee = (window as any).Chargebee.init({
-        site: "rankbee",
-      });
-      chargebee.pricingTable().then((pricingTable: any) => {
-        pricingTable.mount("#chargebee-pricing-table");
-      });
+    script.onload = async () => {
+      try {
+        const chargebee = (window as any).Chargebee.init({
+          site: "rankbee",
+        });
+        const pricingTable = await chargebee.pricingTable();
+        pricingTable.init();
+      } catch (error) {
+        console.error("ChargeBee initialization error:", error);
+      }
     };
     document.body.appendChild(script);
 

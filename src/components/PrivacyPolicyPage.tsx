@@ -26,9 +26,16 @@ export function PrivacyPolicyPage({ onPageChange }: PrivacyPolicyPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="bg-brand-800 text-white p-6 sm:p-8 lg:p-12 min-h-44 flex flex-col items-center justify-center">
-        <h1 className="text-3xl sm:text-4xl font-bold text-center">Privacy Policy</h1>
-      </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
+              Privacy Policy
+            </h1>
+          </div>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
+      </section>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div
           // @ts-expect-error Termly embed element

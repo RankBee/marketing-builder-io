@@ -13,7 +13,7 @@ export function Footer({ onPageChange }: FooterProps) {
     { name: "Blog", id: "blog" },
     { name: "Contact", id: "contact" },
     { name: "Demo", id: "demo" },
-    { name: "Privacy Policy", id: "privacy" }
+    { name: "Privacy Policy", id: "privacy-policy" }
   ];
 
   const socialLinks = [

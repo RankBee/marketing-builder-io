@@ -71,7 +71,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             data-pricing-table-auto-select-local-currency="true"
             data-pricing-table-show-currency-dropdown="false"
             style={{
-              minHeight: "1200px",
+              //minHeight: "1200px",
               display: "block",
               width: "100%"
             }}

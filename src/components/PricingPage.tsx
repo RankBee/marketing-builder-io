@@ -58,7 +58,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
       </section>
 
       {/* Pricing Table */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+      <section className="bg-white" style={{ padding: "4px 0 96px" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16" />
 

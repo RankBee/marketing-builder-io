@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
-import beeIcon from 'figma:asset/ef25d03c2c8bc14e1c4ca571ab905dc20b4bec5f.png';
+import { Logo } from "./Logo";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded, useSafeUser } from "../lib/clerk-safe";
 import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
@@ -40,12 +40,9 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="flex items-center">
             <button
               onClick={() => handleNavClick("home")}
-              className="flex items-center gap-2 text-xl sm:text-2xl font-bold transition-colors group"
+              className="transition-opacity hover:opacity-80"
             >
-              <img src={beeIcon} alt="RankBee" className="w-8 h-8 sm:w-12 sm:h-12" />
-              <span className="text-gray-900 group-hover:text-primary transition-colors">
-                Rank<span className="text-primary-light">Bee</span>
-              </span>
+              <Logo className="h-10" />
             </button>
           </div>
           

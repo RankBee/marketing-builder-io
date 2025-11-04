@@ -12,6 +12,7 @@ import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { SignInPage, SignUpPage } from "./components/AuthPages";
 import { useEnsureActiveOrg } from "./lib/clerk-safe";
 import { Seo } from "./lib/seo";
+import { IntercomClient } from "./components/IntercomClinet";
 
 // Map current location path to our simple page ids
 function pathToPage(pathname: string): string {
@@ -164,6 +165,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Seo title={seo.title} description={seo.description} path={seo.path} noindex={!!seo.noindex} />
+      <IntercomClient />
       <Navigation currentPage={currentPage} onPageChange={setPage} />
       <main className="flex-1">{renderPage()}</main>
       <Footer onPageChange={setPage} />

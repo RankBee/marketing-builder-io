@@ -3848,3 +3848,41 @@ html {
     background-position: -200% 0;
   }
 }
+
+/* RankBee Logo Styles */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  height: auto;
+  width: auto;
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  height: 32px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* Desktop - larger sizes */
+@media (min-width: 640px) {
+  .logo-container {
+    gap: 2px;
+  }
+  
+  .logo-image {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .logo-text {
+    height: 42px;
+  }
+}

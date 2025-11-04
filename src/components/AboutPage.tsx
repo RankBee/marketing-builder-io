@@ -259,13 +259,12 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
 
           {/* CTA */}
           <div className="flex justify-center pt-8">
-            <a href="https://rankbee.ai/meet">
-              <Button
-                className="bg-cta hover:bg-cta/90 text-cta-foreground text-base sm:text-lg px-8 py-3"
-              >
-                Let's Chat About Your AI Journey
-              </Button>
-            </a>
+            <Button
+              className="bg-cta hover:bg-cta/90 text-cta-foreground text-base sm:text-lg px-8 py-3"
+              onClick={() => onPageChange("demo")}
+            >
+              Let's Chat About Your AI Journey
+            </Button>
           </div>
         </div>
       </section>

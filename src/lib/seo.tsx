@@ -53,7 +53,7 @@ export function Seo({
     "@type": "Organization",
     name: "RankBee",
     url: SITE_URL,
-    logo: `${SITE_URL.replace(/\/+$/, "")}/logo.png`,
+    logo: `${SITE_URL.replace(/\/+$/, "")}/rankbee-logo.png`,
     sameAs: [
       "https://x.com/rankbeeai",
       "https://www.linkedin.com/company/rankbee",

@@ -118,14 +118,13 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           <p className="text-xl mb-8 text-purple-100">
             See RankBee in action with your own brand data in just 20 minutes.
           </p>
-          <a href="https://rankbee.ai/meet">
-            <Button
-              size="lg"
-              className="bg-white text-cta hover:bg-gray-100 px-8"
-            >
-              Book Your Demo
-            </Button>
-          </a>
+          <Button
+            size="lg"
+            className="bg-white text-cta hover:bg-gray-100 px-8"
+            onClick={() => onPageChange("demo")}
+          >
+            Book Your Demo
+          </Button>
         </div>
       </section>
     </div>

@@ -1,199 +1,195 @@
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Mail, MessageCircle, Phone, MapPin, Coffee } from "lucide-react";
-import { useState } from "react";
+import { Mail, MessageCircle, Phone, MapPin, Coffee, Calendar, ArrowRight, X, Copy, Check } from "lucide-react";
+import { useIntercom, useTeamAvailability } from "../lib/intercom";
 
 interface ContactPageProps {}
 
-export function ContactPage({}: ContactPageProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    subject: "",
-    message: ""
-  });
+// Obfuscated email - stored as base64 to prevent bot scraping
+// Base64 of 'help@rankbee.ai'
+const getEmail = () => {
+  const encoded = 'aGVscEByYW5rYmVlLmFp';
+  try {
+    return atob(encoded);
+  } catch {
+    // Fallback if base64 decode fails
+    return 'help@rankbee.ai';
+  }
+};
 
+export function ContactPage({}: ContactPageProps) {
+  const { showMessenger } = useIntercom();
+  const isTeamAvailable = useTeamAvailability();
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (showEmailModal) {
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showEmailModal]);
+
+  const handleCopyEmail = async () => {
+    const email = getEmail();
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleEmailClick = () => {
+    console.log('Email button clicked, opening modal...');
+    setShowEmailModal(true);
+    console.log('Modal state after click:', true);
+  };
   const contactMethods = [
     {
-      icon: <Mail className="w-6 h-6 text-purple-600" />,
+      icon: <Mail className="w-8 h-8 text-purple-600" />,
       title: "Email Us",
-      description: "Drop us a line anytime. We typically respond within 2 hours during business hours.",
-      action: "hello@rankbee.ai",
-      link: "mailto:hello@rankbee.ai"
+      description: "Prefer email? Drop us a line and we'll get back to you within 2 hours during business hours. Perfect for detailed questions or sharing documents.",
+      action: getEmail(),
+      subAction: "Send Us an Email",
+      link: "email" // Special link to trigger email modal
     },
     {
-      icon: <MessageCircle className="w-6 h-6 text-purple-600" />,
+      icon: <Calendar className="w-8 h-8 text-purple-600" />,
+      title: "Book a Call",
+      description: "Schedule a 15-30 minute chat with our team at a time that works for you.",
+      action: "Book Time Slot",
+      subAction: "View Calendar",
+      link: "/demo"
+    },
+    {
+      icon: <MessageCircle className="w-8 h-8 text-purple-600" />,
       title: "Live Chat",
-      description: "Need immediate help? Our team is online during business hours (9 AM - 6 PM GMT).",
+      description: "Get instant answers during business hours (9 AM - 6 PM).",
       action: "Start Chat",
-      link: "https://rankbee.ai/meet"
-    },
-    {
-      icon: <Phone className="w-6 h-6 text-purple-600" />,
-      title: "Schedule a Call",
-      description: "Prefer talking? Book a quick 15-minute chat with our team.",
-      action: "Book Call",
-      link: "https://rankbee.ai/meet"
+      subAction: "Chat Now",
+      link: "intercom" // Special link to trigger Intercom
     }
   ];
 
-  const subjects = [
-    "General Inquiry",
-    "Technical Support", 
-    "Sales Questions",
-    "Partnership Opportunities",
-    "Media/Press",
-    "Other"
-  ];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Contact form submitted:", formData);
-  };
-
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero + Form Section */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left: Hero Content */}
-            <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl mb-6 text-gray-900 leading-tight">
-                Reach Out—Let's Make <span className="text-purple-600">AI</span> Work for You
-              </h1>
-              <p className="text-lg sm:text-xl text-gray-600 mb-8">
-                Email, chat, or call. Response in hours, not days.
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl mb-6 text-gray-900 leading-tight font-bold">
+              Reach Out – Let's Make <span className="text-purple-600">AI</span> Work for You
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-600 mb-8">
+              Email, chat, or call. Response in hours, not days.
+            </p>
+            <div className="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-lg border border-purple-200 mb-12 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                Building RankBee taught us: Great tools need great convos. What's on your mind?
               </p>
-              <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg border border-purple-200">
-                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                  Building RankBee taught us: Great tools need great convos. What's on your mind?
-                </p>
-              </div>
             </div>
 
-            {/* Right: Contact Form */}
-            <div>
-              <Card className="shadow-lg">
-                <CardContent className="p-6 sm:p-8">
-                  <h2 className="text-2xl mb-6 text-gray-900 font-semibold">Send Us a Message</h2>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid gap-4">
-                      <div>
-                        <Label htmlFor="name">Name *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({...formData, name: e.target.value})}
-                          placeholder="Your name"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({...formData, email: e.target.value})}
-                          placeholder="your@email.com"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid gap-4">
-                      <div>
-                        <Label htmlFor="company">Company</Label>
-                        <Input
-                          id="company"
-                          value={formData.company}
-                          onChange={(e) => setFormData({...formData, company: e.target.value})}
-                          placeholder="Your company"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="subject">Subject *</Label>
-                        <Select onValueChange={(value) => setFormData({...formData, subject: value})}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="What's this about?" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {subjects.map((subject, index) => (
-                              <SelectItem key={index} value={subject}>
-                                {subject}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="message">Message *</Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        placeholder="Tell us what's on your mind."
-                        rows={4}
-                        required
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-                      size="lg"
-                    >
-                      Send Message
-                    </Button>
-
-                    <p className="text-xs text-gray-500 text-center">
-                      Response within 4 hours during business hours.
-                    </p>
-                  </form>
-                </CardContent>
-              </Card>
+            {/* Direct Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-8 py-6 min-w-[200px] group"
+                onClick={showMessenger}
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Live Chat
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button
+                className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-8 py-6 min-w-[200px] group"
+                onClick={() => window.location.href = '/demo'}
+              >
+                <Calendar className="w-5 h-5 mr-2" />
+                Book a Call
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
+
+            <p className="text-sm text-gray-500 mt-4">
+              Response within 2-4 hours during business hours (9 AM - 6 PM)
+            </p>
           </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
       </section>
 
       {/* Contact Methods */}
-      <section className="py-12 sm:py-16 bg-white">
+      <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl mb-4 text-gray-900">Ways to Connect</h2>
-            <p className="text-sm sm:text-base text-gray-600">Choose the method that works best for you.</p>
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 font-bold">Choose Your Preferred Channel</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+              We're here to help in whatever way works best for you. All channels guarantee the same fast, human response.
+            </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 sm:mb-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {contactMethods.map((method, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-all duration-300 group">
-                <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-purple-100 rounded-full w-fit group-hover:bg-purple-200 transition-colors">
-                    {method.icon}
+              <Card key={index} className="hover:shadow-xl transition-all duration-300 group border-2 border-purple-100 hover:border-purple-300" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <CardHeader className="pb-4" style={{ flexShrink: 0 }}>
+                  <div className="mx-auto mb-6 p-4 bg-purple-100 rounded-full w-fit group-hover:bg-purple-600 transition-colors">
+                    <div className="group-hover:text-white transition-colors">
+                      {method.icon}
+                    </div>
                   </div>
-                  <CardTitle className="text-lg sm:text-xl text-gray-900">{method.title}</CardTitle>
+                  <CardTitle className="text-xl sm:text-2xl text-gray-900 text-center">{method.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+                <CardContent className="text-center" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <CardDescription className="text-base text-gray-600 mb-6 leading-relaxed">
                     {method.description}
                   </CardDescription>
-                  <Button
-                    className="bg-purple-600 hover:bg-purple-700 text-white text-sm sm:text-base"
-                    onClick={() => window.location.href = method.link}
-                  >
-                    {method.action}
-                  </Button>
+                  <div style={{ marginTop: 'auto' }}>
+                    <div className="min-h-[32px] mb-4 flex items-center justify-center">
+                      {method.link === 'intercom' && isTeamAvailable && (
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="relative flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                          </span>
+                          <span className="text-sm font-medium text-green-600">
+                            Team is Online
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    {method.link === 'email' ? (
+                      <Button
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                        size="lg"
+                        onClick={handleEmailClick}
+                      >
+                        {method.subAction}
+                      </Button>
+                    ) : method.link === 'intercom' ? (
+                      <Button
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                        size="lg"
+                        onClick={showMessenger}
+                      >
+                        {method.action}
+                      </Button>
+                    ) : (
+                      <Button
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                        size="lg"
+                        onClick={() => window.location.href = method.link}
+                      >
+                        {method.action}
+                      </Button>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -203,11 +199,11 @@ export function ContactPage({}: ContactPageProps) {
 
 
       {/* Fun Facts & Office Info */}
-      <section className="py-24 bg-white">
+      <section className="py-16 sm:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl mb-6 text-gray-900">A Little About Us</h2>
+              <h2 className="text-3xl sm:text-4xl mb-6 text-gray-900 font-bold">A Little About Us</h2>
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <MapPin className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
@@ -224,7 +220,7 @@ export function ContactPage({}: ContactPageProps) {
                   <div>
                     <h3 className="text-lg mb-2 text-gray-900">Fun Fact</h3>
                     <p className="text-gray-600">
-                      Our team's favorite AI query? "Best coffee in London" (spoiler: It's the little café around the corner from our office). We may be AI experts, but we're also human ☕
+                      The question we ask most? "What if we just made it simpler?" Turns out, cutting features is harder than adding them.
                     </p>
                   </div>
                 </div>
@@ -234,7 +230,7 @@ export function ContactPage({}: ContactPageProps) {
                   <div>
                     <h3 className="text-lg mb-2 text-gray-900">Our Promise</h3>
                     <p className="text-gray-600">
-                      Every message gets a real human response. No bots (ironic, we know), no templates—just genuine conversations about how AI can help your brand.
+                      Every message gets a real human response. No bots (ironic, I know), no templates—just genuine conversations about how AI can help your brand.
                     </p>
                   </div>
                 </div>
@@ -245,32 +241,90 @@ export function ContactPage({}: ContactPageProps) {
               <h3 className="text-2xl mb-6 text-gray-900">Quick Response Times</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">General Inquiries</span>
-                  <span className="text-purple-600">&lt; 2 hours</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Technical Support</span>
-                  <span className="text-purple-600">&lt; 1 hour</span>
+                  <span className="text-gray-600">Emergency Issues</span>
+                  <span className="text-purple-600">&lt; 15 minutes</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Sales Questions</span>
                   <span className="text-purple-600">&lt; 30 minutes</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Emergency Issues</span>
-                  <span className="text-purple-600">&lt; 15 minutes</span>
+                  <span className="text-gray-600">Technical Support</span>
+                  <span className="text-purple-600">&lt; 1 hour</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">General Inquiries</span>
+                  <span className="text-purple-600">&lt; 24 hours</span>
                 </div>
               </div>
               
               <div className="mt-8 p-4 bg-white rounded-lg border border-purple-200">
                 <p className="text-sm text-gray-600 italic">
-                  "The RankBee team doesn't just respond fast—they actually understand what I'm asking. Refreshing in the tech world." - Sarah M., Marketing Director
+                  "Customer notes are gold to me. They help me understand our customers needs and how we can best serve them." - Aris Vrakas., Founder
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Email Modal */}
+      {showEmailModal && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 overflow-auto"
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+          onClick={() => setShowEmailModal(false)}
+        >
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 sm:p-8" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-purple-100 rounded-full">
+                  <Mail className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Email Us</h3>
+              </div>
+              <button
+                onClick={() => setShowEmailModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Send us an email and we'll get back to you within 2 hours during business hours.
+            </p>
+
+            <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-6 mb-6">
+              <p className="text-sm text-gray-600 mb-3 font-medium">Our email address:</p>
+              <div className="bg-white rounded-md p-3 border border-purple-200">
+                <p className="text-2xl font-bold text-purple-600 select-all text-center">{getEmail()}</p>
+              </div>
+            </div>
+
+            <Button
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white text-lg py-6"
+              onClick={handleCopyEmail}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-5 h-5 mr-2" />
+                  Copied to Clipboard!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-5 h-5 mr-2" />
+                  Copy Email Address
+                </>
+              )}
+            </Button>
+            
+            <p className="text-xs text-gray-500 mt-4 text-center">
+              Click to copy, then paste into your email client
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

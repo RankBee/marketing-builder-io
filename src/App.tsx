@@ -8,6 +8,7 @@ import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";
 import { ContactPage } from "./components/ContactPage";
+import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { SignInPage, SignUpPage } from "./components/AuthPages";
 import { useEnsureActiveOrg } from "./lib/clerk-safe";
 import { Seo } from "./lib/seo";
@@ -32,6 +33,8 @@ function pathToPage(pathname: string): string {
       return "demo";
     case "/contact":
       return "contact";
+    case "/privacy-policy":
+      return "privacy-policy";
     case "/":
     default:
       return "home";
@@ -95,6 +98,8 @@ export default function App() {
       case "contact":
         // ContactPage does not require onPageChange props in this bundle
         return <ContactPage />;
+      case "privacy-policy":
+        return <PrivacyPolicyPage onPageChange={setPage} />;
       case "sign-in":
         return <SignInPage />;
       case "sign-up":
@@ -135,6 +140,11 @@ export default function App() {
       title: "Contact",
       description: "Get in touch with the RankBee team.",
       path: "/contact"
+    },
+    "privacy-policy": {
+      title: "Privacy Policy",
+      description: "Privacy Policy for RankBee.",
+      path: "/privacy-policy"
     },
     "sign-in": {
       title: "Sign In",

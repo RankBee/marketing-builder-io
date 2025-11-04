@@ -12,27 +12,36 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
       return;
     }
 
-    const script = document.createElement("script");
-    script.src = "https://js.chargebee.com/v2/chargebee.js";
-    script.async = true;
-    script.onload = async () => {
-      try {
-        const chargebee = (window as any).Chargebee.init({
-          site: "rankbee",
-        });
-        const pricingTable = await chargebee.pricingTable();
-        pricingTable.init();
-      } catch (error) {
-        console.error("ChargeBee initialization error:", error);
-      }
+    // Wait for DOM to be ready before loading ChargeBee
+    const loadChargeBee = () => {
+      const script = document.createElement("script");
+      script.src = "https://js.chargebee.com/v2/chargebee.js";
+      script.async = true;
+      script.onload = async () => {
+        try {
+          const chargebee = (window as any).Chargebee.init({
+            site: "rankbee",
+          });
+          const pricingTable = await chargebee.pricingTable();
+          pricingTable.init();
+        } catch (error) {
+          console.error("ChargeBee initialization error:", error);
+        }
+      };
+      script.onerror = () => {
+        console.error("Failed to load ChargeBee script");
+      };
+      document.head.appendChild(script);
     };
-    document.body.appendChild(script);
 
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadChargeBee);
+      return () => {
+        document.removeEventListener("DOMContentLoaded", loadChargeBee);
+      };
+    } else {
+      loadChargeBee();
+    }
   }, []);
 
   return (

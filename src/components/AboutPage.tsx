@@ -5,7 +5,6 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Target, Zap, Eye, ExternalLink } from "lucide-react";
 import { useRef } from "react";
 import yinNoeImage from 'figma:asset/49edafd48740cd6fe95aa4ed7c2168d9e77e46f0.png';
-import williamGallahueImage from 'figma:asset/332f88e630a8a70ac8890fdc18ce73486a61524a.png';
 import arisVrakasImage from 'figma:asset/b7cf0bf96cdd61b5fdbcc47ebb89f402e22edbab.png';
 
 interface AboutPageProps {
@@ -56,14 +55,6 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       funFact: "She joins us to keep things lean and laser-focused on your success.",
       image: yinNoeImage,
       linkedinUrl: "https://www.linkedin.com/in/yinnoe/"
-    },
-    {
-      name: "William Gallahue",
-      role: "Client Success Lead",
-      bio: "18 years in enterprise SEO at Tata and Hilton—Will's your go-to for turning data into doable plans that stick.",
-      funFact: "Known for making complex strategies feel simple and actionable.",
-      image: williamGallahueImage,
-      linkedinUrl: "https://www.linkedin.com/in/williamgallahue/"
     }
   ];
 
@@ -139,7 +130,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
             {team.map((member, index) => (
               <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center">

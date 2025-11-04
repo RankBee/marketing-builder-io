@@ -43,13 +43,25 @@ export function Footer({ onPageChange }: FooterProps) {
             {/* Navigation Links */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => onPageChange(item.id)}
-                  className="text-sm sm:text-base text-gray-600 hover:text-primary transition-colors"
-                >
-                  {item.name}
-                </button>
+                item.id === "blog" ? (
+                  <a
+                    key={item.id}
+                    href="https://geo.rankbee.ai/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    key={item.id}
+                    onClick={() => onPageChange(item.id)}
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary transition-colors"
+                  >
+                    {item.name}
+                  </button>
+                )
               ))}
             </div>
           </div>

@@ -266,13 +266,14 @@ export function DemoPage({}: DemoPageProps) {
                 <p className="text-gray-600 mb-4 text-sm">
                   Read our latest insights and case studies.
                 </p>
-                <Button 
-                  variant="outline"
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
-                  onClick={() => onPageChange("blog")}
-                >
-                  Read Blog
-                </Button>
+                <a href="https://geo.rankbee.ai/" target="_blank" rel="noopener noreferrer">
+                  <Button 
+                    variant="outline"
+                    className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                  >
+                    Read Blog
+                  </Button>
+                </a>
               </CardContent>
             </Card>
           </div>

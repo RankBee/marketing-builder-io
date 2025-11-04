@@ -144,12 +144,14 @@ function Details() {
         transition={{ duration: 0.6, delay: 0.4 }}
         className="w-full"
       >
-        <Button 
-          className="bg-brand-800 hover:bg-brand-900 text-white px-6 py-3 h-auto group"
-        >
-          Get Your AI Visibility Report
-          <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </Button>
+        <a href="/register">
+          <Button 
+            className="bg-brand-800 hover:bg-brand-900 text-white px-6 py-3 h-auto group"
+          >
+            Get Your AI Visibility Report
+            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </a>
       </motion.div>
     </div>
   );

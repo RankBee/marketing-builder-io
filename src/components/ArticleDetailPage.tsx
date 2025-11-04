@@ -275,13 +275,15 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
       {/* Navigation Back */}
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <button
-            onClick={() => onPageChange("blog")}
+          <a
+            href="https://geo.rankbee.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </button>
+          </a>
         </div>
       </div>
 

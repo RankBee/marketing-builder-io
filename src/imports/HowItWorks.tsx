@@ -283,7 +283,7 @@ function CardContent2() {
     <div className="flex flex-col gap-[16px] w-full" data-name="CardContent">
       <ImageWithFallback2 />
       <GaoHomePage4 />
-      <a href="/register" className="w-full">
+      <a href="/sign-up" className="w-full">
         <button
           className="bg-brand-800 hover:bg-brand-900 transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer"
           data-name="Button"

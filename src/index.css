@@ -3849,6 +3849,11 @@ html {
   }
 }
 
+/* Pause shimmer animation on hover */
+button:hover {
+  animation-play-state: paused !important;
+}
+
 /* RankBee Logo Styles */
 .logo-container {
   display: flex;

@@ -89,8 +89,8 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <SignedOut>
                 <Button
                   size="lg"
-                  onClick={() => onPageChange("demo")}
-                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={() => onPageChange("sign-up")}
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [animation:shimmer_2s_ease-in-out_infinite] hover:[animation-play-state:paused]"
                   style={{
                     background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
                     backgroundSize: '200% 100%',
@@ -103,7 +103,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                   size="lg"
                   variant="outline"
                   className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
-                  onClick={() => onPageChange("demo")}
+                  onClick={() => onPageChange("sign-up")}
                 >
                   Book Demo
                 </Button>
@@ -172,7 +172,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             Discover how your brand performs in ChatGPT, Gemini, and Claude — and exactly how to improve it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="/register">
+            <a href="/sign-up">
               <Button
                 size="lg"
                 className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -190,7 +190,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 size="lg"
                 variant="outline"
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg py-2"
-                onClick={() => onPageChange("demo")}
+                onClick={() => onPageChange("sign-up")}
               >
                 Book Demo
               </Button>

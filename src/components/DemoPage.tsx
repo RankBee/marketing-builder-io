@@ -69,10 +69,10 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
       {/* Demo Booking Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
             {/* Left Side: Content */}
-            <div className="flex flex-col justify-center">
-              <div className="mb-8">
+            <div className="flex-1 flex flex-col justify-center">
+              <div>
                 <p className="text-gray-600 leading-relaxed text-lg mb-8">
                   Book a demo with RankBee Team. We will demonstrate how your brand tracks across GenAI platforms and how to optimise on-site content and product feed for AI discovery.
                 </p>
@@ -103,16 +103,13 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
             </div>
 
             {/* Right Side: Calendly Embed */}
-            <div className="flex justify-center lg:justify-end">
+            <div className="flex-1 flex justify-center">
               {calendlyUrl && (
-                <div 
-                  className="calendly-inline-widget w-full max-w-md" 
+                <div
+                  className="calendly-inline-widget w-full"
                   data-url={calendlyUrl}
                   style={{
-                    minHeight: "700px",
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+                    minHeight: "700px"
                   }}
                 />
               )}

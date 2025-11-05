@@ -1,4 +1,4 @@
-# RankBee Marketing — Vite + React + Builder.io codegen
+# RankBee Marketing - Vite + React + Builder.io codegen
 
 Marketing site implemented as a Vite SPA with Builder.io codegen for UI blocks, optional Clerk auth in-app, SSG + prerender for static hosting, and an ISR-like Service Worker for 5-minute stale-while-revalidate navigation caching.
 
@@ -91,14 +91,14 @@ Builder.io codegen workflow
 
 Environment variables
 
-Client (Vite) — see [.env.example](.env.example:1)
+Client (Vite) - see [.env.example](.env.example:1)
 - VITE_CLERK_PUBLISHABLE_KEY: Clerk publishable key
 - VITE_APP_URL: Dashboard URL for “View Your Dashboard”
 - VITE_ONBOARD_URL: Onboarding URL (absolute or path)
 - VITE_SITE_URL: Canonical origin used by [Seo()](src/lib/seo.tsx:29)
 - Optional VITE_SIGN_IN_URL: only if you must override sign-in location during local dev
 
-Server (Netlify Functions) — set in Netlify UI
+Server (Netlify Functions) - set in Netlify UI
 - SITE_URL: Canonical origin for robots/sitemap; used by [robots handler](netlify/functions/robots.ts:3) and [sitemap handler](netlify/functions/sitemap.ts:4)
 
 Commands
@@ -184,9 +184,9 @@ How the 5‑minute cycle works (per route)
 What is cached vs not cached
 - Cached: Only navigation requests (HTML shell). This is detected via [isNavigationRequest()](public/sw.js:26). Each route is cached independently with its own TTL.
 - Not cached by the SW:
-  - Assets (JS, CSS, images) — handled by the browser/CDN defaults.
-  - API or dynamic endpoints — not treated as navigations, so ignored by the SW.
-  - Auth pages (/sign‑in, /sign‑up) — always bypass the cache and go straight to network; see [DYNAMIC_BYPASS](public/sw.js:7).
+  - Assets (JS, CSS, images) - handled by the browser/CDN defaults.
+  - API or dynamic endpoints - not treated as navigations, so ignored by the SW.
+  - Auth pages (/sign‑in, /sign‑up) - always bypass the cache and go straight to network; see [DYNAMIC_BYPASS](public/sw.js:7).
 
 Interaction with Netlify CDN and functions
 - The SW is a browser‑side cache for HTML navigations. It does not change CDN behavior for assets or functions.

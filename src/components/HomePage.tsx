@@ -112,13 +112,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 </a>
                 <a
                   href="/demo"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     trackEvent('CTA Clicked', {
                       button_text: 'Book Demo',
                       location: 'homepage_hero',
                       variant: 'secondary',
                       destination: 'demo'
                     });
+                    onPageChange('demo');
                   }}
                 >
                   <Button
@@ -208,14 +210,19 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 className="bg-white text-cta hover:bg-gray-100 px-8"
               />
             </SignedIn>
-            <a href="/demo" onClick={() => {
-              trackEvent('CTA Clicked', {
-                button_text: 'Book Demo',
-                location: 'homepage_footer',
-                variant: 'outline',
-                destination: 'demo'
-              });
-            }}>
+            <a
+              href="/demo"
+              onClick={(e) => {
+                e.preventDefault();
+                trackEvent('CTA Clicked', {
+                  button_text: 'Book Demo',
+                  location: 'homepage_footer',
+                  variant: 'outline',
+                  destination: 'demo'
+                });
+                onPageChange('demo');
+              }}
+            >
               <Button
                 size="lg"
                 variant="outline"

@@ -57,11 +57,13 @@ export function Footer({ onPageChange }: FooterProps) {
                     key={item.id}
                     href="/demo"
                     className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       trackEvent('Navigation Click', {
                         destination: 'demo',
                         location: 'footer_nav'
                       });
+                      onPageChange('demo');
                     }}
                   >
                     {item.name}

@@ -149,13 +149,15 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           </p>
           <a
             href="/demo"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               trackEvent('CTA Clicked', {
                 button_text: 'Book Your Demo',
                 location: 'pricing_page_footer',
                 variant: 'secondary',
                 destination: 'demo'
               });
+              onPageChange('demo');
             }}
           >
             <Button

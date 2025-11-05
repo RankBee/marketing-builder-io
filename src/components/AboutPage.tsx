@@ -262,13 +262,15 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           <div className="flex justify-center pt-8">
             <a
               href="/demo"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 trackEvent('CTA Clicked', {
                   button_text: "Let's Chat About Your AI Journey",
                   location: 'about_page_hero',
                   destination: 'demo',
                   variant: 'primary'
                 });
+                onPageChange('demo');
               }}
             >
               <Button

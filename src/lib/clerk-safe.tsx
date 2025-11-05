@@ -47,7 +47,33 @@ export function SafeSignedOut({ children }: ChildrenProp) {
     }
     return <>{children}</>;
   }
-  return <ClerkSignedOut>{children}</ClerkSignedOut>;
+  return (
+    <ClerkSignedOut>
+      <SignedOutCleanup />
+      {children}
+    </ClerkSignedOut>
+  );
+}
+
+// Clears any rb_o_onboarded_${orgId} cache entries when the app is in a signed-out state.
+function SignedOutCleanup() {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const ls = window.localStorage;
+      const prefix = 'rb_o_onboarded_';
+      // snapshot keys since removing during iteration mutates indices
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < ls.length; i++) {
+        const key = ls.key(i);
+        if (key && key.startsWith(prefix)) keysToRemove.push(key);
+      }
+      keysToRemove.forEach((k) => ls.removeItem(k));
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
+  return null;
 }
 
 export function useSafeUser() {
@@ -111,7 +137,9 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
             const hasOnboardedKey: boolean =
               !!orgPublicMeta && Object.prototype.hasOwnProperty.call(orgPublicMeta, 'onboarded');
             const firstOrgOnboardedRaw = orgPublicMeta?.onboarded;
+            console.log("firstOrgOnboardedRaw:", firstOrgOnboardedRaw);
             const firstOrgOnboarded = asBool(firstOrgOnboardedRaw);
+            console.log("firstOrgOnboarded:", firstOrgOnboarded);
       
             // Cache: once we ever observe onboarded === true for this org, remember it to avoid future flicker.
             const orgId: string | undefined = firstOrg?.id;

@@ -94,13 +94,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
             <SignedOut>
               <a
                 href="/demo"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   trackEvent('CTA Clicked', {
                     button_text: 'Book Demo',
                     location: 'navigation_desktop',
                     variant: 'outline',
                     destination: 'demo'
                   });
+                  onPageChange('demo');
                 }}
               >
                 <Button
@@ -209,13 +211,16 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   <a
                     href="/demo"
                     className="block w-full"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       trackEvent('CTA Clicked', {
                         button_text: 'Book Demo',
                         location: 'navigation_mobile',
                         variant: 'outline',
                         destination: 'demo'
                       });
+                      onPageChange('demo');
+                      setIsMobileMenuOpen(false);
                     }}
                   >
                     <Button

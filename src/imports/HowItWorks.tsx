@@ -144,7 +144,7 @@ function GaoHomePage2() {
   return (
     <div className="w-full" data-name="GAOHomePage">
       <p className="font-['Inter:Regular',_sans-serif] leading-[20px] text-[#4a5565] text-[14px] tracking-[-0.1504px]">
-        We're the only platform that scores content at the <span className="font-['Inter:Bold',_sans-serif]">attribute level</span> — the features and benefits AI models actually reason about. Forget keywords. Optimize for attributes.
+        We're the only platform that scores content at the <span className="font-['Inter:Bold',_sans-serif]">attribute level</span> - the features and benefits AI models actually reason about. Forget keywords. Optimize for attributes.
       </p>
     </div>
   );

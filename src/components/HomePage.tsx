@@ -38,7 +38,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
 
   const testimonials = [
     {
-      quote: "RankBee turned our AI blind spot into a spotlight—leads up 25%.",
+      quote: "RankBee turned our AI blind spot into a spotlight-leads up 25%.",
       author: "Sarah Chen",
       role: "Startup Founder"
     },
@@ -70,7 +70,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             {/* Badge */}
             <div className="inline-block bg-purple-100 rounded-lg px-4 py-2">
               <p className="text-purple-600 text-sm font-medium">
-                Proven in pilot — 10x in 14 days
+                Proven in pilot - 10x in 14 days
               </p>
             </div>
             
@@ -175,7 +175,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6">Get Your AI Visibility Score Today</h2>
           <p className="text-lg sm:text-xl mb-8 text-purple-100 max-w-2xl mx-auto">
-            Discover how your brand performs in ChatGPT, Gemini, and Claude — and exactly how to improve it.
+            Discover how your brand performs in ChatGPT, Gemini, and Claude - and exactly how to improve it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <SignedOut>

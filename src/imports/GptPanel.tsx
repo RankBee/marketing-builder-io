@@ -49,7 +49,7 @@ function HeadingDisc() {
         Be the Brand AI Recommends
       </h2>
       <p className="font-['Inter:Regular',_sans-serif] font-normal leading-[24px] text-[#4a5565] text-[16px]">
-        When someone asks an AI assistant for recommendations, your content should make the shortlist. We align your messaging to the attributes AI models reward — then validate with large-scale testing.
+        When someone asks an AI assistant for recommendations, your content should make the shortlist. We align your messaging to the attributes AI models reward - then validate with large-scale testing.
       </p>
     </motion.div>
   );

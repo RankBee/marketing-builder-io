@@ -83,7 +83,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
               Plans That Fit Your <span className="text-purple-600">Growth</span>, No Surprises
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Start small or go big—unlimited users, weekly crawls, and insights that pay off fast. First month free on all.
+              Start small or go big-unlimited users, weekly crawls, and insights that pay off fast. First month free on all.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">

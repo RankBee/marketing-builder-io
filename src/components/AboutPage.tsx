@@ -23,8 +23,8 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
     {
       icon: <Target className="w-8 h-8 text-purple-600" />,
       title: "Foundation",
-      description: "Born from 25+ years at Amazon, Tata, and startups—real-world SEO that powers our GAIO tech.",
-      detail: "It's not magic—it's method. Like how we helped a fintech client uncover hidden biases in AI responses and flip them into opportunities."
+      description: "Born from 25+ years at Amazon, Tata, and startups-real-world SEO that powers our GAIO tech.",
+      detail: "It's not magic-it's method. Like how we helped a fintech client uncover hidden biases in AI responses and flip them into opportunities."
     },
     {
       icon: <Zap className="w-8 h-8 text-purple-600" />,
@@ -69,7 +69,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               We're RankBee: Real People Powering Smarter <span className="text-purple-600">AI Wins</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Founded by folks who've scaled SEO at Amazon and beyond, we're here to make Generative AI Optimization feel straightforward—not overwhelming.
+              Founded by folks who've scaled SEO at Amazon and beyond, we're here to make Generative AI Optimization feel straightforward-not overwhelming.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -194,7 +194,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                 </p>
                 <div className="bg-white border-l-4 border-red-500 p-4 sm:p-6 rounded-r-lg">
                   <p className="text-gray-700 italic">
-                    "Traditional keyword optimization meant nothing. AI wasn't reading your site like Google—it was learning patterns, inferring relevance, and making recommendations based on attributes Google never cared about."
+                    "Traditional keyword optimization meant nothing. AI wasn't reading your site like Google-it was learning patterns, inferring relevance, and making recommendations based on attributes Google never cared about."
                   </p>
                 </div>
               </div>
@@ -244,7 +244,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               <div className="flex-grow">
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Built by People Who've Been Here Before</h3>
                 <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6">
-                  Aris brought together battle-tested SEO leaders from Amazon, Skyscanner, and Tata—the folks who'd navigated massive visibility shifts before. Together, they asked a simple question:
+                  Aris brought together battle-tested SEO leaders from Amazon, Skyscanner, and Tata-the folks who'd navigated massive visibility shifts before. Together, they asked a simple question:
                 </p>
                 <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 p-6 sm:p-8 rounded-lg">
                   <p className="text-lg sm:text-xl font-bold text-gray-900 italic">
@@ -252,7 +252,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   </p>
                 </div>
                 <p className="text-base sm:text-lg text-gray-600 leading-relaxed mt-6">
-                  RankBee was born from that question. Our London office is where we turn that into reality every day—not through guesswork, but through scientific testing and real-world client wins.
+                  RankBee was born from that question. Our London office is where we turn that into reality every day-not through guesswork, but through scientific testing and real-world client wins.
                 </p>
               </div>
             </div>
@@ -287,7 +287,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900">How We Live Our Values</h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-              Foundation, Innovation, and Vision aren't slogans—they're how we make decisions every day.
+              Foundation, Innovation, and Vision aren't slogans-they're how we make decisions every day.
             </p>
           </div>
 
@@ -303,7 +303,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  We don't experiment on your brand. Every recommendation is grounded in 25+ years of real-world optimization experience. When we suggest an attribute shift, we can show you why—backed by data, not hunches.
+                  We don't experiment on your brand. Every recommendation is grounded in 25+ years of real-world optimization experience. When we suggest an attribute shift, we can show you why-backed by data, not hunches.
                 </p>
                 <p className="text-sm text-purple-600 font-medium">
                   The result: Clients trust us to make bold moves because they know there's expertise behind them.
@@ -341,7 +341,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  We build for everyone—from solo founders to global enterprises. Your budget shouldn't determine whether you win in AI. That's why our tools scale and our support is genuine, not gatekept.
+                  We build for everyone-from solo founders to global enterprises. Your budget shouldn't determine whether you win in AI. That's why our tools scale and our support is genuine, not gatekept.
                 </p>
                 <p className="text-sm text-purple-600 font-medium">
                   The result: Brands of all sizes can compete fairly in the AI conversation.

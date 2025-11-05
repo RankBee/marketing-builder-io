@@ -267,7 +267,7 @@ export function ContactPage({}: ContactPageProps) {
                   <div>
                     <h3 className="text-lg mb-2 text-gray-900">Our Promise</h3>
                     <p className="text-gray-600">
-                      Every message gets a real human response. No bots (ironic, I know), no templates—just genuine conversations about how AI can help your brand.
+                      Every message gets a real human response. No bots (ironic, I know), no templates-just genuine conversations about how AI can help your brand.
                     </p>
                   </div>
                 </div>

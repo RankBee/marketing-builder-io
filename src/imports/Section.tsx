@@ -1,7 +1,7 @@
 function Heading3() {
   return (
     <div className="h-[32px] relative shrink-0 w-full" data-name="Heading 3">
-      <p className="absolute font-['Inter:Bold',_sans-serif] font-bold leading-[32px] left-0 not-italic text-[24px] text-nowrap text-white top-0 tracking-[0.0703px] whitespace-pre">From 6% to 64% ChatGPT Coverage — in 14 Days</p>
+      <p className="absolute font-['Inter:Bold',_sans-serif] font-bold leading-[32px] left-0 not-italic text-[24px] text-nowrap text-white top-0 tracking-[0.0703px] whitespace-pre">From 6% to 64% ChatGPT Coverage - in 14 Days</p>
     </div>
   );
 }
@@ -27,7 +27,7 @@ function Paragraph() {
     <div className="h-[72px] relative shrink-0 w-full" data-name="Paragraph">
       <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-0 not-italic text-[#cad5e2] text-[16px] top-[-0.5px] tracking-[-0.3125px] w-[660px]">A pilot customer in consumer electronics identified underperforming attributes and rewrote key pages. After optimization, ChatGPT mentioned their brand in</p>
       <BoldText />
-      <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-0 not-italic text-[#cad5e2] text-[16px] top-[23.5px] tracking-[-0.3125px] w-[673px]">of relevant prompts — up from</p>
+      <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-0 not-italic text-[#cad5e2] text-[16px] top-[23.5px] tracking-[-0.3125px] w-[673px]">of relevant prompts - up from</p>
       <BoldText1 />
       <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-[87.51px] not-italic text-[#cad5e2] text-[16px] text-nowrap top-[47.5px] tracking-[-0.3125px] whitespace-pre">.</p>
     </div>
@@ -37,7 +37,7 @@ function Paragraph() {
 function Container() {
   return (
     <div className="h-[48px] relative shrink-0 w-full" data-name="Container">
-      <p className="absolute font-['Inter:Italic',_sans-serif] font-normal italic leading-[24px] left-0 text-[16px] text-slate-200 top-[-0.5px] tracking-[-0.3125px] w-[641px]">“It’s like SEO for ChatGPT — but faster, smarter, and measurable.” — VP Marketing, Pilot Customer</p>
+      <p className="absolute font-['Inter:Italic',_sans-serif] font-normal italic leading-[24px] left-0 text-[16px] text-slate-200 top-[-0.5px] tracking-[-0.3125px] w-[641px]">“It’s like SEO for ChatGPT - but faster, smarter, and measurable.” - VP Marketing, Pilot Customer</p>
     </div>
   );
 }

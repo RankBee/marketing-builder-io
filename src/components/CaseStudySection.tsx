@@ -64,19 +64,19 @@ export function CaseStudySection() {
             {/* Left Column - Story */}
             <div className="space-y-6">
               <h2 className="text-white text-2xl sm:text-3xl">
-                From 6% to 64% <span className="text-purple-400">ChatGPT Coverage</span> — in 14 Days
+                From 6% to 64% <span className="text-purple-400">ChatGPT Coverage</span> - in 14 Days
               </h2>
 
               <div className="text-[#cad5e2] space-y-4">
                 <p>
                   A pilot customer in consumer electronics identified underperforming attributes and rewrote key pages. After optimization, ChatGPT mentioned their brand in{' '}
-                  <span className="font-bold">64%</span> of relevant prompts — up from{' '}
+                  <span className="font-bold">64%</span> of relevant prompts - up from{' '}
                   <span className="font-bold">6%</span>.
                 </p>
               </div>
 
               <blockquote className="text-slate-200 italic border-l-4 border-white/20 pl-4">
-                "It's like SEO for ChatGPT — but faster, smarter, and measurable." — VP Marketing, Pilot Customer
+                "It's like SEO for ChatGPT - but faster, smarter, and measurable." - VP Marketing, Pilot Customer
               </blockquote>
             </div>
 

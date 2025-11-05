@@ -158,6 +158,42 @@ Commands
 - Full SSG: npm run build:ssg
 - Serve build: npm run start (serves build/ at http://localhost:8080)
 
+## DigitalOcean App Platform (Static Site)
+
+This project deploys as a static site on DigitalOcean App Platform. Netlify-specific files (netlify.toml, Netlify Functions) are not used by DigitalOcean and can be kept for optional Netlify deploys or removed if you prefer.
+
+Build and output
+- Build command: npm ci && npm run build:ssg
+- Output directory: build/
+- Node version: 18+ (20.x recommended)
+
+Environment variables (set in App Platform → Settings → Environment Variables)
+- VITE_SITE_URL: Your canonical origin (e.g., https://rankbee.ai). Used by SEO tags and by the build-time generator.
+- VITE_APP_ENV: production for production; any other value (staging, development, preprod) will emit a Disallow: / robots.txt to avoid indexing.
+- Optional fallbacks (also read by the generator):
+  - SITE_URL: Alternative to VITE_SITE_URL if you prefer a non-Vite name in CI.
+  - APP_ENV: Alternative to VITE_APP_ENV. NODE_ENV is also considered.
+
+Static robots.txt and sitemap.xml
+- Generated at build time into build/robots.txt and build/sitemap.xml by scripts/generate-seo.mjs (wired into npm run build:ssg).
+- Routes source: netlify/shared/routes.json (keep this file up to date when adding pages).
+- Preview vs production:
+  - VITE_APP_ENV=production → Allow indexing + Sitemap header.
+  - Any other value → Disallow all.
+- Caching headers are not embedded (served as static files). Use DigitalOcean CDN/Edge rules if you need custom Cache-Control on these files.
+
+SPA routing (client-side)
+- Deep links require serving index.html for unknown paths.
+- Recommended: In App Platform component settings for your static site, set Error Document to /index.html. This makes all not-found paths load the SPA shell.
+- Alternative: Provide a 404.html that loads your SPA and redirects, but setting Error Document is cleaner.
+
+What’s unused on DigitalOcean
+- netlify.toml: Redirects, SPA fallback, and function routes are Netlify-specific.
+- netlify/functions/*: Replaced by build-time generation for robots and sitemap.
+
+Local verification
+- npm run build:ssg
+- Confirm that build/robots.txt and build/sitemap.xml exist and contain the expected values for your VITE_SITE_URL and VITE_APP_ENV.
 Netlify specifics
 - SPA fallback: route all paths to index.html (see [netlify.toml](netlify.toml:21))
 - robots.txt and sitemap.xml are served by ODB functions with CDN caching:

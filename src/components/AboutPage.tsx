@@ -6,6 +6,7 @@ import { Target, Zap, Eye, ExternalLink } from "lucide-react";
 import { useRef } from "react";
 import yinNoeImage from 'figma:asset/49edafd48740cd6fe95aa4ed7c2168d9e77e46f0.png';
 import arisVrakasImage from 'figma:asset/b7cf0bf96cdd61b5fdbcc47ebb89f402e22edbab.png';
+import { trackEvent } from "../lib/posthog";
 
 interface AboutPageProps {
   onPageChange: (page: string) => void;
@@ -259,12 +260,23 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
 
           {/* CTA */}
           <div className="flex justify-center pt-8">
-            <Button
-              className="bg-cta hover:bg-cta/90 text-cta-foreground text-base sm:text-lg px-8 py-3"
-              onClick={() => onPageChange("sign-up")}
+            <a
+              href="/demo"
+              onClick={() => {
+                trackEvent('CTA Clicked', {
+                  button_text: "Let's Chat About Your AI Journey",
+                  location: 'about_page_hero',
+                  destination: 'demo',
+                  variant: 'primary'
+                });
+              }}
             >
-              Let's Chat About Your AI Journey
-            </Button>
+              <Button
+                className="bg-cta hover:bg-cta/90 text-cta-foreground text-base sm:text-lg px-8 py-3"
+              >
+                Let's Chat About Your AI Journey
+              </Button>
+            </a>
           </div>
         </div>
       </section>

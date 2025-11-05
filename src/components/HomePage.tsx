@@ -7,8 +7,8 @@ import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";
 import GptPanel from "../imports/GptPanel";
-import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboardingState } from "../lib/clerk-safe";
-import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
+import AccountCta from "./AccountCta";
 import { trackEvent } from "../lib/posthog";
 
 interface HomePageProps {
@@ -16,7 +16,6 @@ interface HomePageProps {
 }
 
 export function HomePage({ onPageChange }: HomePageProps) {
-  const { onboarded, loaded } = useOrgOnboardingState();
 
   const features = [
     {
@@ -88,8 +87,8 @@ export function HomePage({ onPageChange }: HomePageProps) {
             {/* CTA */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <SignedOut>
-                <Button
-                  size="lg"
+                <a
+                  href="/sign-up"
                   onClick={() => {
                     trackEvent('CTA Clicked', {
                       button_text: 'Start Free Trial',
@@ -97,67 +96,47 @@ export function HomePage({ onPageChange }: HomePageProps) {
                       variant: 'primary',
                       destination: 'sign-up'
                     });
-                    onPageChange("sign-up");
-                  }}
-                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [animation:shimmer_2s_ease-in-out_infinite] hover:[animation-play-state:paused]"
-                  style={{
-                    background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 2s ease-in-out infinite',
                   }}
                 >
-                  Start Free Trial
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+                  <Button
+                    size="lg"
+                    className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [animation:shimmer_2s_ease-in-out_infinite] hover:[animation-play-state:paused]"
+                    style={{
+                      background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                      backgroundSize: '200% 100%',
+                      animation: 'shimmer 2s ease-in-out infinite',
+                    }}
+                  >
+                    Start Free Trial
+                  </Button>
+                </a>
+                <a
+                  href="/demo"
                   onClick={() => {
                     trackEvent('CTA Clicked', {
                       button_text: 'Book Demo',
                       location: 'homepage_hero',
                       variant: 'secondary',
-                      destination: 'sign-up'
+                      destination: 'demo'
                     });
-                    onPageChange("sign-up");
                   }}
                 >
-                  Book Demo
-                </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+                  >
+                    Book Demo
+                  </Button>
+                </a>
               </SignedOut>
 
               <SignedIn>
-                {loaded ? (
-                  onboarded ? (
-                    <a href={dashboardUrl} onClick={() => {
-                      trackEvent('Dashboard Link Clicked', {
-                        location: 'homepage_hero',
-                        user_onboarded: true
-                      });
-                    }}>
-                      <Button
-                        size="lg"
-                        className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
-                      >
-                        View Your Dashboard
-                      </Button>
-                    </a>
-                  ) : (
-                    <a href={onboardRedirectUrl} onClick={() => {
-                      trackEvent('Onboarding Link Clicked', {
-                        location: 'homepage_hero',
-                        action: 'complete_setup'
-                      });
-                    }}>
-                      <Button
-                        size="lg"
-                        className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
-                      >
-                        Complete Setup
-                      </Button>
-                    </a>
-                  )
-                ) : null}
+                <AccountCta
+                  location="homepage_hero"
+                  size="lg"
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
+                />
               </SignedIn>
             </div>
           </div>
@@ -199,43 +178,52 @@ export function HomePage({ onPageChange }: HomePageProps) {
             Discover how your brand performs in ChatGPT, Gemini, and Claude — and exactly how to improve it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="/sign-up" onClick={() => {
+            <SignedOut>
+              <a href="/sign-up" onClick={() => {
+                trackEvent('CTA Clicked', {
+                  button_text: 'Start Free Trial',
+                  location: 'homepage_footer',
+                  variant: 'primary',
+                  destination: 'sign-up'
+                });
+              }}>
+                <Button
+                  size="lg"
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  style={{
+                    background: 'linear-gradient(to right, rgb(255, 255, 255), rgb(244, 217, 255), rgb(255, 255, 255))',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 2s ease-in-out infinite',
+                    color: 'Purple',
+                  }}
+                >
+                  Start Free Trial
+                </Button>
+              </a>
+            </SignedOut>
+            <SignedIn>
+              <AccountCta
+                location="homepage_footer"
+                size="lg"
+                className="bg-white text-cta hover:bg-gray-100 px-8"
+              />
+            </SignedIn>
+            <a href="/demo" onClick={() => {
               trackEvent('CTA Clicked', {
-                button_text: 'Start Free Trial',
+                button_text: 'Book Demo',
                 location: 'homepage_footer',
-                variant: 'primary',
-                destination: 'sign-up'
+                variant: 'outline',
+                destination: 'demo'
               });
             }}>
               <Button
                 size="lg"
-                className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                style={{
-                  background: 'linear-gradient(to right, rgb(255, 255, 255), rgb(244, 217, 255), rgb(255, 255, 255))',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 2s ease-in-out infinite',
-                  color: 'Purple',
-                }}
-              >
-                Start Free Trial
-              </Button>
-            </a>
-              <Button
-                size="lg"
                 variant="outline"
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg py-2"
-                onClick={() => {
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
-                    location: 'homepage_footer',
-                    variant: 'outline',
-                    destination: 'sign-up'
-                  });
-                  onPageChange("sign-up");
-                }}
               >
                 Book Demo
               </Button>
+            </a>
           </div>
         </div>
       </section>

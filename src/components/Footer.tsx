@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import { Linkedin } from "lucide-react";
 import { Logo } from "./Logo";
+import { trackEvent } from "../lib/posthog";
 
 interface FooterProps {
   onPageChange: (page: string) => void;
@@ -48,6 +49,20 @@ export function Footer({ onPageChange }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ) : item.id === "demo" ? (
+                  <a
+                    key={item.id}
+                    href="/demo"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                    onClick={() => {
+                      trackEvent('Navigation Click', {
+                        destination: 'demo',
+                        location: 'footer_nav'
+                      });
+                    }}
                   >
                     {item.name}
                   </a>

@@ -102,7 +102,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
 
           <div
             id="chargebee-pricing-table"
-            name="chargebee-pricing-table"
+            data-name="chargebee-pricing-table"
             data-pricing-table-site="01K71J9W9RW0THGY5E90GSH62X"
             data-pricing-table-id="01K7P6EN1ZASANTYMEYW7WY5YJ"
             data-pricing-table-viewport-default-height="1200px"
@@ -147,9 +147,8 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
           <p className="text-xl mb-8 text-purple-100">
             See RankBee in action with your own brand data in just 20 minutes.
           </p>
-          <Button
-            size="lg"
-            className="bg-white text-cta hover:bg-gray-100 px-8"
+          <a
+            href="/demo"
             onClick={() => {
               trackEvent('CTA Clicked', {
                 button_text: 'Book Your Demo',
@@ -157,11 +156,15 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
                 variant: 'secondary',
                 destination: 'demo'
               });
-              onPageChange("demo");
             }}
           >
-            Book Your Demo
-          </Button>
+            <Button
+              size="lg"
+              className="bg-white text-cta hover:bg-gray-100 px-8"
+            >
+              Book Your Demo
+            </Button>
+          </a>
         </div>
       </section>
     </div>

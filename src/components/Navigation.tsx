@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useOrgOnboarded, useSafeUser } from "../lib/clerk-safe";
-import { dashboardUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useSafeUser } from "../lib/clerk-safe";
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 import { trackEvent } from "../lib/posthog";
+import AccountCta from "./AccountCta";
 
 interface NavigationProps {
   currentPage: string;
@@ -14,7 +14,6 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const onboarded = useOrgOnboarded();
   const { isLoaded: orgLoaded } = useOrganization();
   const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
   const loaded = orgLoaded || listLoaded;
@@ -93,9 +92,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <SignedOut>
-              <Button
-                variant="outline"
-                className="border-cta text-cta hover:bg-cta/10"
+              <a
+                href="/demo"
                 onClick={() => {
                   trackEvent('CTA Clicked', {
                     button_text: 'Book Demo',
@@ -103,11 +101,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     variant: 'outline',
                     destination: 'demo'
                   });
-                  onPageChange("demo");
                 }}
               >
-                Book Demo
-              </Button>
+                <Button
+                  variant="outline"
+                  className="border-cta text-cta hover:bg-cta/10"
+                >
+                  Book Demo
+                </Button>
+              </a>
             </SignedOut>
 
             <SignedOut>
@@ -139,29 +141,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                       </span>
                     </>
                   ) : null}
-                  {onboarded ? (
-                    <a href={dashboardUrl} onClick={() => {
-                      trackEvent('Dashboard Link Clicked', {
-                        location: 'navigation_desktop',
-                        user_onboarded: true
-                      });
-                    }}>
-                      <Button className="bg-gray-900 hover:bg-gray-800 text-white">
-                        View Your Dashboard
-                      </Button>
-                    </a>
-                  ) : (
-                    <a href={onboardRedirectUrl} onClick={() => {
-                      trackEvent('Onboarding Link Clicked', {
-                        location: 'navigation_desktop',
-                        action: 'complete_setup'
-                      });
-                    }}>
-                      <Button className="bg-cta hover:bg-cta/90 text-cta-foreground">
-                        Complete Setup
-                      </Button>
-                    </a>
-                  )}
+                  <AccountCta
+                    location="navigation_desktop"
+                    size="default"
+                    className=""
+                    dashboardClassName="bg-gray-900 hover:bg-gray-800 text-white"
+                    onboardClassName="bg-cta hover:bg-cta/90 text-cta-foreground"
+                  />
                 </div>
               ) : (
                 <div className="flex items-center gap-4">
@@ -220,9 +206,9 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
               ))}
               <div className="pt-2 space-y-2">
                 <SignedOut>
-                  <Button
-                    variant="outline"
-                    className="w-full border-cta text-cta hover:bg-cta/10"
+                  <a
+                    href="/demo"
+                    className="block w-full"
                     onClick={() => {
                       trackEvent('CTA Clicked', {
                         button_text: 'Book Demo',
@@ -230,11 +216,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                         variant: 'outline',
                         destination: 'demo'
                       });
-                      onPageChange("demo");
                     }}
                   >
-                    Book Demo
-                  </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full border-cta text-cta hover:bg-cta/10"
+                    >
+                      Book Demo
+                    </Button>
+                  </a>
                 </SignedOut>
 
                 <SignedOut>
@@ -256,29 +246,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   {loaded ? (
                     <div className="flex items-center gap-4">
                       <SafeUserButton />
-                      {onboarded ? (
-                        <a href={dashboardUrl} className="block" onClick={() => {
-                          trackEvent('Dashboard Link Clicked', {
-                            location: 'navigation_mobile',
-                            user_onboarded: true
-                          });
-                        }}>
-                          <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
-                            View Your Dashboard
-                          </Button>
-                        </a>
-                      ) : (
-                        <a href={onboardRedirectUrl} className="block" onClick={() => {
-                          trackEvent('Onboarding Link Clicked', {
-                            location: 'navigation_mobile',
-                            action: 'complete_setup'
-                          });
-                        }}>
-                          <Button className="w-full bg-cta hover:bg-cta/90 text-cta-foreground">
-                            Complete Setup
-                          </Button>
-                        </a>
-                      )}
+                      <AccountCta
+                        location="navigation_mobile"
+                        size="default"
+                        className="w-full"
+                        dashboardClassName="w-full bg-gray-900 hover:bg-gray-800 text-white"
+                        onboardClassName="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                      />
                     </div>
                   ) : (
                     <div className="flex items-center gap-4">

@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import svgPaths from "./svg-sw856ngjo0";
 import imgCompetitorDashboard from "figma:asset/d4a12367347ed2aa1674106dece510531cd8cb06.png";
 import imgAttributeHeatmap from "figma:asset/4f12a8f353f78fec8dedb2120afa3e6d2bf347e0.png";
 import imgAiRewrite from "figma:asset/ff7c2f79b38849b108899f24c4791f28ab53f527.png";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
+import AccountCta from "../components/AccountCta";
+import { trackEvent } from "../lib/posthog";
 
 function Heading2() {
   return (
@@ -283,16 +286,37 @@ function CardContent2() {
     <div className="flex flex-col gap-[16px] w-full" data-name="CardContent">
       <ImageWithFallback2 />
       <GaoHomePage4 />
-      <a href="/sign-up" className="w-full">
-        <button
-          className="bg-brand-800 hover:bg-brand-900 transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer"
-          data-name="Button"
+      <SignedOut>
+        <a
+          href="/sign-up"
+          className="w-full"
+          onClick={() => {
+            trackEvent('CTA Clicked', {
+              button_text: 'Free Trial',
+              location: 'how_it_works_card',
+              variant: 'primary',
+              destination: 'sign-up'
+            });
+          }}
         >
-          <p className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
-            Free Trial
-          </p>
-        </button>
-      </a>
+          <button
+            className="bg-brand-800 hover:bg-brand-900 transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer"
+            data-name="Button"
+          >
+            <p className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
+              Free Trial
+            </p>
+          </button>
+        </a>
+      </SignedOut>
+      <SignedIn>
+        <div className="w-full">
+          <AccountCta
+            location="how_it_works_card"
+            className="w-full bg-brand-800 hover:bg-brand-900 transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center"
+          />
+        </div>
+      </SignedIn>
     </div>
   );
 }

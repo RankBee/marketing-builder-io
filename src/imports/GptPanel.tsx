@@ -3,6 +3,9 @@ import chatGptMockup from "figma:asset/10d0fa087436a591e8316d517ab16ffe4d1071fb.
 import { motion } from "motion/react";
 import { TrendingUp, Target, Zap, Globe, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
+import AccountCta from "../components/AccountCta";
+import { trackEvent } from "../lib/posthog";
 
 function ChatGptScenario() {
   return (
@@ -144,14 +147,32 @@ function Details() {
         transition={{ duration: 0.6, delay: 0.4 }}
         className="w-full"
       >
-        <a href="/sign-up">
-          <Button 
-            className="bg-brand-800 hover:bg-brand-900 text-white px-6 py-3 h-auto group"
+        <SignedOut>
+          <a
+            href="/sign-up"
+            onClick={() => {
+              trackEvent('CTA Clicked', {
+                button_text: 'Get Your AI Visibility Report',
+                location: 'gpt_panel',
+                variant: 'primary',
+                destination: 'sign-up'
+              });
+            }}
           >
-            Get Your AI Visibility Report
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </a>
+            <Button
+              className="bg-brand-800 hover:bg-brand-900 text-white px-6 py-3 h-auto group"
+            >
+              Get Your AI Visibility Report
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </a>
+        </SignedOut>
+        <SignedIn>
+          <AccountCta
+            location="gpt_panel"
+            className="bg-brand-800 hover:bg-brand-900 text-white px-6 py-3 h-auto group"
+          />
+        </SignedIn>
       </motion.div>
     </div>
   );

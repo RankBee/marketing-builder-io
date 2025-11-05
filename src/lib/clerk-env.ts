@@ -19,13 +19,19 @@ export const onboardRedirectUrl: string =
   (import.meta.env.VITE_ONBOARD_URL as string) || '/onboard';
 
 // Safe helpers
-export function isOnboarded(user: any): boolean {
-  try {
-    // Clerk publicMetadata is a free-form object
-    return Boolean(user?.publicMetadata && (user.publicMetadata as any).onboarded);
-  } catch {
-    return false;
+/**
+ * DEPRECATED: Use useOrgOnboardingState() from src/lib/clerk-safe.tsx.
+ * Onboarding state is determined solely from the FIRST organization’s publicMetadata.onboarded.
+ * This function no longer reads user.publicMetadata and always returns false.
+ */
+export function isOnboarded(_user: any): boolean {
+  if ((import.meta as any)?.env?.DEV) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[Deprecated] isOnboarded(user) is deprecated. Use useOrgOnboardingState() for org-based onboarding."
+    );
   }
+  return false;
 }
 
 export function displayName(user: any): string {

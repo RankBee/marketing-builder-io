@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import {
   SignedIn as ClerkSignedIn,
   SignedOut as ClerkSignedOut,
@@ -68,16 +68,11 @@ export function useSafeUser() {
 }
 
 /**
- * Returns true if the active (or any listed) organization has publicMetadata.onboarded === true.
- * Priority:
- * 1) Active organization (useOrganization)
- * 2) Any membership's organization (useOrganizationList.userMemberships)
- * 3) Fallbacks for older Clerk clients:
- *    - user.organizationMemberships[*].organization.publicMetadata.onboarded
- *    - user.publicMetadata.onboarded (last-resort, for legacy mirroring)
- * Notes:
- * - Coerces string/number values ("true"/"1") to boolean true
- * - Avoids relying on fields not present in all Clerk versions
+ * Returns true if the FIRST organization in the user's memberships has publicMetadata.onboarded === true.
+ * Rules:
+ * - Ignore the active organization selection.
+ * - Never read user.publicMetadata or user.organizationMemberships.
+ * - Coerces string/number values ("true"/"1") to boolean true.
  */
 /**
  * Safe org onboarding state accessor for components that must also run without ClerkProvider
@@ -89,9 +84,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     return { onboarded: false, loaded: false };
   }
 
-  const { isLoaded: orgLoaded, organization } = useOrganization();
   const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const { user, isLoaded: userLoaded } = clerkUseUser();
 
   const asBool = (v: any) => {
     if (v === true || v === 1) return true;
@@ -103,51 +96,105 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     return false;
   };
 
-  // 1) Active org publicMetadata.onboarded
-  const activeOnboarded = asBool((organization as any)?.publicMetadata?.onboarded);
-
-  // 2) Any membership's org publicMetadata.onboarded (supports both array and paginated shapes)
-  const membershipsAny: any = userMemberships as any;
-  const memberships: any[] =
-    Array.isArray(membershipsAny)
-      ? membershipsAny
-      : (Array.isArray(membershipsAny?.data) ? membershipsAny.data : []);
-
-  const memberOnboarded = memberships.some(
-    (m: any) => asBool(m?.organization?.publicMetadata?.onboarded)
-  );
-
-  // 3a) Fallback: some Clerk versions expose user.organizationMemberships on the client
-  const uAny: any = user as any;
-  const uMems: any[] = Array.isArray(uAny?.organizationMemberships) ? uAny.organizationMemberships : [];
-  const userMemsOnboarded = uMems.some(
-    (m: any) => asBool(m?.organization?.publicMetadata?.onboarded)
-  );
-
-  // 3b) Last-resort fallback: legacy mirroring put onboarded under user.publicMetadata
-  const userMirrorOnboarded = asBool(uAny?.publicMetadata?.onboarded);
-
-  const loaded = Boolean(orgLoaded || listLoaded || userLoaded);
-  const onboarded = Boolean(activeOnboarded || memberOnboarded || userMemsOnboarded || userMirrorOnboarded);
-
-  if ((import.meta as any)?.env?.DEV) {
-    // eslint-disable-next-line no-console
-    console.log("[OrgCTA][DEV]", {
-      orgLoaded,
-      listLoaded,
-      userLoaded,
-      activeOrgId: (organization as any)?.id,
-      activeOnboarded,
-      memberOnboarded,
-      userMemsOnboarded,
-      userMirrorOnboarded,
-      onboarded,
-      loaded,
-    });
-  }
-
-  return { onboarded, loaded };
-}
+            // FIRST membership org publicMetadata.onboarded (supports both array and paginated shapes)
+            const memAny: any = userMemberships as any;
+            const memberships: any[] =
+              Array.isArray(memAny)
+                ? memAny
+                : (Array.isArray(memAny?.data) ? memAny.data : []);
+          
+            const firstMembership: any = memberships?.[0];
+            const firstOrg: any = firstMembership?.organization ?? undefined;
+          
+            // Inspect org metadata
+            const orgPublicMeta: any = firstOrg?.publicMetadata;
+            const hasOnboardedKey: boolean =
+              !!orgPublicMeta && Object.prototype.hasOwnProperty.call(orgPublicMeta, 'onboarded');
+            const firstOrgOnboardedRaw = orgPublicMeta?.onboarded;
+            const firstOrgOnboarded = asBool(firstOrgOnboardedRaw);
+      
+            // Cache: once we ever observe onboarded === true for this org, remember it to avoid future flicker.
+            const orgId: string | undefined = firstOrg?.id;
+            let cachedTrue = false;
+            if (typeof window !== 'undefined' && orgId) {
+              try {
+                cachedTrue = window.localStorage.getItem(`rb_o_onboarded_${orgId}`) === '1';
+              } catch {
+                // ignore storage errors
+              }
+            }
+      
+            const [loadedStable, setLoadedStable] = useState(false);
+            const FALSE_STABLE_DELAY_MS = 2000;
+            const ZERO_MEMBERSHIP_DELAY_MS = 1500;
+      
+            // Persist positive onboarding once observed
+            useEffect(() => {
+              if (typeof window === 'undefined') return;
+              if (!orgId) return;
+              if (firstOrgOnboarded === true) {
+                try {
+                  window.localStorage.setItem(`rb_o_onboarded_${orgId}`, '1');
+                } catch {
+                  // ignore
+                }
+              }
+            }, [orgId, firstOrgOnboarded]);
+      
+            useEffect(() => {
+              // Reset when list not loaded
+              if (!listLoaded) {
+                setLoadedStable(false);
+                return;
+              }
+          
+              // No orgs: avoid premature resolution; wait briefly to confirm truly zero
+              if (memberships.length === 0) {
+                const t = setTimeout(() => setLoadedStable(true), ZERO_MEMBERSHIP_DELAY_MS);
+                return () => clearTimeout(t);
+              }
+      
+              // Known onboarded via cache or live flag: resolve immediately
+              if ((!!orgId && cachedTrue) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
+                setLoadedStable(true);
+                return;
+              }
+          
+              // Explicit false: wait briefly to avoid transient false -> true flips
+              if (!!firstOrg?.id && hasOnboardedKey && firstOrgOnboarded !== true) {
+                const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
+                return () => clearTimeout(t);
+              }
+          
+              // Otherwise unresolved
+              setLoadedStable(false);
+            }, [listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded, cachedTrue]);
+          
+            // Keep original canResolve for logging visibility
+            const canResolve =
+              (!!firstOrg?.id && (firstOrgOnboarded === true || hasOnboardedKey)) ||
+              (!!orgId && cachedTrue);
+          
+            const loaded = Boolean(loadedStable);
+            const onboarded = Boolean(firstOrgOnboarded || cachedTrue);
+          
+            if ((import.meta as any)?.env?.DEV) {
+              // eslint-disable-next-line no-console
+              console.log("[OrgCTA][DEV]", {
+                listLoaded,
+                firstOrgId: firstOrg?.id,
+                membershipsLength: memberships.length,
+                hasOnboardedKey,
+                firstOrgOnboarded,
+                cachedTrue,
+                onboarded,
+                loaded,
+                canResolve,
+              });
+            }
+          
+            return { onboarded, loaded };
+          }
 
 /** Backwards-compat wrapper */
 export function useOrgOnboarded(): boolean {

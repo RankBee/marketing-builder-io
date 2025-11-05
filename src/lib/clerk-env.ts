@@ -16,7 +16,7 @@ export const signInUrl: string =
 // Where to send users when they need to complete setup (RankBee-marketing /onboard)
 // Can be absolute (https://rankbee.ai/onboard) or path (/onboard) depending on deployment routing.
 export const onboardRedirectUrl: string =
-  (import.meta.env.VITE_ONBOARD_URL as string) || '/onboard';
+  (import.meta.env.VITE_ONBOARD_URL as string);
 
 // Safe helpers
 /**

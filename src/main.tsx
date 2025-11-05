@@ -25,11 +25,33 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ClerkProvider } from "@clerk/clerk-react";
-import { publishableKey } from "./lib/clerk-env";
+import { publishableKey, onboardRedirectUrl } from "./lib/clerk-env";
 import { HelmetProvider } from "react-helmet-async";
 import { getGTMId } from "./lib/gtm";
 import { initPostHog } from "./lib/posthog";
 
+// Early hard redirect for /onboard to VITE_ONBOARD_URL
+if (typeof window !== 'undefined') {
+  try {
+    const loc = window.location;
+    const currentPath = (loc.pathname.replace(/\/+$/, '') || '/');
+    if (currentPath === '/onboard') {
+      const targetRaw = (onboardRedirectUrl || '').trim();
+      if (targetRaw) {
+        // If absolute URL, redirect if not already there
+        if (/^https?:\/\//i.test(targetRaw)) {
+          if (loc.href !== targetRaw) window.location.replace(targetRaw);
+        } else {
+          // Ensure rooted path
+          const target = targetRaw.startsWith('/') ? targetRaw : '/' + targetRaw;
+          if (target !== currentPath) window.location.replace(target);
+        }
+      }
+    }
+  } catch {
+    // no-op
+  }
+}
 // Initialize GTM dynamically with the correct ID from environment
 if (typeof window !== 'undefined') {
   const gtmId = getGTMId();

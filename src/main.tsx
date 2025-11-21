@@ -25,7 +25,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ClerkProvider } from "@clerk/clerk-react";
-import { publishableKey, onboardRedirectUrl } from "./lib/clerk-env";
+import { publishableKey, onboardRedirectUrl, signInUrl, signUpUrl } from "./lib/clerk-env";
 import { HelmetProvider } from "react-helmet-async";
 import { getGTMId } from "./lib/gtm";
 import { initPostHog } from "./lib/posthog";
@@ -95,7 +95,12 @@ initPostHog();
 const root = document.getElementById("root")!;
 
 const appTree = publishableKey ? (
-  <ClerkProvider publishableKey={publishableKey}>
+  <ClerkProvider
+    publishableKey={publishableKey}
+    signInUrl={signInUrl}
+    signUpUrl={signUpUrl}
+    afterSignOutUrl="/"
+  >
     <App />
   </ClerkProvider>
 ) : (

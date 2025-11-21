@@ -6,6 +6,7 @@ import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, u
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 import { trackEvent } from "../lib/posthog";
 import AccountCta from "./AccountCta";
+import { signInUrl } from "../lib/clerk-env";
 
 interface NavigationProps {
   currentPage: string;
@@ -115,18 +116,21 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
             </SignedOut>
 
             <SignedOut>
-              <Button
-                className="bg-cta hover:bg-cta/90 text-cta-foreground"
+              <a
+                href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
                 onClick={() => {
                   trackEvent('Sign In Clicked', {
                     location: 'navigation_desktop',
                     current_page: currentPage
                   });
-                  onPageChange("sign-in");
                 }}
               >
-                Sign In
-              </Button>
+                <Button
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground"
+                >
+                  Sign In
+                </Button>
+              </a>
             </SignedOut>
 
             <SignedIn>
@@ -233,18 +237,23 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 </SignedOut>
 
                 <SignedOut>
-                  <Button
-                    className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                  <a
+                    href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
+                    className="block w-full"
                     onClick={() => {
                       trackEvent('Sign In Clicked', {
                         location: 'navigation_mobile',
                         current_page: currentPage
                       });
-                      onPageChange("sign-in");
+                      setIsMobileMenuOpen(false);
                     }}
                   >
-                    Sign In
-                  </Button>
+                    <Button
+                      className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                    >
+                      Sign In
+                    </Button>
+                  </a>
                 </SignedOut>
 
                 <SignedIn>

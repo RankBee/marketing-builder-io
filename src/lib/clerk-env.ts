@@ -11,7 +11,10 @@ export const dashboardUrl: string =
   (import.meta.env.VITE_APP_URL as string) || 'https://app.rankbee.ai';
 
 export const signInUrl: string =
-  (import.meta.env.VITE_SIGN_IN_URL as string) || '/sign-in';
+  (import.meta.env.VITE_SIGN_IN_URL as string) || 'https://marketing.rankbee.ai/sign-in';
+
+export const signUpUrl: string =
+  (import.meta.env.VITE_SIGN_UP_URL as string) || 'https://marketing.rankbee.ai/register';
 
 // Where to send users when they need to complete setup (RankBee-marketing /onboard)
 // Can be absolute (https://rankbee.ai/onboard) or path (/onboard) depending on deployment routing.

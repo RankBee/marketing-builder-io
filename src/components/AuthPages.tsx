@@ -1,41 +1,40 @@
 import React from "react";
-import { SafeSignIn, SafeSignUp } from "../lib/clerk-safe";
-import { onboardRedirectUrl } from "../lib/clerk-env";
+import { useEffect } from "react";
+import { signInUrl, signUpUrl } from "../lib/clerk-env";
 
 /**
- * Standalone Sign In and Sign Up pages for the Vite marketing app.
- * These are rendered within this Vite app so auth happens here (no Next.js redirect).
- *
- * Notes:
- * - After Sign In, we return to "/" so the navbar/home can reflect session state.
- * - After Sign Up, we redirect to the onboarding flow using VITE_ONBOARD_URL (e.g., https://rankbee.ai/onboard).
+ * Redirects to the external RankBee-marketing application for authentication.
  */
  
 export function SignInPage() {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.location.href = signInUrl;
+    }
+  }, []);
+
   return (
-    <div id="singin-wrapper" className="flex items-center justify-center min-h-[100svh] mt-12 sm:mt-16 lg:mt-24 mb-12 sm:mb-16 lg:mb-24">
-      <div className="my-12 sm:my-16 lg:my-24">
-        <SafeSignIn
-          routing="path"
-          path="/sign-in"
-          signUpUrl="/sign-up"
-          afterSignInUrl="/"
-        />
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="p-6 text-center">
+        <p className="text-gray-600 mb-2">Redirecting to Sign In...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
       </div>
     </div>
   );
 }
 
 export function SignUpPage() {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.location.href = signUpUrl;
+    }
+  }, []);
+
   return (
-    <div className="flex items-center justify-center min-h-[100svh] mt-12 sm:mt-16 lg:mt-24 mb-12 sm:mb-16 lg:mb-24">
-      <div className="my-12 sm:my-16 lg:my-24">
-        <SafeSignUp
-          routing="path"
-          path="/sign-up"
-          signInUrl="/sign-in"
-          afterSignUpUrl={onboardRedirectUrl}
-        />
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="p-6 text-center">
+        <p className="text-gray-600 mb-2">Redirecting to Sign Up...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
       </div>
     </div>
   );

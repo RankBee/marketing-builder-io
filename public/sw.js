@@ -4,7 +4,7 @@
 
 const CACHE_NAME = 'rb-vite-pages-v1';
 const TTL_MS = 5 * 60 * 1000; // 5 minutes
-const DYNAMIC_BYPASS = ['/sign-in', '/sign-up'];
+const DYNAMIC_BYPASS_PREFIXES = ['/sign-in', '/sign-up'];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -43,8 +43,8 @@ self.addEventListener('fetch', (event) => {
 });
 
 async function handleNavigationRequest(req, url) {
-  // Bypass cache for dynamic/auth pages
-  if (DYNAMIC_BYPASS.includes(url.pathname)) {
+  // Bypass cache for dynamic/auth pages (match subpaths like /sign-up/sso-callback)
+  if (DYNAMIC_BYPASS_PREFIXES.some((p) => url.pathname === p || url.pathname.startsWith(p + "/"))) {
     try {
       return await fetch(req, { cache: 'no-store' });
     } catch {

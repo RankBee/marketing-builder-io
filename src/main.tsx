@@ -94,12 +94,18 @@ initPostHog();
 
 const root = document.getElementById("root")!;
 
+const isExternalAuth = signInUrl.startsWith('http') && typeof window !== "undefined" && window.location.hostname.includes('rankbee.ai');
+const satelliteProps = isExternalAuth ? { isSatellite: true, domain: 'rankbee.ai' } : {};
+
 const appTree = publishableKey ? (
   <ClerkProvider
     publishableKey={publishableKey}
     signInUrl={signInUrl}
     signUpUrl={signUpUrl}
     afterSignOutUrl="/"
+    routerPush={(to) => { window.location.href = to; }}
+    routerReplace={(to) => { window.location.replace(to); }}
+    {...satelliteProps}
   >
     <App />
   </ClerkProvider>

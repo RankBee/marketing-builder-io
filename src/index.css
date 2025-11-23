@@ -3891,3 +3891,19 @@ button:hover {
     height: 42px;
   }
 }
+
+
+@media (width >= 64rem) {
+  .lg\:block {
+    display: block;
+  }
+  .lg\:flex {
+    display: flex;
+  }
+  .lg\:hidden {
+    display: none;
+  }
+  .lg\:inline {
+    display: inline;
+  }
+}

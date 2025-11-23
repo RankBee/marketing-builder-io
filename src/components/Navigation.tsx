@@ -91,7 +91,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           </div>
 
           {/* Desktop CTA Buttons */}
-          <div className="hidden lg:flex items-center space-x-4 shrink-0">
+          <div className="hidden lg:flex items-center justify-end space-x-4 shrink-0" style={{ width: '300px' }}>
             <SignedOut>
               <a
                 href="/demo"

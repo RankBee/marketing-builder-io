@@ -94,7 +94,16 @@ initPostHog();
 
 const root = document.getElementById("root")!;
 
-const isExternalAuth = signInUrl.startsWith('http') && typeof window !== "undefined" && window.location.hostname.includes('rankbee.ai');
+const currentHostname = typeof window !== 'undefined' ? window.location.hostname : '';
+let isSameOrigin = false;
+try {
+  isSameOrigin = new URL(signInUrl, window.location.origin).hostname === currentHostname;
+} catch (e) {
+  // invalid url or relative path
+  isSameOrigin = true;
+}
+
+const isExternalAuth = !isSameOrigin && signInUrl.startsWith('http') && typeof window !== "undefined" && window.location.hostname.includes('rankbee.ai');
 const satelliteProps = isExternalAuth ? { isSatellite: true, domain: 'rankbee.ai' } : {};
 
 const appTree = publishableKey ? (

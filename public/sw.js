@@ -4,7 +4,7 @@
 
 const CACHE_NAME = 'rb-vite-pages-v1';
 const TTL_MS = 5 * 60 * 1000; // 5 minutes
-const DYNAMIC_BYPASS_PREFIXES = ['/sign-in', '/sign-up'];
+const DYNAMIC_BYPASS_PREFIXES = ['/sign-in', '/sign-up', '/en', '/onboard'];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

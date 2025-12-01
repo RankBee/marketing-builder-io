@@ -12,7 +12,7 @@ function TextDetail() {
   return (
     <div className="content-stretch flex gap-[8px] items-center relative shrink-0" data-name="Text Detail">
       <div className="flex flex-col font-['Inter:Medium',_sans-serif] font-medium justify-center leading-[0] not-italic relative shrink-0 text-brand-700 text-[14px] text-nowrap">
-        <p className="leading-[20px] whitespace-pre">80% of brands are invisible in AI responses—fix that today</p>
+        <p className="leading-[20px] whitespace-pre">80% of brands are invisible in AI responses-fix that today</p>
       </div>
     </div>
   );
@@ -44,7 +44,7 @@ function CardTitleText() {
         ChatGPT Visibility in 14 Days
       </p>
       <div className="flex flex-col font-['Inter:Regular',_sans-serif] font-normal justify-center leading-[0] relative shrink-0 text-[18px] text-gray-500 w-[686px]">
-        <p className="leading-[28px]">We cut through the noise to show how ChatGPT, Gemini, and more rank you—then give you simple steps to climb higher. No fluff, just results that grow your business.</p>
+        <p className="leading-[28px]">We cut through the noise to show how ChatGPT, Gemini, and more rank you-then give you simple steps to climb higher. No fluff, just results that grow your business.</p>
       </div>
     </div>
   );

@@ -105,7 +105,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
               Fresh Takes on <span className="text-purple-600">AI Search</span> and Brand Magic
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              From prompt hacks to visibility trends—tips from our team to keep you ahead.
+              From prompt hacks to visibility trends-tips from our team to keep you ahead.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-gray-700 leading-relaxed">

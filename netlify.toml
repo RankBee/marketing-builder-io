@@ -1,8 +1,39 @@
 [build]
-command = "npm run build"
+command = "npm run build:ssg"
 publish = "build"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Route robots.txt to Netlify Function (On‑Demand Builder)
+[[redirects]]
+from = "/robots.txt"
+to = "/.netlify/functions/robots"
+status = 200
+
+# Route sitemap.xml to Netlify Function (On‑Demand Builder)
+[[redirects]]
+from = "/sitemap.xml"
+to = "/.netlify/functions/sitemap"
+status = 200
+
+# SPA fallback
 [[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
+
+# Disallow indexing on Preview deploys
+[context.deploy-preview]
+  [[headers]]
+  for = "/*"
+    [headers.values]
+      X-Robots-Tag = "noindex, nofollow"
+
+# Disallow indexing on Branch deploys
+[context.branch-deploy]
+  [[headers]]
+  for = "/*"
+    [headers.values]
+      X-Robots-Tag = "noindex, nofollow"

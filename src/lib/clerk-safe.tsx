@@ -1,0 +1,334 @@
+import React, { PropsWithChildren, useEffect, useState } from "react";
+import {
+  SignedIn as ClerkSignedIn,
+  SignedOut as ClerkSignedOut,
+  useUser as clerkUseUser,
+  SignIn as ClerkSignIn,
+  SignUp as ClerkSignUp,
+  useOrganization,
+  useOrganizationList,
+  UserButton,
+} from "@clerk/clerk-react";
+import { publishableKey } from "./clerk-env";
+
+type ChildrenProp = PropsWithChildren<{}>;
+type ClerkSignInProps = React.ComponentProps<typeof ClerkSignIn>;
+type ClerkSignUpProps = React.ComponentProps<typeof ClerkSignUp>;
+
+/**
+ * Safe wrappers so the Vite/Builder app remains buildable without Clerk env.
+ * - If VITE_CLERK_PUBLISHABLE_KEY is missing:
+ *   - SafeSignedIn renders nothing
+ *   - SafeSignedOut renders children (treat as signed-out UX)
+ *   - useSafeUser returns a stub unsigned state
+ *   - SafeSignIn / SafeSignUp render a friendly placeholder
+ *   - SafeUserButton renders nothing
+ *   - useOrgOnboarded assumes false
+ */
+
+export function SafeSignedIn({ children }: ChildrenProp) {
+  if (!publishableKey) {
+    if ((import.meta as any)?.env?.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn("[Clerk] publishableKey is missing in SafeSignedIn (DEV)");
+    }
+    return null;
+  }
+  return <ClerkSignedIn>{children}</ClerkSignedIn>;
+}
+
+export function SafeSignedOut({ children }: ChildrenProp) {
+  if (!publishableKey) {
+    if ((import.meta as any)?.env?.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[Clerk] publishableKey is missing in SafeSignedOut (DEV) - rendering children as signed-out"
+      );
+    }
+    return <>{children}</>;
+  }
+  return (
+    <ClerkSignedOut>
+      <SignedOutCleanup />
+      {children}
+    </ClerkSignedOut>
+  );
+}
+
+// Clears any rb_o_onboarded_${orgId} cache entries when the app is in a signed-out state.
+function SignedOutCleanup() {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const ls = window.localStorage;
+      const prefix = 'rb_o_onboarded_';
+      // snapshot keys since removing during iteration mutates indices
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < ls.length; i++) {
+        const key = ls.key(i);
+        if (key && key.startsWith(prefix)) keysToRemove.push(key);
+      }
+      keysToRemove.forEach((k) => ls.removeItem(k));
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
+  return null;
+}
+
+export function useSafeUser() {
+  if (!publishableKey) {
+    if ((import.meta as any)?.env?.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[Clerk] publishableKey is missing in useSafeUser (DEV) - returning unsigned stub"
+      );
+    }
+    return {
+      user: undefined as any,
+      isSignedIn: false,
+      isLoaded: true,
+    };
+  }
+  return clerkUseUser();
+}
+
+/**
+ * Returns true if the FIRST organization in the user's memberships has publicMetadata.onboarded === true.
+ * Rules:
+ * - Ignore the active organization selection.
+ * - Never read user.publicMetadata or user.organizationMemberships.
+ * - Coerces string/number values ("true"/"1") to boolean true.
+ */
+/**
+ * Safe org onboarding state accessor for components that must also run without ClerkProvider
+ * (e.g., Builder preview without VITE_CLERK_PUBLISHABLE_KEY).
+ * Returns both the computed boolean and whether Clerk data has loaded.
+ */
+export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean } {
+  if (!publishableKey) {
+    return { onboarded: false, loaded: false };
+  }
+
+  const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
+
+  const asBool = (v: any) => {
+    if (v === true || v === 1) return true;
+    if (v === '1') return true;
+    if (typeof v === 'string') {
+      const s = v.trim().toLowerCase();
+      return s === 'true' || s === '1' || s === 'yes' || s === 'on';
+    }
+    return false;
+  };
+
+            // FIRST membership org publicMetadata.onboarded (supports both array and paginated shapes)
+            const memAny: any = userMemberships as any;
+            const memberships: any[] =
+              Array.isArray(memAny)
+                ? memAny
+                : (Array.isArray(memAny?.data) ? memAny.data : []);
+          
+            const firstMembership: any = memberships?.[0];
+            const firstOrg: any = firstMembership?.organization ?? undefined;
+          
+            // Inspect org metadata
+            const orgPublicMeta: any = firstOrg?.publicMetadata;
+            const hasOnboardedKey: boolean =
+              !!orgPublicMeta && Object.prototype.hasOwnProperty.call(orgPublicMeta, 'onboarded');
+            const firstOrgOnboardedRaw = orgPublicMeta?.onboarded;
+            console.log("firstOrgOnboardedRaw:", firstOrgOnboardedRaw);
+            const firstOrgOnboarded = asBool(firstOrgOnboardedRaw);
+            console.log("firstOrgOnboarded:", firstOrgOnboarded);
+      
+            // Cache: once we ever observe onboarded === true for this org, remember it to avoid future flicker.
+            const orgId: string | undefined = firstOrg?.id;
+            let cachedTrue = false;
+            if (typeof window !== 'undefined' && orgId) {
+              try {
+                cachedTrue = window.localStorage.getItem(`rb_o_onboarded_${orgId}`) === '1';
+              } catch {
+                // ignore storage errors
+              }
+            }
+      
+            const [loadedStable, setLoadedStable] = useState(false);
+            const FALSE_STABLE_DELAY_MS = 2000;
+            const ZERO_MEMBERSHIP_DELAY_MS = 1500;
+      
+            // Persist positive onboarding once observed
+            useEffect(() => {
+              if (typeof window === 'undefined') return;
+              if (!orgId) return;
+              if (firstOrgOnboarded === true) {
+                try {
+                  window.localStorage.setItem(`rb_o_onboarded_${orgId}`, '1');
+                } catch {
+                  // ignore
+                }
+              }
+            }, [orgId, firstOrgOnboarded]);
+      
+            useEffect(() => {
+              // Reset when list not loaded
+              if (!listLoaded) {
+                setLoadedStable(false);
+                return;
+              }
+          
+              // No orgs: avoid premature resolution; wait briefly to confirm truly zero
+              if (memberships.length === 0) {
+                const t = setTimeout(() => setLoadedStable(true), ZERO_MEMBERSHIP_DELAY_MS);
+                return () => clearTimeout(t);
+              }
+      
+              // Known onboarded via cache or live flag: resolve immediately
+              if ((!!orgId && cachedTrue) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
+                setLoadedStable(true);
+                return;
+              }
+          
+              // Explicit false: wait briefly to avoid transient false -> true flips
+              if (!!firstOrg?.id && hasOnboardedKey && firstOrgOnboarded !== true) {
+                const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
+                return () => clearTimeout(t);
+              }
+          
+              // Otherwise unresolved
+              setLoadedStable(false);
+            }, [listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded, cachedTrue]);
+          
+            // Keep original canResolve for logging visibility
+            const canResolve =
+              (!!firstOrg?.id && (firstOrgOnboarded === true || hasOnboardedKey)) ||
+              (!!orgId && cachedTrue);
+          
+            const loaded = Boolean(loadedStable);
+            const onboarded = Boolean(firstOrgOnboarded || cachedTrue);
+          
+            if ((import.meta as any)?.env?.DEV) {
+              // eslint-disable-next-line no-console
+              console.log("[OrgCTA][DEV]", {
+                listLoaded,
+                firstOrgId: firstOrg?.id,
+                membershipsLength: memberships.length,
+                hasOnboardedKey,
+                firstOrgOnboarded,
+                cachedTrue,
+                onboarded,
+                loaded,
+                canResolve,
+              });
+            }
+          
+            return { onboarded, loaded };
+          }
+
+/** Backwards-compat wrapper */
+export function useOrgOnboarded(): boolean {
+  const { onboarded } = useOrgOnboardingState();
+  return onboarded;
+}
+
+export function SafeSignIn(props: ClerkSignInProps) {
+  if (!publishableKey) {
+    if ((import.meta as any)?.env?.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[Clerk] VITE_CLERK_PUBLISHABLE_KEY not visible at runtime in SafeSignIn. Check .env and restart dev server."
+      );
+    }
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+          <h2 className="text-lg font-semibold mb-2">Authentication unavailable</h2>
+          <p className="text-gray-600 mb-4">
+            Set VITE_CLERK_PUBLISHABLE_KEY to enable Sign In in this environment.
+          </p>
+          <a href="/" className="text-purple-600 underline">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    );
+  }
+  return <ClerkSignIn {...props} />;
+}
+
+export function SafeSignUp(props: ClerkSignUpProps) {
+  if (!publishableKey) {
+    if ((import.meta as any)?.env?.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[Clerk] VITE_CLERK_PUBLISHABLE_KEY not visible at runtime in SafeSignUp. Check .env and restart dev server."
+      );
+    }
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+          <h2 className="text-lg font-semibold mb-2">Authentication unavailable</h2>
+          <p className="text-gray-600 mb-4">
+            Set VITE_CLERK_PUBLISHABLE_KEY to enable Sign Up in this environment.
+          </p>
+          <a href="/" className="text-purple-600 underline">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    );
+  }
+  return <ClerkSignUp {...props} />;
+}
+
+/**
+ * Ensure an active organization is set for the session:
+ * - If no active org is selected and memberships are loaded, activate the first membership.
+ * This mirrors how many apps default to the first org so org-dependent UI (like onboarded) works.
+ */
+export function useEnsureActiveOrg() {
+  if (!publishableKey) return;
+
+  const { organization } = useOrganization();
+  const { isLoaded, userMemberships, setActive } = useOrganizationList({
+    userMemberships: { limit: 50 },
+  });
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (organization) return;
+
+    const memAny: any = userMemberships as any;
+    const memberships: any[] =
+      Array.isArray(memAny) ? memAny : (Array.isArray(memAny?.data) ? memAny.data : []);
+
+    const firstOrgId: string | undefined =
+      memberships?.[0]?.organization?.id || memberships?.[0]?.id;
+
+    if (firstOrgId && typeof setActive === "function") {
+      try {
+        // Clerk accepts an object like { organization: orgId }
+        (setActive as any)({ organization: firstOrgId });
+      } catch {
+        // Older signatures may accept different shapes
+        try {
+          (setActive as any)({ organizationId: firstOrgId });
+        } catch {
+          try {
+            (setActive as any)(firstOrgId);
+          } catch {
+            // ignore
+          }
+        }
+      }
+    }
+  }, [isLoaded, organization, userMemberships, setActive]);
+}
+
+/**
+ * Safe UserButton that hides when publishableKey is not configured.
+ * You can pass showName or other Clerk UserButton props if desired.
+ */
+export function SafeUserButton(props: React.ComponentProps<typeof UserButton>) {
+  if (!publishableKey) return null;
+  return <UserButton {...props} />;
+}

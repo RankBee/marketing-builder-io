@@ -1,26 +1,28 @@
 import { Button } from "./ui/button";
-import { Facebook, Twitter, Instagram, Dribbble } from "lucide-react";
-import beeIcon from 'figma:asset/ef25d03c2c8bc14e1c4ca571ab905dc20b4bec5f.png';
+import { Linkedin } from "lucide-react";
+import { Logo } from "./Logo";
+import { trackEvent } from "../lib/posthog";
 
 interface FooterProps {
   onPageChange: (page: string) => void;
 }
 
 export function Footer({ onPageChange }: FooterProps) {
-  const navItems = [
+  const mainNavItems = [
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
     { name: "Blog", id: "blog" },
     { name: "Contact", id: "contact" },
-    { name: "Demo", id: "demo" },
-    { name: "Privacy Policy", id: "privacy" }
+    { name: "Demo", id: "demo" }
+  ];
+
+  const legalNavItems = [
+    { name: "Privacy Policy", id: "privacy-policy" },
+    { name: "Terms of Service", id: "terms-of-service" }
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#", name: "Facebook" },
-    { icon: Dribbble, href: "#", name: "Dribbble" },
-    { icon: Instagram, href: "#", name: "Instagram" },
-    { icon: Twitter, href: "#", name: "Twitter" }
+    { icon: Linkedin, href: "https://www.linkedin.com/company/rankbee/", name: "LinkedIn" }
   ];
 
   return (
@@ -32,21 +34,59 @@ export function Footer({ onPageChange }: FooterProps) {
           <div className="flex flex-col items-center space-y-6 sm:space-y-8">
             <button
               onClick={() => onPageChange("home")}
-              className="flex items-center gap-2 sm:gap-3 transition-colors group"
+              className="transition-opacity hover:opacity-80"
             >
-              <img src={beeIcon} alt="RankBee" className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-primary transition-colors">
-                Rank<span className="text-primary-light">Bee</span>
-              </span>
+              <Logo className="h-10" />
             </button>
             
-            {/* Navigation Links */}
+            {/* Main Navigation Links */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
-              {navItems.map((item) => (
+              {mainNavItems.map((item) => (
+                item.id === "blog" ? (
+                  <a
+                    key={item.id}
+                    href="https://geo.rankbee.ai/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ) : item.id === "demo" ? (
+                  <a
+                    key={item.id}
+                    href="/demo"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      trackEvent('Navigation Click', {
+                        destination: 'demo',
+                        location: 'footer_nav'
+                      });
+                      onPageChange('demo');
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    key={item.id}
+                    onClick={() => onPageChange(item.id)}
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                  >
+                    {item.name}
+                  </button>
+                )
+              ))}
+            </div>
+
+            {/* Legal Links - Smaller, Subdued */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-4 border-t border-gray-200">
+              {legalNavItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => onPageChange(item.id)}
-                  className="text-sm sm:text-base text-gray-600 hover:text-primary transition-colors"
+                  className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 hover:underline transition-colors"
                 >
                   {item.name}
                 </button>

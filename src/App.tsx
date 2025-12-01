@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
 import { HomePage } from "./components/HomePage";
@@ -8,39 +8,211 @@ import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";
 import { ContactPage } from "./components/ContactPage";
+import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
+import { TermsOfServicePage } from "./components/TermsOfServicePage";
+import { SignInPage, SignUpPage } from "./components/AuthPages";
+import { useEnsureActiveOrg } from "./lib/clerk-safe";
+import { Seo } from "./lib/seo";
+import { IntercomClient } from "./components/IntercomClinet";
+import { useGTMClerkSync, trackEvent } from "./lib/gtm";
+import { usePostHogClerkSync } from "./lib/posthog";
+
+// Map current location path to our simple page ids
+function pathToPage(pathname: string): string {
+  const path = pathname.replace(/\/+$/, "");
+  switch (path) {
+    case "/sign-in":
+      return "sign-in";
+    case "/sign-up":
+      return "sign-up";
+    case "/about":
+      return "about";
+    case "/pricing":
+      return "pricing";
+    case "/blog":
+      return "blog";
+    case "/article-detail":
+      return "article-detail";
+    case "/demo":
+      return "demo";
+    case "/contact":
+      return "contact";
+    case "/privacy-policy":
+      return "privacy-policy";
+    case "/terms-of-service":
+      return "terms-of-service";
+    case "/":
+    default:
+      return "home";
+  }
+}
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
-  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<string>(() => {
+    try {
+      return pathToPage(window.location.pathname);
+    } catch {
+      return "home";
+    }
+  });
+  
+  // Ensure an active organization is selected so org-based onboarding logic works
+  useEnsureActiveOrg();
+  
+  // Sync Clerk user and org context with GTM dataLayer for automatic event enrichment
+  useGTMClerkSync();
+  
+  // Sync Clerk user and org context with PostHog for user identification and event enrichment
+  usePostHogClerkSync();
+
+  // Push browser history when navigating to sign-in/sign-up; reset to "/" otherwise
+  const setPage = (page: string) => {
+    setCurrentPage(page);
+    try {
+      if (typeof window !== "undefined") {
+        const target = page === "home" ? "/" : `/${page}`;
+        if (window.location.pathname !== target) {
+          window.history.pushState({}, "", target);
+        }
+      }
+    } catch {
+      // no-op in non-browser environments
+    }
+  };
+
+  // Initialize from URL and listen to back/forward
+  useEffect(() => {
+    try {
+      setCurrentPage(pathToPage(window.location.pathname));
+      const onPop = () => setCurrentPage(pathToPage(window.location.pathname));
+      window.addEventListener("popstate", onPop);
+      return () => window.removeEventListener("popstate", onPop);
+    } catch {
+      // ignore
+      return;
+    }
+  }, []);
+  
+  // Global page view tracking - tracks all page changes in one place via GTM
+  useEffect(() => {
+    // Map internal page IDs to readable event names
+    const pageEventNames: Record<string, string> = {
+      'home': 'Homepage View',
+      'pricing': 'Pricing View',
+      'demo': 'Demo View',
+      'sign-up': 'Sign Up View',
+      'sign-in': 'Sign In View',
+      'about': 'About View',
+      'blog': 'Blog View',
+      'article-detail': 'Article Detail View',
+      'contact': 'Contact View',
+      'privacy-policy': 'Privacy Policy View',
+      'terms-of-service': 'Terms of Service View',
+    };
+    
+    const eventName = pageEventNames[currentPage] || `${currentPage} View`;
+    
+    trackEvent(eventName, {
+      page: currentPage,
+      page_path: window.location.pathname,
+    });
+  }, [currentPage]);
 
   const renderPage = () => {
     switch (currentPage) {
       case "home":
-        return <HomePage onPageChange={setCurrentPage} />;
+        return <HomePage onPageChange={setPage} />;
       case "about":
-        return <AboutPage onPageChange={setCurrentPage} />;
+        return <AboutPage onPageChange={setPage} />;
       case "pricing":
-        return <PricingPage onPageChange={setCurrentPage} />;
+        return <PricingPage onPageChange={setPage} />;
       case "blog":
-        return <BlogPage onPageChange={setCurrentPage} onSelectArticle={setSelectedArticleId} />;
+        return <BlogPage onPageChange={setPage} />;
       case "article-detail":
-        return <ArticleDetailPage onPageChange={setCurrentPage} />;
+        return <ArticleDetailPage onPageChange={setPage} />;
       case "demo":
-        return <DemoPage onPageChange={setCurrentPage} />;
+        // DemoPage does not require onPageChange props in this bundle
+        return <DemoPage />;
       case "contact":
-        return <ContactPage onPageChange={setCurrentPage} />;
+        // ContactPage does not require onPageChange props in this bundle
+        return <ContactPage />;
+      case "privacy-policy":
+        return <PrivacyPolicyPage onPageChange={setPage} />;
+      case "terms-of-service":
+        return <TermsOfServicePage onPageChange={setPage} />;
+      case "sign-in":
+        return <SignInPage />;
+      case "sign-up":
+        return <SignUpPage />;
       default:
-        return <HomePage onPageChange={setCurrentPage} />;
+        return <HomePage onPageChange={setPage} />;
     }
   };
 
+  // SEO: per-route meta and canonical
+  const metaByPage: Record<string, { title?: string; description?: string; path: string; noindex?: boolean }> = {
+    home: {
+      title: "AI Visibility for ChatGPT, Claude, Gemini",
+      description: "Optimize your site so AI assistants actually mention your brand. Track rankings, citations, and competitive share-of-voice across models.",
+      path: "/"
+    },
+    about: {
+      title: "About RankBee",
+      description: "Why we built RankBee and how we help teams win AI visibility.",
+      path: "/about"
+    },
+    pricing: {
+      title: "Pricing",
+      description: "Simple pricing to start improving AI visibility.",
+      path: "/pricing"
+    },
+    blog: {
+      title: "Blog",
+      description: "Insights on AI search optimization and LLM-era marketing.",
+      path: "/blog"
+    },
+    demo: {
+      title: "Free Visibility Test",
+      description: "Run a free AI visibility test across ChatGPT, Claude, and Gemini.",
+      path: "/demo"
+    },
+    contact: {
+      title: "Contact",
+      description: "Get in touch with the RankBee team.",
+      path: "/contact"
+    },
+    "privacy-policy": {
+      title: "Privacy Policy",
+      description: "Privacy Policy for RankBee.",
+      path: "/privacy-policy"
+    },
+    "terms-of-service": {
+      title: "Terms of Service",
+      description: "Terms of Service for RankBee.",
+      path: "/terms-of-service"
+    },
+    "sign-in": {
+      title: "Sign In",
+      description: "Access your RankBee account.",
+      path: "/sign-in",
+      noindex: true
+    },
+    "sign-up": {
+      title: "Sign Up",
+      description: "Create your RankBee account.",
+      path: "/sign-up",
+      noindex: true
+    }
+  };
+  const seo = metaByPage[currentPage] || metaByPage.home;
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <Navigation currentPage={currentPage} onPageChange={setCurrentPage} />
-      <main className="flex-1">
-        {renderPage()}
-      </main>
-      <Footer onPageChange={setCurrentPage} />
+      <Seo title={seo.title} description={seo.description} path={seo.path} noindex={!!seo.noindex} />
+      <IntercomClient />
+      <Navigation currentPage={currentPage} onPageChange={setPage} />
+      <main className="flex-1">{renderPage()}</main>
+      <Footer onPageChange={setPage} />
     </div>
   );
 }

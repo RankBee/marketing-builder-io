@@ -36,7 +36,7 @@ function HeadingDisc() {
         transition={{ duration: 0.6, delay: 0.4 }}
         className="font-['Inter:Regular',_sans-serif] font-normal leading-[28px] not-italic relative shrink-0 text-[16px] sm:text-[18px] text-gray-600 max-w-3xl"
       >
-        AI assistants don't read your site like Google. They infer relevance from attributes, context, and training data. If your content isn't aligned with how AI models think, you're invisible. Our platform changes that — scientifically.
+        AI assistants don't read your site like Google. They infer relevance from attributes, context, and training data. If your content isn't aligned with how AI models think, you're invisible. Our platform changes that - scientifically.
       </motion.p>
 
       {/* Stats row */}

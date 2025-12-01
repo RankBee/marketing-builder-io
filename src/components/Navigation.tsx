@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
-import beeIcon from 'figma:asset/ef25d03c2c8bc14e1c4ca571ab905dc20b4bec5f.png';
+import { Logo } from "./Logo";
+import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useSafeUser } from "../lib/clerk-safe";
+import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
+import { trackEvent } from "../lib/posthog";
+import AccountCta from "./AccountCta";
 
 interface NavigationProps {
   currentPage: string;
@@ -10,6 +14,11 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isLoaded: orgLoaded } = useOrganization();
+  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
+  const loaded = orgLoaded || listLoaded;
+  const { user } = useSafeUser();
+
   const navItems = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
@@ -18,7 +27,12 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
     { name: "Contact", id: "contact" }
   ];
 
-  const handleNavClick = (page: string) => {
+  const handleNavClick = (page: string, isMobile: boolean = false) => {
+    trackEvent('Navigation Click', {
+      destination: page,
+      location: isMobile ? 'mobile_menu' : 'desktop_menu',
+      current_page: currentPage
+    });
     onPageChange(page);
     setIsMobileMenuOpen(false);
   };
@@ -31,12 +45,9 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="flex items-center">
             <button
               onClick={() => handleNavClick("home")}
-              className="flex items-center gap-2 text-xl sm:text-2xl font-bold transition-colors group"
+              className="transition-opacity hover:opacity-80"
             >
-              <img src={beeIcon} alt="RankBee" className="w-8 h-8 sm:w-12 sm:h-12" />
-              <span className="text-gray-900 group-hover:text-primary transition-colors">
-                Rank<span className="text-primary-light">Bee</span>
-              </span>
+              <Logo className="h-10" />
             </button>
           </div>
           
@@ -44,38 +55,108 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`px-3 py-2 rounded-md transition-colors ${
-                    currentPage === item.id
-                      ? "text-purple-600 bg-purple-50"
-                      : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {item.name}
-                </button>
+                item.id === "blog" ? (
+                  <a
+                    key={item.id}
+                    href="https://geo.rankbee.ai/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    onClick={() => {
+                      trackEvent('External Link Clicked', {
+                        link_text: 'Blog',
+                        destination_url: 'https://geo.rankbee.ai/',
+                        location: 'desktop_menu'
+                      });
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id, false)}
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      currentPage === item.id
+                        ? "text-purple-600 bg-purple-50"
+                        : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                )
               ))}
             </div>
           </div>
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="https://rankbee.ai/meet">
-              <Button
-                variant="outline"
-                className="border-cta text-cta hover:bg-cta/10"
+            <SignedOut>
+              <a
+                href="/demo"
+                onClick={(e) => {
+                  e.preventDefault();
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Book Demo',
+                    location: 'navigation_desktop',
+                    variant: 'outline',
+                    destination: 'demo'
+                  });
+                  onPageChange('demo');
+                }}
               >
-                Book Demo
-              </Button>
-            </a>
-            <a href="https://rankbee.ai/sign-in">
+                <Button
+                  variant="outline"
+                  className="border-cta text-cta hover:bg-cta/10"
+                >
+                  Book Demo
+                </Button>
+              </a>
+            </SignedOut>
+
+            <SignedOut>
               <Button
                 className="bg-cta hover:bg-cta/90 text-cta-foreground"
+                onClick={() => {
+                  trackEvent('Sign In Clicked', {
+                    location: 'navigation_desktop',
+                    current_page: currentPage
+                  });
+                  onPageChange("sign-in");
+                }}
               >
                 Sign In
               </Button>
-            </a>
+            </SignedOut>
+
+            <SignedIn>
+              {loaded ? (
+                <div className="flex items-center gap-4">
+                  <SafeUserButton />
+                  {user ? (
+                    <>
+                      <span className="hidden md:inline xl:hidden text-gray-700 font-medium">
+                        {user.firstName || (user.fullName?.split(" ")[0] ?? "")}
+                      </span>
+                      <span className="hidden xl:inline text-gray-700 font-medium">
+                        {user.fullName || user.firstName || ""}
+                      </span>
+                    </>
+                  ) : null}
+                  <AccountCta
+                    location="navigation_desktop"
+                    size="default"
+                    className=""
+                    dashboardClassName="bg-gray-900 hover:bg-gray-800 text-white"
+                    onboardClassName="bg-cta hover:bg-cta/90 text-cta-foreground"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <SafeUserButton />
+                </div>
+              )}
+            </SignedIn>
           </div>
 
           {/* Mobile Menu Button */}
@@ -94,34 +175,96 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
-                    currentPage === item.id
-                      ? "text-purple-600 bg-purple-50"
-                      : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {item.name}
-                </button>
+                item.id === "blog" ? (
+                  <a
+                    key={item.id}
+                    href="https://geo.rankbee.ai/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-left px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    onClick={() => {
+                      trackEvent('External Link Clicked', {
+                        link_text: 'Blog',
+                        destination_url: 'https://geo.rankbee.ai/',
+                        location: 'mobile_menu'
+                      });
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id, true)}
+                    className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
+                      currentPage === item.id
+                        ? "text-purple-600 bg-purple-50"
+                        : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                )
               ))}
               <div className="pt-2 space-y-2">
-                <a href="https://rankbee.ai/meet" className="block">
-                  <Button
-                    variant="outline"
-                    className="w-full border-cta text-cta hover:bg-cta/10"
+                <SignedOut>
+                  <a
+                    href="/demo"
+                    className="block w-full"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      trackEvent('CTA Clicked', {
+                        button_text: 'Book Demo',
+                        location: 'navigation_mobile',
+                        variant: 'outline',
+                        destination: 'demo'
+                      });
+                      onPageChange('demo');
+                      setIsMobileMenuOpen(false);
+                    }}
                   >
-                    Book Demo
-                  </Button>
-                </a>
-                <a href="https://rankbee.ai/sign-in" className="block">
+                    <Button
+                      variant="outline"
+                      className="w-full border-cta text-cta hover:bg-cta/10"
+                    >
+                      Book Demo
+                    </Button>
+                  </a>
+                </SignedOut>
+
+                <SignedOut>
                   <Button
                     className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                    onClick={() => {
+                      trackEvent('Sign In Clicked', {
+                        location: 'navigation_mobile',
+                        current_page: currentPage
+                      });
+                      onPageChange("sign-in");
+                    }}
                   >
                     Sign In
                   </Button>
-                </a>
+                </SignedOut>
+
+                <SignedIn>
+                  {loaded ? (
+                    <div className="flex items-center gap-4">
+                      <SafeUserButton />
+                      <AccountCta
+                        location="navigation_mobile"
+                        size="default"
+                        className="w-full"
+                        dashboardClassName="w-full bg-gray-900 hover:bg-gray-800 text-white"
+                        onboardClassName="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-4">
+                      <SafeUserButton />
+                    </div>
+                  )}
+                </SignedIn>
               </div>
             </div>
           </div>

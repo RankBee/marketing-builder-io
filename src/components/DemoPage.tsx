@@ -1,280 +1,313 @@
-import { Button } from "./ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Textarea } from "./ui/textarea";
-import { Clock, CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { Clock, Video } from "lucide-react";
+import { useEffect, useState } from "react";
+import { trackEvent } from "../lib/posthog";
 
-interface DemoPageProps {}
+interface DemoPageProps {
+  onPageChange?: (page: string) => void;
+}
 
-export function DemoPage({}: DemoPageProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    website: "",
-    timeSlot: "",
-    goals: ""
-  });
+export function DemoPage({ onPageChange }: DemoPageProps) {
+  const [calendlyUrl, setCalendlyUrl] = useState<string>("");
 
-  const timeSlots = [
-    "Today, 2:00 PM EST",
-    "Today, 4:00 PM EST", 
-    "Tomorrow, 10:00 AM EST",
-    "Tomorrow, 2:00 PM EST",
-    "Tomorrow, 4:00 PM EST",
-    "Thursday, 10:00 AM EST",
-    "Thursday, 2:00 PM EST",
-    "Thursday, 4:00 PM EST"
-  ];
+  // Calendar customization options
+  const hideHeaders = true;
+  const primaryColor = "#7C3AED"; // Purple-600
+  const textColor = "#1F2937"; // Gray-800
+  const backgroundColor = "#FFFFFF"; // White
+  const hideCookieSettings = true;
 
-  const expectations = [
-    {
-      icon: <CheckCircle className="w-6 h-6 text-purple-600" />,
-      title: "Quick audit of your visibility",
-      description: "We'll run your brand through our AI models live and show you exactly where you stand"
-    },
-    {
-      icon: <CheckCircle className="w-6 h-6 text-purple-600" />,
-      title: "Tailored recommendations",
-      description: "Get specific, actionable steps you can implement immediately to improve your rankings"
-    },
-    {
-      icon: <CheckCircle className="w-6 h-6 text-purple-600" />,
-      title: "Q&A on GAIO basics",
-      description: "All your questions about Generative AI Optimization answered by our experts"
+  const normalizeHex = (color: string): string => {
+    if (!color) return "";
+    // Remove # if present
+    const hex = color.replace(/^#/, "");
+    // Validate hex color
+    if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+      return hex;
     }
-  ];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Demo booking submitted:", formData);
+    return "";
   };
 
+  useEffect(() => {
+    const loadCalendly = () => {
+      const script = document.createElement("script");
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
+      script.async = true;
+      script.onload = () => {
+        trackEvent('Calendly Widget Loaded', {
+          location: 'demo_page'
+        });
+      };
+      document.body.appendChild(script);
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadCalendly);
+      return () => {
+        document.removeEventListener("DOMContentLoaded", loadCalendly);
+      };
+    } else {
+      loadCalendly();
+    }
+
+    // Add custom CSS for Calendly styling
+    const style = document.createElement("style");
+    style.textContent = `
+      /* Calendar container styling */
+      .calendly-inline-widget iframe {
+        border-radius: 1rem !important;
+      }
+
+      /* Style the calendar dates */
+      .calendly-inline-widget {
+        --calendly-primary-color: #7C3AED !important;
+        --calendly-hover-color: #EDE9FE !important;
+      }
+
+      /* Custom calendar styling - these selectors target Calendly's internal structure */
+      [data-container="calendar"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      }
+
+      /* Calendar header */
+      [data-container="calendar-header"] h2 {
+        color: #1e3a8a !important;
+        font-weight: 600 !important;
+        font-size: 1.5rem !important;
+      }
+
+      /* Month/Year text */
+      [data-container="calendar-month"] {
+        color: #1e3a8a !important;
+        font-weight: 600 !important;
+        font-size: 1.125rem !important;
+      }
+
+      /* Navigation arrows */
+      [data-container="calendar-nav"] button {
+        color: #7C3AED !important;
+      }
+
+      /* Day labels (MON, TUE, etc) */
+      [data-container="days-header"] span {
+        color: #4B5563 !important;
+        font-weight: 600 !important;
+        font-size: 0.875rem !important;
+        text-transform: uppercase !important;
+      }
+
+      /* Available dates - purple with light background */
+      [data-container="calendar"] button[data-is-available="true"] {
+        background-color: #EDE9FE !important;
+        color: #7C3AED !important;
+        font-weight: 600 !important;
+        border-radius: 50% !important;
+      }
+
+      /* Hover state for available dates */
+      [data-container="calendar"] button[data-is-available="true"]:hover {
+        background-color: #DDD6FE !important;
+        color: #6D28D9 !important;
+      }
+
+      /* Unavailable dates */
+      [data-container="calendar"] button[data-is-available="false"] {
+        color: #D1D5DB !important;
+      }
+
+      /* Selected date */
+      [data-container="calendar"] button[aria-pressed="true"] {
+        background-color: #7C3AED !important;
+        color: white !important;
+      }
+
+      /* Time zone section */
+      [data-container="timezone"] {
+        margin-top: 1.5rem !important;
+      }
+
+      [data-container="timezone"] label {
+        color: #1e3a8a !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+      }
+
+      /* Time zone dropdown */
+      [data-container="timezone"] select {
+        border: 1px solid #E5E7EB !important;
+        border-radius: 0.5rem !important;
+        padding: 0.5rem !important;
+        color: #1F2937 !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  useEffect(() => {
+    const detectLocation = () => {
+      try {
+        // Detect if user is from EU/UK
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const euTimeZones = ["Europe/London", "Europe/Dublin", "Europe/Paris", "Europe/Berlin", "Europe/Amsterdam", "Europe/Brussels", "Europe/Vienna", "Europe/Stockholm", "Europe/Copenhagen", "Europe/Oslo", "Europe/Helsinki", "Europe/Warsaw", "Europe/Prague"];
+        
+        const isEU = euTimeZones.some(tz => timezone.includes(tz.split("/")[1])) || timezone.startsWith("Europe/");
+        
+        let baseUrl = isEU 
+          ? (import.meta.env.VITE_CALENDLY_EU || "https://calendly.com/rankbee/demo-onboarding-clone")
+          : (import.meta.env.VITE_CALENDLY_OTHERS || "https://calendly.com/rankbee/onboarding");
+        
+        // Apply customization options
+        const embedUrl = (() => {
+          if (!baseUrl) return "";
+          try {
+            const u = new URL(baseUrl);
+            if (hideHeaders) {
+              u.searchParams.set("hide_event_type_details", "1");
+            }
+            const pc = normalizeHex(primaryColor);
+            if (pc) u.searchParams.set("primary_color", pc);
+            const tc = normalizeHex(textColor);
+            if (tc) u.searchParams.set("text_color", tc);
+            const bc = normalizeHex(backgroundColor);
+            if (bc) u.searchParams.set("background_color", bc);
+            if (hideCookieSettings) {
+              u.searchParams.set("hide_gdpr_banner", "1");
+            }
+            return u.toString();
+          } catch {
+            // Fallback if URL constructor fails (e.g., relative URL)
+            const params: string[] = [];
+            if (hideHeaders) params.push("hide_event_type_details=1");
+            const pc = normalizeHex(primaryColor);
+            if (pc) params.push(`primary_color=${pc}`);
+            const tc = normalizeHex(textColor);
+            if (tc) params.push(`text_color=${tc}`);
+            const bc = normalizeHex(backgroundColor);
+            if (bc) params.push(`background_color=${bc}`);
+            if (hideCookieSettings) params.push("hide_gdpr_banner=1");
+            if (!params.length) return baseUrl;
+            const sep = baseUrl.includes("?") ? "&" : "?";
+            return `${baseUrl}${sep}${params.join("&")}`;
+          }
+        })();
+        
+        setCalendlyUrl(embedUrl);
+        
+        // Track which calendly variant user is seeing
+        trackEvent('Calendly Region Detected', {
+          region: isEU ? 'EU' : 'Other',
+          timezone: timezone,
+          calendly_url: baseUrl
+        });
+      } catch (error) {
+        console.error("Location detection error:", error);
+        // Default to OTHERS if detection fails
+        const defaultUrl = import.meta.env.VITE_CALENDLY_OTHERS || "https://calendly.com/rankbee/onboarding";
+        setCalendlyUrl(defaultUrl);
+      }
+    };
+
+    detectLocation();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Book a <span className="text-purple-600">Demo</span>: See RankBee in Action
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              We'll walk through your brand's AI snapshot and brainstorm quick fixes. Your time, your agenda.
-            </p>
-            <div className="bg-white/80 backdrop-blur-sm p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
-              <p className="text-gray-700 leading-relaxed">
-                Remember that time AI totally missed your best feature? In 20 minutes, we'll show why and how to change it.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
-      </section>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-purple-100/30 to-purple-50">
+      {/* Main Content Section */}
+      <section className="pb-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-0 lg:px-8">
+          <style>{`
+            .demo-content-wrapper {
+              background-color: white;
+              backdrop-filter: blur(8px);
+              padding: 1.5rem;
+              border-top: 1px solid var(--color-purple-100);
+              border-bottom: 1px solid var(--color-purple-100);
+            }
+            @media (min-width: 640px) {
+              .demo-content-wrapper {
+                padding: 2rem;
+              }
+            }
+            @media (min-width: 1024px) {
+              .demo-content-wrapper {
+                border-radius: 1rem;
+                box-shadow: 0 5px 5px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+                padding: 2.5rem;
+                border: 1px solid var(--color-purple-100);
+              }
+            }
+          `}</style>
+          <div className="demo-content-wrapper">
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start" >
+              {/* Left Side: Content */}
+              <div className="flex-1 lg:max-w-xl" >
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 text-gray-900 leading-tight">
+                  Book a Demo and Learn How to Improve <span className="text-purple-600">What AI Says</span>{" "}
+                  About Your Brand
+                </h1>
+                
+                <div className="description-box bg backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 border border-purple-200">
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                    Book a demo with RankBee Team. We will demonstrate how your brand tracks across GenAI platforms and how to optimise content for AI discovery.
+                  </p>
+                </div>
 
-      {/* Demo Booking Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* What to Expect */}
-            <div>
-              <h2 className="text-4xl mb-8 text-gray-900">Here's the Plan</h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Our 20-minute demo is designed to give you immediate value, whether you decide to work with us or not. We believe in showing, not telling.
-              </p>
-              
-              <div className="space-y-6 mb-8">
-                {expectations.map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-lg mb-2 text-gray-900">{item.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{item.description}</p>
-                    </div>
+                {/* Details Boxes */}
+                <div className="flex flex-col gap-3 items-start w-full">
+                  <div className="detail-box bg-purple-100 rounded-md px-8 py-3 flex items-center gap-3">
+                    <Clock className="w-6 h-6 text-purple-700 flex-shrink-0" />
+                    <p className="text-purple-700 font-semibold text-base">Duration: 30 Min</p>
                   </div>
-                ))}
+
+                  <div className="detail-box bg-purple-100 rounded-md px-8 py-3 flex items-center gap-3">
+                    <Video className="w-6 h-6 text-purple-700 flex-shrink-0" />
+                    <p className="text-purple-700 font-semibold text-base">Web conferencing details <br/>provided upon confirmation</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
-                <h4 className="text-lg mb-3 text-gray-900">Come Prepared (Optional)</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• Think of 2-3 key phrases customers might ask AI about your industry</li>
-                  <li>• Have your main competitors in mind</li>
-                  <li>• Bring any specific AI optimization questions you have</li>
-                </ul>
+              {/* Right Side: Calendly Embed */}
+              <div className="calendly-container w-[400px]">
+              {calendlyUrl && (
+                <>
+                  <style>{`
+                    @media (max-width: 1023px) {
+                      .calendly-container {
+                        width: 100% !important;
+                      }
+                      .calendly-container .calendly-inline-widget {
+                        width: 100% !important;
+                      }
+                      .detail-box {
+                        width: 100% !important;
+                      }
+                      .description-box {
+                        display: none !important;
+                      }
+                    }
+                    @media (min-width: 1024px) {
+                      .detail-box {
+                        width: 320px;
+                      }
+                    }
+                  `}</style>
+                  <div
+                    className="calendly-inline-widget rounded-2xl border border-purple-200 bg-white"
+                    data-url={calendlyUrl}
+                    style={{
+                      width: "400px",
+                      minHeight: "600px",
+                      height: "610px",
+                      overflow: "hidden"
+                    }}
+                  />
+                </>
+              )}
               </div>
             </div>
-
-            {/* Booking Form */}
-            <div>
-              <Card className="shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-gray-900 flex items-center gap-2">
-                    <Calendar className="w-6 h-6 text-purple-600" />
-                    Pick a Slot
-                  </CardTitle>
-                  <CardDescription>
-                    No pressure, no hard sell—just 20 minutes of actionable insights.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name">Name *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({...formData, name: e.target.value})}
-                          placeholder="Your name"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({...formData, email: e.target.value})}
-                          placeholder="your@email.com"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="company">Company</Label>
-                        <Input
-                          id="company"
-                          value={formData.company}
-                          onChange={(e) => setFormData({...formData, company: e.target.value})}
-                          placeholder="Your company"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="website">Website</Label>
-                        <Input
-                          id="website"
-                          value={formData.website}
-                          onChange={(e) => setFormData({...formData, website: e.target.value})}
-                          placeholder="yourwebsite.com"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="timeSlot">Preferred Time *</Label>
-                      <Select onValueChange={(value) => setFormData({...formData, timeSlot: value})}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a time slot" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {timeSlots.map((slot, index) => (
-                            <SelectItem key={index} value={slot}>
-                              <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4" />
-                                {slot}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="goals">What are your main AI optimization goals? (Optional)</Label>
-                      <Textarea
-                        id="goals"
-                        value={formData.goals}
-                        onChange={(e) => setFormData({...formData, goals: e.target.value})}
-                        placeholder="e.g., Increase brand mentions in AI responses, understand competitor advantages, improve visibility for specific queries..."
-                        rows={3}
-                      />
-                    </div>
-
-                    <Button 
-                      type="submit"
-                      className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
-                      size="lg"
-                    >
-                      Book My Demo
-                    </Button>
-
-                    <p className="text-sm text-gray-500 text-center">
-                      You'll receive a calendar invite with a video call link within 5 minutes.
-                    </p>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Alternative Contact Options */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-2xl mb-6 text-gray-900">Prefer a Different Approach?</h3>
-          <p className="text-gray-600 mb-8">
-            We get it—sometimes scheduling doesn't work. Here are other ways to connect:
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-6 text-center">
-                <h4 className="text-lg mb-2 text-gray-900">Quick Questions</h4>
-                <p className="text-gray-600 mb-4 text-sm">
-                  Have a specific question? Just shoot us an email.
-                </p>
-                <Button 
-                  variant="outline"
-                  className="border-cta text-cta hover:bg-cta/10"
-                  onClick={() => onPageChange("contact")}
-                >
-                  Send Email
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-6 text-center">
-                <h4 className="text-lg mb-2 text-gray-900">Self-Service</h4>
-                <p className="text-gray-600 mb-4 text-sm">
-                  Explore our plans and start your free trial.
-                </p>
-                <Button 
-                  variant="outline"
-                  className="border-cta text-cta hover:bg-cta/10"
-                  onClick={() => onPageChange("pricing")}
-                >
-                  View Pricing
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-6 text-center">
-                <h4 className="text-lg mb-2 text-gray-900">Learn More</h4>
-                <p className="text-gray-600 mb-4 text-sm">
-                  Read our latest insights and case studies.
-                </p>
-                <Button 
-                  variant="outline"
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
-                  onClick={() => onPageChange("blog")}
-                >
-                  Read Blog
-                </Button>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>

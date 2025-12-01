@@ -113,11 +113,10 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
   const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
 
   const asBool = (v: any) => {
-    if (v === true || v === 1) return true;
-    if (v === '1') return true;
+    if (v === true) return true;
     if (typeof v === 'string') {
       const s = v.trim().toLowerCase();
-      return s === 'true' || s === '1' || s === 'yes' || s === 'on';
+      return s === 'true';
     }
     return false;
   };

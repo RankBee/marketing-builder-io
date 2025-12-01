@@ -166,6 +166,15 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
                 } catch {
                   // ignore
                 }
+              } else if (firstOrgOnboarded === false && cachedTrue) {
+                // If live value is explicitly false, clear the stale cache
+                try {
+                  window.localStorage.removeItem(`rb_o_onboarded_${orgId}`);
+                  cachedTrue = false; // reflect immediately in current render cycle if possible,
+                                      // but we need to trigger re-render or rely on effect update
+                } catch {
+                  // ignore
+                }
               }
             }, [orgId, firstOrgOnboarded]);
       
@@ -183,7 +192,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
               }
       
               // Known onboarded via cache or live flag: resolve immediately
-              if ((!!orgId && cachedTrue) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
+              // But only if live flag doesn't contradict cache (handled by effect above, but check here too)
+              if ((!!orgId && cachedTrue && firstOrgOnboarded !== false) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
                 setLoadedStable(true);
                 return;
               }

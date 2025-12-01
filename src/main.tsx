@@ -25,7 +25,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ClerkProvider } from "@clerk/clerk-react";
-import { publishableKey, onboardRedirectUrl } from "./lib/clerk-env";
+import { publishableKey, onboardRedirectUrl, signInUrl, signUpUrl } from "./lib/clerk-env";
 import { HelmetProvider } from "react-helmet-async";
 import { getGTMId } from "./lib/gtm";
 import { initPostHog } from "./lib/posthog";
@@ -94,8 +94,28 @@ initPostHog();
 
 const root = document.getElementById("root")!;
 
+const currentHostname = typeof window !== 'undefined' ? window.location.hostname : '';
+let isSameOrigin = false;
+try {
+  isSameOrigin = new URL(signInUrl, window.location.origin).hostname === currentHostname;
+} catch (e) {
+  // invalid url or relative path
+  isSameOrigin = true;
+}
+
+const isExternalAuth = !isSameOrigin && signInUrl.startsWith('http') && typeof window !== "undefined" && window.location.hostname.includes('rankbee.ai');
+const satelliteProps = isExternalAuth ? { isSatellite: true, domain: 'rankbee.ai' } : {};
+
 const appTree = publishableKey ? (
-  <ClerkProvider publishableKey={publishableKey}>
+  <ClerkProvider
+    publishableKey={publishableKey}
+    signInUrl={signInUrl}
+    signUpUrl={signUpUrl}
+    afterSignOutUrl="/"
+    routerPush={(to) => { window.location.href = to; }}
+    routerReplace={(to) => { window.location.replace(to); }}
+    {...satelliteProps}
+  >
     <App />
   </ClerkProvider>
 ) : (

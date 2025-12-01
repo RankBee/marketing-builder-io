@@ -6,6 +6,7 @@ import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, u
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 import { trackEvent } from "../lib/posthog";
 import AccountCta from "./AccountCta";
+import { signInUrl } from "../lib/clerk-env";
 
 interface NavigationProps {
   currentPage: string;
@@ -40,9 +41,9 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   return (
     <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 gap-4">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center shrink-0">
             <button
               onClick={() => handleNavClick("home")}
               className="transition-opacity hover:opacity-80"
@@ -52,8 +53,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+          <div className="hidden lg:block">
+            <div className="flex items-baseline gap-1 xl:gap-4">
               {navItems.map((item) => (
                 item.id === "blog" ? (
                   <a
@@ -61,7 +62,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     href="https://geo.rankbee.ai/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    className="px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50 whitespace-nowrap"
                     onClick={() => {
                       trackEvent('External Link Clicked', {
                         link_text: 'Blog',
@@ -76,7 +77,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id, false)}
-                    className={`px-3 py-2 rounded-md transition-colors ${
+                    className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
                       currentPage === item.id
                         ? "text-purple-600 bg-purple-50"
                         : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
@@ -90,7 +91,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           </div>
 
           {/* Desktop CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center justify-end space-x-4 shrink-0" style={{ width: '300px' }}>
             <SignedOut>
               <a
                 href="/demo"
@@ -107,7 +108,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
               >
                 <Button
                   variant="outline"
-                  className="border-cta text-cta hover:bg-cta/10"
+                  className="border-cta text-cta hover:bg-cta/10 whitespace-nowrap"
                 >
                   Book Demo
                 </Button>
@@ -115,18 +116,21 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
             </SignedOut>
 
             <SignedOut>
-              <Button
-                className="bg-cta hover:bg-cta/90 text-cta-foreground"
+              <a
+                href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
                 onClick={() => {
                   trackEvent('Sign In Clicked', {
                     location: 'navigation_desktop',
                     current_page: currentPage
                   });
-                  onPageChange("sign-in");
                 }}
               >
-                Sign In
-              </Button>
+                <Button
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground whitespace-nowrap"
+                >
+                  Sign In
+                </Button>
+              </a>
             </SignedOut>
 
             <SignedIn>
@@ -135,10 +139,10 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   <SafeUserButton />
                   {user ? (
                     <>
-                      <span className="hidden md:inline xl:hidden text-gray-700 font-medium">
+                      <span className="hidden lg:inline xl:hidden text-gray-700 font-medium whitespace-nowrap">
                         {user.firstName || (user.fullName?.split(" ")[0] ?? "")}
                       </span>
-                      <span className="hidden xl:inline text-gray-700 font-medium">
+                      <span className="hidden xl:inline text-gray-700 font-medium whitespace-nowrap">
                         {user.fullName || user.firstName || ""}
                       </span>
                     </>
@@ -160,7 +164,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-700 hover:text-purple-600 p-2"
@@ -172,7 +176,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
+          <div className="lg:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
                 item.id === "blog" ? (
@@ -233,18 +237,23 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                 </SignedOut>
 
                 <SignedOut>
-                  <Button
-                    className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                  <a
+                    href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
+                    className="block w-full"
                     onClick={() => {
                       trackEvent('Sign In Clicked', {
                         location: 'navigation_mobile',
                         current_page: currentPage
                       });
-                      onPageChange("sign-in");
+                      setIsMobileMenuOpen(false);
                     }}
                   >
-                    Sign In
-                  </Button>
+                    <Button
+                      className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
+                    >
+                      Sign In
+                    </Button>
+                  </a>
                 </SignedOut>
 
                 <SignedIn>

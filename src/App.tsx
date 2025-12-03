@@ -62,7 +62,7 @@ export default function App() {
   // Sync Clerk user and org context with GTM dataLayer for automatic event enrichment
   useGTMClerkSync();
   
- // Sync Clerk user context with PostHog for user identification
+  // Sync Clerk user context with PostHog for user identification
   const { user } = useUser();
   const { actor } = useAuth();
 

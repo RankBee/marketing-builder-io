@@ -68,7 +68,7 @@ export default function App() {
 
 useEffect(() => {
   if (user && !actor) {
-    const emailDomain = user.emailAddresses[0]?.emailAddress.split('@')[1] || '';
+    const emailDomain = user.emailAddresses?.[0]?.emailAddress?.split('@')[1] || '';
     
     identifyPostHogUser(user.id, {
       emailDomain: emailDomain,

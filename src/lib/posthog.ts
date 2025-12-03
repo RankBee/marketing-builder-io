@@ -80,4 +80,7 @@ export const capturePostHogEvent = (eventName: string, properties?: Record<strin
   }
 }
 
+// Backward compatibility: export capturePostHogEvent as trackEvent
+export { capturePostHogEvent as trackEvent }
+
 export { posthog }

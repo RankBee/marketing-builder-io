@@ -15,7 +15,8 @@ import { useEnsureActiveOrg } from "./lib/clerk-safe";
 import { Seo } from "./lib/seo";
 import { IntercomClient } from "./components/IntercomClinet";
 import { useGTMClerkSync, trackEvent } from "./lib/gtm";
-import { usePostHogClerkSync } from "./lib/posthog";
+import { useUser, useAuth } from '@clerk/clerk-react';
+import { identifyPostHogUser } from './lib/posthog';
 
 // Map current location path to our simple page ids
 function pathToPage(pathname: string): string {
@@ -57,12 +58,27 @@ export default function App() {
   
   // Ensure an active organization is selected so org-based onboarding logic works
   useEnsureActiveOrg();
-  
+
   // Sync Clerk user and org context with GTM dataLayer for automatic event enrichment
   useGTMClerkSync();
   
-  // Sync Clerk user and org context with PostHog for user identification and event enrichment
-  usePostHogClerkSync();
+  // Sync Clerk user context with PostHog for user identification
+  const { user } = useUser();
+  const { actor } = useAuth();
+
+useEffect(() => {
+  if (user && !actor) {
+    const emailDomain = user.emailAddresses?.[0]?.emailAddress?.split('@')[1] || '';
+    
+    identifyPostHogUser(user.id, {
+      emailDomain: emailDomain,
+      name: user.fullName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      createdAt: user.createdAt?.toISOString(),
+    });
+  }
+}, [user, actor]);
 
   // Push browser history when navigating to sign-in/sign-up; include redirect_to back to current page when not home
   const setPage = (page: string) => {

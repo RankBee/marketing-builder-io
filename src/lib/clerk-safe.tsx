@@ -154,8 +154,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
             }
       
             const [loadedStable, setLoadedStable] = useState(false);
-            const FALSE_STABLE_DELAY_MS = 2000;
-            const ZERO_MEMBERSHIP_DELAY_MS = 1500;
+            const FALSE_STABLE_DELAY_MS = 1500;
+            const ZERO_MEMBERSHIP_DELAY_MS = 1000;
       
             // Persist positive onboarding once observed
             useEffect(() => {

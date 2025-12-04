@@ -111,6 +111,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
   }
 
   const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
+  const { organization: activeOrg } = useOrganization();
 
   const asBool = (v: any) => {
     if (v === true) return true;
@@ -129,7 +130,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
                 : (Array.isArray(memAny?.data) ? memAny.data : []);
           
             const firstMembership: any = memberships?.[0];
-            const firstOrg: any = firstMembership?.organization ?? undefined;
+            // Prefer activeOrg (safe in impersonation) over list's first org (incomplete metadata in impersonation)
+            const firstOrg: any = activeOrg ?? firstMembership?.organization ?? undefined;
           
             // Inspect org metadata
             const orgPublicMeta: any = firstOrg?.publicMetadata;
@@ -197,8 +199,9 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
                 return;
               }
           
-              // Explicit false: wait briefly to avoid transient false -> true flips
-              if (!!firstOrg?.id && hasOnboardedKey && firstOrgOnboarded !== true) {
+              // Explicit false (or missing key): wait briefly to avoid transient false -> true flips
+              // We treat missing key (hasOnboardedKey=false) as false too.
+              if (!!firstOrg?.id && firstOrgOnboarded !== true) {
                 const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
                 return () => clearTimeout(t);
               }

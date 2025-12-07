@@ -111,7 +111,6 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
   }
 
   const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const { organization: activeOrg } = useOrganization();
 
   const asBool = (v: any) => {
     if (v === true) return true;
@@ -130,8 +129,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
                 : (Array.isArray(memAny?.data) ? memAny.data : []);
           
             const firstMembership: any = memberships?.[0];
-            // Prefer activeOrg (safe in impersonation) over list's first org (incomplete metadata in impersonation)
-            const firstOrg: any = activeOrg ?? firstMembership?.organization ?? undefined;
+            const firstOrg: any = firstMembership?.organization ?? undefined;
           
             // Inspect org metadata
             const orgPublicMeta: any = firstOrg?.publicMetadata;
@@ -154,8 +152,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
             }
       
             const [loadedStable, setLoadedStable] = useState(false);
-            const FALSE_STABLE_DELAY_MS = 1500;
-            const ZERO_MEMBERSHIP_DELAY_MS = 1000;
+            const FALSE_STABLE_DELAY_MS = 2000;
+            const ZERO_MEMBERSHIP_DELAY_MS = 1500;
       
             // Persist positive onboarding once observed
             useEffect(() => {
@@ -199,9 +197,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
                 return;
               }
           
-              // Explicit false (or missing key): wait briefly to avoid transient false -> true flips
-              // We treat missing key (hasOnboardedKey=false) as false too.
-              if (!!firstOrg?.id && firstOrgOnboarded !== true) {
+              // Explicit false: wait briefly to avoid transient false -> true flips
+              if (!!firstOrg?.id && hasOnboardedKey && firstOrgOnboarded !== true) {
                 const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
                 return () => clearTimeout(t);
               }

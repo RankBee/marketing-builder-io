@@ -1,11 +1,8 @@
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Target, Zap, Eye, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useRef } from "react";
-import yinNoeImage from 'figma:asset/49edafd48740cd6fe95aa4ed7c2168d9e77e46f0.png';
-import arisVrakasImage from 'figma:asset/b7cf0bf96cdd61b5fdbcc47ebb89f402e22edbab.png';
 import { trackEvent } from "../lib/posthog";
 
 interface AboutPageProps {

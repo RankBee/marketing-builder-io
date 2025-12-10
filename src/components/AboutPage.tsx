@@ -66,7 +66,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Other text change&nbsp;<span className="text-purple-600">AI Wins</span>
+              Leading Experts in Generative AI Optimisation&nbsp;&nbsp;<span className="text-purple-600">AI Wins</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Founded by folks who've scaled SEO at Amazon and beyond, we're here to make Generative AI Optimization feel straightforward-not overwhelming.

@@ -19,43 +19,21 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
     teamSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const values = [
-    {
-      icon: <Target className="w-8 h-8 text-purple-600" />,
-      title: "Foundation",
-      description: "Born from 25+ years at Amazon, Tata, and startups-real-world SEO that powers our GAIO tech.",
-      detail: "It's not magic-it's method. Like how we helped a fintech client uncover hidden biases in AI responses and flip them into opportunities."
-    },
-    {
-      icon: <Zap className="w-8 h-8 text-purple-600" />,
-      title: "Innovation",
-      description: "We pioneered ways to nudge how AI 'thinks' about brands, using proprietary tricks that deliver quick wins.",
-      detail: "Our breakthrough techniques have helped clients see 40% visibility improvements in just 2 weeks."
-    },
-    {
-      icon: <Eye className="w-8 h-8 text-purple-600" />,
-      title: "Vision",
-      description: "Automating AI ops for everyone, from solopreneurs to globals, so you focus on growth.",
-      detail: "We believe every brand deserves to be heard in the AI conversation, regardless of size or budget."
-    }
-  ];
 
   const team = [
     {
       name: "Aris Vrakas",
       role: "Founder/CEO/CTO",
-      bio: "After leading global SEO at Amazon and launching tools at Skyscanner, Aris built RankBee to tackle the AI era head-on.",
-      funFact: "He's obsessed with how one prompt can shift a brand's fate.",
-      image: arisVrakasImage,
+      bio: "Aris is a business and technology leader with experience creating large technology and product teams. Second-time founder, Aris launched RankBee after a 25+ years global leadership career in product and marketing. After heading SEO for Amazon and Orbitz Worldwide and Growth at Skyscanner and Change.org, Aris is now inventing the analytics and optimisation tools needed for the Generative AI era.",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F48b7c46e1924440f8ab1a6f77903339a",
       linkedinUrl: "https://www.linkedin.com/in/arisvrakas/"
     },
     {
-      name: "Yin Noe",
-      role: "COO",
-      bio: "Three-time founder in cleantech and fintech, Yin raised millions and scaled ops for giants like BYD.",
-      funFact: "She joins us to keep things lean and laser-focused on your success.",
-      image: yinNoeImage,
-      linkedinUrl: "https://www.linkedin.com/in/yinnoe/"
+      name: "Hugo Yelo",
+      role: "Senior Product Manager",
+      bio: "Hugo is a technical SEO expert who spent five years at Amazon as Senior SEO Product Manager, helping shape SEO strategies across the EU. He now leads the automation methodology that powers RankBee's optimisation engine.",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff616f22c2b814c099c0ff114144df4aa",
+      linkedinUrl: "https://www.linkedin.com/in/hugo-yelo/"
     }
   ];
 
@@ -66,14 +44,14 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Leading Experts in Generative AI Optimisation&nbsp;&nbsp;<span className="text-purple-600">AI Wins</span>
+              Leading Generative AI Optimisation&nbsp;&nbsp;
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Founded by folks who've scaled SEO at Amazon and beyond, we're here to make Generative AI Optimization feel straightforward-not overwhelming.
+              <p>Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;</p>
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                In 2024, as AI search exploded, we saw brands scrambling. So Aris (our founder) teamed up with old colleagues to build tools that actually move the needle. Today, we're backed by investors who bet on us because they see the future too.
+                <p>We specialise in delivering enterprise audits and GEO strategies that improve and scale your visibility across AI systems - ChatGPT, Gemini, Perplexity,&nbsp;Claude and more. &nbsp; We diagnose the real drivers of AI rankings and deliver clear,&nbsp; actionable optimisation to elevate your brand in an AI-first world.</p>
               </p>
             </div>
             <Button
@@ -88,47 +66,12 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
       </section>
 
-      {/* Our Story / Values */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900">What Drives Us</h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-              Three pillars that keep us grounded: Foundation in expertise, Innovation without overkill, Vision for tomorrow.
-            </p>
-          </div>
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {values.map((value, index) => (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-gray-200 hover:border-purple-200">
-                <CardHeader>
-                  <div className="mb-4">
-                    {value.icon}
-                  </div>
-                  <CardTitle className="text-xl text-gray-900">{value.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 leading-relaxed mb-4">
-                    {value.description}
-                  </CardDescription>
-                  <p className="text-sm text-purple-600 italic">
-                    {value.detail}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Team Section */}
       <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Meet the Minds <span className="text-purple-600">Making It Happen</span></h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto text-center">
-              Our crew: Battle-tested leaders who live and breathe digital growth.
-            </p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Techincal Expertise&nbsp;</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
@@ -136,7 +79,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center">
                   <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                    <ImageWithFallback
+                    <img
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -155,9 +98,6 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4">
                     {member.bio}
                   </CardDescription>
-                  <p className="text-xs sm:text-sm text-purple-600 italic">
-                    Fun fact: {member.funFact}
-                  </p>
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />

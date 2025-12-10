@@ -1,3 +1,22 @@
+// Handle www and .com without Clerk failures
+if (typeof window !== 'undefined') {
+  const hostname = window.location.hostname;
+  const canonicalDomain = 'rankbee.ai';
+  
+  if (hostname !== canonicalDomain) {
+    const needsRedirect = 
+      hostname === 'www.rankbee.ai' || 
+      hostname === 'rankbee.com' || 
+      hostname === 'www.rankbee.com'
+    if (needsRedirect) {
+      const canonicalUrl = `https://${canonicalDomain}${window.location.pathname}${window.location.search}${window.location.hash}`;
+      window.location.replace(canonicalUrl);
+      // Prevent further execution
+      throw new Error('Redirecting to canonical domain');
+    }
+  }
+}
+
 // Debug: verify Vite env at runtime (DEV only)
 if (import.meta.env.DEV) {
   // These logs confirm whether Vite is injecting the env var into the browser bundle
@@ -114,6 +133,7 @@ const appTree = publishableKey ? (
     afterSignOutUrl="/"
     routerPush={(to) => { window.location.href = to; }}
     routerReplace={(to) => { window.location.replace(to); }}
+    domain="rankbee.ai" 
     {...satelliteProps}
   >
     <App />

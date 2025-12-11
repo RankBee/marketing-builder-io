@@ -44,7 +44,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               Leading Generative AI Optimisation&nbsp;&nbsp;
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              <p>Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;</p>
+              <h2>Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;</h2>
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -65,10 +65,10 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
 
 
       {/* Team Section */}
-      <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
+      <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50" style={{ marginTop: '-3px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Techincal Expertise&nbsp;</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Tech Industry's Top Experts&nbsp;</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">

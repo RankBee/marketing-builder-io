@@ -73,12 +73,14 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50" style={{ marginTop: '-3px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">
-              <span style={{ fontSize: '60px', backgroundColor: 'rgb(255, 255, 255)' }}>
-                Industry's&nbsp;{" "}
-                <span style={{ color: 'rgb(144, 19, 254)' }}>
+            <h2>
+              <span style={{ display: "inline", backgroundColor: "rgb(255, 255, 255)", fontSize: "60px", fontWeight: "800", lineHeight: "60px" }}>
+                <div style={{ backgroundColor: "#f9fafb" }}>
+                  Industry's
+                </div>
+                <div style={{ display: "inline", color: "rgb(144, 19, 254)", fontWeight: "800", backgroundColor: "#f9fafb" }}>
                   Top Experts
-                </span>
+                </div>
               </span>
             </h2>
           </div>

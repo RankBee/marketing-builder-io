@@ -30,7 +30,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       role: "Senior Product Manager",
       bio: "Hugo is a technical SEO expert who spent five years at Amazon as Senior SEO Product Manager, helping shape SEO strategies across the EU. He now leads the automation methodology that powers RankBee's optimisation engine.",
       image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff616f22c2b814c099c0ff114144df4aa",
-      linkedinUrl: "https://www.linkedin.com/in/hugo-yelo/"
+      linkedinUrl: "https://www.linkedin.com/in/hugo-yelo-12298151/"
     }
   ];
 
@@ -114,10 +114,21 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      <p>
-                        <a href={member.linkedinUrl} rel="noopener noreferrer" target="_blank">
+                      <p style={{ fontWeight: "500", textWrap: "nowrap" }}>
+                        <div
+                          href={member.linkedinUrl}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          style={{
+                            display: "inline",
+                            fontWeight: "500",
+                            textWrap: "nowrap",
+                            cursor: "pointer",
+                            pointerEvents: "auto",
+                          }}
+                        >
                           LinkedIn
-                        </a>
+                        </div>
                       </p>
                     </Button>
                   </a>

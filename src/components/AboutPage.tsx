@@ -44,7 +44,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               Leading Generative AI Optimisation&nbsp;&nbsp;
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              <h2>Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;</h2>
+              Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -69,14 +69,12 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">
-              <p>
-                <span style={{ fontSize: '60px', backgroundColor: 'rgb(255, 255, 255)' }}>
-                  Industry's&nbsp;{" "}
-                  <span style={{ color: 'rgb(144, 19, 254)' }}>
-                    Top Experts
-                  </span>
+              <span style={{ fontSize: '60px', backgroundColor: 'rgb(255, 255, 255)' }}>
+                Industry's&nbsp;{" "}
+                <span style={{ color: 'rgb(144, 19, 254)' }}>
+                  Top Experts
                 </span>
-              </p>
+              </span>
             </h2>
           </div>
 
@@ -107,11 +105,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      <p>
-                        <a href={member.linkedinUrl} rel="noopener noreferrer" target="_blank">
-                          LinkedIn
-                        </a>
-                      </p>
+                      LinkedIn
                     </Button>
                   </a>
                 </CardContent>

@@ -44,7 +44,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               <p>
                 Leading Generative{" "}
                 <span style={{ color: 'rgb(144, 19, 254)' }}>
-                  AI Optimisation&nbsp;&nbsp;
+                  <p> AI Optimisation&nbsp;&nbsp;</p>
                 </span>
               </p>
             </h1>
@@ -73,13 +73,15 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50" style={{ marginTop: '-3px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2>
+            <h2 style={{ fontWeight: "800" }}>
               <span style={{ display: "inline", backgroundColor: "rgb(255, 255, 255)", fontSize: "60px", fontWeight: "800", lineHeight: "60px" }}>
-                <div style={{ backgroundColor: "#f9fafb" }}>
-                  Industry's
-                </div>
-                <div style={{ display: "inline", color: "rgb(144, 19, 254)", fontWeight: "800", backgroundColor: "#f9fafb" }}>
-                  Top Experts
+                <div style={{ backgroundColor: "rgb(249, 250, 251)", fontWeight: "800" }}>
+                  <p>
+                    Industry's{" "}
+                    <span style={{ color: "rgb(144, 19, 254)" }}>
+                      Top Experts
+                    </span>
+                  </p>
                 </div>
               </span>
             </h2>
@@ -112,7 +114,11 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      LinkedIn
+                      <p>
+                        <a href={member.linkedinUrl} rel="noopener noreferrer" target="_blank">
+                          LinkedIn
+                        </a>
+                      </p>
                     </Button>
                   </a>
                 </CardContent>

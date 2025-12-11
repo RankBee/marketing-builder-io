@@ -68,7 +68,16 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50" style={{ marginTop: '-3px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">Tech Industry's Top Experts&nbsp;</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 text-center mx-auto">
+              <p>
+                <span style={{ fontSize: '60px', backgroundColor: 'rgb(255, 255, 255)' }}>
+                  Industry's&nbsp;{" "}
+                  <span style={{ color: 'rgb(144, 19, 254)' }}>
+                    Top Experts
+                  </span>
+                </span>
+              </p>
+            </h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
@@ -98,7 +107,11 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      LinkedIn
+                      <p>
+                        <a href={member.linkedinUrl} rel="noopener noreferrer" target="_blank">
+                          LinkedIn
+                        </a>
+                      </p>
                     </Button>
                   </a>
                 </CardContent>

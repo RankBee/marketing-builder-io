@@ -41,7 +41,12 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
-              Leading Generative AI Optimisation&nbsp;&nbsp;
+              <p>
+                Leading Generative{" "}
+                <span style={{ color: 'rgb(144, 19, 254)' }}>
+                  AI Optimisation&nbsp;&nbsp;
+                </span>
+              </p>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;

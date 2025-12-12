@@ -2,7 +2,6 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-const dashboardImage = "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff70f71218ee24e9881fb8ccba2c172bf";
 import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";

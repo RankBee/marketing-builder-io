@@ -4,7 +4,7 @@ Marketing site implemented as a Vite SPA with Builder.io codegen for UI blocks, 
 
 At a glance
 - Vite SPA with static prerender: [prerender()](scripts/prerender.mjs:78) crawls routes from [routes.json](netlify/shared/routes.json:1) via Vite preview and Puppeteer.
-- Builder.io integration: Designer PRs land in [src/imports](src/imports). Figma asset references are aliased in [vite.config.ts](vite.config.ts:20). Do not hand-edit generated files.
+- Builder.io integration: Designer PRs land in [src/imports](src/imports). Figma asset references are aliased in [vite.config.ts](vite.config.ts:20). Do not hand-edit generated files
 - Optional Clerk auth: App wraps in Clerk only if a key is present; see [publishableKey](src/lib/clerk-env.ts:7) and conditional provider in [main.tsx](src/main.tsx:75). Safe wrappers in [clerk-safe.tsx](src/lib/clerk-safe.tsx:1) allow building without Clerk.
 - ISR-like caching: [Service Worker](public/sw.js:1) caches HTML navigations for 5 minutes with background revalidation; dynamic auth routes bypass. Registered in [main.tsx](src/main.tsx:92) and unregistered in dev in [main.tsx](src/main.tsx:96).
 - Netlify: SSG output is published from build/. robots and sitemap are served by Netlify Functions; see [robots handler](netlify/functions/robots.ts:3) and [sitemap handler](netlify/functions/sitemap.ts:1). SPA fallback in [netlify.toml](netlify.toml:21). Preview/branch deploys set noindex via [netlify.toml](netlify.toml:27).

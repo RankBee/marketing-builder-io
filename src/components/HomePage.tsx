@@ -71,8 +71,8 @@ export function HomePage({ onPageChange }: HomePageProps) {
             {/* Badge */}
             <div className="inline-block bg-purple-100 rounded-lg px-4 py-2">
               <p className="text-purple-600 text-sm font-medium">
-                Proven in pilot - 10x improvement in ChatGPT visibility<br />
-                in 14 days
+                Proven in pilot - 10x improvement in ChatGPT visibility in 14 days
+                <br />
               </p>
             </div>
             

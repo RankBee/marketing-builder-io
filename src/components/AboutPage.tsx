@@ -51,7 +51,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                <p>We specialise in delivering enterprise audits and GEO strategies that improve and scale your visibility across AI systems - ChatGPT, Gemini, Perplexity,&nbsp;Claude and more. &nbsp; We diagnose the real drivers of AI rankings and deliver clear,&nbsp; actionable optimisation to elevate your brand in an AI-first world.</p>
+                We specialise in delivering enterprise audits and GEO strategies that improve and scale your visibility across AI systems - ChatGPT, Gemini, Perplexity,&nbsp;Claude and more. &nbsp; We diagnose the real drivers of AI rankings and deliver clear,&nbsp; actionable optimisation to elevate your brand in an AI-first world.
               </p>
             </div>
             <Button

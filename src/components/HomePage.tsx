@@ -16,6 +16,7 @@ interface HomePageProps {
 }
 
 export function HomePage({ onPageChange }: HomePageProps) {
+  const dashboardImage = "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff70f71218ee24e9881fb8ccba2c172bf";
 
   const features = [
     {

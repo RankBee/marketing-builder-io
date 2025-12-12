@@ -71,13 +71,16 @@ export function HomePage({ onPageChange }: HomePageProps) {
             {/* Badge */}
             <div className="inline-block bg-purple-100 rounded-lg px-4 py-2">
               <p className="text-purple-600 text-sm font-medium">
-                Proven in pilot - 10x in 14 days
+                Proven in pilot - 10x improvement in ChatGPT visibility<br />
+                in 14 days
               </p>
             </div>
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              10x Improvement in <span className="text-purple-600">ChatGPT</span> Visibility in 14 Days
+              Proven to Win in&nbsp;
+              <div className="inline text-purple-600">AI Search</div>
+              <div><span></span></div>
             </h1>
             
             {/* Description */}

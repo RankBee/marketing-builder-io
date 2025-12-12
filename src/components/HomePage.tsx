@@ -78,8 +78,13 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              Proven to Win in&nbsp;
-              <div className="inline text-purple-600">AI Search</div>
+              <p>
+                Proven to Win in
+                <span style={{ color: "rgb(144, 19, 254)" }}>AI Search</span>
+              </p>
+              <div style={{ color: "rgb(144, 19, 254)", fontWeight: "800" }}>
+                AI Search
+              </div>
               <div><span></span></div>
             </h1>
             

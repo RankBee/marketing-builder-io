@@ -21,14 +21,14 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
     {
       name: "Aris Vrakas",
       role: "Founder/CEO/CTO",
-      bio: "Aris is a business and technology leader with experience creating large technology and product teams. Second-time founder, Aris launched RankBee after a 25+ years global leadership career in product and marketing. After heading SEO for Amazon and Orbitz Worldwide and Growth at Skyscanner and Change.org, Aris is now inventing the analytics and optimisation tools needed for the Generative AI era.",
+      bio: "Aris is a business and technology leader with experience creating large technology and product teams. Second-time founder, Aris launched RankBee after a 25+ years global leadership career in product and marketing. After heading SEO for Amazon and Orbitz Worldwide and Growth at Skyscanner and Change.org, Aris is now inventing the analytics and optimization tools needed for the Generative AI era.",
       image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F48b7c46e1924440f8ab1a6f77903339a",
       linkedinUrl: "https://www.linkedin.com/in/arisvrakas/"
     },
     {
       name: "Hugo Yelo",
       role: "Senior Product Manager",
-      bio: "Hugo is a technical SEO expert who spent five years at Amazon as Senior SEO Product Manager, helping shape SEO strategies across the EU. He now leads the automation methodology that powers RankBee's optimisation engine.",
+      bio: "Hugo is a technical SEO expert who spent five years at Amazon as Senior SEO Product Manager, helping shape SEO strategies across the EU. He now leads the automation methodology that powers RankBee's optimization engine.",
       image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff616f22c2b814c099c0ff114144df4aa",
       linkedinUrl: "https://www.linkedin.com/in/hugo-yelo-12298151/"
     }
@@ -43,7 +43,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 text-gray-900 max-w-4xl mx-auto leading-tight">
               Leading Generative{" "}
               <span style={{ color: 'rgb(144, 19, 254)' }}>
-                AI Optimisation&nbsp;&nbsp;
+                AI Optimization&nbsp;&nbsp;
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">

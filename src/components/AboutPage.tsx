@@ -143,9 +143,9 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               <span style={{ display: "inline", backgroundColor: "rgb(255, 255, 255)", fontSize: "60px", fontWeight: "800", lineHeight: "60px" }}>
                 <div style={{ backgroundColor: "rgb(249, 250, 251)", fontWeight: "800" }}>
                   <p>
-                    Industry's{" "}
+                    Client{" "}
                     <span style={{ color: "rgb(144, 19, 254)" }}>
-                      Top Experts
+                      Success
                     </span>
                   </p>
                 </div>

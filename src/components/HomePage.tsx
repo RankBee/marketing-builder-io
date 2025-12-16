@@ -2,7 +2,6 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import dashboardImage from "figma:asset/d4a12367347ed2aa1674106dece510531cd8cb06.png";
 import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";
@@ -17,6 +16,7 @@ interface HomePageProps {
 }
 
 export function HomePage({ onPageChange }: HomePageProps) {
+  const dashboardImage = "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff70f71218ee24e9881fb8ccba2c172bf";
 
   const features = [
     {
@@ -71,13 +71,22 @@ export function HomePage({ onPageChange }: HomePageProps) {
             {/* Badge */}
             <div className="inline-block bg-purple-100 rounded-lg px-4 py-2">
               <p className="text-purple-600 text-sm font-medium">
-                Proven in pilot - 10x in 14 days
+                Proven in pilot - 10x improvement in ChatGPT visibility in 14 days
+                <br />
               </p>
             </div>
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              10x Improvement in <span className="text-purple-600">ChatGPT</span> Visibility in 14 Days
+              <p>
+                <p>
+                  Proven to Win in{" "}
+                  <span style={{ color: "rgb(144, 19, 254)" }}>
+                    AI Search
+                  </span>
+                </p>
+              </p>
+              <div><span></span></div>
             </h1>
             
             {/* Description */}

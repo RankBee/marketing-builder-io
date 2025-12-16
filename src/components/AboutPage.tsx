@@ -134,6 +134,74 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           </div>
         </div>
       </section>
+
+      {/* Team Section - Duplicate */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50" style={{ marginTop: '-3px' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 style={{ fontWeight: "800" }}>
+              <span style={{ display: "inline", backgroundColor: "rgb(255, 255, 255)", fontSize: "60px", fontWeight: "800", lineHeight: "60px" }}>
+                <div style={{ backgroundColor: "rgb(249, 250, 251)", fontWeight: "800" }}>
+                  <p>
+                    Industry's{" "}
+                    <span style={{ color: "rgb(144, 19, 254)" }}>
+                      Top Experts
+                    </span>
+                  </p>
+                </div>
+              </span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {team.map((member, index) => (
+              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group">
+                <CardHeader className="text-center">
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <CardTitle className="text-lg sm:text-xl text-gray-900">{member.name}</CardTitle>
+                  </div>
+                  <div className="flex justify-center">
+                    <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs sm:text-sm">
+                      {member.role}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed mb-4">
+                    {member.bio}
+                  </CardDescription>
+                  <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      <div
+                        href={member.linkedinUrl}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        style={{
+                          display: "inline",
+                          fontWeight: "500",
+                          textWrap: "nowrap",
+                          cursor: "pointer",
+                          pointerEvents: "auto",
+                        }}
+                      >
+                        LinkedIn
+                      </div>
+                    </Button>
+                  </a>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -19,11 +19,11 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
 
   const team = [
     {
-      name: "Aris Vrakas",
-      role: "Founder/CEO/CTO",
-      bio: "Aris is a business and technology leader with experience creating large technology and product teams. Second-time founder, Aris launched RankBee after a 25+ years global leadership career in product and marketing. After heading SEO for Amazon and Orbitz Worldwide and Growth at Skyscanner and Change.org, Aris is now inventing the analytics and optimization tools needed for the Generative AI era.",
-      image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F48b7c46e1924440f8ab1a6f77903339a",
-      linkedinUrl: "https://www.linkedin.com/in/arisvrakas/"
+      name: "Riz Kahn",
+      role: "Chief Revenue Officer",
+      bio: "Riz is a growth leader with deep experience in enterprise sales and business development at high-growth tech companies, including Brainware (acquired by Lexmark), Wildfire (acquired by Google), and InVision and Uizard (acquired by Miro). Formerly Chief Customer Officer at Uizard, he scaled GTM from pre-PMF to enterprise. Riz is now Chief Revenue Officer at RankBee, where he leads global growth and go-to-market strategy for a Generative Engine Optimization platform.",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F298b8b4e281e4d6587abc6219852c2fe",
+      linkedinUrl: "https://www.linkedin.com/in/rizkahn/"
     },
     {
       name: "Hugo Yelo",

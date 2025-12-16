@@ -44,7 +44,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       role: "Chief Operations Officer",
       bio: "Yin is a three-time founder across cleantech, fintech, and automotive, having raised ~£1M through Techstars, Shell, and angel investors. She was named one of the Financial Times' Top 50 Most Inspiring Women in Tech Europe (2022). Before RankBee, Yin led operations and B2B sales at the UK and EU headquarters of China's largest automotive alliance. She holds a Computer Science degree from the University of St Andrews.",
       image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F019907117bbc411c990025329fd79c8d",
-      linkedinUrl: "https://www.linkedin.com/in/yin-noe/"
+      linkedinUrl: "https://www.linkedin.com/in/yinnoe"
     }
   ];
 

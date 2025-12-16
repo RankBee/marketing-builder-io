@@ -26,11 +26,18 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
       linkedinUrl: "https://www.linkedin.com/in/arisvrakas/"
     },
     {
+      name: "Hugo Yelo",
+      role: "Senior Product Manager",
+      bio: "Hugo is a technical SEO expert who spent five years at Amazon as Senior SEO Product Manager, helping shape SEO strategies across the EU. He now leads the automation methodology that powers RankBee's optimization engine.",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff616f22c2b814c099c0ff114144df4aa",
+      linkedinUrl: "https://www.linkedin.com/in/hugo-yelo-12298151/"
+    },
+    {
       name: "Yin Noe",
       role: "Chief Operations Officer",
       bio: "Yin is a three-time founder across cleantech, fintech, and automotive, having raised ~£1M through Techstars, Shell, and angel investors. She was named one of the Financial Times' Top 50 Most Inspiring Women in Tech Europe (2022). Before RankBee, Yin led operations and B2B sales at the UK and EU headquarters of China's largest automotive alliance. She holds a Computer Science degree from the University of St Andrews.",
       image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F019907117bbc411c990025329fd79c8d",
-      linkedinUrl: "https://www.linkedin.com/in/hugo-yelo-12298151/"
+      linkedinUrl: "https://www.linkedin.com/in/yin-noe/"
     }
   ];
 

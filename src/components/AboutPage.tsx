@@ -68,7 +68,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
 
 
       {/* Team Section */}
-      <section ref={teamSectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50" style={{ marginTop: '-3px' }}>
+      <section ref={teamSectionRef} className="bg-gray-50" style={{ paddingTop: '96px', margin: '-3px 0 -1px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 style={{ fontWeight: "800" }}>

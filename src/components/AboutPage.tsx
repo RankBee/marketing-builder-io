@@ -161,7 +161,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {team.map((member, index) => (
+            {team.filter((_, index) => index !== 1).map((member, index) => (
               <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center">
                   <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden">

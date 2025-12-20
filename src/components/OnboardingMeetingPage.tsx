@@ -9,7 +9,7 @@ interface OnboardingMeetingPageProps {
 
 export function OnboardingMeetingPage({
   heading = "Your brand is special.",
-  description = `<b>We’ve identified that your brand falls into a category that demands extra attention.</b><br/>
+  description = `We’ve identified that your brand falls into a category that demands extra attention.
 The complexity of your business and the way customers find it means that your Rankbee onboarding needs to be hand-tuned by our expert team. Choose a time from the calendar to the right to speak with an onboarding specialist. This personal service costs you nothing extra and will dramatically improve performance compared to "once-size-fits-all" approaches.`
 }: OnboardingMeetingPageProps) {
   const [calendlyUrl, setCalendlyUrl] = useState<string>("");

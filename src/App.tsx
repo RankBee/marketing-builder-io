@@ -183,7 +183,7 @@ export default function App() {
       path: "/demo"
     },
     "onboarding-meeting": {
-      title: "Onboarding Meeting",
+      title: "Schedule a meeting to setup your brand – RankBee ltd",
       description: "Schedule an onboarding meeting with the RankBee team.",
       path: "/onboarding-meeting"
     },

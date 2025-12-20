@@ -259,7 +259,10 @@ The complexity of your business and the way customers find it means that your Ra
                     <>
                       <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">We've identified that your brand falls into a category that demands extra attention.</h2>
                       <p className="text-sm sm:text-base text-gray-700 leading-relaxed mt-4">
-                        {description.slice(description.indexOf("The complexity")).trim()}
+                        {(() => {
+                          const startIdx = description.indexOf("The complexity");
+                          return startIdx >= 0 ? description.slice(startIdx).trim() : description.trim();
+                        })()}
                       </p>
                     </>
                   ) : (

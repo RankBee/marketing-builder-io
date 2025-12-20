@@ -8,8 +8,8 @@ interface OnboardingMeetingPageProps {
 }
 
 export function OnboardingMeetingPage({ 
-  heading = "Book an Onboarding Meeting and Get Started",
-  description = "Schedule a time to meet with the RankBee team and learn how to optimize your content for AI visibility."
+  heading = "Your brand is special",
+  description = "We’ve identified that your brand falls into a category that demands extra attention. "
 }: OnboardingMeetingPageProps) {
   const [calendlyUrl, setCalendlyUrl] = useState<string>("");
 

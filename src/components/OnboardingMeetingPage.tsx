@@ -290,9 +290,6 @@ The complexity of your business and the way customers find it means that your Ra
                       .detail-box {
                         width: 100% !important;
                       }
-                      .description-box {
-                        display: none !important;
-                      }
                     }
                     @media (min-width: 1024px) {
                       .detail-box {

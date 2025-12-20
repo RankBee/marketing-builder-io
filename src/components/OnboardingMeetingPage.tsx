@@ -256,7 +256,16 @@ The complexity of your business and the way customers find it means that your Ra
                 
                 <div className="description-box bg backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 border border-purple-200">
                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                    {description}
+                    {description === "Schedule a time to meet with the RankBee team and learn how to optimize your content for AI visibility." ? (
+                      <>
+                        <strong>We've identified that your brand falls into a category that demands extra attention.</strong>
+                        <br />
+                        <br />
+                        {description}
+                      </>
+                    ) : (
+                      description
+                    )}
                   </p>
                 </div>
 

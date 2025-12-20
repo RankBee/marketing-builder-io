@@ -255,11 +255,11 @@ The complexity of your business and the way customers find it means that your Ra
                 </h1>
                 
                 <div className="description-box bg backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 border border-purple-200">
-                  {description && description.startsWith("We've identified") ? (
+                  {description && description.includes("We've identified that your brand falls into a category") ? (
                     <>
                       <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">We've identified that your brand falls into a category that demands extra attention.</h2>
                       <p className="text-sm sm:text-base text-gray-700 leading-relaxed mt-4">
-                        {description.split(".").slice(1).join(".").trim()}
+                        {description.replace(/We've identified that your brand falls into a category that demands extra attention\.\n?/g, "").trim()}
                       </p>
                     </>
                   ) : (

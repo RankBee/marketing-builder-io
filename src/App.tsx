@@ -16,16 +16,16 @@ import { useEnsureActiveOrg } from "./lib/clerk-safe";
 import { Seo } from "./lib/seo";
 import { IntercomClient } from "./components/IntercomClinet";
 import { useGTMClerkSync, trackEvent } from "./lib/gtm";
-import { usePostHogClerkSync } from "./lib/posthog";
+import { useUser, useAuth } from '@clerk/clerk-react';
+import { identifyPostHogUser } from './lib/posthog';
 
 // Map current location path to our simple page ids
 function pathToPage(pathname: string): string {
   const path = pathname.replace(/\/+$/, "");
+  // Treat nested Clerk routes (e.g., /sign-up/sso-callback) as auth pages
+  if (path === "/sign-in" || path.startsWith("/sign-in/")) return "sign-in";
+  if (path === "/sign-up" || path.startsWith("/sign-up/")) return "sign-up";
   switch (path) {
-    case "/sign-in":
-      return "sign-in";
-    case "/sign-up":
-      return "sign-up";
     case "/about":
       return "about";
     case "/pricing":
@@ -61,20 +61,54 @@ export default function App() {
   
   // Ensure an active organization is selected so org-based onboarding logic works
   useEnsureActiveOrg();
-  
+
   // Sync Clerk user and org context with GTM dataLayer for automatic event enrichment
   useGTMClerkSync();
   
-  // Sync Clerk user and org context with PostHog for user identification and event enrichment
-  usePostHogClerkSync();
+  // Sync Clerk user context with PostHog for user identification
+  const { user } = useUser();
+  const { actor } = useAuth();
 
-  // Push browser history when navigating to sign-in/sign-up; reset to "/" otherwise
+useEffect(() => {
+  if (user && !actor) {
+    const email = user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress;
+    const emailDomain = user.emailAddresses?.[0]?.emailAddress?.split('@')[1] || '';
+    
+    identifyPostHogUser(user.id, {
+      email: email,
+      emailDomain: emailDomain,
+      name: user.fullName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      createdAt: user.createdAt?.toISOString(),
+    });
+  }
+}, [user, actor]);
+
+  // Push browser history when navigating to sign-in/sign-up; include redirect_to back to current page when not home
   const setPage = (page: string) => {
     setCurrentPage(page);
     try {
       if (typeof window !== "undefined") {
-        const target = page === "home" ? "/" : `/${page}`;
-        if (window.location.pathname !== target) {
+        let target = page === "home" ? "/" : `/${page}`;
+
+        // For auth pages, append redirect_to with current location if not at plain home
+        if (page === "sign-in" || page === "sign-up") {
+          const current = window.location.pathname + window.location.search + window.location.hash;
+          const isHome = window.location.pathname === "/" && !window.location.search && !window.location.hash;
+          if (!isHome) {
+            try {
+              const url = new URL(target, window.location.origin);
+              url.searchParams.set("redirect_to", current);
+              target = url.pathname + url.search;
+            } catch {
+              // ignore URL build errors
+            }
+          }
+        }
+
+        const currentPathWithQuery = window.location.pathname + window.location.search;
+        if (currentPathWithQuery !== target) {
           window.history.pushState({}, "", target);
         }
       }

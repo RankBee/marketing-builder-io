@@ -83,7 +83,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
               Plans That Fit Your <span className="text-purple-600">Growth</span>, No Surprises
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Start small or go big-unlimited users, weekly crawls, and insights that pay off fast. First month free on all.
+              Start small or go big-unlimited users, weekly crawls, and insights that pay off fast. First 14 days free on all.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -125,7 +125,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             <div className="space-y-6">
               <Card>
                 <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What's included in the free month?</h4>
+                  <h4 className="text-lg mb-2 text-gray-900">What's included in the free 14 days?</h4>
                   <p className="text-gray-600">You get a full tracking package to monitor your AI visibility across all platforms, plus 10 content creation credits to start optimizing your content for AI discovery right away.</p>
                 </CardContent>
               </Card>

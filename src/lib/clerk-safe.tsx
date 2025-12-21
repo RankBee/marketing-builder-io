@@ -111,13 +111,13 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
   }
 
   const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
+  const { organization: activeOrg } = useOrganization();
 
   const asBool = (v: any) => {
-    if (v === true || v === 1) return true;
-    if (v === '1') return true;
+    if (v === true) return true;
     if (typeof v === 'string') {
       const s = v.trim().toLowerCase();
-      return s === 'true' || s === '1' || s === 'yes' || s === 'on';
+      return s === 'true';
     }
     return false;
   };
@@ -130,7 +130,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
                 : (Array.isArray(memAny?.data) ? memAny.data : []);
           
             const firstMembership: any = memberships?.[0];
-            const firstOrg: any = firstMembership?.organization ?? undefined;
+            // Prefer activeOrg (safe in impersonation) over list's first org (incomplete metadata in impersonation)
+            const firstOrg: any = activeOrg ?? firstMembership?.organization ?? undefined;
           
             // Inspect org metadata
             const orgPublicMeta: any = firstOrg?.publicMetadata;
@@ -153,8 +154,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
             }
       
             const [loadedStable, setLoadedStable] = useState(false);
-            const FALSE_STABLE_DELAY_MS = 2000;
-            const ZERO_MEMBERSHIP_DELAY_MS = 1500;
+            const FALSE_STABLE_DELAY_MS = 1500;
+            const ZERO_MEMBERSHIP_DELAY_MS = 1000;
       
             // Persist positive onboarding once observed
             useEffect(() => {
@@ -163,6 +164,15 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
               if (firstOrgOnboarded === true) {
                 try {
                   window.localStorage.setItem(`rb_o_onboarded_${orgId}`, '1');
+                } catch {
+                  // ignore
+                }
+              } else if (firstOrgOnboarded === false && cachedTrue) {
+                // If live value is explicitly false, clear the stale cache
+                try {
+                  window.localStorage.removeItem(`rb_o_onboarded_${orgId}`);
+                  cachedTrue = false; // reflect immediately in current render cycle if possible,
+                                      // but we need to trigger re-render or rely on effect update
                 } catch {
                   // ignore
                 }
@@ -183,13 +193,15 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
               }
       
               // Known onboarded via cache or live flag: resolve immediately
-              if ((!!orgId && cachedTrue) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
+              // But only if live flag doesn't contradict cache (handled by effect above, but check here too)
+              if ((!!orgId && cachedTrue && firstOrgOnboarded !== false) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
                 setLoadedStable(true);
                 return;
               }
           
-              // Explicit false: wait briefly to avoid transient false -> true flips
-              if (!!firstOrg?.id && hasOnboardedKey && firstOrgOnboarded !== true) {
+              // Explicit false (or missing key): wait briefly to avoid transient false -> true flips
+              // We treat missing key (hasOnboardedKey=false) as false too.
+              if (!!firstOrg?.id && firstOrgOnboarded !== true) {
                 const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
                 return () => clearTimeout(t);
               }

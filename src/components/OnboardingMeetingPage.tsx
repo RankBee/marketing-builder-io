@@ -1,24 +1,23 @@
 import { Clock, Video } from "lucide-react";
 import { useCalendly } from "../lib/useCalendly";
-import { trackEvent } from "../lib/posthog";
-import { useEffect } from "react";
 
-interface DemoPageProps {
-  onPageChange?: (page: string) => void;
+interface OnboardingMeetingPageProps {
+  heading?: string;
+  description?: string;
 }
 
-export function DemoPage({ onPageChange }: DemoPageProps) {
+export function OnboardingMeetingPage({
+  heading = "Your brand is special.",
+  description = `We’ve identified that your brand falls into a category that demands extra attention.
+The complexity of your business and the way customers find it means that your Rankbee onboarding needs to be hand-tuned by our expert team. Choose a time from the calendar to the right to speak with an onboarding specialist. This personal service costs you nothing extra and will dramatically improve performance compared to "one-size-fits-all" approaches.`
+}: OnboardingMeetingPageProps) {
   const calendlyUrl = useCalendly({
     hideHeaders: true,
     primaryColor: "#7C3AED",
     textColor: "#1F2937",
     backgroundColor: "#FFFFFF",
     hideCookieSettings: true
-  }, 'demo_page');
-
-  useEffect(() => {
-    trackEvent('Demo Page Viewed');
-  }, []);
+  }, 'onboarding_meeting_page');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-purple-100/30 to-purple-50">
@@ -52,13 +51,13 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
               {/* Left Side: Content */}
               <div className="flex-1 lg:max-w-xl" >
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 text-gray-900 leading-tight">
-                  Book a Demo and Learn How to Improve <span className="text-purple-600">What AI Says</span>{" "}
-                  About Your Brand
+                  {heading}
                 </h1>
                 
                 <div className="description-box bg backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 border border-purple-200">
-                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                    Book a demo with RankBee Team. We will demonstrate how your brand tracks across GenAI platforms and how to optimise content for AI discovery.
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">We've identified that your brand falls into a category that demands extra attention.</h2>
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed mt-4">
+                    {description}
                   </p>
                 </div>
 
@@ -90,9 +89,6 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
                       }
                       .detail-box {
                         width: 100% !important;
-                      }
-                      .description-box {
-                        display: none !important;
                       }
                     }
                     @media (min-width: 1024px) {

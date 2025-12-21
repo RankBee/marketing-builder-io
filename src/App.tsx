@@ -7,6 +7,7 @@ import { PricingPage } from "./components/PricingPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";
+import { OnboardingMeetingPage } from "./components/OnboardingMeetingPage";
 import { ContactPage } from "./components/ContactPage";
 import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { TermsOfServicePage } from "./components/TermsOfServicePage";
@@ -35,6 +36,8 @@ function pathToPage(pathname: string): string {
       return "article-detail";
     case "/demo":
       return "demo";
+    case "/onboarding-meeting":
+      return "onboarding-meeting";
     case "/contact":
       return "contact";
     case "/privacy-policy":
@@ -134,6 +137,7 @@ useEffect(() => {
       'home': 'Homepage View',
       'pricing': 'Pricing View',
       'demo': 'Demo View',
+      'onboarding-meeting': 'Onboarding Meeting View',
       'sign-up': 'Sign Up View',
       'sign-in': 'Sign In View',
       'about': 'About View',
@@ -167,6 +171,8 @@ useEffect(() => {
       case "demo":
         // DemoPage does not require onPageChange props in this bundle
         return <DemoPage />;
+      case "onboarding-meeting":
+        return <OnboardingMeetingPage />;
       case "contact":
         // ContactPage does not require onPageChange props in this bundle
         return <ContactPage />;
@@ -209,6 +215,12 @@ useEffect(() => {
       title: "Free Visibility Test",
       description: "Run a free AI visibility test across ChatGPT, Claude, and Gemini.",
       path: "/demo"
+    },
+    "onboarding-meeting": {
+      title: "Schedule a meeting to setup your brand",
+      description: "Schedule an onboarding meeting with the RankBee team.",
+      path: "/onboarding-meeting",
+      noindex: true
     },
     contact: {
       title: "Contact",

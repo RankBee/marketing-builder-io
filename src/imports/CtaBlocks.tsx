@@ -24,7 +24,7 @@ function HeadingDisc() {
         className="flex flex-col font-['Inter:Semibold',_sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[36px] sm:text-[42px] lg:text-[48px] tracking-[-1px] max-w-full"
       >
         <p className="leading-[44px] sm:leading-[52px] lg:leading-[60px] font-bold">
-          <span className="text-purple-600">AI Content Optimization</span> <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">Is the New SEO</span>
+          <span className="text-purple-600">AI Content Optimization</span>
         </p>
       </motion.div>
 

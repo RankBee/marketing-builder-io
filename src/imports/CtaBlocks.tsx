@@ -79,7 +79,7 @@ function CtaNewsletterSection() {
       <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-pink-300/30 rounded-full blur-3xl" />
       
       <div className="flex flex-row items-center overflow-clip rounded-[inherit] size-full">
-        <div className="box-border content-stretch flex justify-center p-[32px] sm:p-[48px] lg:p-[80px] relative w-full">
+        <div className="box-border content-stretch flex justify-center px-[32px] sm:px-[48px] lg:px-[80px] py-[24px] sm:py-[36px] lg:py-[48px] relative w-full">
           <HeadingDisc />
         </div>
       </div>

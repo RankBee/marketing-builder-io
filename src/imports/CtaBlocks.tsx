@@ -12,7 +12,7 @@ function HeadingDisc() {
         transition={{ duration: 0.6 }}
         className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200"
       >
-        <span className="text-sm text-purple-900">The Future of Discovery</span>
+        <span className="text-sm text-purple-900">Get Discovered in the AI Search</span>
       </motion.div>
 
       {/* Main heading with gradient */}
@@ -24,7 +24,7 @@ function HeadingDisc() {
         className="flex flex-col font-['Inter:Semibold',_sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[36px] sm:text-[42px] lg:text-[48px] tracking-[-1px] max-w-full"
       >
         <p className="leading-[44px] sm:leading-[52px] lg:leading-[60px] font-bold">
-          <span className="text-purple-600">AI Search</span> <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">Is the New SEO</span>
+          <span className="text-purple-600 text-[36px] sm:text-[42px] lg:text-[48px]">AI Content Optimization</span>
         </p>
       </motion.div>
 
@@ -36,7 +36,7 @@ function HeadingDisc() {
         transition={{ duration: 0.6, delay: 0.4 }}
         className="font-['Inter:Regular',_sans-serif] font-normal leading-[28px] not-italic relative shrink-0 text-[16px] sm:text-[18px] text-gray-600 max-w-3xl"
       >
-        AI assistants don't read your site like Google. They infer relevance from attributes, context, and training data. If your content isn't aligned with how AI models think, you're invisible. Our platform changes that - scientifically.
+        Welcome to the Future of SEO. AI search engines don't read your website - they interpret it based on criteria that we can influence. If your content isn't aligned with how AI models think, you're invisible. Our platform changes that - scientifically. By analysing competitor signals and mathematically tuning every piece, we ensure your content is the version AI is most likely to surface.
       </motion.p>
 
       {/* Stats row */}

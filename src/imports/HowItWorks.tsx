@@ -216,7 +216,7 @@ function CardTitle2() {
 function ImageWithFallback2() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <img alt="AI Rewrite & Retest Engine showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} />
+      <img alt="AI Content Optimisation showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} />
     </div>
   );
 }

@@ -301,7 +301,12 @@ function CardContent2() {
           }}
         >
           <button
-            className="bg-brand-800 hover:bg-brand-900 transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer"
+            className="relative overflow-hidden h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+            style={{
+              background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+              backgroundSize: '200% 100%',
+              animation: 'shimmer 2s ease-in-out infinite',
+            }}
             data-name="Button"
           >
             <p className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">

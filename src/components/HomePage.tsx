@@ -293,7 +293,12 @@ export function HomePage({ onPageChange }: HomePageProps) {
                 <a href="/demo" onClick={(e) => {
                   e.preventDefault();
                   onPageChange('demo');
-                }} className="inline-block bg-white text-brand-700 border-2 border-brand-700 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors duration-200">
+                }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
+                  background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 2s ease-in-out infinite',
+                  color: 'white'
+                }}>
                   Book Demo
                 </a>
               </div>

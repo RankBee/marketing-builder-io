@@ -178,9 +178,9 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                 How Content Optimization Works
               </h2>
-              <p className="text-lg sm:text-xl text-purple-600 font-semibold max-w-3xl mx-auto">
+              <h3 className="text-lg sm:text-xl text-purple-600 font-semibold max-w-3xl mx-auto">
                 Optimise content at scale and without changing how your team works.
-              </p>
+              </h3>
             </div>
 
             {/* Image */}

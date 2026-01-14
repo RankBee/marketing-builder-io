@@ -333,10 +333,14 @@ function Card2() {
 
 function Container() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full" data-name="Container">
-      <Card />
-      <Card1 />
-      <Card2 />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] w-full" data-name="Container">
+      <div className="lg:row-span-2">
+        <Card2 />
+      </div>
+      <div className="flex flex-col gap-[24px]">
+        <Card />
+        <Card1 />
+      </div>
     </div>
   );
 }

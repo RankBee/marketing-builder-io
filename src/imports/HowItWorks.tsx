@@ -324,7 +324,10 @@ function CardContent2() {
 
 function Card2() {
   return (
-    <div className="bg-white rounded-[16px] border border-[rgba(0,0,0,0.1)] p-[25px] flex flex-col gap-[16px] transition-all duration-300 hover:shadow-lg hover:border-brand-700/30 hover:-translate-y-1" data-name="Card">
+    <div className="bg-gradient-to-br from-purple-50 to-white rounded-[16px] border-2 border-brand-700 p-[25px] flex flex-col gap-[16px] transition-all duration-300 hover:shadow-2xl hover:border-brand-700 hover:-translate-y-2 shadow-lg lg:scale-105" data-name="Card">
+      <div className="inline-flex items-center gap-2 bg-brand-700 text-white px-3 py-1 rounded-full w-fit">
+        <p className="text-xs font-semibold">Featured</p>
+      </div>
       <CardTitle2 />
       <CardContent2 />
     </div>

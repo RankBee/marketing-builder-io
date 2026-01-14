@@ -170,10 +170,13 @@ export function HomePage({ onPageChange }: HomePageProps) {
 
       {/* Tagline Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
             Optimize at scale and without changing how your team works
           </h2>
+          <a href="#rankbee-api" className="inline-block text-lg sm:text-xl font-semibold text-white hover:text-purple-100 transition-colors duration-200 underline decoration-white hover:decoration-purple-100">
+            RankBee API
+          </a>
         </div>
       </section>
 

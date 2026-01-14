@@ -283,12 +283,20 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <p className="text-gray-600 mb-6">
                 Our API is available for enterprise customers. Contact our team to discuss integration options and pricing.
               </p>
-              <a href="/demo" onClick={(e) => {
-                e.preventDefault();
-                onPageChange('demo');
-              }} className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
-                Contact Sales
-              </a>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a href="/demo" onClick={(e) => {
+                  e.preventDefault();
+                  onPageChange('demo');
+                }} className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
+                  Contact Sales
+                </a>
+                <a href="/demo" onClick={(e) => {
+                  e.preventDefault();
+                  onPageChange('demo');
+                }} className="inline-block bg-white text-brand-700 border-2 border-brand-700 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors duration-200">
+                  Book Demo
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -263,7 +263,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
               RankBee API
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Integrate RankBee's AI optimization directly into your workflow. Access our powerful API to automate content analysis, optimization, and testing at scale.
+              The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
             </p>
           </div>
 

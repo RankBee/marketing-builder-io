@@ -169,6 +169,32 @@ export function HomePage({ onPageChange }: HomePageProps) {
         <CtaBlocks />
       </div>
 
+      {/* Content Optimization Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-purple-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-8">
+            {/* Heading */}
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+                How Content Optimization Works
+              </h2>
+              <p className="text-lg sm:text-xl text-purple-600 font-semibold max-w-3xl mx-auto">
+                Optimise content at scale and without changing how your team works.
+              </p>
+            </div>
+
+            {/* Image */}
+            <div className="w-full">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F115f7d2bd8b1437fa477e91017fdcc95?format=webp&width=800"
+                alt="How Content Optimization Works - Process steps"
+                className="w-full rounded-xl shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How It Works Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

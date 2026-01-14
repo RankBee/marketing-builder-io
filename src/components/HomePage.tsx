@@ -169,6 +169,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
         <CtaBlocks />
       </div>
 
+      {/* Tagline Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            Create and update content at scale and without changing how your team works
+          </h2>
+        </div>
+      </section>
 
       {/* How It Works Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white">

@@ -12,7 +12,7 @@ import { signUpUrl } from "../lib/clerk-env";
 function Heading2() {
   return (
     <div className="w-full text-center" data-name="Heading 2">
-      <p className="font-['Inter:Bold',_sans-serif] text-[#101828] text-[48px] sm:text-[56px] lg:text-[64px] tracking-[0.3955px] font-[Inter] font-bold">We Track, Score, Test and Write</p>
+      <p className="font-['Inter:Bold',_sans-serif] text-[#101828] text-[48px] sm:text-[56px] lg:text-[64px] tracking-[0.3955px] font-[Inter] font-bold">Track, Score, Test and Write</p>
     </div>
   );
 }

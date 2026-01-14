@@ -225,7 +225,7 @@ function GaoHomePage4() {
   return (
     <div className="w-full" data-name="GAOHomePage">
       <p className="font-['Inter:Regular',_sans-serif] leading-[20px] text-[#4a5565] text-[14px] tracking-[-0.1504px]">
-        Once you start your Free Trial, paste any URL. We ingest the page, rewrite it, and re-test against competitors with proprietary prompt sets. Every page gets a <span className="font-bold">Pre</span> and <span className="font-bold">Post</span> Optimization Score to prove ROI before you publish.
+        Paste any URL or raw text. We ingest the page, rewrite it, and re-test against competitors with proprietary prompt sets. Every page gets a <span className="font-bold">Pre</span> and <span className="font-bold">Post</span> Optimization Score before you publish.
       </p>
     </div>
   );

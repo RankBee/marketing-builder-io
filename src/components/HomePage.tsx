@@ -254,6 +254,45 @@ export function HomePage({ onPageChange }: HomePageProps) {
           </div>
         </div>
       </section>
+
+      {/* RankBee API Section */}
+      <section id="rankbee-api" className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-6 mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+              RankBee API
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Integrate RankBee's AI optimization directly into your workflow. Access our powerful API to automate content analysis, optimization, and testing at scale.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Started</h3>
+              <p className="text-gray-600 mb-6">
+                Access comprehensive API documentation and start building with RankBee's optimization engine today.
+              </p>
+              <a href="#" className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
+                View Documentation
+              </a>
+            </div>
+
+            <div className="bg-gradient-to-br from-pink-50 to-white rounded-lg border border-pink-200 p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Request Access</h3>
+              <p className="text-gray-600 mb-6">
+                Our API is available for enterprise customers. Contact our team to discuss integration options and pricing.
+              </p>
+              <a href="/demo" onClick={(e) => {
+                e.preventDefault();
+                onPageChange('demo');
+              }} className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
+                Contact Sales
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
       </div>
     </>
   );

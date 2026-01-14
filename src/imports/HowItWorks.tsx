@@ -208,7 +208,7 @@ function CardTitle2() {
   return (
     <div className="flex items-center gap-2" data-name="CardTitle">
       <Icon3 />
-      <p className="font-['Inter:Bold',_sans-serif] text-[20px] text-neutral-950 tracking-[-0.3125px] font-bold font-[Inter]">{`AI Content Optimisation`}</p>
+      <p className="font-['Inter:Bold',_sans-serif] text-[20px] text-neutral-950 tracking-[-0.3125px] font-bold font-[Inter]">{`AI Content Optimization`}</p>
     </div>
   );
 }

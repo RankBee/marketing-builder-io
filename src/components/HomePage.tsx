@@ -185,8 +185,6 @@ export function HomePage({ onPageChange }: HomePageProps) {
       </section>
 
 
-      {/* GPT Panel Section */}
-      <GptPanel />
 
       {/* Case Study Section */}
       <CaseStudySection />

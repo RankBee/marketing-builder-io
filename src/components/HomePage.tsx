@@ -5,7 +5,6 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";
-import GptPanel from "../imports/GptPanel";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "./AccountCta";
 import { signUpUrl } from "../lib/clerk-env";

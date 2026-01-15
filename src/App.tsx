@@ -38,6 +38,8 @@ function pathToPage(pathname: string): string {
       return "blog";
     case "/article-detail":
       return "article-detail";
+    case "/news":
+      return "news";
     case "/demo":
       return "demo";
     case "/onboarding-meeting":

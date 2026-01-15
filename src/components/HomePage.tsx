@@ -251,58 +251,6 @@ export function HomePage({ onPageChange }: HomePageProps) {
           </div>
         </div>
       </section>
-
-      {/* RankBee API Section */}
-      <section id="rankbee-api" className="py-16 sm:py-20 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6 mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
-              RankBee API
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Plug and Play</h3>
-              <p className="text-gray-600 mb-6">
-                Made for SEO and product teams who need results. Build to plug directly into existing CMS and SEO workflows, RankBee makes it easy to scale AI-ready content across thousands of pages, markets, and languages.
-              </p>
-              <a href="#" className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
-                View Documentation
-              </a>
-            </div>
-
-            <div className="bg-gradient-to-br from-pink-50 to-white rounded-lg border border-pink-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Request Access</h3>
-              <p className="text-gray-600 mb-6">
-                Our API is available for enterprise customers. Contact our team to discuss integration options and pricing.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="/demo" onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange('demo');
-                }} className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
-                  Contact Sales
-                </a>
-                <a href="/demo" onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange('demo');
-                }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
-                  background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 2s ease-in-out infinite',
-                  color: 'white'
-                }}>
-                  Book Demo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       </div>
     </>
   );

@@ -108,25 +108,17 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               <p className="text-gray-600 mb-6">
                 Our API is available for enterprise customers. Contact our team to discuss integration options and pricing.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="/demo" onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange('demo');
-                }} className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
-                  Contact Sales
-                </a>
-                <a href="/demo" onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange('demo');
-                }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
-                  background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 2s ease-in-out infinite',
-                  color: 'white'
-                }}>
-                  Book Demo
-                </a>
-              </div>
+              <a href="/demo" onClick={(e) => {
+                e.preventDefault();
+                onPageChange('demo');
+              }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
+                background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 2s ease-in-out infinite',
+                color: 'white'
+              }}>
+                Book Demo
+              </a>
             </div>
           </div>
         </div>

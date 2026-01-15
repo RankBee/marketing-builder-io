@@ -147,21 +147,12 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
 
             {/* Speakers */}
             <div className="space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Featured Speakers</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full mb-4"></div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Alex Morrison</h3>
-                  <p className="text-purple-600 font-medium mb-3">Founder & CEO, RankBee</p>
-                  <p className="text-gray-700">Expert in AI search optimization and brand visibility strategies. Over 15 years in digital marketing innovation.</p>
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mb-4"></div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Dr. Jessica Liu</h3>
-                  <p className="text-purple-600 font-medium mb-3">AI Research Lead, Tech Forward</p>
-                  <p className="text-gray-700">Leading researcher in AI-powered search behavior. Published 20+ papers on AI adoption and brand presence.</p>
-                </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Featured Speaker</h2>
+              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200 max-w-2xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full mb-4"></div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">Aris Vrakas</h3>
+                <p className="text-purple-600 font-medium mb-3">Founder & CEO, RankBee</p>
+                <p className="text-gray-700">Aris is an expert in AI search optimization and brand visibility in the age of large language models. As founder of RankBee, he's developed tools and strategies that help organizations ensure their voices are amplified—not silenced—by AI systems. His work spans both commercial and political domains, helping brands and campaigns stay visible in the rapidly evolving AI-powered information landscape.</p>
               </div>
             </div>
 

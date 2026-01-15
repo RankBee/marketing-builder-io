@@ -101,9 +101,6 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
                 <li>Protect traffic and brand presence as clicks decline</li>
                 <li>Move faster than competitors still optimising only for Google's blue links</li>
               </ul>
-              <a href="#" className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
-                View Documentation
-              </a>
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">

@@ -96,10 +96,19 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               <p className="text-gray-600 mb-6">
                 Whether you're optimising product pages, category pages, guides, or localised content, RankBee API helps you:
               </p>
-              <ul className="text-gray-600 mb-6 space-y-2">
-                <li>Increase visibility in AI-generated answers</li>
-                <li>Protect traffic and brand presence as clicks decline</li>
-                <li>Move faster than competitors still optimising only for Google's blue links</li>
+              <ul className="mb-6 space-y-3">
+                <li className="flex items-start gap-3 p-4 rounded-lg bg-purple-100 border-l-4 border-purple-600">
+                  <span className="text-purple-600 font-bold text-lg flex-shrink-0">✓</span>
+                  <span className="text-gray-900 font-semibold">Increase visibility in AI-generated answers</span>
+                </li>
+                <li className="flex items-start gap-3 p-4 rounded-lg bg-purple-100 border-l-4 border-purple-600">
+                  <span className="text-purple-600 font-bold text-lg flex-shrink-0">✓</span>
+                  <span className="text-gray-900 font-semibold">Protect traffic and brand presence as clicks decline</span>
+                </li>
+                <li className="flex items-start gap-3 p-4 rounded-lg bg-purple-100 border-l-4 border-purple-600">
+                  <span className="text-purple-600 font-bold text-lg flex-shrink-0">✓</span>
+                  <span className="text-gray-900 font-semibold">Move faster than competitors still optimising only for Google's blue links</span>
+                </li>
               </ul>
             </div>
 

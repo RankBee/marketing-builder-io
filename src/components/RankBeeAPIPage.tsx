@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { trackEvent } from "../lib/posthog";
 import { signUpUrl } from "../lib/clerk-env";
@@ -7,6 +8,10 @@ interface RankBeeAPIPageProps {
 }
 
 export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Button } from './ui/button';
 import { trackEvent } from '../lib/posthog';
+import { BeeWithSpeaker } from './BeeWithSpeaker';
 
 interface NewsAnnouncementBannerProps {
   onPageChange: (page: string) => void;

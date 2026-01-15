@@ -37,7 +37,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
             <span className="text-sm sm:text-base font-semibold">📢</span>
             <div className="flex-1">
               <p className="text-sm sm:text-base font-medium">
-                Join us at the AI Marketing Summit 2026! Discover how to dominate AI search rankings.
+                Aris Vrakas, Founder & CEO of RankBee, speaking at Politics Meets Technology on January 24 in Berlin.
               </p>
               <button
                 onClick={handleNewsClick}

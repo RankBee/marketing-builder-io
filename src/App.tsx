@@ -139,6 +139,7 @@ useEffect(() => {
     const pageEventNames: Record<string, string> = {
       'home': 'Homepage View',
       'pricing': 'Pricing View',
+      'rankbee-api': 'RankBee API View',
       'demo': 'Demo View',
       'onboarding-meeting': 'Onboarding Meeting View',
       'sign-up': 'Sign Up View',

@@ -172,7 +172,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
       <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Perfect for brand professionals, e-commerce and enterprises
+            Perfect for brand professionals,<br />e-commerce and enterprises
           </h2>
         </div>
       </section>

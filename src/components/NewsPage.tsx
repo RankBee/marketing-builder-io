@@ -44,10 +44,10 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                 Speaking Event
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                AI Marketing Summit 2026
+                Politics Meets Technology 2026
               </h1>
               <p className="text-lg sm:text-xl text-gray-600 mt-4 max-w-2xl">
-                Join us for an exclusive conversation on dominating AI search rankings and future-proofing your brand's visibility
+                Aris Vrakas, Founder & CEO of RankBee, explores how political voices get seen—or silenced—in the age of LLMs
               </p>
             </div>
 
@@ -56,9 +56,9 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
               <div className="bg-white rounded-lg border border-gray-200 p-6 flex items-start gap-4">
                 <Calendar className="text-blue-600 flex-shrink-0 mt-1" size={24} />
                 <div>
-                  <p className="text-sm text-gray-500 font-medium">Date & Time</p>
-                  <p className="text-lg font-semibold text-gray-900">June 15-17, 2026</p>
-                  <p className="text-sm text-gray-600">2:00 PM - 3:30 PM UTC</p>
+                  <p className="text-sm text-gray-500 font-medium">Date</p>
+                  <p className="text-lg font-semibold text-gray-900">January 24, 2026</p>
+                  <p className="text-sm text-gray-600">Berlin, Germany</p>
                 </div>
               </div>
 
@@ -66,17 +66,17 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                 <MapPin className="text-blue-600 flex-shrink-0 mt-1" size={24} />
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Location</p>
-                  <p className="text-lg font-semibold text-gray-900">San Francisco, CA</p>
-                  <p className="text-sm text-gray-600">InterContinental San Francisco</p>
+                  <p className="text-lg font-semibold text-gray-900">Berlin</p>
+                  <p className="text-sm text-gray-600">Germany</p>
                 </div>
               </div>
 
               <div className="bg-white rounded-lg border border-gray-200 p-6 flex items-start gap-4">
                 <Users className="text-blue-600 flex-shrink-0 mt-1" size={24} />
                 <div>
-                  <p className="text-sm text-gray-500 font-medium">Format</p>
-                  <p className="text-lg font-semibold text-gray-900">Keynote + Panel</p>
-                  <p className="text-sm text-gray-600">Interactive Q&A included</p>
+                  <p className="text-sm text-gray-500 font-medium">Speaker</p>
+                  <p className="text-lg font-semibold text-gray-900">Aris Vrakas</p>
+                  <p className="text-sm text-gray-600">Founder & CEO, RankBee</p>
                 </div>
               </div>
             </div>

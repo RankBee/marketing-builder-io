@@ -36,6 +36,9 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
           <div className="flex-1 flex items-center gap-3">
             <span className="text-sm sm:text-base font-semibold">📢</span>
             <div className="flex-1">
+              <p className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-blue-100 mb-1">
+                News
+              </p>
               <p className="text-sm sm:text-base font-medium">
                 Aris Vrakas, Founder & CEO of RankBee, speaking at Politics Meets Technology on January 24 in Berlin.
               </p>

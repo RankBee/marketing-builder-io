@@ -167,6 +167,8 @@ useEffect(() => {
         return <AboutPage onPageChange={setPage} />;
       case "pricing":
         return <PricingPage onPageChange={setPage} />;
+      case "rankbee-api":
+        return <RankBeeAPIPage onPageChange={setPage} />;
       case "blog":
         return <BlogPage onPageChange={setPage} />;
       case "article-detail":

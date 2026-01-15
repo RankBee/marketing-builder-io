@@ -72,7 +72,7 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
+            <div className="bg-gradient-to-br from-purple-50/50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Optimize at scale</h3>
               <p className="text-gray-600 mb-6">
                 Whether you're optimising product pages, category pages, guides, or localised content, RankBee API helps you:

@@ -64,6 +64,15 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
         </div>
       </section>
 
+      {/* Tagline Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-purple-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto">
+            Designed for SEO and product teams who need results.
+          </p>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-purple-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

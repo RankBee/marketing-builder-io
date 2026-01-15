@@ -30,7 +30,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
   };
 
   return (
-    <div className="announcement-banner w-full bg-purple-600 text-white py-6 px-4 sm:px-6 lg:px-8">
+    <div className="announcement-banner w-full bg-gradient-to-r from-[#9810fa] via-[#7b1bd9] to-[#9810fa] text-white py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 flex items-start gap-3">

@@ -85,7 +85,7 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
               Plug Directly Into Your Workflow
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto">
               Made for SEO and product teams who need results. Build to plug directly into existing CMS and SEO workflows, RankBee makes it easy to scale AI-ready content across thousands of pages, markets, and languages.
             </p>
           </div>

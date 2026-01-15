@@ -9,6 +9,7 @@ import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/cle
 import AccountCta from "./AccountCta";
 import { signUpUrl } from "../lib/clerk-env";
 import { trackEvent } from "../lib/posthog";
+import { NewsAnnouncementBanner } from "./NewsAnnouncementBanner";
 
 interface HomePageProps {
   onPageChange: (page: string) => void;

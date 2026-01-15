@@ -65,13 +65,13 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-purple-600">
+      <section className="py-16 sm:py-20 lg:py-24 bg-purple-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">
               Plug Directly Into Your Workflow
             </h2>
-            <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
               Designed for SEO and product teams who need results. Build to plug directly into existing CMS and SEO workflows, RankBee makes it easy to scale AI-ready content across thousands of pages, markets, and languages.
             </p>
           </div>

@@ -80,7 +80,7 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Optimize at scale</h3>
               <p className="text-gray-600 mb-6">
-                Whether you're optimizing product pages, category pages, guides, or localised content, RankBee API helps you:
+                Whether you're optimizing product pages, category pages, guides, or localized content, RankBee API helps you:
               </p>
               <ul className="text-gray-600 mb-6 space-y-2">
                 <li>• Increase visibility in AI-generated answers.</li>

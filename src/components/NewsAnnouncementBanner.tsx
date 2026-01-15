@@ -32,22 +32,21 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
   return (
     <div className="announcement-banner bg-gradient-to-r from-blue-600 to-purple-600 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-4 flex items-center justify-between gap-4">
-          <div className="flex-1 flex items-center gap-3">
-            <span className="text-sm sm:text-base font-semibold">📢</span>
+        <div className="py-6 flex items-center justify-between gap-4">
+          <div className="flex-1 flex items-center gap-4">
+            <span className="text-xl sm:text-2xl font-semibold flex-shrink-0">📢</span>
             <div className="flex-1">
-              <p className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-blue-100 mb-1">
-                News
-              </p>
-              <p className="text-sm sm:text-base font-medium">
-                Aris Vrakas, Founder & CEO of RankBee, speaking at Politics Meets Technology on January 24 in Berlin.
-              </p>
-              <button
-                onClick={handleNewsClick}
-                className="text-xs sm:text-sm text-blue-100 hover:text-white underline font-medium transition-colors mt-1"
+              <h3 className="text-base sm:text-lg font-bold leading-tight mb-2">
+                Aris Vrakas, Founder and CEO of RankBee speaking at "Politics Meets Technology", on 24 January 2026, Berlin
+              </h3>
+              <a
+                href="https://www.politicaltech.eu/events/winning-the-ai-vote-how-political-voices-get-seen-(or-silenced)-in-the-age-of-llms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-blue-100 hover:text-white underline font-medium transition-colors inline-block"
               >
-                Learn more about the event →
-              </button>
+                View event details →
+              </a>
             </div>
           </div>
           <button

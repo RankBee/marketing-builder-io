@@ -211,6 +211,11 @@ useEffect(() => {
       description: "Simple pricing to start improving AI visibility.",
       path: "/pricing"
     },
+    "rankbee-api": {
+      title: "RankBee API",
+      description: "Integrate RankBee's AI optimization directly into your workflow. Access our powerful API to automate content analysis, optimization, and testing at scale.",
+      path: "/rankbee-api"
+    },
     blog: {
       title: "Blog",
       description: "Insights on AI search optimization and LLM-era marketing.",

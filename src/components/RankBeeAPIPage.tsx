@@ -97,9 +97,9 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
                 Whether you're optimising product pages, category pages, guides, or localised content, RankBee API helps you:
               </p>
               <ul className="text-black mb-6 space-y-2">
-                <li>Increase visibility in AI-generated answers</li>
-                <li>Protect traffic and brand presence as clicks decline</li>
-                <li>Move faster than competitors still optimising only for Google's blue links</li>
+                <li>• Increase visibility in AI-generated answers</li>
+                <li>• Protect traffic and brand presence as clicks decline</li>
+                <li>• Move faster than competitors still optimising only for Google's blue links</li>
               </ul>
             </div>
 

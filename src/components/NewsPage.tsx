@@ -108,8 +108,8 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                     <span className="text-purple-600 font-semibold">1</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">The AI Search Landscape</h3>
-                    <p className="text-gray-700">Understand how ChatGPT, Gemini, and other AI models are reshaping search behavior and brand visibility</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">How LLMs Shape Political Discourse</h3>
+                    <p className="text-gray-700">Understand how ChatGPT, Gemini, and other LLMs influence which political voices and messages reach voters</p>
                   </div>
                 </div>
 
@@ -118,8 +118,8 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                     <span className="text-purple-600 font-semibold">2</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Winning Optimization Strategies</h3>
-                    <p className="text-gray-700">Real-world tactics that are already driving 10x improvement in AI-powered discovery and brand mentions</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">Optimizing for AI-Powered Discovery</h3>
+                    <p className="text-gray-700">Proven strategies for ensuring your political message or campaign is visible in AI search results and recommendations</p>
                   </div>
                 </div>
 
@@ -128,8 +128,8 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                     <span className="text-purple-600 font-semibold">3</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Competitive Benchmarking</h3>
-                    <p className="text-gray-700">How to identify gaps in your brand's AI visibility and take action before your competitors do</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">Avoiding the Silence: Visibility Gaps</h3>
+                    <p className="text-gray-700">How to identify when your voice isn't being amplified by AI systems and what to do about it</p>
                   </div>
                 </div>
 
@@ -138,8 +138,8 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                     <span className="text-purple-600 font-semibold">4</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Future-Proofing Your Strategy</h3>
-                    <p className="text-gray-700">Prepare for the next generation of AI tools and ensure your brand stays visible in emerging channels</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">The Future of AI in Politics</h3>
+                    <p className="text-gray-700">What's next for AI-powered political communication and how to stay ahead of the curve</p>
                   </div>
                 </div>
               </div>

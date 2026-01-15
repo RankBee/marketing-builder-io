@@ -30,7 +30,7 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
+              The RankBee API helps teams create and update content that AI search tools surface, reference, and trust -<br />at scale and without changing how your team works.
             </p>
 
             <div className="pt-4">

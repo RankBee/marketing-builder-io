@@ -4,6 +4,7 @@ import { Footer } from "./components/Footer";
 import { HomePage } from "./components/HomePage";
 import { AboutPage } from "./components/AboutPage";
 import { PricingPage } from "./components/PricingPage";
+import { RankBeeAPIPage } from "./components/RankBeeAPIPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { DemoPage } from "./components/DemoPage";

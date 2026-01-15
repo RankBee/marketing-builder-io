@@ -94,7 +94,7 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Plug and Play</h3>
               <p className="text-gray-600 mb-6">
-                Made for SEO and product teams who need results. Build to plug directly into existing CMS and SEO workflows, RankBee makes it easy to scale AI-ready content across thousands of pages, markets, and languages.
+                Designed for SEO and product teams who need results. Build to plug directly into existing CMS and SEO workflows, RankBee makes it easy to scale AI-ready content across thousands of pages, markets, and languages.
               </p>
               <a href="#" className="inline-block bg-brand-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-800 transition-colors duration-200">
                 View Documentation

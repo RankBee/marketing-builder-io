@@ -159,13 +159,13 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
             {/* CTA Section */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 sm:p-12 text-center text-white space-y-6">
               <div>
-                <h2 className="text-3xl sm:text-4xl font-bold mb-3">Ready to Master AI Search?</h2>
+                <h2 className="text-3xl sm:text-4xl font-bold mb-3">Join the Conversation</h2>
                 <p className="text-lg text-blue-100 max-w-2xl mx-auto">
-                  Join us at the AI Marketing Summit 2026 and get ahead of the curve. Limited early-bird seats available.
+                  Attend "Winning the AI Vote: How Political Voices Get Seen (or Silenced) in the Age of LLMs" and learn from RankBee's founder. Register now to secure your spot at Politics Meets Technology 2026.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://www.aimarketingsummit.com/register" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.politicaltech.eu/events/winning-the-ai-vote-how-political-voices-get-seen-(or-silenced)-in-the-age-of-llms" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
                     className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
@@ -179,7 +179,7 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                     variant="outline"
                     className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 text-lg"
                   >
-                    Book a Demo First
+                    Learn More About RankBee
                   </Button>
                 </button>
               </div>

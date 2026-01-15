@@ -89,23 +89,25 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               <p className="text-gray-600 mb-6">
                 Our API is available for enterprise customers. Contact our team to discuss integration options and pricing.
               </p>
-              <a href="/contact" onClick={(e) => {
-                e.preventDefault();
-                trackEvent('CTA Clicked', {
-                  button_text: 'Contact Us',
-                  location: 'rankbee_api_request_access',
-                  variant: 'primary',
-                  destination: 'contact'
-                });
-                onPageChange('contact');
-              }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
-                background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 2s ease-in-out infinite',
-                color: 'white'
-              }}>
-                Contact Us
-              </a>
+              <div className="flex justify-center">
+                <a href="/contact" onClick={(e) => {
+                  e.preventDefault();
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Contact Us',
+                    location: 'rankbee_api_request_access',
+                    variant: 'primary',
+                    destination: 'contact'
+                  });
+                  onPageChange('contact');
+                }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
+                  background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 2s ease-in-out infinite',
+                  color: 'white'
+                }}>
+                  Contact Us
+                </a>
+              </div>
             </div>
           </div>
         </div>

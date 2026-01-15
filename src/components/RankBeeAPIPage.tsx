@@ -27,6 +27,33 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
             </p>
+
+            <div className="pt-4">
+              <a
+                href="/demo"
+                onClick={(e) => {
+                  e.preventDefault();
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Book Demo',
+                    location: 'rankbee_api_hero',
+                    variant: 'primary',
+                    destination: 'demo'
+                  });
+                  onPageChange('demo');
+                }}
+              >
+                <button
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-3 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  style={{
+                    background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 2s ease-in-out infinite',
+                  }}
+                >
+                  Book Demo
+                </button>
+              </a>
+            </div>
             
           </div>
         </div>

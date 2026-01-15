@@ -150,6 +150,7 @@ useEffect(() => {
       'about': 'About View',
       'blog': 'Blog View',
       'article-detail': 'Article Detail View',
+      'news': 'News View',
       'contact': 'Contact View',
       'privacy-policy': 'Privacy Policy View',
       'terms-of-service': 'Terms of Service View',

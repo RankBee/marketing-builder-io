@@ -227,6 +227,11 @@ useEffect(() => {
       description: "Insights on AI search optimization and LLM-era marketing.",
       path: "/blog"
     },
+    news: {
+      title: "News: Aris Vrakas Speaking at Politics Meets Technology 2026",
+      description: "Join Aris Vrakas, Founder & CEO of RankBee, at Politics Meets Technology 2026 in Berlin on January 24. Learn how political voices get seen—or silenced—in the age of LLMs.",
+      path: "/news"
+    },
     demo: {
       title: "Free Visibility Test",
       description: "Run a free AI visibility test across ChatGPT, Claude, and Gemini.",

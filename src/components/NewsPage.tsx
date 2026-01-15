@@ -92,10 +92,10 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
             <div className="space-y-4">
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">About the Event</h2>
               <p className="text-lg text-gray-700 leading-relaxed">
-                The AI Marketing Summit 2026 brings together industry leaders, marketing professionals, and brand strategists to explore the future of AI-powered visibility. In this keynote, we'll uncover the strategies that are already winning in AI search and what's coming next.
+                Politics Meets Technology 2026 brings together political leaders, technologists, and digital strategists to examine how artificial intelligence and large language models are reshaping political communication and public discourse. With the rise of AI-powered information systems, the question of whose voices get amplified—and whose get silenced—has never been more critical.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Whether you're optimizing for ChatGPT, Google's AI Overviews, Claude, or the next wave of AI-powered discovery, this event will provide the insights and tools you need to stay ahead of the competition.
+                In this session, Aris Vrakas will explore how political organizations can ensure their messages are visible and credible in the age of LLMs. Drawing on RankBee's research and real-world case studies, he'll reveal the emerging strategies that are already winning in AI-powered search and recommendation systems.
               </p>
             </div>
 

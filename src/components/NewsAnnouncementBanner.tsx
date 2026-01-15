@@ -30,20 +30,20 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
   };
 
   return (
-    <div className="announcement-banner bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-6 flex items-center justify-between gap-4">
-          <div className="flex-1 flex items-center gap-4">
-            <span className="text-xl sm:text-2xl font-semibold flex-shrink-0">📢</span>
-            <div className="flex-1">
-              <h3 className="text-base sm:text-lg font-bold leading-tight mb-2">
+    <div className="announcement-banner w-full bg-blue-700 text-white py-6 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#1e40af' }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 flex items-start gap-3">
+            <span className="text-2xl flex-shrink-0 mt-1">📢</span>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-bold leading-snug text-white mb-2">
                 Aris Vrakas, Founder and CEO of RankBee speaking at "Politics Meets Technology", on 24 January 2026, Berlin
               </h3>
               <a
                 href="https://www.politicaltech.eu/events/winning-the-ai-vote-how-political-voices-get-seen-(or-silenced)-in-the-age-of-llms"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-blue-100 hover:text-white underline font-medium transition-colors inline-block"
+                className="text-white font-semibold hover:underline inline-block"
               >
                 View event details →
               </a>
@@ -51,10 +51,10 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
           </div>
           <button
             onClick={handleClose}
-            className="flex-shrink-0 inline-flex text-blue-100 hover:text-white transition-colors p-1"
+            className="flex-shrink-0 inline-flex text-white hover:bg-blue-800 transition-colors p-2 rounded"
             aria-label="Close announcement"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
       </div>

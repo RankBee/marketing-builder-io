@@ -36,14 +36,14 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
           <div className="flex-1 flex items-start gap-3">
             <span className="text-2xl flex-shrink-0 mt-1">📢</span>
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-bold leading-snug text-white mb-2">
+              <h3 className="text-sm sm:text-base font-bold leading-snug text-white mb-1">
                 Aris Vrakas, Founder and CEO of RankBee speaking at "Politics Meets Technology", on 24 January 2026, Berlin
               </h3>
               <a
                 href="https://www.politicaltech.eu/events/winning-the-ai-vote-how-political-voices-get-seen-(or-silenced)-in-the-age-of-llms"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white font-semibold hover:underline inline-block"
+                className="text-xs sm:text-sm text-white font-medium hover:underline inline-block"
               >
                 View event details →
               </a>

@@ -177,6 +177,8 @@ useEffect(() => {
         return <BlogPage onPageChange={setPage} />;
       case "article-detail":
         return <ArticleDetailPage onPageChange={setPage} />;
+      case "news":
+        return <NewsPage onPageChange={setPage} />;
       case "demo":
         // DemoPage does not require onPageChange props in this bundle
         return <DemoPage />;

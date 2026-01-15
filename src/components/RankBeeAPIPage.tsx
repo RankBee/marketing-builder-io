@@ -124,62 +124,6 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-purple-700 text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6">Ready to Get Started?</h2>
-          <p className="text-lg sm:text-xl mb-8 text-purple-100 max-w-2xl mx-auto">
-            Join teams who are already optimizing content for AI visibility at scale.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href={typeof window !== "undefined" ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
-              onClick={() => {
-                trackEvent('CTA Clicked', {
-                  button_text: 'Start Free Trial',
-                  location: 'rankbee_api_footer',
-                  variant: 'primary',
-                  destination: 'sign-up'
-                });
-              }}
-            >
-              <Button
-                size="lg"
-                className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-                style={{
-                  background: 'linear-gradient(to right, rgb(255, 255, 255), rgb(244, 217, 255), rgb(255, 255, 255))',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 2s ease-in-out infinite',
-                  color: 'Purple',
-                }}
-              >
-                Start Free Trial
-              </Button>
-            </a>
-            <a
-              href="/demo"
-              onClick={(e) => {
-                e.preventDefault();
-                trackEvent('CTA Clicked', {
-                  button_text: 'Book Demo',
-                  location: 'rankbee_api_footer',
-                  variant: 'secondary',
-                  destination: 'demo'
-                });
-                onPageChange('demo');
-              }}
-            >
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 sm:px-8 text-base sm:text-lg py-2"
-              >
-                Book Demo
-              </Button>
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

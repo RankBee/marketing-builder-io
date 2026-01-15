@@ -28,52 +28,6 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
             </p>
             
-            <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href={typeof window !== "undefined" ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
-                onClick={() => {
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Start Free Trial',
-                    location: 'rankbee_api_hero',
-                    variant: 'primary',
-                    destination: 'sign-up'
-                  });
-                }}
-              >
-                <Button
-                  size="lg"
-                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-                  style={{
-                    background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                    backgroundSize: '200% 100%',
-                    animation: 'shimmer 2s ease-in-out infinite',
-                  }}
-                >
-                  Start Free Trial
-                </Button>
-              </a>
-              <a
-                href="/demo"
-                onClick={(e) => {
-                  e.preventDefault();
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
-                    location: 'rankbee_api_hero',
-                    variant: 'secondary',
-                    destination: 'demo'
-                  });
-                  onPageChange('demo');
-                }}
-              >
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
-                >
-                  Book Demo
-                </Button>
-              </a>
-            </div>
           </div>
         </div>
       </section>

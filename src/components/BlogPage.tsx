@@ -24,8 +24,8 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       date: "Jan 15, 2026",
       readTime: "9 min read",
       category: "Trends",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
+      image: "https://images.pexels.com/photos/8847169/pexels-photo-8847169.jpeg",
+      featured: true
     },
     {
       id: "how-geo-tactics-boosted",
@@ -35,7 +35,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
       readTime: "8 min read",
       category: "Case Studies",
       image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: true
+      featured: false
     },
     {
       id: "ai-search-revolution",

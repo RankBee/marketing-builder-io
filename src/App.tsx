@@ -31,6 +31,8 @@ function pathToPage(pathname: string): string {
       return "about";
     case "/pricing":
       return "pricing";
+    case "/rankbee-api":
+      return "rankbee-api";
     case "/blog":
       return "blog";
     case "/article-detail":

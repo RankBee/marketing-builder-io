@@ -51,7 +51,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
           </div>
           <button
             onClick={handleClose}
-            className="flex-shrink-0 inline-flex text-white hover:bg-blue-800 transition-colors p-2 rounded"
+            className="flex-shrink-0 inline-flex text-white hover:bg-purple-700 transition-colors p-2 rounded"
             aria-label="Close announcement"
           >
             <X size={24} />

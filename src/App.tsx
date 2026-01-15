@@ -7,6 +7,7 @@ import { PricingPage } from "./components/PricingPage";
 import { RankBeeAPIPage } from "./components/RankBeeAPIPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
+import { NewsPage } from "./components/NewsPage";
 import { DemoPage } from "./components/DemoPage";
 import { OnboardingMeetingPage } from "./components/OnboardingMeetingPage";
 import { ContactPage } from "./components/ContactPage";

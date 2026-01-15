@@ -25,6 +25,50 @@ interface ArticleDetailPageProps {
 }
 
 const defaultArticles: Record<string, Article> = {
+  "campaign-strategy-ai-era": {
+    id: "campaign-strategy-ai-era",
+    title: "Campaign strategy for the AI era.",
+    summary: "Political communication is now mediated by AI systems in a way that didn't exist even two years ago. RankBee helps campaigns understand and influence how AI systems describe them to voters.",
+    date: "Jan 15, 2026",
+    readTime: "9 min read",
+    category: "Trends",
+    image: "https://images.pexels.com/photos/8847169/pexels-photo-8847169.jpeg",
+    author: "Aris Vrakas",
+    authorImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fHx8fHx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
+    content: `
+      <h2>A New Strategic Layer</h2>
+      <p>RankBee helps political campaigns understand and shape how AI systems describe them to voters. As more people turn to AI for political guidance, perception is no longer formed only by media or social platforms - it's increasingly shaped by how AI synthesises information from across the internet.</p>
+
+      <p>Voters are changing how they seek political information. Instead of scrolling through search results or social feeds, many now ask AI systems direct questions: Which candidate aligns with my values? Who has the strongest economic plan? Who can I trust on public safety?</p>
+
+      <h2>How AI Shapes Political Perception</h2>
+      <p>The answers they receive don't come from campaign slogans or party manifestos. They are constructed by AI systems that scan the internet, weigh credibility, identify patterns, and synthesise what they believe matters most. This shift has created a new strategic layer for modern campaigns - one that operates quietly, but at massive scale.</p>
+
+      <p>RankBee reveals what questions voters ask AI, which attributes AI uses to answer them, and how a candidate is currently framed across key issues. RankBee then tests and optimises content so AI is more likely to trust, cite, and associate the right messages with the campaign.</p>
+
+      <h2>Understanding AI's Decision Framework</h2>
+      <p>This is where SEP for AI — Search, Exposure, and Persuasion for AI systems - becomes critical. AI does not support candidates or take political positions. Instead, it interprets questions through attributes: the underlying factors voters care about when making decisions.</p>
+
+      <p>Economic competence, integrity, leadership experience, policy clarity, and consistency across sources all play a role in how AI frames political answers. When someone asks who aligns with their views, AI isn't choosing a winner - it's matching attributes to available evidence.</p>
+
+      <p>Campaigns that understand this distinction gain a powerful advantage.</p>
+
+      <h2>From Intuition to Evidence-Based Strategy</h2>
+      <p>Rather than optimising for slogans or headlines, SEP for AI focuses on attribute ownership. It examines the real questions people ask AI, identifies how those questions are broken down internally, and reveals which traits AI associates with each candidate. From there, campaigns can see how they are framed across different issues, where narratives are strong, and where perception is weak or undefined.</p>
+
+      <p>The real shift comes when messaging moves from intuition to proof. With SEP for AI, campaign content can be tested and simulated before it's published. Different versions of the same message can be evaluated to see which one AI is more likely to cite, trust, and use when forming answers.</p>
+
+      <p>Instead of guessing what will resonate, campaigns can make evidence-based decisions about how their policies, track record, and priorities are communicated.</p>
+
+      <h2>Clarity, Consistency, and Credibility</h2>
+      <p>This isn't about manipulating AI. It's about clarity, consistency, and credibility across the sources AI relies on — from official websites and press releases to interviews and explanatory content. When those signals align, AI reflects them back to voters.</p>
+
+      <p>Traditional political strategy already accounts for polling, media coverage, and public sentiment. SEP for AI adds a new dimension: understanding how AI explains a candidate to undecided voters at the exact moment they're seeking guidance.</p>
+
+      <h2>The Future of Political Communication</h2>
+      <p>Campaigns persuade people - RankBee shapes what AI says when people ask. In an era where AI increasingly mediates political understanding, that distinction may prove decisive.</p>
+    `
+  },
   "how-geo-tactics-boosted": {
     id: "how-geo-tactics-boosted",
     title: "How GEO Tactics Boosted a Startup's AI Rankings 40% in 2 Weeks",

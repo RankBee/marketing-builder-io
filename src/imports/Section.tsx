@@ -37,7 +37,7 @@ function Paragraph() {
 function Container() {
   return (
     <div className="h-[48px] relative shrink-0 w-full" data-name="Container">
-      <p className="absolute font-['Inter:Italic',_sans-serif] font-normal italic leading-[24px] left-0 text-[16px] text-slate-200 top-[-0.5px] tracking-[-0.3125px] w-[641px]">“It’s like SEO for ChatGPT - but faster, smarter, and measurable.” - VP Marketing, Pilot Customer</p>
+      <p className="absolute font-['Inter:Italic',_sans-serif] font-normal italic leading-[24px] left-0 text-[16px] text-slate-200 top-[-0.5px] tracking-[-0.3125px] w-[641px]">“It’s like SEO for ChatGPT - but faster, smarter, and measurable.” </p>
     </div>
   );
 }

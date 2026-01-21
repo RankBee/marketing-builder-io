@@ -25,7 +25,7 @@ function BoldText1() {
 function Paragraph() {
   return (
     <div className="h-[72px] relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-0 not-italic text-[#cad5e2] text-[16px] top-[-0.5px] tracking-[-0.3125px] w-[660px]">A pilot customer in consumer electronics identified underperforming attributes and rewrote key pages. After optimization, ChatGPT mentioned their brand in</p>
+      <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-0 not-italic text-[#cad5e2] text-[16px] top-[-0.5px] tracking-[-0.3125px] w-[660px]">DJ Studio, a B2C DJ software company identified underperforming attributes, rewrote key pages and published articles using the RankBee Content writer. After optimization, ChatGPT mentioned their brand in</p>
       <BoldText />
       <p className="absolute font-['Inter:Regular',_sans-serif] font-normal leading-[24px] left-0 not-italic text-[#cad5e2] text-[16px] top-[23.5px] tracking-[-0.3125px] w-[673px]">of relevant prompts - up from</p>
       <BoldText1 />

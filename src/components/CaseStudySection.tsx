@@ -69,14 +69,14 @@ export function CaseStudySection() {
 
               <div className="text-[#cad5e2] space-y-4">
                 <p>
-                  A pilot customer in consumer electronics identified underperforming attributes and rewrote key pages. After optimization, ChatGPT mentioned their brand in{' '}
+                  DJ Studio, a B2C DJ software company identified underperforming attributes, rewrote key pages and published articles using the RankBee Content writer. After optimization, ChatGPT mentioned their brand in{' '}
                   <span className="font-bold">64%</span> of relevant prompts - up from{' '}
                   <span className="font-bold">6%</span>.
                 </p>
               </div>
 
               <blockquote className="text-slate-200 italic border-l-4 border-white/20 pl-4">
-                "It's like SEO for ChatGPT - but faster, smarter, and measurable." - VP Marketing, Pilot Customer
+                "It's like SEO for ChatGPT - but faster, smarter, and measurable." 
               </blockquote>
             </div>
 

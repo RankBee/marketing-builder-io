@@ -4,8 +4,10 @@ import { Footer } from "./components/Footer";
 import { HomePage } from "./components/HomePage";
 import { AboutPage } from "./components/AboutPage";
 import { PricingPage } from "./components/PricingPage";
+import { RankBeeAPIPage } from "./components/RankBeeAPIPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
+import { NewsPage } from "./components/NewsPage";
 import { DemoPage } from "./components/DemoPage";
 import { OnboardingMeetingPage } from "./components/OnboardingMeetingPage";
 import { ContactPage } from "./components/ContactPage";
@@ -30,10 +32,14 @@ function pathToPage(pathname: string): string {
       return "about";
     case "/pricing":
       return "pricing";
+    case "/rankbee-api":
+      return "rankbee-api";
     case "/blog":
       return "blog";
     case "/article-detail":
       return "article-detail";
+    case "/news":
+      return "news";
     case "/demo":
       return "demo";
     case "/onboarding-meeting":
@@ -136,6 +142,7 @@ useEffect(() => {
     const pageEventNames: Record<string, string> = {
       'home': 'Homepage View',
       'pricing': 'Pricing View',
+      'rankbee-api': 'RankBee API View',
       'demo': 'Demo View',
       'onboarding-meeting': 'Onboarding Meeting View',
       'sign-up': 'Sign Up View',
@@ -143,6 +150,7 @@ useEffect(() => {
       'about': 'About View',
       'blog': 'Blog View',
       'article-detail': 'Article Detail View',
+      'news': 'News View',
       'contact': 'Contact View',
       'privacy-policy': 'Privacy Policy View',
       'terms-of-service': 'Terms of Service View',
@@ -164,10 +172,14 @@ useEffect(() => {
         return <AboutPage onPageChange={setPage} />;
       case "pricing":
         return <PricingPage onPageChange={setPage} />;
+      case "rankbee-api":
+        return <RankBeeAPIPage onPageChange={setPage} />;
       case "blog":
         return <BlogPage onPageChange={setPage} />;
       case "article-detail":
         return <ArticleDetailPage onPageChange={setPage} />;
+      case "news":
+        return <NewsPage onPageChange={setPage} />;
       case "demo":
         // DemoPage does not require onPageChange props in this bundle
         return <DemoPage />;
@@ -206,10 +218,20 @@ useEffect(() => {
       description: "Simple pricing to start improving AI visibility.",
       path: "/pricing"
     },
+    "rankbee-api": {
+      title: "RankBee API",
+      description: "Integrate RankBee's AI optimization directly into your workflow. Access our powerful API to automate content analysis, optimization, and testing at scale.",
+      path: "/rankbee-api"
+    },
     blog: {
       title: "Blog",
       description: "Insights on AI search optimization and LLM-era marketing.",
       path: "/blog"
+    },
+    news: {
+      title: "News: Aris Vrakas Speaking at Politics Meets Technology 2026",
+      description: "Join Aris Vrakas, Founder & CEO of RankBee, at Politics Meets Technology 2026 in Berlin on January 24. Learn how political voices get seen—or silenced—in the age of LLMs.",
+      path: "/news"
     },
     demo: {
       title: "Free Visibility Test",

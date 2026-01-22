@@ -5,11 +5,11 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import HowItWorks from "../imports/HowItWorks";
-import GptPanel from "../imports/GptPanel";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "./AccountCta";
 import { signUpUrl } from "../lib/clerk-env";
 import { trackEvent } from "../lib/posthog";
+import { NewsAnnouncementBanner } from "./NewsAnnouncementBanner";
 
 interface HomePageProps {
   onPageChange: (page: string) => void;
@@ -63,6 +63,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
           100% { background-position: -200% 0; }
         }
       `}</style>
+      <NewsAnnouncementBanner onPageChange={onPageChange} />
       <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-12 sm:py-16 lg:py-20">
@@ -169,6 +170,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
         <CtaBlocks />
       </div>
 
+      {/* Tagline Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-purple-700">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            Perfect for brand professionals,<br />e-commerce and enterprises
+          </h2>
+        </div>
+      </section>
+
       {/* How It Works Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -176,8 +186,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
         </div>
       </section>
 
-      {/* GPT Panel Section */}
-      <GptPanel />
+
 
       {/* Case Study Section */}
       <CaseStudySection />

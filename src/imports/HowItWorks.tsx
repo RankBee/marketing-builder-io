@@ -12,7 +12,7 @@ import { signUpUrl } from "../lib/clerk-env";
 function Heading2() {
   return (
     <div className="w-full text-center" data-name="Heading 2">
-      <p className="font-['Inter:Bold',_sans-serif] text-[#101828] text-[48px] tracking-[0.3955px] font-[Inter] font-bold">How It Works</p>
+      <p className="font-['Inter:Bold',_sans-serif] text-[#101828] text-[48px] sm:text-[56px] lg:text-[64px] tracking-[0.3955px] font-[Inter] font-bold">How It Works</p>
     </div>
   );
 }
@@ -208,7 +208,7 @@ function CardTitle2() {
   return (
     <div className="flex items-center gap-2" data-name="CardTitle">
       <Icon3 />
-      <p className="font-['Inter:Bold',_sans-serif] text-[20px] text-neutral-950 tracking-[-0.3125px] font-bold font-[Inter]">{`AI Rewrite & Retest Engine`}</p>
+      <p className="font-['Inter:Bold',_sans-serif] text-[20px] text-neutral-950 tracking-[-0.3125px] font-bold font-[Inter]">{`AI Content Optimization`}</p>
     </div>
   );
 }
@@ -216,7 +216,7 @@ function CardTitle2() {
 function ImageWithFallback2() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <img alt="AI Rewrite & Retest Engine showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} />
+      <img alt="AI Content Optimization showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} />
     </div>
   );
 }
@@ -225,7 +225,7 @@ function GaoHomePage4() {
   return (
     <div className="w-full" data-name="GAOHomePage">
       <p className="font-['Inter:Regular',_sans-serif] leading-[20px] text-[#4a5565] text-[14px] tracking-[-0.1504px]">
-        Once you start your Free Trial, paste any URL. We ingest the page, rewrite it, and re-test against competitors with proprietary prompt sets. Every page gets a <span className="font-bold">Pre</span> and <span className="font-bold">Post</span> Optimization Score to prove ROI before you publish.
+        Paste any URL or raw text. We ingest the page, rewrite it, and re-test against competitors with proprietary prompt sets. Every page gets a <span className="font-bold">Pre</span> and <span className="font-bold">Post</span> Optimization Score before you publish.
       </p>
     </div>
   );
@@ -301,7 +301,12 @@ function CardContent2() {
           }}
         >
           <button
-            className="bg-brand-800 hover:bg-brand-900 transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer"
+            className="relative overflow-hidden h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center w-full cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+            style={{
+              background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+              backgroundSize: '200% 100%',
+              animation: 'shimmer 2s ease-in-out infinite',
+            }}
             data-name="Button"
           >
             <p className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
@@ -334,9 +339,9 @@ function Card2() {
 function Container() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full" data-name="Container">
+      <Card2 />
       <Card />
       <Card1 />
-      <Card2 />
     </div>
   );
 }

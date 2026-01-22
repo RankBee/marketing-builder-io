@@ -24,6 +24,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
+    { name: "RankBee API", id: "rankbee-api" },
     { name: "Blog", id: "blog" },
     { name: "Contact", id: "contact" }
   ];

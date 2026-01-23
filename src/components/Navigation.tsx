@@ -56,7 +56,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="flex items-baseline gap-1 xl:gap-4">
-              {navItems.map((item) => (
+              {navItems.filter(item => item.id !== "pricing").map((item) => (
                 item.id === "blog" ? (
                   <a
                     key={item.id}

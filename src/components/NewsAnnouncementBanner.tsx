@@ -37,7 +37,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
             <Megaphone className="flex-shrink-0 mt-1 text-white" size={24} />
             <div className="flex-1 min-w-0">
               <h3 className="text-sm sm:text-base font-bold leading-snug text-white mb-1">
-                Join our live AMA on Feb 4 as RankBee and Minuttia break down how the modern tech stack is redefining AI visibility — and share a practical playbook for tracking, measuring, and winning mentions in AI search.
+                Live AMA Feb 4: RankBee & Minuttia on mastering AI visibility and winning AI search mentions.
               </h3>
               <a
                 href="#"

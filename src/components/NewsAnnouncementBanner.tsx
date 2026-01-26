@@ -40,12 +40,12 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
                 Live AMA Feb 4: RankBee & Minuttia on mastering AI visibility and winning AI search mentions.
               </h3>
               <a
-                href="#"
+                href="https://www.linkedin.com/feed/update/urn:li:activity:7415000487760052224"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs sm:text-sm text-white font-medium hover:underline inline-block"
               >
-                Learn more →
+                Attend webinar →
               </a>
             </div>
           </div>

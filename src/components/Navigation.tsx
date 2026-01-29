@@ -110,7 +110,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
                     {/* Desktop Dropdown */}
                     {desktopSubmenuOpen === item.id && (
-                      <div className="absolute left-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10">
+                      <div className="absolute left-0 mt-0 w-72 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10">
                         {item.submenu.map((subitem) => (
                           <button
                             key={subitem.id}

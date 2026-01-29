@@ -37,6 +37,10 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               RankBee API generates pages designed to perform better inside AI search and answer engines (ChatGPT, Google AI Overviews, Perplexity, etc.). It uses your first-party data to make content more credible and harder to copy, and tests drafts before publishing to identify versions most likely to earn mentions and citations.
             </p>
 
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              We automate GAIO / GEO operations for SME and multinational enterprises.
+            </p>
+
             <div className="pt-4">
               <a
                 href="/demo"

@@ -40,7 +40,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
                     button_text: 'Book Demo',
-                    location: 'pro_hero',
+                    location: 'startups_hero',
                     variant: 'primary',
                     destination: 'demo'
                   });

@@ -147,7 +147,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
                     button_text: 'Book Demo',
-                    location: 'pro_cta',
+                    location: 'startups_cta',
                     variant: 'secondary',
                     destination: 'demo'
                   });

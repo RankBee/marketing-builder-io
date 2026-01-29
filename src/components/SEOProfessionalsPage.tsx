@@ -33,7 +33,11 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
               Perfect for individual entrepreneurs or early-stage startups just beginning to optimize their AI and GPT visibility.
             </p>
 
-            <div className="pt-4">
+            <div className="pt-4 space-y-4">
+              <div className="text-center">
+                <p className="text-4xl font-bold text-gray-900">£99</p>
+                <p className="text-lg text-gray-600">per month</p>
+              </div>
               <a
                 href="https://rankbee.chargebee.com/pages/v4/nkuoGdRcipppYU0fhrXgCWBmWtgzv12E/details"
                 target="_blank"
@@ -48,7 +52,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
                 }}
               >
                 <button
-                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-3 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-3 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 w-full"
                   style={{
                     background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
                     backgroundSize: '200% 100%',

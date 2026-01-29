@@ -61,7 +61,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;
+              Founded in 2024 by former Amazon Global SEO lead Aris Vrakas, RankBee brings together elite industry experts to redefine how brands succeed in AI search.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">

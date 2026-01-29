@@ -173,7 +173,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
           <div className="text-center space-y-6">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Ready to Optimize for AI?</h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-              Start your 14-day free trial today. No credit card required.
+              Start your 14-day free trial today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

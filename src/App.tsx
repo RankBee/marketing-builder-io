@@ -253,7 +253,7 @@ useEffect(() => {
       path: "/seo-professionals"
     },
     "growing-business": {
-      title: "RankBee for SMB",
+      title: "RankBee for Growing Business",
       description: "Ideal for growing businesses ready to scale their content creation. Get 50 content generations, 2 AI models, and advanced optimization tools.",
       path: "/growing-business"
     },

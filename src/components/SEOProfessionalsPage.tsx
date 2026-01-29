@@ -30,7 +30,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Optimize your brand's visibility across AI search engines. Rank higher in ChatGPT, Claude, and Gemini while protecting your organic search presence.
+              The perfect plan for SEO and brand professionals. Get full AI visibility tracking, 10 monthly content credits, and everything you need to optimize for ChatGPT, Claude, Gemini, and beyond. First 14 days free.
             </p>
 
             <div className="pt-4">

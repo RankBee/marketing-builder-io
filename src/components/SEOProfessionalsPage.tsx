@@ -35,16 +35,16 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
 
             <div className="pt-4">
               <a
-                href="/demo"
-                onClick={(e) => {
-                  e.preventDefault();
+                href="https://rankbee.chargebee.com/pages/v4/nkuoGdRcipppYU0fhrXgCWBmWtgzv12E/details"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
                   trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
+                    button_text: 'Choose Plan',
                     location: 'startups_hero',
                     variant: 'primary',
-                    destination: 'demo'
+                    destination: 'chargebee_pricing'
                   });
-                  onPageChange('demo');
                 }}
               >
                 <button
@@ -55,7 +55,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
                     animation: 'shimmer 2s ease-in-out infinite',
                   }}
                 >
-                  Book Demo
+                  Choose Plan
                 </button>
               </a>
             </div>

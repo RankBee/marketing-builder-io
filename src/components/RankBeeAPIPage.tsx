@@ -19,18 +19,11 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6 sm:space-y-8">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              RankBee <span className="relative inline-block px-1" style={{
-                background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 2s ease-in-out infinite',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}>API</span>
+              Enterprise
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
+              Enterprise solutions to help teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
             </p>
 
             <div className="pt-4">

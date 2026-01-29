@@ -142,7 +142,7 @@ useEffect(() => {
     const pageEventNames: Record<string, string> = {
       'home': 'Homepage View',
       'pricing': 'Pricing View',
-      'rankbee-api': 'RankBee API View',
+      'rankbee-api': 'Enterprise View',
       'demo': 'Demo View',
       'onboarding-meeting': 'Onboarding Meeting View',
       'sign-up': 'Sign Up View',
@@ -219,8 +219,8 @@ useEffect(() => {
       path: "/pricing"
     },
     "rankbee-api": {
-      title: "RankBee API",
-      description: "Integrate RankBee's AI optimization directly into your workflow. Access our powerful API to automate content analysis, optimization, and testing at scale.",
+      title: "Enterprise",
+      description: "Enterprise solutions to automate content analysis, optimization, and testing at scale.",
       path: "/rankbee-api"
     },
     blog: {

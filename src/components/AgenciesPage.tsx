@@ -164,31 +164,6 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8 md:col-span-2">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Partner with Us</h3>
-              <p className="text-gray-600 mb-6">
-                Explore agency partnership opportunities and integrate RankBee's AI visibility solutions into your service offerings.
-              </p>
-              <div className="flex justify-center">
-                <a href="/contact" onClick={(e) => {
-                  e.preventDefault();
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Contact Us',
-                    location: 'agencies_cta',
-                    variant: 'primary',
-                    destination: 'contact'
-                  });
-                  onPageChange('contact');
-                }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
-                  background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 2s ease-in-out infinite',
-                  color: 'white'
-                }}>
-                  Contact Us
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>

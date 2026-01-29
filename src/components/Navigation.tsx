@@ -157,23 +157,23 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="hidden lg:flex items-center justify-end space-x-4 shrink-0" style={{ width: '300px' }}>
             <SignedOut>
               <a
-                href="/contact"
+                href="/demo"
                 onClick={(e) => {
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
-                    button_text: 'Contact Us',
+                    button_text: 'Book Demo',
                     location: 'navigation_desktop',
                     variant: 'outline',
-                    destination: 'contact'
+                    destination: 'demo'
                   });
-                  onPageChange('contact');
+                  onPageChange('demo');
                 }}
               >
                 <Button
                   variant="outline"
                   className="border-cta text-cta hover:bg-cta/10 whitespace-nowrap"
                 >
-                  Contact Us
+                  Book Demo
                 </Button>
               </a>
             </SignedOut>

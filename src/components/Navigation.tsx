@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useSafeUser } from "../lib/clerk-safe";
 import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 import { trackEvent } from "../lib/posthog";
 import AccountCta from "./AccountCta";
 import { signInUrl } from "../lib/clerk-env";
+
+interface NavItem {
+  name: string;
+  id: string;
+  submenu?: { name: string; id: string }[];
+}
 
 interface NavigationProps {
   currentPage: string;
@@ -15,15 +21,25 @@ interface NavigationProps {
 
 export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [desktopSubmenuOpen, setDesktopSubmenuOpen] = useState<string | null>(null);
   const { isLoaded: orgLoaded } = useOrganization();
   const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
   const loaded = orgLoaded || listLoaded;
   const { user } = useSafeUser();
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
+    {
+      name: "Solutions",
+      id: "solutions",
+      submenu: [
+        { name: "SEO and Brand Professionals", id: "seo-professionals" },
+        { name: "Agencies", id: "agencies" }
+      ]
+    },
     { name: "Enterprise", id: "rankbee-api" },
     { name: "Blog", id: "blog" },
     { name: "Contact", id: "contact" }

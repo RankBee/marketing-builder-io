@@ -90,6 +90,51 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   >
                     {item.name}
                   </a>
+                ) : item.submenu ? (
+                  <div
+                    key={item.id}
+                    className="relative group"
+                    onMouseEnter={() => setDesktopSubmenuOpen(item.id)}
+                    onMouseLeave={() => setDesktopSubmenuOpen(null)}
+                  >
+                    <button
+                      className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap flex items-center gap-1 ${
+                        currentPage === item.id || item.submenu?.some(sub => currentPage === sub.id)
+                          ? "text-purple-600 bg-purple-50"
+                          : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                      }`}
+                    >
+                      {item.name}
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+
+                    {/* Desktop Dropdown */}
+                    {desktopSubmenuOpen === item.id && (
+                      <div className="absolute left-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10">
+                        {item.submenu.map((subitem) => (
+                          <button
+                            key={subitem.id}
+                            onClick={() => {
+                              trackEvent('Navigation Click', {
+                                destination: subitem.id,
+                                location: 'desktop_submenu',
+                                current_page: currentPage
+                              });
+                              handleNavClick(subitem.id, false);
+                              setDesktopSubmenuOpen(null);
+                            }}
+                            className={`block w-full text-left px-4 py-2 transition-colors ${
+                              currentPage === subitem.id
+                                ? "text-purple-600 bg-purple-50"
+                                : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                            }`}
+                          >
+                            {subitem.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <button
                     key={item.id}

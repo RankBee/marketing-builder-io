@@ -35,7 +35,7 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
 
             <div className="pt-4">
               <a
-                href="/contact"
+                href="/contact#contact-channels"
                 onClick={(e) => {
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
@@ -45,6 +45,11 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
                     destination: 'contact'
                   });
                   onPageChange('contact');
+                  // Scroll to the contact channels section
+                  setTimeout(() => {
+                    const element = document.getElementById('contact-channels');
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
                 }}
               >
                 <button

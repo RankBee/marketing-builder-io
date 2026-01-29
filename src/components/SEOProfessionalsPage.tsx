@@ -73,41 +73,32 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
-              What's Included for Startups
+              What's included
             </h2>
-            <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Everything you need to track and optimize your AI visibility across all major platforms, with the flexibility to grow as your needs evolve.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Full Tracking Package</h3>
-              <p className="text-gray-600 mb-6">
-                Monitor your brand across all major AI platforms:
-              </p>
-              <ul className="text-gray-600 mb-6 space-y-2">
-                <li>• ChatGPT and OpenAI integrations</li>
-                <li>• Google Gemini and AI Overviews</li>
-                <li>• Claude, Perplexity, and more</li>
-                <li>• Unlimited weekly crawls</li>
-                <li>• Real-time citation tracking</li>
-              </ul>
-            </div>
-
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Monthly Content Credits</h3>
-              <p className="text-gray-600 mb-6">
-                Get 10 content generation credits every month to:
-              </p>
-              <ul className="text-gray-600 mb-6 space-y-2">
-                <li>• Optimize content for AI visibility</li>
-                <li>• Test content variations before publishing</li>
-                <li>• Create AI-optimized pages at scale</li>
-                <li>• First 14 days free to try it all</li>
-                <li>• Cancel anytime with pro-rated refunds</li>
-              </ul>
-            </div>
+          <div className="max-w-2xl mx-auto">
+            <ul className="text-lg text-gray-900 space-y-4">
+              <li className="flex items-start">
+                <span className="font-semibold">Content Writer:</span>
+                <span className="ml-2">10 Content Generations per month</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold">Content Recommendation Engine</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold">Existing Content Optimization Engine</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold">500 AI Prompts tracking</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold">1 AI Model (ChatGPT)</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold">1 Brand</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>

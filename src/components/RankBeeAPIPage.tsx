@@ -68,6 +68,17 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
         </div>
       </section>
 
+      {/* GAIO/GEO Banner Section */}
+      <section className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+              We automate GAIO / GEO operations for SME and multinational enterprises.
+            </h2>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-purple-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

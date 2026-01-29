@@ -35,7 +35,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 flex items-start gap-3">
             <Megaphone className="flex-shrink-0 mt-1 text-white" size={24} />
-            <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:gap-3">
+            <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:gap-6">
               <h3 className="text-sm sm:text-base font-bold leading-snug text-white">
                 Join us Feb 4: RankBee & Minuttia on mastering AI visibility and winning AI search
               </h3>
@@ -45,7 +45,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
                 rel="noopener noreferrer"
                 className="text-xs sm:text-sm text-white font-medium hover:underline inline-block flex-shrink-0 mt-1 sm:mt-0"
               >
-                Attend webinar →
+                Attend FREE webinar →
               </a>
             </div>
           </div>

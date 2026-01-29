@@ -242,8 +242,8 @@ useEffect(() => {
       path: "/rankbee-api"
     },
     "seo-professionals": {
-      title: "For SEO and Brand Professionals",
-      description: "Optimize your brand's visibility across AI search engines. Rank higher in ChatGPT, Claude, and Gemini.",
+      title: "RankBee Pro",
+      description: "Get full AI visibility tracking, monthly content credits, and everything you need to optimize for ChatGPT, Claude, Gemini, and beyond. First 14 days free.",
       path: "/seo-professionals"
     },
     agencies: {

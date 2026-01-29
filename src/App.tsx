@@ -7,6 +7,7 @@ import { PricingPage } from "./components/PricingPage";
 import { RankBeeAPIPage } from "./components/RankBeeAPIPage";
 import { SEOProfessionalsPage } from "./components/SEOProfessionalsPage";
 import { AgenciesPage } from "./components/AgenciesPage";
+import { PoliticalCampaignsPage } from "./components/PoliticalCampaignsPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { NewsPage } from "./components/NewsPage";
@@ -40,6 +41,8 @@ function pathToPage(pathname: string): string {
       return "seo-professionals";
     case "/agencies":
       return "agencies";
+    case "/political-campaigns":
+      return "political-campaigns";
     case "/blog":
       return "blog";
     case "/article-detail":
@@ -151,6 +154,7 @@ useEffect(() => {
       'rankbee-api': 'Enterprise View',
       'seo-professionals': 'SEO Professionals View',
       'agencies': 'Agencies View',
+      'political-campaigns': 'Political Campaigns View',
       'demo': 'Demo View',
       'onboarding-meeting': 'Onboarding Meeting View',
       'sign-up': 'Sign Up View',
@@ -186,6 +190,8 @@ useEffect(() => {
         return <SEOProfessionalsPage onPageChange={setPage} />;
       case "agencies":
         return <AgenciesPage onPageChange={setPage} />;
+      case "political-campaigns":
+        return <PoliticalCampaignsPage onPageChange={setPage} />;
       case "blog":
         return <BlogPage onPageChange={setPage} />;
       case "article-detail":
@@ -244,6 +250,11 @@ useEffect(() => {
       title: "For Agencies",
       description: "Scale AI optimization across your client portfolio. Offer AI visibility services to your clients.",
       path: "/agencies"
+    },
+    "political-campaigns": {
+      title: "For Political Campaigns",
+      description: "Ensure your message reaches voters through AI search assistants. Amplify your campaign's voice across ChatGPT, Claude, Gemini, and other AI platforms.",
+      path: "/political-campaigns"
     },
     blog: {
       title: "Blog",

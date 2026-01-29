@@ -242,7 +242,7 @@ useEffect(() => {
       path: "/rankbee-api"
     },
     "seo-professionals": {
-      title: "RankBee Pro",
+      title: "RankBee for Startups",
       description: "Get full AI visibility tracking, monthly content credits, and everything you need to optimize for ChatGPT, Claude, Gemini, and beyond. First 14 days free.",
       path: "/seo-professionals"
     },

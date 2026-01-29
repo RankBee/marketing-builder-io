@@ -31,7 +31,6 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const navItems: NavItem[] = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
-    { name: "Pricing", id: "pricing" },
     {
       name: "Solutions",
       id: "solutions",

@@ -33,6 +33,10 @@ export function GrowingBusinessPage({ onPageChange }: GrowingBusinessPageProps) 
               Ideal for growing businesses ready to scale their content creation.
             </p>
 
+            <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              RankBee for SMB gives you everything you need to create, optimize, and track content that performs in AI-driven search environments - without the overhead of a full team or agency. Designed specifically for small and medium-sized businesses, this plan helps you punch above your weight as AI platforms like ChatGPT and Google AI Overviews reshape how customers discover brands.
+            </p>
+
             <div className="pt-4 space-y-4 flex flex-col items-center">
               <div className="text-center">
                 <p className="text-4xl font-bold text-gray-900">£199</p>

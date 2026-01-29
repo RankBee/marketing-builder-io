@@ -108,6 +108,63 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-purple-50 via-white to-purple-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-6">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Ready to Optimize for AI?</h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Start your 14-day free trial today. No credit card required.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="/pricing"
+                onClick={(e) => {
+                  e.preventDefault();
+                  trackEvent('CTA Clicked', {
+                    button_text: 'View Pricing',
+                    location: 'pro_cta',
+                    variant: 'primary',
+                    destination: 'pricing'
+                  });
+                  onPageChange('pricing');
+                }}
+              >
+                <button
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-3 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  style={{
+                    background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                    backgroundSize: '200% 100%',
+                    animation: 'shimmer 2s ease-in-out infinite',
+                  }}
+                >
+                  View Pricing
+                </button>
+              </a>
+              <a
+                href="/demo"
+                onClick={(e) => {
+                  e.preventDefault();
+                  trackEvent('CTA Clicked', {
+                    button_text: 'Book Demo',
+                    location: 'pro_cta',
+                    variant: 'secondary',
+                    destination: 'demo'
+                  });
+                  onPageChange('demo');
+                }}
+              >
+                <button
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-3 text-center text-lg font-semibold text-purple-600 border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300"
+                >
+                  Book Demo
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

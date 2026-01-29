@@ -123,7 +123,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
                     button_text: 'View Pricing',
-                    location: 'pro_cta',
+                    location: 'startups_cta',
                     variant: 'primary',
                     destination: 'pricing'
                   });

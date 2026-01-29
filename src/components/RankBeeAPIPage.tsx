@@ -30,7 +30,11 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Enterprise solutions to help teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
+              Enterprise solutions to help teams create and update content that AI search tools surface, reference, and trust - at scale.
+            </p>
+
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              RankBee API generates pages designed to perform better inside AI search and answer engines (ChatGPT, Google AI Overviews, Perplexity, etc.). It uses your first-party data to make content more credible and harder to copy, and tests drafts before publishing to identify versions most likely to earn mentions and citations.
             </p>
 
             <div className="pt-4">

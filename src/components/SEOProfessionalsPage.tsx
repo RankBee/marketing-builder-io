@@ -69,10 +69,10 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
-              Optimize for the AI Era
+              What's Included in Pro
             </h2>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              As AI assistants become the primary search interface, RankBee helps SEO and brand professionals maintain visibility and control their narrative across emerging platforms.
+              Everything you need to track and optimize your AI visibility across all major platforms, with the flexibility to grow as your needs evolve.
             </p>
           </div>
 

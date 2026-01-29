@@ -6,6 +6,7 @@ import { AboutPage } from "./components/AboutPage";
 import { PricingPage } from "./components/PricingPage";
 import { RankBeeAPIPage } from "./components/RankBeeAPIPage";
 import { SEOProfessionalsPage } from "./components/SEOProfessionalsPage";
+import { GrowingBusinessPage } from "./components/GrowingBusinessPage";
 import { AgenciesPage } from "./components/AgenciesPage";
 import { PoliticalCampaignsPage } from "./components/PoliticalCampaignsPage";
 import { BlogPage } from "./components/BlogPage";
@@ -39,6 +40,8 @@ function pathToPage(pathname: string): string {
       return "rankbee-api";
     case "/seo-professionals":
       return "seo-professionals";
+    case "/growing-business":
+      return "growing-business";
     case "/agencies":
       return "agencies";
     case "/political-campaigns":
@@ -153,6 +156,7 @@ useEffect(() => {
       'pricing': 'Pricing View',
       'rankbee-api': 'Enterprise View',
       'seo-professionals': 'Startups View',
+      'growing-business': 'Growing Business View',
       'agencies': 'Agencies View',
       'political-campaigns': 'Political Campaigns View',
       'demo': 'Demo View',
@@ -188,6 +192,8 @@ useEffect(() => {
         return <RankBeeAPIPage onPageChange={setPage} />;
       case "seo-professionals":
         return <SEOProfessionalsPage onPageChange={setPage} />;
+      case "growing-business":
+        return <GrowingBusinessPage onPageChange={setPage} />;
       case "agencies":
         return <AgenciesPage onPageChange={setPage} />;
       case "political-campaigns":
@@ -245,6 +251,11 @@ useEffect(() => {
       title: "RankBee for Startups",
       description: "Get full AI visibility tracking, monthly content credits, and everything you need to optimize for ChatGPT, Claude, Gemini, and beyond. First 14 days free.",
       path: "/seo-professionals"
+    },
+    "growing-business": {
+      title: "RankBee for Growing Business",
+      description: "Ideal for growing businesses ready to scale their content creation. Get 50 content generations, 2 AI models, and advanced optimization tools.",
+      path: "/growing-business"
     },
     agencies: {
       title: "For Agencies",

@@ -77,9 +77,9 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-lg border border-purple-200 p-8 md:col-span-2">
+            <div className="bg-white rounded-lg border border-purple-200 p-8 md:col-span-2 w-full">
               <h3 className="text-2xl font-bold text-gray-900 mb-8">What's Included</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full justify-items-center md:justify-items-start">
                 <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300">
                   <div className="flex-shrink-0">
                     <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">

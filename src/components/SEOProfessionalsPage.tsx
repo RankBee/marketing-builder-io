@@ -159,7 +159,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
                 }}
               >
                 <button
-                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-3 text-center text-lg font-semibold text-purple-600 border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300"
+                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-base font-semibold text-purple-600 border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300"
                 >
                   Choose Plan
                 </button>

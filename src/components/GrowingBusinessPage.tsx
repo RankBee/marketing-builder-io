@@ -26,7 +26,7 @@ export function GrowingBusinessPage({ onPageChange }: GrowingBusinessPageProps) 
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-              }}>Growing Business</span>
+              }}>Growth</span>
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">

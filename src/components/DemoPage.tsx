@@ -52,7 +52,7 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
               {/* Left Side: Content */}
               <div className="flex-1 lg:max-w-xl" >
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 text-gray-900 leading-tight">
-                  Book a demo with <span className="text-purple-600">RankBee Team.</span>
+                  Book a demo with <span className="text-purple-600">RankBee</span>
                 </h1>
                 
                 <div className="description-box bg backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 border border-purple-200">

@@ -35,7 +35,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
 
             <div className="pt-4">
               <a
-                href="/contact"
+                href="/contact#contact-channels"
                 onClick={(e) => {
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
@@ -45,6 +45,11 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
                     destination: 'contact'
                   });
                   onPageChange('contact');
+                  // Scroll to the contact channels section
+                  setTimeout(() => {
+                    const element = document.getElementById('contact-channels');
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
                 }}
               >
                 <button

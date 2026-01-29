@@ -37,11 +37,25 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               RankBee API generates pages designed to perform better inside AI search and answer engines (ChatGPT, Google AI Overviews, Perplexity, etc.). It uses your first-party data to make content more credible and harder to copy, and tests drafts before publishing to identify versions most likely to earn mentions and citations.
             </p>
 
-            <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl p-6 sm:p-8 max-w-3xl mx-auto mb-8 shadow-lg">
-              <p className="text-lg sm:text-xl font-semibold leading-relaxed text-center">
-                We automate GAIO / GEO operations for SME and multinational enterprises.
-              </p>
-            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GAIO/GEO Banner Section */}
+      <section className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+              We automate GAIO / GEO operations for SME and multinational enterprises.
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      {/* Rest of Hero Section Content */}
+      <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-6 sm:space-y-8">
 
             <div className="pt-4">
               <a

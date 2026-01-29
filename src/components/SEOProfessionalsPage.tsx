@@ -167,35 +167,6 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-purple-50 via-white to-purple-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Ready to Optimize for AI?</h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="https://rankbee.chargebee.com/pages/v4/nkuoGdRcipppYU0fhrXgCWBmWtgzv12E/details"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Choose Plan',
-                    location: 'startups_cta',
-                    variant: 'secondary',
-                    destination: 'chargebee_pricing'
-                  });
-                }}
-              >
-                <button
-                  className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-base font-semibold text-purple-600 border-2 border-purple-600 hover:bg-purple-50 transition-all duration-300"
-                >
-                  Choose Plan
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </div>
   );

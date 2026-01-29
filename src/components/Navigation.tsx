@@ -319,17 +319,17 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
               <div className="pt-2 space-y-2">
                 <SignedOut>
                   <a
-                    href="/demo"
+                    href="/contact"
                     className="block w-full"
                     onClick={(e) => {
                       e.preventDefault();
                       trackEvent('CTA Clicked', {
-                        button_text: 'Book Demo',
+                        button_text: 'Contact Us',
                         location: 'navigation_mobile',
                         variant: 'outline',
-                        destination: 'demo'
+                        destination: 'contact'
                       });
-                      onPageChange('demo');
+                      onPageChange('contact');
                       setIsMobileMenuOpen(false);
                     }}
                   >
@@ -337,7 +337,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                       variant="outline"
                       className="w-full border-cta text-cta hover:bg-cta/10"
                     >
-                      Book Demo
+                      Contact Us
                     </Button>
                   </a>
                 </SignedOut>

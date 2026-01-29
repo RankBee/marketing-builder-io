@@ -35,16 +35,16 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
 
             <div className="pt-4">
               <a
-                href="/demo"
+                href="/contact"
                 onClick={(e) => {
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
+                    button_text: 'Contact Us',
                     location: 'political_campaigns_hero',
                     variant: 'primary',
-                    destination: 'demo'
+                    destination: 'contact'
                   });
-                  onPageChange('demo');
+                  onPageChange('contact');
                 }}
               >
                 <button
@@ -55,7 +55,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
                     animation: 'shimmer 2s ease-in-out infinite',
                   }}
                 >
-                  Book Demo
+                  Contact Us
                 </button>
               </a>
             </div>

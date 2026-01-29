@@ -37,6 +37,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       id: "solutions",
       submenu: [
         { name: "Startups", id: "seo-professionals" },
+        { name: "Growing Business", id: "growing-business" },
         { name: "Agencies", id: "agencies" },
         { name: "Political Campaigns", id: "political-campaigns" }
       ]

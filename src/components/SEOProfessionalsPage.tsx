@@ -78,41 +78,31 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Track AI Visibility</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Full Tracking Package</h3>
               <p className="text-gray-600 mb-6">
-                Monitor your brand's appearance in AI-generated answers across:
+                Monitor your brand across all major AI platforms:
               </p>
               <ul className="text-gray-600 mb-6 space-y-2">
                 <li>• ChatGPT and OpenAI integrations</li>
-                <li>• Google Gemini and extended AI platforms</li>
-                <li>• Claude and other enterprise AI models</li>
+                <li>• Google Gemini and AI Overviews</li>
+                <li>• Claude, Perplexity, and more</li>
+                <li>• Unlimited weekly crawls</li>
+                <li>• Real-time citation tracking</li>
               </ul>
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Started Today</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Monthly Content Credits</h3>
               <p className="text-gray-600 mb-6">
-                Join leading brands optimizing for AI visibility. Start tracking your citations and competitive position today.
+                Get 10 content generation credits every month to:
               </p>
-              <div className="flex justify-center">
-                <a href="/demo" onClick={(e) => {
-                  e.preventDefault();
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
-                    location: 'seo_professionals_cta',
-                    variant: 'primary',
-                    destination: 'demo'
-                  });
-                  onPageChange('demo');
-                }} className="inline-block relative overflow-hidden px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
-                  background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 2s ease-in-out infinite',
-                  color: 'white'
-                }}>
-                  Book Demo
-                </a>
-              </div>
+              <ul className="text-gray-600 mb-6 space-y-2">
+                <li>• Optimize content for AI visibility</li>
+                <li>• Test content variations before publishing</li>
+                <li>• Create AI-optimized pages at scale</li>
+                <li>• First 14 days free to try it all</li>
+                <li>• Cancel anytime with pro-rated refunds</li>
+              </ul>
             </div>
           </div>
         </div>

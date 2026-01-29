@@ -123,7 +123,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                               handleNavClick(subitem.id, false);
                               setDesktopSubmenuOpen(null);
                             }}
-                            className={`block w-full text-left px-4 py-2 transition-colors ${
+                            className={`block w-full text-left px-4 py-2 transition-colors whitespace-nowrap ${
                               currentPage === subitem.id
                                 ? "text-purple-600 bg-purple-50"
                                 : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"

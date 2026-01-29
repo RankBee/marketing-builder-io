@@ -73,7 +73,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="flex items-baseline gap-1 xl:gap-4">
-              {navItems.filter(item => item.id !== "pricing").map((item) => (
+              {navItems.map((item) => (
                 item.id === "blog" ? (
                   <a
                     key={item.id}
@@ -241,7 +241,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navItems.filter(item => item.id !== "pricing").map((item) => (
+              {navItems.map((item) => (
                 item.id === "blog" ? (
                   <a
                     key={item.id}

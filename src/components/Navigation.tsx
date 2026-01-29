@@ -289,7 +289,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                               handleNavClick(subitem.id, true);
                               setOpenSubmenu(null);
                             }}
-                            className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
+                            className={`block w-full text-left px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
                               currentPage === subitem.id
                                 ? "text-purple-600 bg-white"
                                 : "text-gray-700 hover:text-purple-600 hover:bg-white"

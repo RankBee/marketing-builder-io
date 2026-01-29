@@ -57,7 +57,7 @@ export function DemoPage({ onPageChange }: DemoPageProps) {
                 
                 <div className="description-box bg backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 border border-purple-200">
                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                    Book a demo with RankBee Team. We will demonstrate how your brand tracks across GenAI platforms and how to optimize content for AI discovery.
+                    We will demonstrate how your brand tracks across GenAI platforms and how to optimize content for AI discovery.
                   </p>
                 </div>
 

@@ -139,7 +139,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     variant="outline"
                     className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
                   >
-                    Book Demo
+                    Set Up a Call
                   </Button>
                 </a>
               </SignedOut>

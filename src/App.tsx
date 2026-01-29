@@ -152,7 +152,7 @@ useEffect(() => {
       'home': 'Homepage View',
       'pricing': 'Pricing View',
       'rankbee-api': 'Enterprise View',
-      'seo-professionals': 'Pro View',
+      'seo-professionals': 'Startups View',
       'agencies': 'Agencies View',
       'political-campaigns': 'Political Campaigns View',
       'demo': 'Demo View',

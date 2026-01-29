@@ -37,7 +37,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       id: "solutions",
       submenu: [
         { name: "SEO and Brand Professionals", id: "seo-professionals" },
-        { name: "Agencies", id: "agencies" }
+        { name: "Agencies", id: "agencies" },
+        { name: "Political Campaigns", id: "political-campaigns" }
       ]
     },
     { name: "Enterprise", id: "rankbee-api" },

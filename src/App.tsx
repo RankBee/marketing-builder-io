@@ -5,6 +5,8 @@ import { HomePage } from "./components/HomePage";
 import { AboutPage } from "./components/AboutPage";
 import { PricingPage } from "./components/PricingPage";
 import { RankBeeAPIPage } from "./components/RankBeeAPIPage";
+import { SEOProfessionalsPage } from "./components/SEOProfessionalsPage";
+import { AgenciesPage } from "./components/AgenciesPage";
 import { BlogPage } from "./components/BlogPage";
 import { ArticleDetailPage } from "./components/ArticleDetailPage";
 import { NewsPage } from "./components/NewsPage";
@@ -34,6 +36,10 @@ function pathToPage(pathname: string): string {
       return "pricing";
     case "/rankbee-api":
       return "rankbee-api";
+    case "/seo-professionals":
+      return "seo-professionals";
+    case "/agencies":
+      return "agencies";
     case "/blog":
       return "blog";
     case "/article-detail":
@@ -143,6 +149,8 @@ useEffect(() => {
       'home': 'Homepage View',
       'pricing': 'Pricing View',
       'rankbee-api': 'Enterprise View',
+      'seo-professionals': 'SEO Professionals View',
+      'agencies': 'Agencies View',
       'demo': 'Demo View',
       'onboarding-meeting': 'Onboarding Meeting View',
       'sign-up': 'Sign Up View',
@@ -174,6 +182,10 @@ useEffect(() => {
         return <PricingPage onPageChange={setPage} />;
       case "rankbee-api":
         return <RankBeeAPIPage onPageChange={setPage} />;
+      case "seo-professionals":
+        return <SEOProfessionalsPage onPageChange={setPage} />;
+      case "agencies":
+        return <AgenciesPage onPageChange={setPage} />;
       case "blog":
         return <BlogPage onPageChange={setPage} />;
       case "article-detail":
@@ -222,6 +234,16 @@ useEffect(() => {
       title: "Enterprise",
       description: "Enterprise solutions to automate content analysis, optimization, and testing at scale.",
       path: "/rankbee-api"
+    },
+    "seo-professionals": {
+      title: "For SEO and Brand Professionals",
+      description: "Optimize your brand's visibility across AI search engines. Rank higher in ChatGPT, Claude, and Gemini.",
+      path: "/seo-professionals"
+    },
+    agencies: {
+      title: "For Agencies",
+      description: "Scale AI optimization across your client portfolio. Offer AI visibility services to your clients.",
+      path: "/agencies"
     },
     blog: {
       title: "Blog",

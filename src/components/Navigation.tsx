@@ -258,6 +258,49 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   >
                     {item.name}
                   </a>
+                ) : item.submenu ? (
+                  <div key={item.id}>
+                    <button
+                      onClick={() => setOpenSubmenu(openSubmenu === item.id ? null : item.id)}
+                      className={`block w-full text-left px-3 py-2 rounded-md transition-colors flex items-center justify-between ${
+                        item.submenu?.some(sub => currentPage === sub.id)
+                          ? "text-purple-600 bg-purple-50"
+                          : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                      }`}
+                    >
+                      {item.name}
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform ${openSubmenu === item.id ? 'transform rotate-180' : ''}`}
+                      />
+                    </button>
+
+                    {/* Mobile Submenu */}
+                    {openSubmenu === item.id && (
+                      <div className="bg-purple-50 pl-4 space-y-1">
+                        {item.submenu.map((subitem) => (
+                          <button
+                            key={subitem.id}
+                            onClick={() => {
+                              trackEvent('Navigation Click', {
+                                destination: subitem.id,
+                                location: 'mobile_submenu',
+                                current_page: currentPage
+                              });
+                              handleNavClick(subitem.id, true);
+                              setOpenSubmenu(null);
+                            }}
+                            className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
+                              currentPage === subitem.id
+                                ? "text-purple-600 bg-white"
+                                : "text-gray-700 hover:text-purple-600 hover:bg-white"
+                            }`}
+                          >
+                            {subitem.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <button
                     key={item.id}

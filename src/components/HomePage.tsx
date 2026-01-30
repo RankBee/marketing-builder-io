@@ -166,19 +166,19 @@ export function HomePage({ onPageChange }: HomePageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* RankBee Toolkit */}
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 relative" style={{boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900">RankBee Toolkit</h3>
               <p className="text-gray-700 leading-relaxed">Self-serve content optimisation tools for teams and individual entrepreneurs who want speed and control. Create and optimise AI-ready, SEO-aware content to improve visibility across search engines and AI assistants.</p>
             </div>
 
             {/* RankBee Consulting */}
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 relative" style={{boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Consulting</h3>
               <p className="text-gray-700 leading-relaxed">A fully managed SEO and AI visibility service for teams that want organic growth without managing tools or workflows. We handle content strategy, creation, and optimisation with human-supervised quality control. Built for businesses, agencies, SaaS platforms, and campaigns without in-house SEO or AI search expertise.</p>
             </div>
 
             {/* RankBee Enterprise */}
-            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 relative" style={{boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Enterprise</h3>
               <p className="text-gray-700 leading-relaxed">An enterprise-grade content optimisation and automation solution for organisations operating at scale. Designed for teams that need programmatic content creation, multilingual optimisation, and AI visibility integrated directly into their existing systems.</p>
             </div>

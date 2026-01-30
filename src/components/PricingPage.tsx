@@ -120,15 +120,8 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               For teams and founders who want to move fast on their own.
             </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Features Banner */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-purple-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Use RankBee's toolkit to generate SEO-aware content, optimise pages efficiently, and experiment at your own pace.
             </p>
           </div>

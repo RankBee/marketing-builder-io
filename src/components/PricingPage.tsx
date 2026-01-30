@@ -95,6 +95,21 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
       </section> */}
 
+      {/* RankBee Toolkit Hero Section */}
+      <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-6 sm:space-y-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
+              RankBee Toolkit
+            </h1>
+
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              For teams and founders who want to move fast on their own.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Table */}
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -38,7 +38,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         { name: "Startups", id: "seo-professionals" },
         { name: "Growing Business", id: "growing-business" },
         { name: "Agencies", id: "agencies" },
-        { name: "Political Campaigns", id: "political-campaigns" }
+        { name: "Political Campaigns", id: "political-campaigns" },
+        { name: "RankBee Toolkit", id: "pricing" }
       ]
     },
     { name: "Enterprise", id: "rankbee-api" },

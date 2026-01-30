@@ -123,7 +123,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     size="lg"
                     className="cursor-pointer rounded-md relative overflow-hidden px-8 py-2 text-center text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [animation:shimmer_2s_ease-in-out_infinite] hover:[animation-play-state:paused]"
                     style={{
-                      background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                      background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(59, 130, 246), rgb(147, 51, 234))',
                       backgroundSize: '200% 100%',
                       animation: 'shimmer 2s ease-in-out infinite',
                     }}

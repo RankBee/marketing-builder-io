@@ -30,7 +30,7 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Scale AI optimization across your entire client portfolio. Offer new AI visibility services and help your clients dominate AI search rankings.
+              We handle your SEO and AI visibility end-to-end — so you don't have to.
             </p>
 
             <div className="pt-4 space-y-4 flex flex-col items-center">

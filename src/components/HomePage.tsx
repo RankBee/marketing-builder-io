@@ -174,7 +174,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
 
             {/* RankBee Enterprise */}
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">RankBee Enterprise</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Enterprise</h3>
               <p className="text-gray-700 leading-relaxed">An enterprise-grade content optimisation and automation solution for organisations operating at scale. Designed for teams that need programmatic content creation, multilingual optimisation, and AI visibility integrated directly into their existing systems.</p>
             </div>
           </div>

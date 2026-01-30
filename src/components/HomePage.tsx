@@ -122,16 +122,16 @@ export function HomePage({ onPageChange }: HomePageProps) {
                   </Button>
                 </a>
                 <a
-                  href="/contact"
+                  href="/demo"
                   onClick={(e) => {
                     e.preventDefault();
                     trackEvent('CTA Clicked', {
-                      button_text: 'Set Up a Call',
+                      button_text: 'Book Demo',
                       location: 'homepage_hero',
                       variant: 'secondary',
-                      destination: 'contact'
+                      destination: 'demo'
                     });
-                    onPageChange('contact');
+                    onPageChange('demo');
                   }}
                 >
                   <Button
@@ -139,7 +139,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
                     variant="outline"
                     className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
                   >
-                    Set Up a Call
+                    Book Demo
                   </Button>
                 </a>
               </SignedOut>

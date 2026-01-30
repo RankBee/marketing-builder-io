@@ -154,14 +154,6 @@ export function HomePage({ onPageChange }: HomePageProps) {
             </div>
           </div>
           
-          {/* Dashboard Preview Image */}
-          <div className="mt-12">
-            <img 
-              src={dashboardImage} 
-              alt="RankBee Dashboard Interface showing coverage metrics, competitive analysis, and brand rankings" 
-              className="w-full max-w-[1200px] mx-auto rounded-xl shadow-2xl"
-            />
-          </div>
         </div>
       </section>
 

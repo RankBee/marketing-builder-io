@@ -117,13 +117,14 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
               }}>Toolkit</span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              For teams and founders who want to move fast on their own.
-            </p>
-
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Use RankBee's toolkit to generate SEO-aware content, optimise pages efficiently, and experiment at your own pace.
-            </p>
+            <div className="max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+                For teams and founders who want to move fast on their own.
+              </p>
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+                Use RankBee's toolkit to generate SEO-aware content, optimise pages efficiently, and experiment at your own pace.
+              </p>
+            </div>
           </div>
         </div>
       </section>

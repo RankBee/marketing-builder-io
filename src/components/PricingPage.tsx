@@ -3,6 +3,7 @@ import { Card, CardContent } from "./ui/card";
 import { useEffect } from "react";
 import { trackEvent as trackGTMEvent } from "../lib/gtm";
 import { trackEvent } from "../lib/posthog";
+import HowItWorks from "../imports/HowItWorks";
 
 interface PricingPageProps {
   onPageChange: (page: string) => void;

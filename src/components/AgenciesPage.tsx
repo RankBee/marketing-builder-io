@@ -77,8 +77,7 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
               Fully Managed Organic Visibility
             </h2>
             <div className="text-sm sm:text-base text-gray-700 max-w-3xl mx-auto space-y-4 leading-relaxed">
-              <p>RankBee Consulting is a fully managed organic growth service for companies that want results, not software.</p>
-              <p>We combine strategic SEO, AI-first content optimisation, and hands-on execution to help your brand show up when customers ask search engines and AI assistants for answers.</p>
+              <p>RankBee Consulting is a fully managed organic growth service for companies that want results, not software. We combine strategic SEO, AI-first content optimisation, and hands-on execution to help your brand show up when customers ask search engines and AI assistants for answers.</p>
               <p>Behind every engagement is RankBee's Content Optimisation Engine - the same system powering our enterprise automation and self-serve tools - applied with human expertise, quality control, and accountability.</p>
             </div>
           </div>

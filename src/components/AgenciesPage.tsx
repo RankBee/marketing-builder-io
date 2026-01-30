@@ -88,17 +88,17 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-300 w-full">
                   <h4 className="text-lg font-semibold text-gray-900">Discovery & Audit</h4>
-                  <p className="text-gray-700 text-sm">We analyse your existing content, visibility gaps, and growth opportunities — including how your brand currently appears (or doesn't) in AI responses.</p>
+                  <p className="text-gray-700 text-sm">We analyse your existing content, visibility gaps, and growth opportunities - including how your brand currently appears (or doesn't) in AI responses.</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-300 w-full">
                   <h4 className="text-lg font-semibold text-gray-900">Strategy & Roadmap</h4>
-                  <p className="text-gray-700 text-sm">We define what to optimise, what to create, and how to prioritise based on impact — not guesswork.</p>
+                  <p className="text-gray-700 text-sm">We define what to optimise, what to create, and how to prioritise based on impact - not guesswork.</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-300 w-full">
                   <h4 className="text-lg font-semibold text-gray-900">Execution</h4>
-                  <p className="text-gray-700 text-sm">Using RankBee's optimisation engine, we rewrite, generate, and optimise content — with human supervision and quality control at every step.</p>
+                  <p className="text-gray-700 text-sm">Using RankBee's optimisation engine, we rewrite, generate, and optimise content - with human supervision and quality control at every step.</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-300 w-full">

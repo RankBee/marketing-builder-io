@@ -157,7 +157,7 @@ useEffect(() => {
       'rankbee-api': 'Enterprise View',
       'seo-professionals': 'Startups View',
       'growing-business': 'Growing Business View',
-      'agencies': 'Agencies View',
+      'agencies': 'Consulting View',
       'political-campaigns': 'Political Campaigns View',
       'demo': 'Demo View',
       'onboarding-meeting': 'Onboarding Meeting View',
@@ -258,7 +258,7 @@ useEffect(() => {
       path: "/growing-business"
     },
     agencies: {
-      title: "For Agencies",
+      title: "For Consulting",
       description: "Scale AI optimization across your client portfolio. Offer AI visibility services to your clients.",
       path: "/agencies"
     },

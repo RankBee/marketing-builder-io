@@ -76,9 +76,11 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
               Add AI Visibility to Your Service Portfolio
             </h2>
-            <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Partner with RankBee to offer comprehensive AI visibility solutions to your clients. Scale your services with powerful tools and proven methodology.
-            </p>
+            <div className="text-lg sm:text-xl text-black max-w-3xl mx-auto space-y-4">
+              <p>RankBee Consulting is a fully managed organic growth service for companies that want results, not software.</p>
+              <p>We combine strategic SEO, AI-first content optimisation, and hands-on execution to help your brand show up when customers ask search engines and AI assistants for answers.</p>
+              <p>Behind every engagement is RankBee's Content Optimisation Engine — the same system powering our enterprise automation and self-serve tools — applied with human expertise, quality control, and accountability.</p>
+            </div>
           </div>
 
           <div className="w-full">

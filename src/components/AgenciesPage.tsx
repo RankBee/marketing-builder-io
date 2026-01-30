@@ -74,7 +74,7 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
-              Add AI Visibility to Your Service Portfolio
+              A Fully Managed Organic Visibility Service
             </h2>
             <div className="text-lg sm:text-xl text-black max-w-3xl mx-auto space-y-4">
               <p>RankBee Consulting is a fully managed organic growth service for companies that want results, not software.</p>

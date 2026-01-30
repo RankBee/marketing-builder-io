@@ -34,10 +34,6 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
             </p>
 
             <div className="pt-4 space-y-4 flex flex-col items-center">
-              <div className="text-center">
-                <p className="text-4xl font-bold text-gray-900">£599</p>
-                <p className="text-lg text-gray-600">per month</p>
-              </div>
               <a
                 href="/contact#contact-channels"
                 onClick={(e) => {

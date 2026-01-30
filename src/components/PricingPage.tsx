@@ -139,8 +139,6 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
       {/* Pricing Table */}
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16" />
-
           <div
             id="chargebee-pricing-table"
             data-name="chargebee-pricing-table"

@@ -116,6 +116,18 @@ export default function CtaBlocks() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Info Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8 sm:p-10 mb-8 text-white"
+        >
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4">Our AI-driven Content Optimisation Tool is at the heart of our services.</h3>
+          <p className="text-lg leading-relaxed">Your content might be invisible to AI. We fix that. Our optimization engine rewrites and tests your pages so ChatGPT, Gemini, and Google AI Overviews are more likely to mention your brand when customers ask.</p>
+        </motion.div>
+
         <CtaNewsletterSection />
       </div>
     </div>

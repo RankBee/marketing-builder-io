@@ -172,13 +172,13 @@ export function HomePage({ onPageChange }: HomePageProps) {
             </button>
 
             {/* RankBee Consulting */}
-            <button onClick={() => onPageChange('agencies')} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+            <button onClick={() => { onPageChange('agencies'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
               <h3 className="text-xl sm:text-2xl font-bold text-purple-600">Consulting</h3>
               <p className="text-gray-700 leading-relaxed">A fully managed SEO and AI visibility service for teams that want organic growth without managing tools or workflows. We handle content strategy, creation, and optimisation with human-supervised quality control. Built for businesses, agencies, SaaS platforms, and campaigns without in-house SEO or AI search expertise.</p>
             </button>
 
             {/* RankBee Enterprise */}
-            <button onClick={() => onPageChange('rankbee-api')} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+            <button onClick={() => { onPageChange('rankbee-api'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
               <h3 className="text-xl sm:text-2xl font-bold text-purple-600">Enterprise</h3>
               <p className="text-gray-700 leading-relaxed">An enterprise-grade content optimisation and automation solution for organisations operating at scale. Designed for teams that need programmatic content creation, multilingual optimisation, and AI visibility integrated directly into their existing systems.</p>
             </button>

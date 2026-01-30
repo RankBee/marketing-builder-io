@@ -61,15 +61,9 @@ export function HomePage({ onPageChange }: HomePageProps) {
           100% { background-position: -200% 0; }
         }
         @keyframes borderShimmer {
-          0% {
-            box-shadow: inset 0 0 0 2px rgb(147, 51, 234), 0 0 20px rgba(147, 51, 234, 0.4);
-          }
-          50% {
-            box-shadow: inset 0 0 0 2px rgb(59, 130, 246), 0 0 20px rgba(59, 130, 246, 0.4);
-          }
-          100% {
-            box-shadow: inset 0 0 0 2px rgb(147, 51, 234), 0 0 20px rgba(147, 51, 234, 0.4);
-          }
+          0% { box-shadow: inset 0 0 0 2px rgb(147, 51, 234); }
+          50% { box-shadow: inset 0 0 0 2px rgb(244, 114, 182); }
+          100% { box-shadow: inset 0 0 0 2px rgb(147, 51, 234); }
         }
       `}</style>
       <NewsAnnouncementBanner onPageChange={onPageChange} />

@@ -85,32 +85,85 @@ export function AgenciesPage({ onPageChange }: AgenciesPageProps) {
           <div className="w-full">
             <div className="bg-white rounded-lg border border-purple-200 p-8 w-full">
               <h3 className="text-2xl font-bold text-gray-900 mb-8">What's Included</h3>
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex items-start gap-3">
-                  <span className="text-purple-600 font-semibold">•</span>
-                  <span>SEO and AI visibility audits</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-purple-600 font-semibold">•</span>
-                  <span>Content strategy aligned with real search behaviour</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-purple-600 font-semibold">•</span>
-                  <span>AI-optimised content creation and rewriting</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-purple-600 font-semibold">•</span>
-                  <span>On-page optimisation and structure</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-purple-600 font-semibold">•</span>
-                  <span>Publishing guidance and support</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-purple-600 font-semibold">•</span>
-                  <span>Continuous optimisation and iteration</span>
-                </li>
-              </ul>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300 w-full">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-900">SEO and AI visibility audits</h4>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300 w-full">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-900">Content strategy aligned with real search behaviour</h4>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300 w-full">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-900">AI-optimised content creation and rewriting</h4>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300 w-full">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-900">On-page optimisation and structure</h4>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300 w-full">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-900">Publishing guidance and support</h4>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6 flex items-start space-x-4 hover:shadow-lg transition-shadow duration-300 w-full">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-500">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-900">Continuous optimisation and iteration</h4>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>

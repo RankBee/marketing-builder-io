@@ -37,8 +37,6 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       submenu: [
         { name: "RankBee Toolkit", id: "pricing" },
         { name: "Consulting", id: "agencies" },
-        { name: "Startups", id: "seo-professionals" },
-        { name: "Growing Business", id: "growing-business" },
         { name: "Political Campaigns", id: "political-campaigns" }
       ]
     },

@@ -47,7 +47,7 @@ const defaultArticles: Record<string, Article> = {
       <p>RankBee reveals what questions voters ask AI, which attributes AI uses to answer them, and how a candidate is currently framed across key issues. RankBee then tests and optimises content so AI is more likely to trust, cite, and associate the right messages with the campaign.</p>
 
       <h2>Understanding AI's Decision Framework</h2>
-      <p>This is where SEP for AI — Search, Exposure, and Persuasion for AI systems - becomes critical. AI does not support candidates or take political positions. Instead, it interprets questions through attributes: the underlying factors voters care about when making decisions.</p>
+      <p>This is where SEP for AI - Search, Exposure, and Persuasion for AI systems - becomes critical. AI does not support candidates or take political positions. Instead, it interprets questions through attributes: the underlying factors voters care about when making decisions.</p>
 
       <p>Economic competence, integrity, leadership experience, policy clarity, and consistency across sources all play a role in how AI frames political answers. When someone asks who aligns with their views, AI isn't choosing a winner - it's matching attributes to available evidence.</p>
 
@@ -61,7 +61,7 @@ const defaultArticles: Record<string, Article> = {
       <p>Instead of guessing what will resonate, campaigns can make evidence-based decisions about how their policies, track record, and priorities are communicated.</p>
 
       <h2>Clarity, Consistency, and Credibility</h2>
-      <p>This isn't about manipulating AI. It's about clarity, consistency, and credibility across the sources AI relies on — from official websites and press releases to interviews and explanatory content. When those signals align, AI reflects them back to voters.</p>
+      <p>This isn't about manipulating AI. It's about clarity, consistency, and credibility across the sources AI relies on - from official websites and press releases to interviews and explanatory content. When those signals align, AI reflects them back to voters.</p>
 
       <p>Traditional political strategy already accounts for polling, media coverage, and public sentiment. SEP for AI adds a new dimension: understanding how AI explains a candidate to undecided voters at the exact moment they're seeking guidance.</p>
 

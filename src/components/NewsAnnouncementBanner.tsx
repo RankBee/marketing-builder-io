@@ -32,22 +32,20 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
   return (
     <div className="announcement-banner w-full bg-gradient-to-r from-[#9810fa] via-[#7b1bd9] to-[#9810fa] text-white py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 flex items-start gap-3">
-            <Megaphone className="flex-shrink-0 mt-1 text-white" size={24} />
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm sm:text-base font-bold leading-snug text-white mb-1">
-                Join us Feb 4: RankBee & Minuttia on mastering AI visibility and winning AI search
-              </h3>
-              <a
-                href="https://www.linkedin.com/feed/update/urn:li:activity:7415000487760052224"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs sm:text-sm text-white font-medium hover:underline inline-block"
-              >
-                Attend webinar →
-              </a>
-            </div>
+        <div className="flex items-center justify-center gap-4">
+          <Megaphone className="flex-shrink-0 text-white" size={24} />
+          <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-center sm:gap-6 text-center sm:text-center">
+            <h3 className="text-sm sm:text-base font-bold leading-snug text-white">
+              Join us Feb 4: RankBee & Minuttia on mastering AI visibility and winning AI search
+            </h3>
+            <a
+              href="https://www.linkedin.com/feed/update/urn:li:activity:7415000487760052224"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs sm:text-sm text-white font-medium hover:underline inline-block flex-shrink-0 mt-1 sm:mt-0"
+            >
+              Attend FREE webinar →
+            </a>
           </div>
           <button
             onClick={handleClose}

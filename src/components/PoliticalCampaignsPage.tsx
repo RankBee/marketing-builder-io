@@ -3,11 +3,11 @@ import { Button } from "./ui/button";
 import { trackEvent } from "../lib/posthog";
 import { signUpUrl } from "../lib/clerk-env";
 
-interface RankBeeAPIPageProps {
+interface PoliticalCampaignsPageProps {
   onPageChange: (page: string) => void;
 }
 
-export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
+export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageProps) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -19,36 +19,37 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6 sm:space-y-8">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              RankBee <span className="relative inline-block px-1" style={{
+              Political <span className="relative inline-block px-1" style={{
                 background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
                 backgroundSize: '200% 100%',
                 animation: 'shimmer 2s ease-in-out infinite',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-              }}>API</span>
+              }}>Campaigns</span>
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Enterprise solutions to help teams create and update content that AI search tools surface, reference, and trust - at scale.
-            </p>
-
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              RankBee API generates pages designed to perform better inside AI search and answer engines (ChatGPT, Google AI Overviews, Perplexity, etc.). It uses your first-party data to make content more credible and harder to copy, and tests drafts before publishing to identify versions most likely to earn mentions and citations.
+              Ensure your message reaches voters through AI search assistants. Amplify your campaign's voice across ChatGPT, Claude, Gemini, and other AI platforms.
             </p>
 
             <div className="pt-4">
               <a
-                href="/demo"
+                href="/contact#contact-channels"
                 onClick={(e) => {
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
-                    location: 'rankbee_api_hero',
+                    button_text: 'Contact Us',
+                    location: 'political_campaigns_hero',
                     variant: 'primary',
-                    destination: 'demo'
+                    destination: 'contact'
                   });
-                  onPageChange('demo');
+                  onPageChange('contact');
+                  // Scroll to the contact channels section
+                  setTimeout(() => {
+                    const element = document.getElementById('contact-channels');
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
                 }}
               >
                 <button
@@ -59,22 +60,11 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
                     animation: 'shimmer 2s ease-in-out infinite',
                   }}
                 >
-                  Book Demo
+                  Contact Us
                 </button>
               </a>
             </div>
             
-          </div>
-        </div>
-      </section>
-
-      {/* GAIO/GEO Banner Section */}
-      <section className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-12 sm:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
-              We automate GAIO / GEO operations for SME and multinational enterprises.
-            </h2>
           </div>
         </div>
       </section>
@@ -84,37 +74,37 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
-              Plug Directly Into Your Workflow
+              Win in the AI-Driven Voter Information Ecosystem
             </h2>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Designed for SEO and product teams who need results. Build to plug directly into existing CMS and SEO workflows, RankBee makes it easy to scale AI-ready content across thousands of pages, markets, and languages.
+              Voters increasingly turn to AI assistants for information. RankBee ensures your campaign message is accurately represented and visible where voters are looking.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Optimize at scale</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Monitor Your Presence</h3>
               <p className="text-gray-600 mb-6">
-                Whether you're optimizing product pages, category pages, guides, or localized content, RankBee API helps you:
+                Track how your campaign is referenced across:
               </p>
               <ul className="text-gray-600 mb-6 space-y-2">
-                <li>• Increase visibility in AI-generated answers.</li>
-                <li>• Protect traffic and brand presence as clicks decline.</li>
-                <li>• Move faster than competitors still optimizing only for Google's blue links.</li>
+                <li>• ChatGPT and OpenAI integrations</li>
+                <li>• Google Gemini and extended AI platforms</li>
+                <li>• Claude and other emerging AI tools</li>
               </ul>
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Request Access</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Connect with Voters</h3>
               <p className="text-gray-600 mb-6">
-                Our API is available for enterprise customers. Contact our team to discuss integration options and pricing.
+                Reach voters where they get their information about your campaign and position on key issues.
               </p>
               <div className="flex justify-center">
                 <a href="/contact" onClick={(e) => {
                   e.preventDefault();
                   trackEvent('CTA Clicked', {
                     button_text: 'Contact Us',
-                    location: 'rankbee_api_request_access',
+                    location: 'political_campaigns_cta',
                     variant: 'primary',
                     destination: 'contact'
                   });

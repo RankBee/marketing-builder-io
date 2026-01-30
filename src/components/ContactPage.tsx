@@ -149,7 +149,7 @@ export function ContactPage({}: ContactPageProps) {
       </section>
 
       {/* Contact Methods */}
-      <section className="py-16 sm:py-20 bg-white">
+      <section id="contact-channels" className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-4 text-gray-900 font-bold">Choose Your Preferred Channel</h2>

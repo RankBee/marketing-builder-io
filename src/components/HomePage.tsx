@@ -91,7 +91,8 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Description */}
             <div className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              <p>Your content might be invisible to AI. We fix that. Our optimization engine rewrites and tests your pages so ChatGPT, Gemini, and Google AI Overviews are more likely to mention your brand when customers ask.</p>
+              <p>We help companies grow organic visibility using AI-powered content and SEO.</p>
+              <p className="mt-4">Whether you need fully managed growth, enterprise-scale automation, or self-serve tools - we meet you where you are.</p>
             </div>
             
             {/* CTA */}

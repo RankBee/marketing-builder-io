@@ -173,7 +173,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
 
             {/* RankBee Consulting */}
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Consulting</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-purple-600">Consulting</h3>
               <p className="text-gray-700 leading-relaxed">A fully managed SEO and AI visibility service for teams that want organic growth without managing tools or workflows. We handle content strategy, creation, and optimisation with human-supervised quality control. Built for businesses, agencies, SaaS platforms, and campaigns without in-house SEO or AI search expertise.</p>
             </div>
 

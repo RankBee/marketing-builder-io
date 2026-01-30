@@ -35,11 +35,11 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       name: "Solutions",
       id: "solutions",
       submenu: [
+        { name: "RankBee Toolkit", id: "pricing" },
         { name: "Startups", id: "seo-professionals" },
         { name: "Growing Business", id: "growing-business" },
         { name: "Agencies", id: "agencies" },
-        { name: "Political Campaigns", id: "political-campaigns" },
-        { name: "RankBee Toolkit", id: "pricing" }
+        { name: "Political Campaigns", id: "political-campaigns" }
       ]
     },
     { name: "Enterprise", id: "rankbee-api" },

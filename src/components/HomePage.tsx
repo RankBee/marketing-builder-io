@@ -166,7 +166,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* RankBee Toolkit */}
-            <button onClick={() => onPageChange('pricing')} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+            <button onClick={() => { onPageChange('pricing'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
               <h3 className="text-xl sm:text-2xl font-bold text-purple-600">RankBee Toolkit</h3>
               <p className="text-gray-700 leading-relaxed">Self-serve content optimisation tools for teams and individual entrepreneurs who want speed and control. Create and optimise AI-ready, SEO-aware content to improve visibility across search engines and AI assistants.</p>
             </button>

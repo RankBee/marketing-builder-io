@@ -124,11 +124,9 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
       <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-purple-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600 mb-8">Take Control of Your AI Narrative</h2>
-          <div className="space-y-6 text-gray-700 text-lg mb-12">
-            <p>AI assistants are becoming a primary gateway to political information.</p>
-            <p>Campaigns that ignore this shift risk losing control of their message.</p>
-            <p className="font-semibold">RankBee helps you stay visible, accurate, and trusted - where voters are increasingly looking.</p>
-          </div>
+          <p className="text-gray-700 text-lg mb-12 max-w-3xl mx-auto">
+            AI assistants are becoming a primary gateway to political information. Campaigns that ignore this shift risk losing control of their message. <span className="font-semibold">RankBee helps you stay visible, accurate, and trusted - where voters are increasingly looking.</span>
+          </p>
           <a href="/contact" onClick={(e) => {
             e.preventDefault();
             trackEvent('CTA Clicked', {

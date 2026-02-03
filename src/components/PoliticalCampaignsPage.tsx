@@ -120,6 +120,35 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
         </div>
       </section>
 
+      {/* Take Control Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-purple-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600 mb-8">Take Control of Your AI Narrative</h2>
+          <div className="space-y-6 text-gray-700 text-lg mb-12">
+            <p>AI assistants are becoming a primary gateway to political information.</p>
+            <p>Campaigns that ignore this shift risk losing control of their message.</p>
+            <p className="font-semibold">RankBee helps you stay visible, accurate, and trusted - where voters are increasingly looking.</p>
+          </div>
+          <a href="/contact" onClick={(e) => {
+            e.preventDefault();
+            trackEvent('CTA Clicked', {
+              button_text: 'Talk to a Campaign Specialist',
+              location: 'political_campaigns_cta_section',
+              variant: 'primary',
+              destination: 'contact'
+            });
+            onPageChange('contact');
+          }} className="inline-block relative overflow-hidden px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
+            background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+            backgroundSize: '200% 100%',
+            animation: 'shimmer 2s ease-in-out infinite',
+            color: 'white'
+          }}>
+            Talk to a Campaign Specialist
+          </a>
+        </div>
+      </section>
+
     </div>
   );
 }

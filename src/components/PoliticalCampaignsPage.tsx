@@ -77,7 +77,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
               Connect With Voters Where They Search
             </h2>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Voters increasingly turn to AI assistants for political information. RankBee helps campaigns ensure their message is visible, accurate, and consistent across AI-driven search platforms like ChatGPT, Claude, and Gemini.
+              Voters are increasingly asking AI assistants questions about candidates, policies, and issues. RankBee helps campaigns ensure their message is visible, accurate, and consistent across AI-driven search platforms like ChatGPT, Claude, and Gemini.
             </p>
           </div>
 

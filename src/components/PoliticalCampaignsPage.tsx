@@ -73,7 +73,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
       <section className="py-16 sm:py-20 lg:py-24 bg-purple-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
-            <a href="https://geo.rankbee.ai/the-new-information-layer-why-political-organizations-must-own-their-ai-visibility/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+            <a href="https://geo.rankbee.ai/the-new-information-layer-why-political-organizations-must-own-their-ai-visibility/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity block mb-8">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
                 Why AI Visibility Is Now a Campaign Priority
               </h2>

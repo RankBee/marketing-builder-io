@@ -88,13 +88,8 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
                 RankBee allows campaigns to understand how they currently appear across AI platforms and identify gaps or risks early.
               </p>
               <p className="text-gray-600 mb-6">
-                Track how your campaign is referenced across:
+                This visibility audit enables rapid response, message correction, and proactive optimisation.
               </p>
-              <ul className="text-gray-600 mb-6 space-y-2">
-                <li>• ChatGPT and OpenAI-powered experiences</li>
-                <li>• Google Gemini and AI-enhanced search results</li>
-                <li>• Claude and other emerging AI assistants</li>
-              </ul>
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">

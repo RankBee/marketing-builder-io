@@ -90,7 +90,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
                 Understand how your campaign is referenced and summarised across AI platforms.
               </p>
               <p className="text-gray-600 mb-6">
-                RankBee allows campaigns to understand how they currently appear across AI platforms and identify gaps or risks early.
+                RankBee's analytical platfrom allows campaigns to understand how they currently appear across AI platforms and identify gaps or risks early.  Our platform tracks and compares campaign visability and helps identify gaps, inconsistencies, and opportunities to clarify their message.
               </p>
               <p className="text-gray-600 mb-6">
                 Our visibility audit enables rapid response, message correction, and proactive optimization.

@@ -164,7 +164,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
       {/* Services Section */}
       <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-12 text-center">What We Do</h2>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600 mb-12 text-center">What We Offer</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* RankBee Toolkit */}
             <button onClick={() => { onPageChange('pricing'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>

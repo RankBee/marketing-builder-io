@@ -103,7 +103,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
                 <li>• Understand local and national political contexts</li>
               </ul>
               <p className="text-gray-600 mb-6">
-                RankBee helps ensure your content is structured and optimised so AI systems can surface clear, accurate, and up-to-date information about your campaign - without relying on paid amplification.
+                RankBee helps ensure your content is structured and optimised so AI systems can surface clear, accurate, and up-to-date information about your campaign.
               </p>
             </div>
           </div>

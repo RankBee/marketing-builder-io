@@ -77,7 +77,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
               Why AI Visibility Is Now a Campaign Priority
             </h2>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Voters are increasingly asking AI assistants questions about candidates, policies, and issues. RankBee helps campaigns ensure their message is visible, accurate, and consistent across AI-driven search platforms like ChatGPT, Claude, and Gemini.
+              Voters are increasingly asking AI assistants questions about candidates, policies, and issues. Campaigns that actively manage their AI visibility gain a strategic advantage: they influence how their story is told at the point voters are asking questions. RankBee helps campaigns ensure their message is visible, accurate, and consistent across AI-driven search platforms like ChatGPT, Claude, and Gemini.
             </p>
           </div>
 

@@ -95,7 +95,15 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Connect with Voters</h3>
               <p className="text-gray-600 mb-6">
-                Reach voters where they get their information about your campaign and position on key issues.
+                Voters now turn to AI assistants to:
+              </p>
+              <ul className="text-gray-600 mb-6 space-y-2">
+                <li>• Learn where candidates stand on key issues</li>
+                <li>• Compare policy positions</li>
+                <li>• Understand local and national political contexts</li>
+              </ul>
+              <p className="text-gray-600 mb-6">
+                RankBee helps ensure your content is structured and optimised so AI systems can surface clear, accurate, and up-to-date information about your campaign - without relying on paid amplification.
               </p>
               <div className="flex justify-center">
                 <a href="/contact" onClick={(e) => {

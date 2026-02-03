@@ -74,7 +74,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600">
-              Win in the AI-Driven Voter Information Ecosystem
+              Ensure Your Message Reaches Voters
             </h2>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
               Voters increasingly turn to AI assistants for information. RankBee ensures your campaign message is accurately represented and visible where voters are looking.

@@ -95,7 +95,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Connect with Voters</h3>
               <p className="text-gray-600 mb-6">
-                RankBee's cutting-edge Content Optimization Tool helps ensure your content is structured and optimized so AI systems can surface clear, accurate, and up-to-date information about your campaign. Our optimization engine rewrites and tests your pages so ChatGPT, Gemini, and Google AI Overviews are more likely to mention your campaign when voters search for information about candidates, compare policies etc.
+                Our Content Optimization Tool helps ensure your content is structured and optimized so AI systems can surface clear, accurate, and up-to-date information about your campaign. Our optimization engine rewrites and tests your pages so ChatGPT, Gemini, and Google AI Overviews are more likely to mention your campaign when voters search for information about candidates, compare policies etc.
               </p>
             </div>
           </div>

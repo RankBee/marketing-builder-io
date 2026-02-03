@@ -77,7 +77,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
               Ensure Your Message Reaches Voters
             </h2>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Voters increasingly turn to AI assistants for information. RankBee ensures your campaign message is accurately represented and visible where voters are looking.
+              Voters increasingly turn to AI assistants for political information. RankBee helps campaigns ensure their message is visible, accurate, and consistent across AI-driven search platforms like ChatGPT, Claude, and Gemini.
             </p>
           </div>
 

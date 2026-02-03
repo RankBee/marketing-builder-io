@@ -85,12 +85,15 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Monitor Your Presence</h3>
               <p className="text-gray-600 mb-6">
+                RankBee allows campaigns to understand how they currently appear across AI platforms and identify gaps or risks early.
+              </p>
+              <p className="text-gray-600 mb-6">
                 Track how your campaign is referenced across:
               </p>
               <ul className="text-gray-600 mb-6 space-y-2">
-                <li>• ChatGPT and OpenAI integrations</li>
-                <li>• Google Gemini and extended AI platforms</li>
-                <li>• Claude and other emerging AI tools</li>
+                <li>• ChatGPT and OpenAI-powered experiences</li>
+                <li>• Google Gemini and AI-enhanced search results</li>
+                <li>• Claude and other emerging AI assistants</li>
               </ul>
             </div>
 

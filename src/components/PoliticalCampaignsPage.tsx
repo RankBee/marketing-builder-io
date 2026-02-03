@@ -88,7 +88,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
                 RankBee allows campaigns to understand how they currently appear across AI platforms and identify gaps or risks early.
               </p>
               <p className="text-gray-600 mb-6">
-                This visibility audit enables rapid response, message correction, and proactive optimisation.
+                Our visibility audit enables rapid response, message correction, and proactive optimisation.
               </p>
             </div>
 

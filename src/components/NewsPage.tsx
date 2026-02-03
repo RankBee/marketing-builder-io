@@ -47,7 +47,7 @@ export function NewsPage({ onPageChange }: NewsPageProps) {
                 Politics Meets Technology 2026
               </h1>
               <p className="text-lg sm:text-xl text-gray-600 mt-4 max-w-2xl">
-                Aris Vrakas, Founder & CEO of RankBee, explores how political voices get seen - or silenced - in the age of LLMs
+                Aris Vrakas, Founder & CEO of RankBee, explores how political voices get seen—or silenced—in the age of LLMs
               </p>
             </div>
 

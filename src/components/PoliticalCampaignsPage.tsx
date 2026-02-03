@@ -100,7 +100,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">3. Adapt quickly to shifts in voter information behaviour</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">3. Adapt Quickly</h3>
               <p className="text-gray-600 mb-6">
                 Political campaigns move fast - and mistakes carry consequences.
               </p>

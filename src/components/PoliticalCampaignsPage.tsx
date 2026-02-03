@@ -81,7 +81,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">1. Monitor Your Presence</h3>
               <p className="text-gray-600 mb-6">
@@ -96,6 +96,24 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
               <h3 className="text-2xl font-bold text-gray-900 mb-4">2. Connect with Voters</h3>
               <p className="text-gray-600 mb-6">
                 Our Content Optimization Tool helps ensure your content is structured and optimized so AI systems can surface clear, accurate, and up-to-date information about your campaign. Our optimization engine rewrites and tests your pages so ChatGPT, Gemini, and Google AI Overviews are more likely to mention your campaign when voters compare policies and search for information about candidates.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200 p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">3. Adapt quickly to shifts in voter information behaviour</h3>
+              <p className="text-gray-600 mb-6">
+                Political campaigns move fast - and mistakes carry consequences.
+              </p>
+              <p className="text-gray-600 mb-6">
+                RankBee supports:
+              </p>
+              <ul className="text-gray-600 mb-6 space-y-2">
+                <li>• Rapid updates as policies or messaging evolve</li>
+                <li>• Human-supervised optimisation to reduce misinformation risk</li>
+                <li>• Scalable workflows for local, national, or coalition campaigns</li>
+              </ul>
+              <p className="text-gray-600 mb-6">
+                Our approach prioritises accuracy, consistency, and accountability at every step.
               </p>
             </div>
           </div>

@@ -1,5 +1,3 @@
-import Parser from 'rss-parser';
-
 export interface BlogPost {
   id: string;
   title: string;
@@ -16,22 +14,107 @@ export interface BlogPost {
   link?: string;
 }
 
-const parser = new Parser({
-  customFields: {
-    item: [
-      ['content:encoded', 'fullContent'],
-      ['media:content', 'mediaContent'],
-      ['media:thumbnail', 'mediaThumbnail'],
-    ]
-  }
-});
-
 const RSS_FEED_URL = 'https://geo.rankbee.ai/rss/';
 
 // Cache for feed data
 let cachedFeed: BlogPost[] | null = null;
 let cacheTimestamp = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+function parseRSSFeed(xmlString: string): BlogPost[] {
+  try {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+    
+    // Check for parsing errors
+    if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
+      console.error('XML parsing error');
+      return [];
+    }
+
+    const items = xmlDoc.getElementsByTagName('item');
+    const posts: BlogPost[] = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      
+      // Get basic fields
+      const titleEl = item.getElementsByTagName('title')[0];
+      const linkEl = item.getElementsByTagName('link')[0];
+      const descriptionEl = item.getElementsByTagName('description')[0];
+      const contentEl = item.getElementsByTagNameNS('http://purl.org/rss/1.0/modules/content/', 'encoded')[0];
+      const guidEl = item.getElementsByTagName('guid')[0];
+      const pubDateEl = item.getElementsByTagName('pubDate')[0];
+      const creatorEl = item.getElementsByTagNameNS('http://purl.org/dc/elements/1.1/', 'creator')[0];
+      const imageEl = item.getElementsByTagName('image')[0];
+
+      const title = titleEl?.textContent || 'Untitled';
+      const link = linkEl?.textContent || '';
+      const guid = guidEl?.textContent || link || `post-${i}`;
+      const description = descriptionEl?.textContent || '';
+      const fullContent = contentEl?.textContent || description;
+      const author = creatorEl?.textContent || 'RankBee Team';
+      const pubDate = pubDateEl?.textContent || new Date().toISOString();
+
+      // Parse date
+      const pubDateObj = new Date(pubDate);
+      const dateString = pubDateObj.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+
+      // Extract text content from HTML
+      const plainText = fullContent.replace(/<[^>]*>/g, '');
+      const summary = plainText.substring(0, 150).trim() + (plainText.length > 150 ? '...' : '');
+
+      // Estimate read time (rough estimate: 200 words per minute)
+      const wordCount = plainText.split(/\s+/).length;
+      const readTime = Math.ceil(wordCount / 200);
+
+      // Extract image from description or use placeholder
+      let image = 'https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
+      
+      // Try to extract image from img tag in description or content
+      const imgMatch = fullContent.match(/<img[^>]+src=["']([^"']+)["']/);
+      if (imgMatch && imgMatch[1]) {
+        image = imgMatch[1];
+      } else if (imageEl?.textContent) {
+        image = imageEl.textContent;
+      }
+
+      // Determine category based on content
+      const contentLower = fullContent.toLowerCase();
+      let category = 'Trends';
+      if (contentLower.includes('tutorial') || contentLower.includes('guide') || contentLower.includes('how to')) {
+        category = 'Tutorials';
+      } else if (contentLower.includes('case study') || contentLower.includes('study') || contentLower.includes('results')) {
+        category = 'Case Studies';
+      }
+
+      posts.push({
+        id: guid,
+        title: title,
+        summary: summary,
+        date: dateString,
+        readTime: `${readTime} min read`,
+        category: category,
+        image: image,
+        featured: i === 0, // First item is featured
+        content: fullContent,
+        author: author,
+        authorImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fHx8fHx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400',
+        link: link,
+        guid: guid,
+      });
+    }
+
+    return posts;
+  } catch (error) {
+    console.error('Error parsing RSS feed:', error);
+    return [];
+  }
+}
 
 export async function fetchRSSFeed(): Promise<BlogPost[]> {
   // Return cached data if still valid
@@ -40,59 +123,13 @@ export async function fetchRSSFeed(): Promise<BlogPost[]> {
   }
 
   try {
-    const feed = await parser.parseURL(RSS_FEED_URL);
+    const response = await fetch(RSS_FEED_URL);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch RSS feed: ${response.statusText}`);
+    }
     
-    const posts: BlogPost[] = (feed.items || []).map((item, index) => {
-      const pubDate = item.pubDate ? new Date(item.pubDate) : new Date();
-      const dateString = pubDate.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
-      });
-      
-      // Extract text content from HTML
-      const textContent = item.content || item.summary || '';
-      const plainText = textContent.replace(/<[^>]*>/g, '');
-      const summary = plainText.substring(0, 150).trim() + (plainText.length > 150 ? '...' : '');
-      
-      // Estimate read time (rough estimate: 200 words per minute)
-      const wordCount = plainText.split(/\s+/).length;
-      const readTime = Math.ceil(wordCount / 200);
-      
-      // Extract image from media content or use placeholder
-      let image = 'https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
-      
-      if (item.mediaContent && Array.isArray(item.mediaContent)) {
-        const mediaItem = item.mediaContent[0];
-        if (mediaItem && typeof mediaItem === 'object' && 'url' in mediaItem) {
-          image = (mediaItem as any).url || image;
-        }
-      }
-      
-      // Determine category based on content or default
-      const content = (item.content || item.summary || '').toLowerCase();
-      let category = 'Trends';
-      if (content.includes('tutorial') || content.includes('guide') || content.includes('how to')) {
-        category = 'Tutorials';
-      } else if (content.includes('case study') || content.includes('study') || content.includes('results')) {
-        category = 'Case Studies';
-      }
-      
-      return {
-        id: item.guid || item.link || `post-${index}`,
-        title: item.title || 'Untitled',
-        summary: summary,
-        date: dateString,
-        readTime: `${readTime} min read`,
-        category: category,
-        image: image,
-        featured: index === 0, // First item is featured
-        content: item.content || item.summary,
-        author: item.creator || 'RankBee Team',
-        authorImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fHx8fHx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400',
-        link: item.link,
-      };
-    });
+    const xmlText = await response.text();
+    const posts = parseRSSFeed(xmlText);
 
     cachedFeed = posts;
     cacheTimestamp = Date.now();

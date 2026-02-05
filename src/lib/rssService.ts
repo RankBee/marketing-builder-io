@@ -106,14 +106,24 @@ export async function fetchRSSFeed(): Promise<BlogPost[]> {
 
   try {
     const response = await fetch(BLOG_API_URL);
-    
+    const text = await response.text();
+
+    console.log(`Blog API returned status ${response.status}, first 200 chars:`, text.substring(0, 200));
+
+    // Try to parse as JSON
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error('Failed to parse blog API response as JSON. Response head:', text.substring(0, 500));
+      throw new Error(`Blog API returned non-JSON. Status ${response.status}. Body head: ${text.slice(0, 120)}`);
+    }
+
     if (!response.ok) {
-      console.error(`Ghost API error: ${response.status} ${response.statusText}`);
+      console.error('Blog API error response:', data);
       throw new Error(`Failed to fetch blog posts: ${response.statusText}`);
     }
-    
-    const data = await response.json();
-    
+
     // Check if it's an error response
     if (data.error) {
       console.error('API Error:', data.error);

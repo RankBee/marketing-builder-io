@@ -14,9 +14,8 @@ export interface BlogPost {
   link?: string;
 }
 
-// Ghost CMS Content API configuration
-const GHOST_CONTENT_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
-const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content/posts/';
+// Use Netlify function as proxy to Ghost CMS (avoids CORS issues)
+const BLOG_API_URL = '/.netlify/functions/rss-feed';
 
 // Cache for feed data
 let cachedFeed: BlogPost[] | null = null;

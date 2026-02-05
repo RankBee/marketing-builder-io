@@ -188,7 +188,10 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
               <Card
                 key={index}
                 className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
-                onClick={() => onPageChange("article-detail")}
+                onClick={() => {
+                  window.history.pushState({}, "", `/article?id=${encodeURIComponent(post.id)}`);
+                  onPageChange("article-detail");
+                }}
               >
                 <div className="aspect-video overflow-hidden">
                   <ImageWithFallback

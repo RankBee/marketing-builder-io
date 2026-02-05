@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
 import { useState, useEffect } from "react";
-import { fetchBlogPosts, getPopularTags, addGhostSubscriber, type BlogPost } from "../lib/builder";
+import { fetchBlogPosts, getPopularTags, type BlogPost } from "../lib/builder";
 
 interface BlogPageProps {
   onPageChange: (page: string) => void;
@@ -14,13 +14,18 @@ interface BlogPageProps {
 }
 
 export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPageProps) {
-  const [email, setEmail] = useState("");
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [filters, setFilters] = useState<string[]>(["All"]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [subscribing, setSubscribing] = useState(false);
-  const [subscribeMessage, setSubscribeMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  
+  const [email, setEmail] = useState("");
+  
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Open Ghost's native signup with pre-filled email
+    window.open(`https://geo.rankbee.ai/#/portal/signup?email=${encodeURIComponent(email)}`, '_blank');
+  };
   
   // Convert URL slug back to original tag name by finding matching tag
   const findTagBySlug = (slug: string): string => {
@@ -79,28 +84,6 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
   const featuredPost = currentPage === 1 ? blogPosts.find(post => post.featured) : null;
   const regularPosts = blogPosts.filter(post => !post.featured);
 
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes('@')) {
-      setSubscribeMessage({ type: 'error', text: 'Please enter a valid email address' });
-      return;
-    }
-
-    setSubscribing(true);
-    setSubscribeMessage(null);
-
-    const result = await addGhostSubscriber(email);
-
-    if (result.success) {
-      setSubscribeMessage({ type: 'success', text: 'Successfully subscribed! Check your email.' });
-      setEmail('');
-    } else {
-      setSubscribeMessage({ type: 'error', text: result.error || 'Failed to subscribe. Please try again.' });
-    }
-
-    setSubscribing(false);
-  };
-
   const getCategoryIcon = (category: string) => {
     switch(category) {
       case "Tutorials": return <Target className="w-4 h-4" />;
@@ -137,21 +120,15 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex-1"
-                  disabled={subscribing}
+                  required
                 />
                 <Button 
                   type="submit"
                   className="bg-cta hover:bg-cta/90 text-cta-foreground"
-                  disabled={subscribing}
                 >
-                  {subscribing ? 'Subscribing...' : 'Subscribe for Weekly Wins'}
+                  Subscribe for Weekly Wins
                 </Button>
               </form>
-              {subscribeMessage && (
-                <p className={`mt-2 text-sm ${subscribeMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
-                  {subscribeMessage.text}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -409,21 +386,15 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-white text-gray-900"
-                disabled={subscribing}
+                required
               />
               <Button 
                 type="submit"
                 className="bg-white text-purple-600 hover:bg-gray-100"
-                disabled={subscribing}
               >
-                {subscribing ? 'Subscribing...' : 'Subscribe'}
+                Subscribe
               </Button>
             </form>
-            {subscribeMessage && (
-              <p className={`mt-2 text-sm ${subscribeMessage.type === 'success' ? 'text-green-100' : 'text-red-300'}`}>
-                {subscribeMessage.text}
-              </p>
-            )}
           </div>
           <div className="mt-8">
             <Button 

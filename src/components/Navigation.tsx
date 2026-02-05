@@ -74,22 +74,17 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
             <div className="flex items-baseline gap-1 xl:gap-4">
               {navItems.map((item) => (
                 item.id === "blog" ? (
-                  <a
+                  <button
                     key={item.id}
-                    href="https://geo.rankbee.ai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50 whitespace-nowrap"
-                    onClick={() => {
-                      trackEvent('External Link Clicked', {
-                        link_text: 'Blog',
-                        destination_url: 'https://geo.rankbee.ai/',
-                        location: 'desktop_menu'
-                      });
-                    }}
+                    onClick={() => handleNavClick(item.id, false)}
+                    className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
+                      currentPage === item.id
+                        ? "text-purple-600 bg-purple-50"
+                        : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                    }`}
                   >
                     {item.name}
-                  </a>
+                  </button>
                 ) : item.submenu ? (
                   <div
                     key={item.id}

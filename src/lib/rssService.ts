@@ -25,7 +25,9 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 function parseGhostBlogPosts(data: any): BlogPost[] {
   try {
     const posts = data.posts || [];
-    
+
+    console.log(`Parsing ${posts.length} posts from Ghost API`);
+
     if (posts.length === 0) {
       console.warn('No blog posts found in Ghost API response');
       return [];
@@ -37,18 +39,29 @@ function parseGhostBlogPosts(data: any): BlogPost[] {
       const content = post.html || '';
       const excerpt = post.excerpt || '';
       const featuredImage = post.feature_image || 'https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
-      
+
       // Get author from authors array
       let author = 'RankBee Team';
       let authorImage = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fHx8fHx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
-      if (post.authors && post.authors.length > 0) {
+      if (post.authors && Array.isArray(post.authors) && post.authors.length > 0) {
         author = post.authors[0].name || author;
         authorImage = post.authors[0].profile_image || authorImage;
       }
 
-      // Get category from tags
+      // Get category from tags (primary_tag or first tag)
       let category = 'Trends';
-      if (post.tags && post.tags.length > 0) {
+      if (post.primary_tag) {
+        const tagName = post.primary_tag.name?.toLowerCase() || '';
+        if (tagName.includes('tutorial') || tagName.includes('guide')) {
+          category = 'Tutorials';
+        } else if (tagName.includes('case study') || tagName.includes('case-study')) {
+          category = 'Case Studies';
+        } else if (tagName.includes('trend')) {
+          category = 'Trends';
+        } else {
+          category = post.primary_tag.name || category;
+        }
+      } else if (post.tags && Array.isArray(post.tags) && post.tags.length > 0) {
         const tagName = post.tags[0].name?.toLowerCase() || '';
         if (tagName.includes('tutorial') || tagName.includes('guide')) {
           category = 'Tutorials';
@@ -56,15 +69,17 @@ function parseGhostBlogPosts(data: any): BlogPost[] {
           category = 'Case Studies';
         } else if (tagName.includes('trend')) {
           category = 'Trends';
+        } else {
+          category = post.tags[0].name || category;
         }
       }
 
-      // Parse date
+      // Parse date - Ghost uses published_at
       const publishedDate = new Date(post.published_at || post.created_at || new Date());
-      const dateString = publishedDate.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
+      const dateString = publishedDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
       });
 
       // Extract text content
@@ -89,7 +104,7 @@ function parseGhostBlogPosts(data: any): BlogPost[] {
         author: author,
         authorImage: authorImage,
         guid: post.id,
-        link: post.url || `/article?id=${post.id || post.slug}`,
+        link: post.url || `/article?id=${encodeURIComponent(post.id || post.slug)}`,
       };
     });
   } catch (error) {

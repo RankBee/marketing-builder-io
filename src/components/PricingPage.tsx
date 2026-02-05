@@ -143,7 +143,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
             id="chargebee-pricing-table"
             data-name="chargebee-pricing-table"
             data-pricing-table-site="01K71J9W9RW0THGY5E90GSH62X"
-            data-pricing-table-id="01K7P6EN1ZASANTYMEYW7WY5YJ"
+            data-pricing-table-id="01KGPN8CZ1VRCNVVS4QSHTYZZ2"
             data-pricing-table-viewport-default-height="1200px"
             data-pricing-table-auto-select-local-currency="true"
             data-pricing-table-show-currency-dropdown="false"

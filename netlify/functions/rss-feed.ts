@@ -1,11 +1,12 @@
 import { type Handler } from "@netlify/functions";
 
-const BUILDER_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
+const GHOST_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
+const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content/posts/';
 
 const handler: Handler = async () => {
   try {
     const response = await fetch(
-      `https://cdn.builder.io/api/v3/content/blog-post?apiKey=${BUILDER_API_KEY}&limit=100&sort=-createdAt&includeRefs=true`,
+      `${GHOST_API_URL}?key=${GHOST_API_KEY}&limit=100&include=tags,authors&order=-published_at`,
       {
         method: 'GET',
         headers: {

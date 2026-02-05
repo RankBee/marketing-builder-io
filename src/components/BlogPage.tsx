@@ -4,7 +4,8 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchRSSFeed, type BlogPost } from "../lib/rssService";
 
 interface BlogPageProps {
   onPageChange: (page: string) => void;
@@ -13,81 +14,27 @@ interface BlogPageProps {
 export function BlogPage({ onPageChange }: BlogPageProps) {
   const [email, setEmail] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const filters = ["All", "Tutorials", "Case Studies", "Trends"];
 
-  const blogPosts = [
-    {
-      id: "campaign-strategy-ai-era",
-      title: "Campaign strategy for the AI era.",
-      summary: "Political communication is now mediated by AI systems in a way that didn't exist even two years ago. RankBee helps campaigns understand and influence how AI systems describe them.",
-      date: "Jan 15, 2026",
-      readTime: "9 min read",
-      category: "Trends",
-      image: "https://images.pexels.com/photos/8847169/pexels-photo-8847169.jpeg",
-      featured: true
-    },
-    {
-      id: "how-geo-tactics-boosted",
-      title: "How GEO Tactics Boosted a Startup's AI Rankings 40% in 2 Weeks",
-      summary: "Ex-Amazon SEO tips on prompts that stick. Learn the exact strategies we used to help a fintech startup dominate AI responses.",
-      date: "Oct 1, 2025",
-      readTime: "8 min read",
-      category: "Case Studies",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "ai-search-revolution",
-      title: "The AI Search Revolution: What Marketers Need to Know",
-      summary: "ChatGPT and Claude are changing how customers discover brands. Here's your survival guide for the AI-first world.",
-      date: "Sep 28, 2025",
-      readTime: "12 min read",
-      category: "Trends",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "5-prompt-hacks",
-      title: "5 Prompt Hacks That Made Our Client #1 in AI Responses",
-      summary: "Step-by-step tutorial on crafting prompts that get your brand mentioned first. Includes templates you can use today.",
-      date: "Sep 25, 2025",
-      readTime: "6 min read",
-      category: "Tutorials",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "traditional-seo-dead",
-      title: "Why Traditional SEO Is Dead (And What Replaces It)",
-      summary: "The uncomfortable truth about Google's declining influence and how AI search is reshaping discovery.",
-      date: "Sep 22, 2025",
-      readTime: "10 min read",
-      category: "Trends",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "restaurant-chain-visibility",
-      title: "Restaurant Chain Sees 200% Visibility Boost Using GAIO",
-      summary: "How a regional Italian chain went from invisible to indispensable in AI recommendations. The strategy that changed everything.",
-      date: "Sep 18, 2025",
-      readTime: "7 min read",
-      category: "Case Studies",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "building-ai-strategy",
-      title: "Building Your First AI Optimization Strategy",
-      summary: "Complete beginner's guide to GAIO. Everything you need to know to start tracking and improving your AI presence.",
-      date: "Sep 15, 2025",
-      readTime: "15 min read",
-      category: "Tutorials",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    }
-  ];
+  useEffect(() => {
+    const loadRSSFeed = async () => {
+      try {
+        setIsLoading(true);
+        const posts = await fetchRSSFeed();
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error("Failed to load RSS feed:", error);
+        setBlogPosts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadRSSFeed();
+  }, []);
 
   const filteredPosts = activeFilter === "All" 
     ? blogPosts 

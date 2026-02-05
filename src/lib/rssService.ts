@@ -14,7 +14,8 @@ export interface BlogPost {
   link?: string;
 }
 
-const RSS_FEED_URL = 'https://geo.rankbee.ai/rss/';
+// Use local Netlify function to bypass CORS
+const RSS_FEED_URL = '/.netlify/functions/rss-feed';
 
 // Cache for feed data
 let cachedFeed: BlogPost[] | null = null;

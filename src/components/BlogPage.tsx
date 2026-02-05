@@ -141,7 +141,10 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
                   </div>
                   <Button
                     className="bg-purple-600 hover:bg-purple-700 text-white"
-                    onClick={() => onPageChange("article-detail")}
+                    onClick={() => {
+                      window.history.pushState({}, "", `/article?id=${encodeURIComponent(featuredPost.id)}`);
+                      onPageChange("article-detail");
+                    }}
                   >
                     Read Full Article
                   </Button>

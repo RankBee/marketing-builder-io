@@ -48,6 +48,8 @@ function pathToPage(pathname: string): string {
       return "political-campaigns";
     case "/blog":
       return "blog";
+    case "/article":
+      return "article-detail";
     case "/article-detail":
       return "article-detail";
     case "/news":

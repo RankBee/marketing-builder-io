@@ -24,12 +24,18 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 function parseRSSFeed(xmlString: string): BlogPost[] {
   try {
+    // Check if response looks like HTML (error page)
+    if (xmlString.includes('<!DOCTYPE') || xmlString.includes('<html')) {
+      console.error('Received HTML instead of XML. Response:', xmlString.substring(0, 500));
+      return [];
+    }
+
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-    
+
     // Check for parsing errors
     if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
-      console.error('XML parsing error');
+      console.error('XML parsing error. Response:', xmlString.substring(0, 500));
       return [];
     }
 

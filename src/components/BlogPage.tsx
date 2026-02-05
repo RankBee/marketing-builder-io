@@ -52,6 +52,17 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading blog posts...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -69,7 +80,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
                 We share what works because we've lived it. Dive in for stories, strategies, and the occasional AI mishap we all laugh about.
               </p>
             </div>
-            
+
             {/* Newsletter Signup */}
             <div className="max-w-md mx-auto">
               <div className="flex gap-2">

@@ -14,7 +14,7 @@ export interface BlogPost {
   link?: string;
 }
 
-// Use local Netlify function to fetch from Builder.io API
+// Use local Netlify function to fetch from Ghost CMS API
 const BLOG_FEED_URL = '/.netlify/functions/rss-feed';
 
 // Cache for feed data
@@ -22,65 +22,78 @@ let cachedFeed: BlogPost[] | null = null;
 let cacheTimestamp = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-function parseBuilderioBlogPosts(data: any): BlogPost[] {
+function parseGhostBlogPosts(data: any): BlogPost[] {
   try {
-    const results = data.results || [];
+    const posts = data.posts || [];
     
-    if (results.length === 0) {
-      console.warn('No blog posts found in Builder.io API response');
+    if (posts.length === 0) {
+      console.warn('No blog posts found in Ghost API response');
       return [];
     }
 
-    const posts: BlogPost[] = results.map((item: any, index: number) => {
-      const itemData = item.data || {};
+    return posts.map((post: any, index: number) => {
+      // Extract fields from Ghost post object
+      const title = post.title || 'Untitled';
+      const content = post.html || '';
+      const excerpt = post.excerpt || '';
+      const featuredImage = post.feature_image || 'https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
       
-      // Extract fields from Builder.io content model
-      const title = itemData.title || item.name || 'Untitled';
-      const content = itemData.content || itemData.body || itemData.text || '';
-      const description = itemData.description || itemData.summary || '';
-      const author = itemData.author || 'RankBee Team';
-      const category = itemData.category || 'Trends';
-      const image = itemData.image || itemData.featuredImage || 'https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
+      // Get author from authors array
+      let author = 'RankBee Team';
+      let authorImage = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fHx8fHx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400';
+      if (post.authors && post.authors.length > 0) {
+        author = post.authors[0].name || author;
+        authorImage = post.authors[0].profile_image || authorImage;
+      }
+
+      // Get category from tags
+      let category = 'Trends';
+      if (post.tags && post.tags.length > 0) {
+        const tagName = post.tags[0].name?.toLowerCase() || '';
+        if (tagName.includes('tutorial') || tagName.includes('guide')) {
+          category = 'Tutorials';
+        } else if (tagName.includes('case study') || tagName.includes('case-study')) {
+          category = 'Case Studies';
+        } else if (tagName.includes('trend')) {
+          category = 'Trends';
+        }
+      }
 
       // Parse date
-      const createdDate = new Date(item.createdDate || item.publishedDate || new Date());
-      const dateString = createdDate.toLocaleDateString('en-US', { 
+      const publishedDate = new Date(post.published_at || post.created_at || new Date());
+      const dateString = publishedDate.toLocaleDateString('en-US', { 
         year: 'numeric', 
         month: 'short', 
         day: 'numeric' 
       });
 
       // Extract text content
-      const textContent = content || description;
-      const plainText = typeof textContent === 'string' 
-        ? textContent.replace(/<[^>]*>/g, '')
-        : '';
+      const textContent = content || excerpt;
+      const plainText = textContent.replace(/<[^>]*>/g, '');
       const summary = plainText.substring(0, 150).trim() + (plainText.length > 150 ? '...' : '');
 
-      // Estimate read time
+      // Estimate read time (rough estimate: 200 words per minute)
       const wordCount = plainText.split(/\s+/).filter(w => w.length > 0).length;
       const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
       return {
-        id: item.id || `post-${index}`,
+        id: post.id || post.slug || `post-${index}`,
         title: title,
         summary: summary,
         date: dateString,
         readTime: `${readTime} min read`,
         category: category,
-        image: image,
+        image: featuredImage,
         featured: index === 0, // First item is featured
         content: textContent,
         author: author,
-        authorImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fHx8fHx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400',
-        link: item.url || `/article?id=${item.id}`,
-        guid: item.id,
+        authorImage: authorImage,
+        guid: post.id,
+        link: post.url || `/article?id=${post.id || post.slug}`,
       };
     });
-
-    return posts;
   } catch (error) {
-    console.error('Error parsing Builder.io blog posts:', error);
+    console.error('Error parsing Ghost blog posts:', error);
     return [];
   }
 }
@@ -105,7 +118,7 @@ export async function fetchRSSFeed(): Promise<BlogPost[]> {
       return [];
     }
 
-    const posts = parseBuilderioBlogPosts(data);
+    const posts = parseGhostBlogPosts(data);
 
     cachedFeed = posts;
     cacheTimestamp = Date.now();

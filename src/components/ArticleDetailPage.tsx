@@ -4,24 +4,11 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, ArrowLeft, Share2, BookmarkIcon, Target, TrendingUp, Search, Users } from "lucide-react";
-import { useState } from "react";
-
-interface Article {
-  id: string;
-  title: string;
-  summary: string;
-  date: string;
-  readTime: string;
-  category: string;
-  image: string;
-  author: string;
-  authorImage: string;
-  content: string;
-}
+import { useState, useEffect } from "react";
+import { fetchRSSFeed, getRSSPostById, type BlogPost } from "../lib/rssService";
 
 interface ArticleDetailPageProps {
   onPageChange: (page: string) => void;
-  article?: Article;
 }
 
 const defaultArticles: Record<string, Article> = {

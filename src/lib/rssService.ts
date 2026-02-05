@@ -14,9 +14,9 @@ export interface BlogPost {
   link?: string;
 }
 
-// Ghost CMS Admin API configuration
-const GHOST_ADMIN_API_KEY = '6984957411ef3b7617dd5132:bbc19cfe4bb689a3d6148dc590d95d23cd78baf0f';
-const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/admin/posts/';
+// Ghost CMS Content API configuration
+const GHOST_CONTENT_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
+const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content/posts/';
 
 // Cache for feed data
 let cachedFeed: BlogPost[] | null = null;

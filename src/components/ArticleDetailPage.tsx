@@ -58,24 +58,50 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
     }
   };
 
-  const relatedArticles = Object.values(defaultArticles)
-    .filter(a => a.id !== displayArticle.id && a.category === displayArticle.category)
+  const relatedArticles = allPosts
+    .filter(a => a.id !== article?.id && a.category === article?.category)
     .slice(0, 3);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading article...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Article Not Found</h1>
+          <p className="text-gray-600 mb-8">The article you're looking for doesn't exist.</p>
+          <Button
+            onClick={() => onPageChange("blog")}
+            className="bg-purple-600 hover:bg-purple-700 text-white"
+          >
+            Back to Blog
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation Back */}
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <a
-            href="https://geo.rankbee.ai/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
+          <button
+            onClick={() => onPageChange("blog")}
+            className="flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </a>
+          </button>
         </div>
       </div>
 
@@ -84,31 +110,31 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
         {/* Meta Information */}
         <div className="mb-8">
           <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 mb-4">
-            {getCategoryIcon(displayArticle.category)}
-            <span className="ml-2">{displayArticle.category}</span>
+            {getCategoryIcon(article.category)}
+            <span className="ml-2">{article.category}</span>
           </Badge>
-          
+
           <h1 className="text-4xl md:text-5xl mb-6 text-gray-900 leading-tight">
-            {displayArticle.title}
+            {article.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-8">
             <div className="flex items-center gap-2">
               <img
-                src={displayArticle.authorImage}
-                alt={displayArticle.author}
+                src={article.authorImage}
+                alt={article.author}
                 className="w-10 h-10 rounded-full object-cover"
               />
               <div>
-                <div className="font-medium text-gray-900">{displayArticle.author}</div>
+                <div className="font-medium text-gray-900">{article.author}</div>
               </div>
             </div>
             <div className="flex items-center gap-1">
-              <span>{displayArticle.date}</span>
+              <span>{article.date}</span>
             </div>
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              <span>{displayArticle.readTime}</span>
+              <span>{article.readTime}</span>
             </div>
           </div>
 
@@ -128,8 +154,8 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
         {/* Featured Image */}
         <div className="mb-12 rounded-lg overflow-hidden">
           <ImageWithFallback
-            src={displayArticle.image}
-            alt={displayArticle.title}
+            src={article.image}
+            alt={article.title}
             className="w-full h-96 object-cover"
           />
         </div>
@@ -138,24 +164,13 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
         <div className="prose prose-lg max-w-none mb-12">
           <div className="text-gray-700 leading-relaxed">
             <p className="text-xl text-gray-600 mb-8 italic">
-              {displayArticle.summary}
+              {article.summary}
             </p>
-            
+
             <div
               className="article-content"
               dangerouslySetInnerHTML={{
-                __html: displayArticle.content
-                  .split('\n')
-                  .filter(line => line.trim())
-                  .map(line => {
-                    if (line.startsWith('<h2>')) return line;
-                    if (line.startsWith('<h3>')) return line;
-                    if (line.startsWith('<p>')) return line;
-                    if (line.startsWith('<ul>')) return line;
-                    if (line.startsWith('<li>')) return line;
-                    return `<p>${line}</p>`;
-                  })
-                  .join('')
+                __html: article.content || '<p>No content available</p>'
               }}
             />
           </div>
@@ -169,7 +184,7 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
               color: #111827;
               line-height: 1.2;
             }
-            
+
             .article-content h3 {
               font-size: 1.5rem;
               font-weight: 600;
@@ -177,25 +192,25 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
               margin-bottom: 0.75rem;
               color: #1f2937;
             }
-            
+
             .article-content p {
               margin-bottom: 1.25rem;
               line-height: 1.75;
               color: #374151;
             }
-            
+
             .article-content ul {
               list-style-type: disc;
               margin-left: 1.5rem;
               margin-bottom: 1.25rem;
             }
-            
+
             .article-content li {
               margin-bottom: 0.5rem;
               color: #374151;
               line-height: 1.75;
             }
-            
+
             .article-content strong {
               font-weight: 600;
               color: #111827;
@@ -207,16 +222,16 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
         <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-12">
           <div className="flex items-start gap-4">
             <img
-              src={displayArticle.authorImage}
-              alt={displayArticle.author}
+              src={article.authorImage}
+              alt={article.author}
               className="w-16 h-16 rounded-full object-cover flex-shrink-0"
             />
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {displayArticle.author}
+                {article.author}
               </h3>
               <p className="text-gray-600">
-                {displayArticle.author} is a seasoned expert in AI marketing and digital strategy. With years of experience helping businesses adapt to the AI-first landscape, they bring practical insights and proven methodologies to every project.
+                {article.author} is a seasoned expert in AI marketing and digital strategy. With years of experience helping businesses adapt to the AI-first landscape, they bring practical insights and proven methodologies to every project.
               </p>
             </div>
           </div>
@@ -229,31 +244,34 @@ export function ArticleDetailPage({ onPageChange }: ArticleDetailPageProps) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-12">Related Articles</h2>
             <div className="grid md:grid-cols-3 gap-8">
-              {relatedArticles.map((article) => (
+              {relatedArticles.map((relatedArticle) => (
                 <Card
-                  key={article.id}
+                  key={relatedArticle.id}
                   className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
-                  onClick={() => window.location.hash = `#/article/${article.id}`}
+                  onClick={() => {
+                    window.history.pushState({}, "", `/article?id=${encodeURIComponent(relatedArticle.id)}`);
+                    window.location.reload();
+                  }}
                 >
                   <div className="aspect-video overflow-hidden">
                     <ImageWithFallback
-                      src={article.image}
-                      alt={article.title}
+                      src={relatedArticle.image}
+                      alt={relatedArticle.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                   <CardHeader>
                     <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs w-fit mb-2">
-                      {getCategoryIcon(article.category)}
-                      <span className="ml-1">{article.category}</span>
+                      {getCategoryIcon(relatedArticle.category)}
+                      <span className="ml-1">{relatedArticle.category}</span>
                     </Badge>
                     <CardTitle className="text-lg leading-tight group-hover:text-purple-600 transition-colors">
-                      {article.title}
+                      {relatedArticle.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-sm text-gray-500">
-                      {article.date}
+                      {relatedArticle.date}
                     </div>
                   </CardContent>
                 </Card>

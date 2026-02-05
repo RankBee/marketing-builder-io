@@ -107,7 +107,7 @@ export async function fetchRSSFeed(): Promise<BlogPost[]> {
 
   try {
     const response = await fetch(
-      `${GHOST_API_URL}?key=${GHOST_ADMIN_API_KEY}&limit=100&include=tags,authors&order=-published_at`
+      `${GHOST_API_URL}?key=${GHOST_CONTENT_API_KEY}&limit=100&include=tags,authors&order=-published_at`
     );
     
     if (!response.ok) {

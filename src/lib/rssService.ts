@@ -14,9 +14,9 @@ export interface BlogPost {
   link?: string;
 }
 
-// Ghost CMS API configuration
-const GHOST_CONTENT_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
-const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content/posts/';
+// Ghost CMS Admin API configuration
+const GHOST_ADMIN_API_KEY = '6984957411ef3b7617dd5132:bbc19cfe4bb689a3d6148dc590d95d23cd78baf0f';
+const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/admin/posts/';
 
 // Cache for feed data
 let cachedFeed: BlogPost[] | null = null;
@@ -107,10 +107,11 @@ export async function fetchRSSFeed(): Promise<BlogPost[]> {
 
   try {
     const response = await fetch(
-      `${GHOST_API_URL}?key=${GHOST_CONTENT_API_KEY}&limit=100&include=tags,authors&order=-published_at`
+      `${GHOST_API_URL}?key=${GHOST_ADMIN_API_KEY}&limit=100&include=tags,authors&order=-published_at`
     );
     
     if (!response.ok) {
+      console.error(`Ghost API error: ${response.status} ${response.statusText}`);
       throw new Error(`Failed to fetch blog posts: ${response.statusText}`);
     }
     

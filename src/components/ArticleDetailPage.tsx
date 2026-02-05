@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, ArrowLeft, Share2, BookmarkIcon, Target, TrendingUp, Search, Users } from "lucide-react";
 import { useState, useEffect } from "react";
-import { fetchBlogPost, fetchBlogPosts, type BlogPost } from "../lib/builder";
+import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 
 interface Article {
   id: string;
@@ -300,11 +300,41 @@ const defaultArticles: Record<string, Article> = {
 
 export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetailPageProps) {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
+  const [subscribeError, setSubscribeError] = useState<string | null>(null);
   const [article, setArticle] = useState<BlogPost | null>(null);
   const [relatedArticles, setRelatedArticles] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tagCounts, setTagCounts] = useState<Map<string, number>>(new Map());
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    setSubscribeError(null);
+    setSubscribeSuccess(false);
+    
+    try {
+      const result = await addGhostSubscriber(email);
+      
+      if (result.success) {
+        setSubscribeSuccess(true);
+        setEmail(""); // Clear the input
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubscribeSuccess(false), 5000);
+      } else {
+        setSubscribeError(result.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (error) {
+      setSubscribeError("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     async function loadArticle() {
@@ -632,18 +662,34 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetai
             Get weekly tips, case studies, and AI insights delivered to your inbox.
           </p>
           <div className="max-w-md mx-auto">
-            <div className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-white text-gray-900"
+                required
+                disabled={isSubmitting}
               />
-              <Button className="bg-white text-purple-600 hover:bg-gray-100">
-                Subscribe
+              <Button 
+                type="submit"
+                className="bg-white text-purple-600 hover:bg-gray-100"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </Button>
-            </div>
+            </form>
+            {subscribeSuccess && (
+              <p className="text-green-100 text-sm mt-2">
+                ✓ Successfully subscribed! Check your email to confirm.
+              </p>
+            )}
+            {subscribeError && (
+              <p className="text-red-200 text-sm mt-2">
+                {subscribeError}
+              </p>
+            )}
           </div>
         </div>
       </section>

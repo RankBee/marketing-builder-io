@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
 import { useState, useEffect } from "react";
-import { fetchBlogPosts, getPopularTags, type BlogPost } from "../lib/builder";
+import { fetchBlogPosts, getPopularTags, type BlogPost, addGhostSubscriber } from "../lib/builder";
 
 interface BlogPageProps {
   onPageChange: (page: string) => void;
@@ -20,11 +20,35 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
   const [error, setError] = useState<string | null>(null);
   
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
+  const [subscribeError, setSubscribeError] = useState<string | null>(null);
   
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Open Ghost's native signup with pre-filled email
-    window.open(`https://geo.rankbee.ai/#/portal/signup?email=${encodeURIComponent(email)}`, '_blank');
+    
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    setSubscribeError(null);
+    setSubscribeSuccess(false);
+    
+    try {
+      const result = await addGhostSubscriber(email);
+      
+      if (result.success) {
+        setSubscribeSuccess(true);
+        setEmail(""); // Clear the input
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubscribeSuccess(false), 5000);
+      } else {
+        setSubscribeError(result.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (error) {
+      setSubscribeError("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   // Convert URL slug back to original tag name by finding matching tag
@@ -121,14 +145,26 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex-1"
                   required
+                  disabled={isSubmitting}
                 />
                 <Button 
                   type="submit"
                   className="bg-cta hover:bg-cta/90 text-cta-foreground"
+                  disabled={isSubmitting}
                 >
-                  Subscribe for Weekly Wins
+                  {isSubmitting ? "Subscribing..." : "Subscribe for Weekly Wins"}
                 </Button>
               </form>
+              {subscribeSuccess && (
+                <p className="text-green-600 text-sm mt-2">
+                  ✓ Successfully subscribed! Check your email to confirm.
+                </p>
+              )}
+              {subscribeError && (
+                <p className="text-red-600 text-sm mt-2">
+                  {subscribeError}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -387,14 +423,26 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-white text-gray-900"
                 required
+                disabled={isSubmitting}
               />
               <Button 
                 type="submit"
                 className="bg-white text-purple-600 hover:bg-gray-100"
+                disabled={isSubmitting}
               >
-                Subscribe
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </Button>
             </form>
+            {subscribeSuccess && (
+              <p className="text-green-100 text-sm mt-2">
+                ✓ Successfully subscribed! Check your email to confirm.
+              </p>
+            )}
+            {subscribeError && (
+              <p className="text-red-200 text-sm mt-2">
+                {subscribeError}
+              </p>
+            )}
           </div>
           <div className="mt-8">
             <Button 

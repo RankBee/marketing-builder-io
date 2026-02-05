@@ -292,6 +292,13 @@ export async function addGhostSubscriber(email: string, name?: string): Promise<
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       console.error('Ghost Members API error:', response.status, errorData);
+      
+      // Handle specific error cases
+      if (response.status === 422) {
+        // 422 typically means the email already exists
+        return { success: false, error: 'This email is already subscribed to our newsletter.' };
+      }
+      
       return { success: false, error: `Failed to subscribe: ${response.statusText}` };
     }
 

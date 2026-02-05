@@ -4,97 +4,102 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchBlogPosts, getPopularTags, addGhostSubscriber, type BlogPost } from "../lib/builder";
 
 interface BlogPageProps {
   onPageChange: (page: string) => void;
+  filterTag?: string;
+  pageNumber?: number;
 }
 
-export function BlogPage({ onPageChange }: BlogPageProps) {
+export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPageProps) {
   const [email, setEmail] = useState("");
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [filters, setFilters] = useState<string[]>(["All"]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [subscribing, setSubscribing] = useState(false);
+  const [subscribeMessage, setSubscribeMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  
+  // Convert URL slug back to original tag name by finding matching tag
+  const findTagBySlug = (slug: string): string => {
+    if (!slug || slug === "All") return "All";
+    const normalizedSlug = slug.toLowerCase().replace(/-/g, ' ');
+    const matchingFilter = filters.find(f => 
+      f.toLowerCase() === normalizedSlug
+    );
+    return matchingFilter || slug;
+  };
+  
+  const activeFilter = filterTag ? findTagBySlug(filterTag) : "All";
+  const postsPerPage = 12;
+  const currentPage = pageNumber;
 
-  const filters = ["All", "Tutorials", "Case Studies", "Trends"];
-
-  const blogPosts = [
-    {
-      id: "campaign-strategy-ai-era",
-      title: "Campaign strategy for the AI era.",
-      summary: "Political communication is now mediated by AI systems in a way that didn't exist even two years ago. RankBee helps campaigns understand and influence how AI systems describe them.",
-      date: "Jan 15, 2026",
-      readTime: "9 min read",
-      category: "Trends",
-      image: "https://images.pexels.com/photos/8847169/pexels-photo-8847169.jpeg",
-      featured: true
-    },
-    {
-      id: "how-geo-tactics-boosted",
-      title: "How GEO Tactics Boosted a Startup's AI Rankings 40% in 2 Weeks",
-      summary: "Ex-Amazon SEO tips on prompts that stick. Learn the exact strategies we used to help a fintech startup dominate AI responses.",
-      date: "Oct 1, 2025",
-      readTime: "8 min read",
-      category: "Case Studies",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "ai-search-revolution",
-      title: "The AI Search Revolution: What Marketers Need to Know",
-      summary: "ChatGPT and Claude are changing how customers discover brands. Here's your survival guide for the AI-first world.",
-      date: "Sep 28, 2025",
-      readTime: "12 min read",
-      category: "Trends",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "5-prompt-hacks",
-      title: "5 Prompt Hacks That Made Our Client #1 in AI Responses",
-      summary: "Step-by-step tutorial on crafting prompts that get your brand mentioned first. Includes templates you can use today.",
-      date: "Sep 25, 2025",
-      readTime: "6 min read",
-      category: "Tutorials",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "traditional-seo-dead",
-      title: "Why Traditional SEO Is Dead (And What Replaces It)",
-      summary: "The uncomfortable truth about Google's declining influence and how AI search is reshaping discovery.",
-      date: "Sep 22, 2025",
-      readTime: "10 min read",
-      category: "Trends",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "restaurant-chain-visibility",
-      title: "Restaurant Chain Sees 200% Visibility Boost Using GAIO",
-      summary: "How a regional Italian chain went from invisible to indispensable in AI recommendations. The strategy that changed everything.",
-      date: "Sep 18, 2025",
-      readTime: "7 min read",
-      category: "Case Studies",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
-    },
-    {
-      id: "building-ai-strategy",
-      title: "Building Your First AI Optimization Strategy",
-      summary: "Complete beginner's guide to GAIO. Everything you need to know to start tracking and improving your AI presence.",
-      date: "Sep 15, 2025",
-      readTime: "15 min read",
-      category: "Tutorials",
-      image: "https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400",
-      featured: false
+  useEffect(() => {
+    async function loadBlogPosts() {
+      try {
+        setLoading(true);
+        setError(null);
+        const posts = await fetchBlogPosts();
+        
+        if (posts.length === 0) {
+          setError("No blog posts available at the moment.");
+        } else {
+          setBlogPosts(posts);
+          
+          // Get popular tags with priority tags always included
+          const priorityTags = ["Political Campaigns", "AI Search", "GAIO Optimization"];
+          const popularTags = getPopularTags(posts, priorityTags, 8);
+          setFilters(["All", ...popularTags]);
+        }
+      } catch (err) {
+        console.error('Error loading blog posts:', err);
+        setError("Failed to load blog posts. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     }
-  ];
+    
+    loadBlogPosts();
+  }, []);
+
+
 
   const filteredPosts = activeFilter === "All" 
     ? blogPosts 
-    : blogPosts.filter(post => post.category === activeFilter);
+    : blogPosts.filter(post => post.category?.toLowerCase() === activeFilter.toLowerCase());
 
-  const featuredPost = blogPosts.find(post => post.featured);
+  // Pagination
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const endIndex = startIndex + postsPerPage;
+  const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+  const featuredPost = currentPage === 1 ? blogPosts.find(post => post.featured) : null;
   const regularPosts = blogPosts.filter(post => !post.featured);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      setSubscribeMessage({ type: 'error', text: 'Please enter a valid email address' });
+      return;
+    }
+
+    setSubscribing(true);
+    setSubscribeMessage(null);
+
+    const result = await addGhostSubscriber(email);
+
+    if (result.success) {
+      setSubscribeMessage({ type: 'success', text: 'Successfully subscribed! Check your email.' });
+      setEmail('');
+    } else {
+      setSubscribeMessage({ type: 'error', text: result.error || 'Failed to subscribe. Please try again.' });
+    }
+
+    setSubscribing(false);
+  };
 
   const getCategoryIcon = (category: string) => {
     switch(category) {
@@ -125,18 +130,28 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
             
             {/* Newsletter Signup */}
             <div className="max-w-md mx-auto">
-              <div className="flex gap-2">
+              <form onSubmit={handleSubscribe} className="flex gap-2">
                 <Input
                   type="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex-1"
+                  disabled={subscribing}
                 />
-                <Button className="bg-cta hover:bg-cta/90 text-cta-foreground">
-                  Subscribe for Weekly Wins
+                <Button 
+                  type="submit"
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground"
+                  disabled={subscribing}
+                >
+                  {subscribing ? 'Subscribing...' : 'Subscribe for Weekly Wins'}
                 </Button>
-              </div>
+              </form>
+              {subscribeMessage && (
+                <p className={`mt-2 text-sm ${subscribeMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                  {subscribeMessage.text}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -183,7 +198,7 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
                   </div>
                   <Button
                     className="bg-purple-600 hover:bg-purple-700 text-white"
-                    onClick={() => onPageChange("article-detail")}
+                    onClick={() => onPageChange(`blog/${featuredPost.slug}`)}
                   >
                     Read Full Article
                   </Button>
@@ -194,14 +209,32 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
         </section>
       )}
 
-      {/* Blog Posts Grid */}
-      <section className="py-24 bg-gray-50">
+      {/* Blog Posts Section */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl mb-4 text-gray-900">Latest Reads</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl text-gray-900 mb-8">Latest Reads</h2>
+            <p className="text-xl text-gray-600 mb-8">
               Actionable insights to help you win in the AI conversation.
             </p>
+            
+            {/* Active Filter Indicator */}
+            {activeFilter !== "All" && (
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <span className="text-gray-600">Showing posts tagged with:</span>
+                <Badge className="bg-purple-600 text-white px-4 py-2 text-sm">
+                  {activeFilter}
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                  onClick={() => onPageChange("blog")}
+                >
+                  Clear filter
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Filter Buttons */}
@@ -210,7 +243,15 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
               <Button
                 key={filter}
                 variant={activeFilter === filter ? "default" : "outline"}
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => {
+                  if (filter === "All") {
+                    onPageChange("blog");
+                  } else {
+                    // Convert to URL-friendly slug
+                    const slug = filter.toLowerCase().replace(/\s+/g, '-');
+                    onPageChange(`blog/tag/${slug}`);
+                  }
+                }}
                 className={activeFilter === filter 
                   ? "bg-purple-600 hover:bg-purple-700 text-white" 
                   : "border-purple-600 text-purple-600 hover:bg-purple-50"
@@ -221,13 +262,36 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
             ))}
           </div>
 
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+              <p className="mt-4 text-gray-600">Loading blog posts...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="text-center py-12">
+              <p className="text-red-600 mb-4">{error}</p>
+              <Button
+                onClick={() => window.location.reload()}
+                variant="outline"
+                className="border-purple-600 text-purple-600 hover:bg-purple-50"
+              >
+                Retry
+              </Button>
+            </div>
+          )}
+
           {/* Posts Grid */}
+          {!loading && !error && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.slice(0, 6).map((post, index) => (
+            {paginatedPosts.map((post, index) => (
               <Card
                 key={index}
                 className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
-                onClick={() => onPageChange("article-detail")}
+                onClick={() => onPageChange(`blog/${post.slug}`)}
               >
                 <div className="aspect-video overflow-hidden">
                   <ImageWithFallback
@@ -262,15 +326,69 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
               </Card>
             ))}
           </div>
+          )}
 
-          {filteredPosts.length > 6 && (
-            <div className="text-center mt-12">
-              <Button 
-                variant="outline"
-                className="border-purple-600 text-purple-600 hover:bg-purple-50"
-              >
-                Load More Posts
-              </Button>
+          {/* Pagination */}
+          {!loading && !error && totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-12">
+              {currentPage > 1 && (
+                <Button
+                  variant="outline"
+                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                  onClick={() => {
+                    const prevPage = currentPage - 1;
+                    if (activeFilter === "All") {
+                      onPageChange(prevPage === 1 ? "blog" : `blog/page/${prevPage}`);
+                    } else {
+                      const slug = activeFilter.toLowerCase().replace(/\s+/g, '-');
+                      onPageChange(`blog/tag/${slug}/page/${prevPage}`);
+                    }
+                  }}
+                >
+                  Previous
+                </Button>
+              )}
+              
+              <div className="flex gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <Button
+                    key={page}
+                    variant={page === currentPage ? "default" : "outline"}
+                    className={page === currentPage
+                      ? "bg-purple-600 hover:bg-purple-700 text-white"
+                      : "border-purple-600 text-purple-600 hover:bg-purple-50"
+                    }
+                    onClick={() => {
+                      if (activeFilter === "All") {
+                        onPageChange(page === 1 ? "blog" : `blog/page/${page}`);
+                      } else {
+                        const slug = activeFilter.toLowerCase().replace(/\s+/g, '-');
+                        onPageChange(`blog/tag/${slug}/page/${page}`);
+                      }
+                    }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </div>
+              
+              {currentPage < totalPages && (
+                <Button
+                  variant="outline"
+                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                  onClick={() => {
+                    const nextPage = currentPage + 1;
+                    if (activeFilter === "All") {
+                      onPageChange(`blog/page/${nextPage}`);
+                    } else {
+                      const slug = activeFilter.toLowerCase().replace(/\s+/g, '-');
+                      onPageChange(`blog/tag/${slug}/page/${nextPage}`);
+                    }
+                  }}
+                >
+                  Next
+                </Button>
+              )}
             </div>
           )}
         </div>
@@ -284,16 +402,28 @@ export function BlogPage({ onPageChange }: BlogPageProps) {
             Get weekly tips, case studies, and AI insights delivered to your inbox.
           </p>
           <div className="max-w-md mx-auto">
-            <div className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-white text-gray-900"
+                disabled={subscribing}
               />
-              <Button className="bg-white text-purple-600 hover:bg-gray-100">
-                Subscribe
+              <Button 
+                type="submit"
+                className="bg-white text-purple-600 hover:bg-gray-100"
+                disabled={subscribing}
+              >
+                {subscribing ? 'Subscribing...' : 'Subscribe'}
               </Button>
-            </div>
+            </form>
+            {subscribeMessage && (
+              <p className={`mt-2 text-sm ${subscribeMessage.type === 'success' ? 'text-green-100' : 'text-red-300'}`}>
+                {subscribeMessage.text}
+              </p>
+            )}
           </div>
           <div className="mt-8">
             <Button 

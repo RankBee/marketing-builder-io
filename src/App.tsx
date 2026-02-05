@@ -31,6 +31,29 @@ function pathToPage(pathname: string): string {
   // Treat nested Clerk routes (e.g., /sign-up/sso-callback) as auth pages
   if (path === "/sign-in" || path.startsWith("/sign-in/")) return "sign-in";
   if (path === "/sign-up" || path.startsWith("/sign-up/")) return "sign-up";
+  
+  // Handle blog tag filtering (e.g., /blog/tag/ai-search)
+  if (path.startsWith("/blog/tag/")) {
+    const tag = path.substring(10);
+    return `blog/tag/${tag}`;
+  }
+  
+  // Handle blog pagination (e.g., /blog/page/2)
+  if (path.startsWith("/blog/page/")) {
+    const page = path.substring(11);
+    return `blog/page/${page}`;
+  }
+  
+  // Handle blog post slugs (e.g., /blog/my-post-slug)
+  // This must come after tag and page checks
+  if (path.startsWith("/blog/")) {
+    const slug = path.substring(6);
+    // Check if it's not 'tag' or 'page'
+    if (slug !== 'tag' && slug !== 'page' && !slug.startsWith('tag/') && !slug.startsWith('page/')) {
+      return `blog/${slug}`;
+    }
+  }
+  
   switch (path) {
     case "/about":
       return "about";
@@ -181,6 +204,35 @@ useEffect(() => {
   }, [currentPage]);
 
   const renderPage = () => {
+    // Handle blog tag filtering (e.g., blog/tag/ai-search)
+    if (currentPage.startsWith('blog/tag/')) {
+      const tag = currentPage.substring(9);
+      const decodedTag = decodeURIComponent(tag);
+      return <BlogPage onPageChange={setPage} filterTag={decodedTag} />;
+    }
+    
+    // Handle blog pagination (e.g., blog/page/2)
+    if (currentPage.startsWith('blog/page/')) {
+      const pageNum = currentPage.substring(10);
+      return <BlogPage onPageChange={setPage} pageNumber={parseInt(pageNum, 10)} />;
+    }
+    
+    // Handle blog post slugs (must come after tag/page checks)
+    if (currentPage.startsWith('blog/')) {
+      const slug = currentPage.substring(5);
+      // Make sure it's not a tag or page route
+      if (slug !== 'tag' && slug !== 'page' && !slug.startsWith('tag/') && !slug.startsWith('page/')) {
+        return <ArticleDetailPage onPageChange={setPage} slug={slug} />;
+      }
+    }
+    
+    // Handle legacy blog with filter query parameter (redirect to new format)
+    if (currentPage.startsWith('blog?filter=')) {
+      const filterParam = currentPage.substring(12);
+      const filter = decodeURIComponent(filterParam);
+      return <BlogPage onPageChange={setPage} filterTag={filter} />;
+    }
+    
     switch (currentPage) {
       case "home":
         return <HomePage onPageChange={setPage} />;
@@ -270,6 +322,11 @@ useEffect(() => {
     blog: {
       title: "Blog",
       description: "Insights on AI search optimization and LLM-era marketing.",
+      path: "/blog"
+    },
+    "article-detail": {
+      title: "Article",
+      description: "Read our latest insights on AI search optimization.",
       path: "/blog"
     },
     news: {

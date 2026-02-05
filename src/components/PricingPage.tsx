@@ -3,6 +3,7 @@ import { Card, CardContent } from "./ui/card";
 import { useEffect } from "react";
 import { trackEvent as trackGTMEvent } from "../lib/gtm";
 import { trackEvent } from "../lib/posthog";
+import HowItWorks from "../imports/HowItWorks";
 
 interface PricingPageProps {
   onPageChange: (page: string) => void;
@@ -83,7 +84,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
               Plans That Fit Your <span className="text-purple-600">Growth</span>, No Surprises
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Start small or go big-unlimited users, weekly crawls, and insights that pay off fast. First 14 days free on all.
+              Start small or go big-unlimited users, weekly crawls, and insights that pay off fast.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
@@ -95,16 +96,54 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none"></div>
       </section> */}
 
+      {/* RankBee Toolkit Hero Section */}
+      <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-12 sm:py-16 lg:py-20">
+        <style>{`
+          @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+        `}</style>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-6 sm:space-y-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight max-w-5xl mx-auto">
+              RankBee <span className="relative inline-block px-1" style={{
+                background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 2s ease-in-out infinite',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>Toolkit</span>
+            </h1>
+
+            <div className="max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+                For teams and founders who want to move fast on their own.
+              </p>
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+                Use RankBee's toolkit to generate SEO-aware content, optimise pages efficiently, and experiment at your own pace.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <HowItWorks />
+        </div>
+      </section>
+
       {/* Pricing Table */}
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16" />
-
           <div
             id="chargebee-pricing-table"
             data-name="chargebee-pricing-table"
             data-pricing-table-site="01K71J9W9RW0THGY5E90GSH62X"
-            data-pricing-table-id="01K7P6EN1ZASANTYMEYW7WY5YJ"
+            data-pricing-table-id="01KGPN8CZ1VRCNVVS4QSHTYZZ2"
             data-pricing-table-viewport-default-height="1200px"
             data-pricing-table-auto-select-local-currency="true"
             data-pricing-table-show-currency-dropdown="false"

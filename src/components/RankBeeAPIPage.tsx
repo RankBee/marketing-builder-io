@@ -30,7 +30,11 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
             </h1>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              The RankBee API helps teams create and update content that AI search tools surface, reference, and trust - at scale and without changing how your team works.
+              Enterprise solutions to help teams create and update content that AI search tools surface, reference, and trust - at scale.
+            </p>
+
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              RankBee API generates pages designed to perform better inside AI search and answer engines (ChatGPT, Google AI Overviews, Perplexity, etc.). It uses your first-party data to make content more credible and harder to copy, and tests drafts before publishing to identify versions most likely to earn mentions and citations.
             </p>
 
             <div className="pt-4">
@@ -60,6 +64,17 @@ export function RankBeeAPIPage({ onPageChange }: RankBeeAPIPageProps) {
               </a>
             </div>
             
+          </div>
+        </div>
+      </section>
+
+      {/* GAIO/GEO Banner Section */}
+      <section className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+              We automate SEO, GEO and Content operations at scale
+            </h2>
           </div>
         </div>
       </section>

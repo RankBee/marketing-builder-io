@@ -4,7 +4,6 @@ import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
-import HowItWorks from "../imports/HowItWorks";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "./AccountCta";
 import { signUpUrl } from "../lib/clerk-env";
@@ -16,7 +15,6 @@ interface HomePageProps {
 }
 
 export function HomePage({ onPageChange }: HomePageProps) {
-  const dashboardImage = "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff70f71218ee24e9881fb8ccba2c172bf";
 
   const features = [
     {
@@ -62,6 +60,11 @@ export function HomePage({ onPageChange }: HomePageProps) {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
+        @keyframes borderShimmer {
+          0% { box-shadow: inset 0 0 0 2px rgb(147, 51, 234); }
+          50% { box-shadow: inset 0 0 0 2px rgb(244, 114, 182); }
+          100% { box-shadow: inset 0 0 0 2px rgb(147, 51, 234); }
+        }
       `}</style>
       <NewsAnnouncementBanner onPageChange={onPageChange} />
       <div className="min-h-screen bg-white">
@@ -92,7 +95,8 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Description */}
             <div className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              <p>Your content might be invisible to AI. We fix that. Our optimization engine rewrites and tests your pages so ChatGPT, Gemini, and Google AI Overviews are more likely to mention your brand when customers ask.</p>
+              <p>We help companies grow organic visibility using AI-powered content and SEO.</p>
+              <p>Whether you need fully managed growth, enterprise-scale automation, or self-serve tools - we meet you where you are.</p>
             </div>
             
             {/* CTA */}
@@ -154,13 +158,31 @@ export function HomePage({ onPageChange }: HomePageProps) {
             </div>
           </div>
           
-          {/* Dashboard Preview Image */}
-          <div className="mt-12">
-            <img 
-              src={dashboardImage} 
-              alt="RankBee Dashboard Interface showing coverage metrics, competitive analysis, and brand rankings" 
-              className="w-full max-w-[1200px] mx-auto rounded-xl shadow-2xl"
-            />
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 text-center"><span className="text-gray-900">What We </span><span className="text-purple-600">Offer</span></h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {/* RankBee Toolkit */}
+            <button onClick={() => { onPageChange('pricing'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+              <h3 className="text-xl sm:text-2xl font-bold text-purple-600">RankBee Toolkit</h3>
+              <p className="text-gray-700 leading-relaxed">Self-serve content optimisation tools for teams and individual entrepreneurs who want speed and control. Create and optimise AI-ready, SEO-aware content to improve visibility across search engines and AI assistants.</p>
+            </button>
+
+            {/* RankBee Consulting */}
+            <button onClick={() => { onPageChange('agencies'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+              <h3 className="text-xl sm:text-2xl font-bold text-purple-600">Consulting</h3>
+              <p className="text-gray-700 leading-relaxed">A fully managed SEO and AI visibility service by industry's top experts for teams that want organic growth without managing tools or workflows. We handle content strategy, creation, and optimisation with human-supervised quality control. Built for businesses, agencies, SaaS platforms, and campaigns without in-house SEO or AI search expertise.</p>
+            </button>
+
+            {/* RankBee Enterprise */}
+            <button onClick={() => { onPageChange('rankbee-api'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>
+              <h3 className="text-xl sm:text-2xl font-bold text-purple-600">Enterprise API</h3>
+              <p className="text-gray-700 leading-relaxed">An enterprise-grade content optimisation and automation solution for organisations operating at scale. Designed for teams that need programmatic content creation, multilingual optimisation, and AI visibility integrated directly into their existing systems.</p>
+            </button>
           </div>
         </div>
       </section>
@@ -169,24 +191,6 @@ export function HomePage({ onPageChange }: HomePageProps) {
       <div className="w-full">
         <CtaBlocks />
       </div>
-
-      {/* Tagline Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-purple-700">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Perfect for brand professionals,<br />e-commerce and enterprises
-          </h2>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <HowItWorks />
-        </div>
-      </section>
-
-
 
       {/* Case Study Section */}
       <CaseStudySection />

@@ -61,11 +61,11 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Our vision is to automate GAIO / GEO operations for SME and multinational enterprises.&nbsp;
+              Founded in 2024 by former Amazon Global SEO lead Aris Vrakas, RankBee brings together elite industry experts to redefine how brands succeed in AI search.
             </p>
             <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-lg max-w-2xl mx-auto mb-8 border border-purple-200">
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                We specialise in delivering enterprise audits and GEO strategies that improve and scale your visibility across AI systems - ChatGPT, Gemini, Perplexity,&nbsp;Claude and more. &nbsp; We diagnose the real drivers of AI rankings and deliver clear,&nbsp; actionable optimization to elevate your brand in an AI-first world.
+                We specialise in delivering audits and GEO strategies that improve and scale your visibility across AI systems - ChatGPT, Gemini, Perplexity,&nbsp;Claude and more. &nbsp; We diagnose the real drivers of AI rankings and deliver clear,&nbsp; actionable optimization to elevate your brand in an AI-first world.
               </p>
             </div>
             <Button

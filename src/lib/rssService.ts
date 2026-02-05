@@ -14,8 +14,9 @@ export interface BlogPost {
   link?: string;
 }
 
-// Use local Netlify function to fetch from Ghost CMS API
-const BLOG_FEED_URL = '/.netlify/functions/rss-feed';
+// Ghost CMS API configuration
+const GHOST_CONTENT_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
+const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content/posts/';
 
 // Cache for feed data
 let cachedFeed: BlogPost[] | null = null;
@@ -105,7 +106,10 @@ export async function fetchRSSFeed(): Promise<BlogPost[]> {
   }
 
   try {
-    const response = await fetch(BLOG_FEED_URL);
+    const response = await fetch(
+      `${GHOST_API_URL}?key=${GHOST_CONTENT_API_KEY}&limit=100&include=tags,authors&order=-published_at`
+    );
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch blog posts: ${response.statusText}`);
     }

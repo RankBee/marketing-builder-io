@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Clock, ArrowLeft, Share2, BookmarkIcon, Target, TrendingUp, Search, Users } from "lucide-react";
+import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 
@@ -499,15 +499,19 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetai
             </div>
           )}
 
-          {/* Share Buttons */}
+          {/* Share Button */}
           <div className="flex gap-2">
-            <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
+            <Button 
+              variant="outline" 
+              className="border-purple-600 text-purple-600 hover:bg-purple-50"
+              onClick={() => {
+                const url = `https://rankbee.ai/blog/${displayArticle.slug}`;
+                const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                window.open(linkedInUrl, '_blank', 'width=600,height=600');
+              }}
+            >
               <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </Button>
-            <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
-              <BookmarkIcon className="w-4 h-4 mr-2" />
-              Save
+              Share on LinkedIn
             </Button>
           </div>
         </div>

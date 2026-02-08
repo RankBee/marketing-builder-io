@@ -110,7 +110,7 @@ useEffect(() => {
     setCurrentPage(page);
     try {
       if (typeof window !== "undefined") {
-        let target = page === "home" ? "/#" : `/${page}#`;
+        let target = page === "home" ? "/" : `/${page}`;
 
         // For auth pages, append redirect_to with current location if not at plain home
         if (page === "sign-in" || page === "sign-up") {
@@ -120,7 +120,7 @@ useEffect(() => {
             try {
               const url = new URL(target, window.location.origin);
               url.searchParams.set("redirect_to", current);
-              target = url.pathname + url.search + url.hash;
+              target = url.pathname + url.search;
             } catch {
               // ignore URL build errors
             }

@@ -110,7 +110,7 @@ useEffect(() => {
     setCurrentPage(page);
     try {
       if (typeof window !== "undefined") {
-        let target = page === "home" ? "/" : `/${page}`;
+        let target = page === "home" ? "/#" : `/${page}#`;
 
         // For auth pages, append redirect_to with current location if not at plain home
         if (page === "sign-in" || page === "sign-up") {
@@ -120,7 +120,7 @@ useEffect(() => {
             try {
               const url = new URL(target, window.location.origin);
               url.searchParams.set("redirect_to", current);
-              target = url.pathname + url.search;
+              target = url.pathname + url.search + url.hash;
             } catch {
               // ignore URL build errors
             }
@@ -131,9 +131,6 @@ useEffect(() => {
         if (currentPathWithQuery !== target) {
           window.history.pushState({}, "", target);
         }
-
-        // Scroll to top of page when navigating
-        window.scrollTo(0, 0);
       }
     } catch {
       // no-op in non-browser environments

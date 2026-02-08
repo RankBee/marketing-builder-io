@@ -144,7 +144,10 @@ useEffect(() => {
   useEffect(() => {
     try {
       setCurrentPage(pathToPage(window.location.pathname));
-      const onPop = () => setCurrentPage(pathToPage(window.location.pathname));
+      const onPop = () => {
+        setCurrentPage(pathToPage(window.location.pathname));
+        window.scrollTo(0, 0);
+      };
       window.addEventListener("popstate", onPop);
       return () => window.removeEventListener("popstate", onPop);
     } catch {

@@ -126,20 +126,17 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      <div
-                        href={member.linkedinUrl}
-                        rel="noopener noreferrer"
-                        target="_blank"
+                      <span
                         style={{
                           display: "inline",
                           fontWeight: "500",
-                          textWrap: "nowrap",
+                          whiteSpace: "nowrap",
                           cursor: "pointer",
                           pointerEvents: "auto",
                         }}
                       >
                         LinkedIn
-                      </div>
+                      </span>
                     </Button>
                   </a>
                 </CardContent>
@@ -194,20 +191,17 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                   <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="ghost" size="sm" className="mt-4 text-purple-600 hover:text-purple-700">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      <div
-                        href={member.linkedinUrl}
-                        rel="noopener noreferrer"
-                        target="_blank"
+                      <span
                         style={{
                           display: "inline",
                           fontWeight: "500",
-                          textWrap: "nowrap",
+                          whiteSpace: "nowrap",
                           cursor: "pointer",
                           pointerEvents: "auto",
                         }}
                       >
                         LinkedIn
-                      </div>
+                      </span>
                     </Button>
                   </a>
                 </CardContent>

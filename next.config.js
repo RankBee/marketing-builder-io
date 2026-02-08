@@ -15,22 +15,16 @@ const nextConfig = {
   async redirects() {
     return [];
   },
-  env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://rankbee.ai',
-    NEXT_PUBLIC_GHOST_CONTENT_API_KEY: process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || process.env.VITE_GHOST_CONTENT_API_KEY,
-    NEXT_PUBLIC_GHOST_ADMIN_API_KEY: process.env.NEXT_PUBLIC_GHOST_ADMIN_API_KEY || process.env.VITE_GHOST_ADMIN_API_KEY,
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.VITE_CLERK_PUBLISHABLE_KEY,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || process.env.VITE_APP_URL,
-    NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV || process.env.VITE_APP_ENV,
-    NEXT_PUBLIC_INTERCOM_APP_ID: process.env.NEXT_PUBLIC_INTERCOM_APP_ID || process.env.VITE_INTERCOM_APP_ID,
-    NEXT_PUBLIC_GTM_ID_STG: process.env.NEXT_PUBLIC_GTM_ID_STG || process.env.VITE_GTM_ID_STG,
-    NEXT_PUBLIC_GTM_ID_PROD: process.env.NEXT_PUBLIC_GTM_ID_PROD || process.env.VITE_GTM_ID_PROD,
-    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY || process.env.VITE_POSTHOG_KEY,
-    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST || process.env.VITE_POSTHOG_HOST,
+  async rewrites() {
+    return [
+      { source: '/robots.txt', destination: '/api/robots' },
+      { source: '/sitemap.xml', destination: '/api/sitemap' },
+    ];
   },
   webpack: (config) => {
     // Replicate Vite's versioned package aliases (Builder.io convention)
-    const versionedAliases = {
+    // Resolve to absolute paths so both client AND server webpack can find them
+    const versionedMap = {
       'vaul@1.1.2': 'vaul',
       'sonner@2.0.3': 'sonner',
       'recharts@2.15.2': 'recharts',
@@ -70,6 +64,12 @@ const nextConfig = {
       '@radix-ui/react-alert-dialog@1.1.6': '@radix-ui/react-alert-dialog',
       '@radix-ui/react-accordion@1.2.3': '@radix-ui/react-accordion',
     };
+
+    // Resolve each alias to an absolute path so server-side webpack can find them
+    const versionedAliases = {};
+    for (const [versioned, real] of Object.entries(versionedMap)) {
+      versionedAliases[versioned] = path.resolve(__dirname, 'node_modules', real);
+    }
 
     config.resolve.alias = {
       ...config.resolve.alias,

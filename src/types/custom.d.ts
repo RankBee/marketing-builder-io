@@ -1,7 +1,15 @@
-/// <reference types="vite/client" />
+// Custom type declarations for the project
 
-// Allow imports like: import img from 'figma:asset/xxxx.png'
-declare module 'figma:asset/*' {
+// Image imports return URL strings (configured via asset/resource webpack rule)
+declare module '*.png' {
+  const src: string;
+  export default src;
+}
+declare module '*.jpg' {
+  const src: string;
+  export default src;
+}
+declare module '*.svg' {
   const src: string;
   export default src;
 }

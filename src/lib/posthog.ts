@@ -37,12 +37,12 @@ export const initPostHog = () => {
         recordCrossOriginIframes: true,
         maskAllInputs: false,
         maskTextSelector: '[data-private]',
-        disable_session_recording: isImpersonated(),
       },
       loaded: (ph) => {
-        // Force start session recording if it's lazy loading
-        if (ph.sessionRecording?.status === 'lazy_loading' && !isImpersonated()) {
-          ph.startSessionRecording()
+        if (isImpersonated()) {
+          ph.opt_out_capturing();
+        } else if (ph.sessionRecording?.status === 'lazy_loading') {
+          ph.startSessionRecording();
         }
       },
       disable_external_dependency_loading: false,

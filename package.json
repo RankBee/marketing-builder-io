@@ -1,11 +1,12 @@
 {
-      "name": "Homepage Design for RankBee",
+      "name": "rankbee-marketing",
       "version": "0.1.0",
       "private": true,
       "dependencies": {
+            "@builder.io/sdk-react": "^5.1.0",
             "@clerk/clerk-react": "^5.31.8",
+            "@clerk/nextjs": "^5.0.0",
             "@intercom/messenger-js-sdk": "^0.0.14",
-            "@netlify/functions": "*",
             "@radix-ui/react-accordion": "^1.2.3",
             "@radix-ui/react-alert-dialog": "^1.1.6",
             "@radix-ui/react-aspect-ratio": "^1.1.2",
@@ -40,6 +41,7 @@
             "input-otp": "^1.4.2",
             "lucide-react": "^0.487.0",
             "motion": "*",
+            "next": "^15.5.12",
             "next-themes": "^0.4.6",
             "posthog-js": "^1.96.1",
             "react": "^18.3.1",
@@ -51,28 +53,19 @@
             "recharts": "^2.15.2",
             "sonner": "^2.0.3",
             "tailwind-merge": "*",
-            "vaul": "^1.1.2",
-            "express": "^4.18.2",
-            "next": "^14.2.0",
-            "@clerk/nextjs": "^5.0.0"
+            "vaul": "^1.1.2"
       },
       "devDependencies": {
             "@types/node": "^20.10.0",
             "@types/react": "^18.3.12",
             "@types/react-dom": "^18.3.1",
-            "@vitejs/plugin-react-swc": "^3.10.2",
-            "typescript": "^5.6.3",
-            "vite": "6.3.5"
+            "typescript": "^5.6.3"
       },
       "scripts": {
-            "dev": "next dev -p 3000",
-            "build": "next build",
+            "postinstall": "node scripts/create-version-aliases.js",
+            "dev": "node scripts/create-version-aliases.js && next dev -p 3000",
+            "build": "node scripts/create-version-aliases.js && next build",
             "start": "next start -p 8080",
-            "dev:vite": "vite",
-            "build:vite": "vite build",
-            "prerender": "node scripts/prerender.mjs",
-            "build:ssg": "npm run build:vite && npm run prerender && node scripts/generate-seo.mjs",
-            "start:legacy": "node server.mjs",
-            "seo": "node scripts/generate-seo.mjs"
+            "lint": "next lint"
       }
 }

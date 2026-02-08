@@ -11,12 +11,14 @@ interface BlogPageProps {
   onPageChange: (page: string) => void;
   filterTag?: string;
   pageNumber?: number;
+  initialPosts?: BlogPost[];
+  initialFilters?: string[];
 }
 
-export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPageProps) {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [filters, setFilters] = useState<string[]>(["All"]);
-  const [loading, setLoading] = useState(true);
+export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts, initialFilters }: BlogPageProps) {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialPosts || []);
+  const [filters, setFilters] = useState<string[]>(initialFilters || ["All"]);
+  const [loading, setLoading] = useState(!initialPosts);
   const [error, setError] = useState<string | null>(null);
   
   const [email, setEmail] = useState("");
@@ -66,6 +68,9 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
   const currentPage = pageNumber;
 
   useEffect(() => {
+    // Skip client-side fetch if posts were provided via SSR/SSG
+    if (initialPosts && initialPosts.length > 0) return;
+
     async function loadBlogPosts() {
       try {
         setLoading(true);
@@ -91,7 +96,7 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1 }: BlogPagePr
     }
     
     loadBlogPosts();
-  }, []);
+  }, [initialPosts]);
 
 
 

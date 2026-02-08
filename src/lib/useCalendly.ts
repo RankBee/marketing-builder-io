@@ -181,8 +181,8 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
         
         const isEU = euTimeZones.some(tz => timezone.includes(tz.split("/")[1])) || timezone.startsWith("Europe/");
         
-        const calendlyEu = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_CALENDLY_EU) || ((typeof import.meta !== 'undefined' && (import.meta as any)?.env?.VITE_CALENDLY_EU) || '');
-        const calendlyOthers = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_CALENDLY_OTHERS) || ((typeof import.meta !== 'undefined' && (import.meta as any)?.env?.VITE_CALENDLY_OTHERS) || '');
+        const calendlyEu = process.env.NEXT_PUBLIC_CALENDLY_EU || '';
+        const calendlyOthers = process.env.NEXT_PUBLIC_CALENDLY_OTHERS || '';
         let baseUrl = isEU 
           ? (calendlyEu || "https://calendly.com/rankbee/demo-onboarding-clone")
           : (calendlyOthers || "https://calendly.com/rankbee/onboarding");

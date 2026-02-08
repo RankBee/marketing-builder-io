@@ -32,62 +32,54 @@ export function Footer({ onPageChange }: FooterProps) {
           
           {/* Brand Logo */}
           <div className="flex flex-col items-center space-y-6 sm:space-y-8">
-            <button
-              onClick={() => onPageChange("home")}
+            <a
+              href="/#"
               className="transition-opacity hover:opacity-80"
+              onClick={(e) => {
+                e.preventDefault();
+                onPageChange("home");
+              }}
             >
               <Logo className="h-10" />
-            </button>
-            
+            </a>
+
             {/* Main Navigation Links */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
               {mainNavItems.map((item) => (
-                item.id === "blog" ? (
-                  <button
-                    key={item.id}
-                    onClick={() => onPageChange("blog")}
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors cursor-pointer"
-                  >
-                    {item.name}
-                  </button>
-                ) : item.id === "demo" ? (
-                  <a
-                    key={item.id}
-                    href="/demo"
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
-                    onClick={(e) => {
-                      e.preventDefault();
+                <a
+                  key={item.id}
+                  href={`/${item.id}#`}
+                  className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (item.id === "demo") {
                       trackEvent('Navigation Click', {
                         destination: 'demo',
                         location: 'footer_nav'
                       });
-                      onPageChange('demo');
-                    }}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <button
-                    key={item.id}
-                    onClick={() => onPageChange(item.id)}
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
-                  >
-                    {item.name}
-                  </button>
-                )
+                    }
+                    onPageChange(item.id);
+                  }}
+                >
+                  {item.name}
+                </a>
               ))}
             </div>
 
             {/* Legal Links - Smaller, Subdued */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-4 border-t border-gray-200">
               {legalNavItems.map((item) => (
-                <button
+                <a
                   key={item.id}
-                  onClick={() => onPageChange(item.id)}
+                  href={`/${item.id}#`}
                   className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 hover:underline transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(item.id);
+                  }}
                 >
                   {item.name}
-                </button>
+                </a>
               ))}
             </div>
           </div>

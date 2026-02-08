@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth, useUser } from '@clerk/clerk-react';
+import { ENV } from '../lib/env';
 
 export function IntercomClient() {
   const { user } = useUser();
@@ -9,12 +10,12 @@ export function IntercomClient() {
   useEffect(() => {
     // Skip if not in production/preprod or if already loaded
     if (isLoaded) return;
-    if (!(import.meta.env.VITE_APP_ENV === 'production' || import.meta.env.VITE_APP_ENV === 'preprod')) {
+    if (!(ENV.APP_ENV === 'production' || ENV.APP_ENV === 'preprod')) {
       console.log('Intercom: Skipping load (not production/preprod environment)');
       return;
     }
 
-    const appId = import.meta.env.VITE_INTERCOM_APP_ID;
+    const appId = ENV.INTERCOM_APP_ID;
     if (!appId) {
       console.warn('Intercom: VITE_INTERCOM_APP_ID not configured');
       return;

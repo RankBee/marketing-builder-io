@@ -1,5 +1,5 @@
 import svgPaths from "./svg-guhwudnlqv";
-import chatGptMockup from "figma:asset/10d0fa087436a591e8316d517ab16ffe4d1071fb.png";
+import chatGptMockup from "../assets/10d0fa087436a591e8316d517ab16ffe4d1071fb.png";
 import { motion } from "motion/react";
 import { TrendingUp, Target, Zap, Globe, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";

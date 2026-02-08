@@ -82,15 +82,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              <p>
-                <p>
+              <span>
+                <span>
                   Proven to Win in{" "}
                   <span style={{ color: "rgb(144, 19, 254)" }}>
                     AI Search
                   </span>
-                </p>
-              </p>
-              <div><span></span></div>
+                </span>
+              </span>
             </h1>
             
             {/* Description */}
@@ -103,14 +102,16 @@ export function HomePage({ onPageChange }: HomePageProps) {
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <SignedOut>
                 <a
-                  href={typeof window !== "undefined" ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
-                  onClick={() => {
+                  href={signUpUrl}
+                  onClick={(e) => {
+                    e.preventDefault();
                     trackEvent('CTA Clicked', {
                       button_text: 'Start Free Trial',
                       location: 'homepage_hero',
                       variant: 'primary',
                       destination: 'sign-up'
                     });
+                    window.location.href = `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}`;
                   }}
                 >
                   <Button
@@ -204,13 +205,15 @@ export function HomePage({ onPageChange }: HomePageProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <SignedOut>
-              <a href={typeof window !== "undefined" ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl} onClick={() => {
+              <a href={signUpUrl} onClick={(e) => {
+                e.preventDefault();
                 trackEvent('CTA Clicked', {
                   button_text: 'Start Free Trial',
                   location: 'homepage_footer',
                   variant: 'primary',
                   destination: 'sign-up'
                 });
+                window.location.href = `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}`;
               }}>
                 <Button
                   size="lg"

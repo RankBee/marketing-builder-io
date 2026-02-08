@@ -1,11 +1,13 @@
 // Ghost CMS API service
 // Fetches blog posts from Ghost CMS
 
+import { ENV } from './env';
+
 const GHOST_CONTENT_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
 const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
 const GHOST_ADMIN_API_URL = 'https://geo.rankbee.ai/ghost/api/admin';
 // Admin API key needed for members - get from Ghost Admin → Settings → Integrations
-const GHOST_ADMIN_API_KEY = import.meta.env.VITE_GHOST_ADMIN_API_KEY as string;
+const GHOST_ADMIN_API_KEY = ENV.GHOST_ADMIN_API_KEY || '';
 
 export interface GhostPost {
   id: string;

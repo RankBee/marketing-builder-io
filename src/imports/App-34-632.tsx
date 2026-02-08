@@ -1,6 +1,6 @@
 import svgPaths from "./svg-d2wbzq4ilg";
-import imgChatGptLogoSvg1 from "figma:asset/9340dc6d4f7e1823f26d71086af558cabd844e38.png";
-import imgRankBeelogoHighresBluePink1 from "figma:asset/748f5f7f87fb0091f3e74b3487277ad1fe29eb81.png";
+import imgChatGptLogoSvg1 from "../assets/9340dc6d4f7e1823f26d71086af558cabd844e38.png";
+import imgRankBeelogoHighresBluePink1 from "../assets/748f5f7f87fb0091f3e74b3487277ad1fe29eb81.png";
 
 function Icon() {
   return (

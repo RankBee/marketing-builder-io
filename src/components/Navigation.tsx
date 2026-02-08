@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useSafeUser } from "../lib/clerk-safe";
-import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 import { trackEvent } from "../lib/posthog";
 import AccountCta from "./AccountCta";
 import { signInUrl } from "../lib/clerk-env";
@@ -23,9 +22,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [desktopSubmenuOpen, setDesktopSubmenuOpen] = useState<string | null>(null);
-  const { isLoaded: orgLoaded } = useOrganization();
-  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const loaded = orgLoaded || listLoaded;
+  // SSR-safe: skip Clerk org hooks on server
+  const loaded = typeof window === 'undefined' ? false : true;
   const { user } = useSafeUser();
 
   const navItems: NavItem[] = [

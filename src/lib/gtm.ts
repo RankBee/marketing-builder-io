@@ -1,9 +1,10 @@
-// Google Tag Manager utility for Vite app
+// Google Tag Manager utility
 // Pushes events to dataLayer for GTM to process
 
 import { useEffect } from 'react';
 import { useUser, useOrganization } from '@clerk/clerk-react';
 import { publishableKey } from './clerk-env';
+import { ENV } from './env';
 
 declare global {
   interface Window {
@@ -25,14 +26,14 @@ let currentToolId: string | undefined;
  * Get the appropriate GTM ID based on environment
  */
 export function getGTMId(): string | undefined {
-  const env = import.meta.env.VITE_APP_ENV as string;
+  const env = ENV.APP_ENV;
   
   // Use production GTM ID for production, staging for everything else
   if (env === 'production') {
-    return import.meta.env.VITE_GTM_ID_PROD as string | undefined;
+    return ENV.GTM_ID_PROD;
   }
   
-  return import.meta.env.VITE_GTM_ID_STG as string | undefined;
+  return ENV.GTM_ID_STG;
 }
 
 /**
@@ -76,7 +77,7 @@ export function pushToDataLayer(event: string, data?: Record<string, any>): void
   
   window.dataLayer.push(eventData);
   
-  if (import.meta.env.DEV) {
+  if (ENV.DEV) {
     console.log('[GTM] Event pushed to dataLayer:', eventData);
   }
 }
@@ -98,7 +99,7 @@ export function setUserProperties(userId: string, properties?: Record<string, an
     ...properties,
   });
   
-  if (import.meta.env.DEV) {
+  if (ENV.DEV) {
     console.log('[GTM] User properties set:', { userId, ...properties });
   }
 }
@@ -123,14 +124,14 @@ export function useGTMClerkSync(): void {
       // Update GTM with Clerk context
       setClerkContext(userId, orgId);
       
-      if (import.meta.env.DEV) {
+      if (ENV.DEV) {
         console.log('[GTM] Clerk context synced:', { userId, orgId });
       }
     } else {
       // User signed out, clear context
       setClerkContext(undefined, undefined, undefined);
       
-      if (import.meta.env.DEV) {
+      if (ENV.DEV) {
         console.log('[GTM] Clerk context cleared (user signed out)');
       }
     }

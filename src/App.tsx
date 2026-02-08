@@ -131,6 +131,9 @@ useEffect(() => {
         if (currentPathWithQuery !== target) {
           window.history.pushState({}, "", target);
         }
+
+        // Scroll to top of page when navigating
+        window.scrollTo(0, 0);
       }
     } catch {
       // no-op in non-browser environments

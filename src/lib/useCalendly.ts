@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { trackEvent } from "../lib/posthog";
+import { ENV } from "../lib/env";
 
 interface CalendlyConfig {
   primaryColor?: string;
@@ -180,9 +181,11 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
         
         const isEU = euTimeZones.some(tz => timezone.includes(tz.split("/")[1])) || timezone.startsWith("Europe/");
         
+        const calendlyEu = process.env.NEXT_PUBLIC_CALENDLY_EU || '';
+        const calendlyOthers = process.env.NEXT_PUBLIC_CALENDLY_OTHERS || '';
         let baseUrl = isEU 
-          ? (import.meta.env.VITE_CALENDLY_EU || "https://calendly.com/rankbee/demo-onboarding-clone")
-          : (import.meta.env.VITE_CALENDLY_OTHERS || "https://calendly.com/rankbee/onboarding");
+          ? (calendlyEu || "https://calendly.com/rankbee/demo-onboarding-clone")
+          : (calendlyOthers || "https://calendly.com/rankbee/onboarding");
         
         // Apply customization options
         const embedUrl = (() => {
@@ -231,7 +234,7 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
       } catch (error) {
         console.error("Location detection error:", error);
         // Default to OTHERS if detection fails
-        const defaultUrl = import.meta.env.VITE_CALENDLY_OTHERS || "https://calendly.com/rankbee/onboarding";
+        const defaultUrl = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_CALENDLY_OTHERS) || "https://calendly.com/rankbee/onboarding";
         setCalendlyUrl(defaultUrl);
       }
     };

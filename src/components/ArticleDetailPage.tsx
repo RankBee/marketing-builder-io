@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Clock, ArrowLeft, Share2, BookmarkIcon, Target, TrendingUp, Search, Users } from "lucide-react";
-import { useState } from "react";
+import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 
 interface Article {
   id: string;
@@ -21,7 +22,8 @@ interface Article {
 
 interface ArticleDetailPageProps {
   onPageChange: (page: string) => void;
-  article?: Article;
+  slug?: string;
+  allPosts?: BlogPost[];
 }
 
 const defaultArticles: Record<string, Article> = {
@@ -296,10 +298,120 @@ const defaultArticles: Record<string, Article> = {
   }
 };
 
-export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPageProps) {
+export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetailPageProps) {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
+  const [subscribeError, setSubscribeError] = useState<string | null>(null);
+  const [article, setArticle] = useState<BlogPost | null>(null);
+  const [relatedArticles, setRelatedArticles] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [tagCounts, setTagCounts] = useState<Map<string, number>>(new Map());
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    setSubscribeError(null);
+    setSubscribeSuccess(false);
+    
+    try {
+      const result = await addGhostSubscriber(email);
+      
+      if (result.success) {
+        setSubscribeSuccess(true);
+        setEmail(""); // Clear the input
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubscribeSuccess(false), 5000);
+      } else {
+        setSubscribeError(result.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (error) {
+      setSubscribeError("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    async function loadArticle() {
+      if (!slug) {
+        setError("No article specified");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const post = await fetchBlogPost(slug);
+        
+        if (!post) {
+          setError("Article not found");
+        } else {
+          setArticle(post);
+          
+          // Fetch all posts if not provided
+          const posts = allPosts || await fetchBlogPosts();
+          
+          // Count tag occurrences across all posts
+          const counts = new Map<string, number>();
+          posts.forEach(p => {
+            p.tags?.forEach(tag => {
+              counts.set(tag, (counts.get(tag) || 0) + 1);
+            });
+          });
+          setTagCounts(counts);
+          
+          // Fetch related articles
+          const related = posts
+            .filter(p => p.id !== post.id && p.category === post.category)
+            .slice(0, 3);
+          setRelatedArticles(related);
+        }
+      } catch (err) {
+        console.error('Error loading article:', err);
+        setError("Failed to load article. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    loadArticle();
+  }, [slug, allPosts]);
   
-  const displayArticle = article || (Object.values(defaultArticles)[0] as Article);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+          <p className="mt-4 text-gray-600">Loading article...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !article) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error || "Article not found"}</p>
+          <Button
+            onClick={() => onPageChange("blog")}
+            className="bg-purple-600 hover:bg-purple-700 text-white"
+          >
+            Back to Blog
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const displayArticle = article;
 
   const getCategoryIcon = (category: string) => {
     switch(category) {
@@ -310,24 +422,19 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
     }
   };
 
-  const relatedArticles = Object.values(defaultArticles)
-    .filter(a => a.id !== displayArticle.id && a.category === displayArticle.category)
-    .slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation Back */}
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <a
-            href="https://geo.rankbee.ai/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => onPageChange("blog")}
             className="flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </a>
+          </button>
         </div>
       </div>
 
@@ -345,16 +452,18 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
           </h1>
           
           <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-8">
-            <div className="flex items-center gap-2">
-              <img
-                src={displayArticle.authorImage}
-                alt={displayArticle.author}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <div className="font-medium text-gray-900">{displayArticle.author}</div>
+            {displayArticle.author && displayArticle.authorImage && (
+              <div className="flex items-center gap-2">
+                <img
+                  src={displayArticle.authorImage}
+                  alt={displayArticle.author}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <div className="font-medium text-gray-900">{displayArticle.author}</div>
+                </div>
               </div>
-            </div>
+            )}
             <div className="flex items-center gap-1">
               <span>{displayArticle.date}</span>
             </div>
@@ -364,15 +473,45 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
             </div>
           </div>
 
-          {/* Share Buttons */}
+          {/* Tags */}
+          {displayArticle.tags && displayArticle.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {displayArticle.tags.map((tag) => {
+                const count = tagCounts.get(tag) || 0;
+                const isClickable = count >= 2;
+                
+                return (
+                  <Badge
+                    key={tag}
+                    className={isClickable 
+                      ? "bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors"
+                      : "bg-gray-100 text-gray-600 cursor-default"
+                    }
+                    onClick={isClickable ? () => {
+                      const slug = tag.toLowerCase().replace(/\s+/g, '-');
+                      onPageChange(`blog/tag/${slug}`);
+                    } : undefined}
+                  >
+                    {tag}
+                  </Badge>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Share Button */}
           <div className="flex gap-2">
-            <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
+            <Button 
+              variant="outline" 
+              className="border-purple-600 text-purple-600 hover:bg-purple-50"
+              onClick={() => {
+                const url = `https://rankbee.ai/blog/${displayArticle.slug}`;
+                const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                window.open(linkedInUrl, '_blank', 'width=600,height=600');
+              }}
+            >
               <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </Button>
-            <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
-              <BookmarkIcon className="w-4 h-4 mr-2" />
-              Save
+              Share on LinkedIn
             </Button>
           </div>
         </div>
@@ -393,23 +532,25 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
               {displayArticle.summary}
             </p>
             
-            <div
-              className="article-content"
-              dangerouslySetInnerHTML={{
-                __html: displayArticle.content
-                  .split('\n')
-                  .filter(line => line.trim())
-                  .map(line => {
-                    if (line.startsWith('<h2>')) return line;
-                    if (line.startsWith('<h3>')) return line;
-                    if (line.startsWith('<p>')) return line;
-                    if (line.startsWith('<ul>')) return line;
-                    if (line.startsWith('<li>')) return line;
-                    return `<p>${line}</p>`;
-                  })
-                  .join('')
-              }}
-            />
+            {displayArticle.content && (
+              <div
+                className="article-content"
+                dangerouslySetInnerHTML={{
+                  __html: displayArticle.content
+                    .split('\n')
+                    .filter(line => line.trim())
+                    .map(line => {
+                      if (line.startsWith('<h2>')) return line;
+                      if (line.startsWith('<h3>')) return line;
+                      if (line.startsWith('<p>')) return line;
+                      if (line.startsWith('<ul>')) return line;
+                      if (line.startsWith('<li>')) return line;
+                      return `<p>${line}</p>`;
+                    })
+                    .join('')
+                }}
+              />
+            )}
           </div>
 
           <style>{`
@@ -456,23 +597,25 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
         </div>
 
         {/* Author Bio */}
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-12">
-          <div className="flex items-start gap-4">
-            <img
-              src={displayArticle.authorImage}
-              alt={displayArticle.author}
-              className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-            />
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {displayArticle.author}
-              </h3>
-              <p className="text-gray-600">
-                {displayArticle.author} is a seasoned expert in AI marketing and digital strategy. With years of experience helping businesses adapt to the AI-first landscape, they bring practical insights and proven methodologies to every project.
-              </p>
+        {displayArticle.author && displayArticle.authorImage && (
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-12">
+            <div className="flex items-start gap-4">
+              <img
+                src={displayArticle.authorImage}
+                alt={displayArticle.author}
+                className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {displayArticle.author}
+                </h3>
+                <p className="text-gray-600">
+                  {displayArticle.author} is a seasoned expert in AI marketing and digital strategy. With years of experience helping businesses adapt to the AI-first landscape, they bring practical insights and proven methodologies to every project.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </article>
 
       {/* Related Articles */}
@@ -485,7 +628,7 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
                 <Card
                   key={article.id}
                   className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
-                  onClick={() => window.location.hash = `#/article/${article.id}`}
+                  onClick={() => onPageChange(`blog/${article.slug}`)}
                 >
                   <div className="aspect-video overflow-hidden">
                     <ImageWithFallback
@@ -523,18 +666,34 @@ export function ArticleDetailPage({ onPageChange, article }: ArticleDetailPagePr
             Get weekly tips, case studies, and AI insights delivered to your inbox.
           </p>
           <div className="max-w-md mx-auto">
-            <div className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-white text-gray-900"
+                required
+                disabled={isSubmitting}
               />
-              <Button className="bg-white text-purple-600 hover:bg-gray-100">
-                Subscribe
+              <Button 
+                type="submit"
+                className="bg-white text-purple-600 hover:bg-gray-100"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </Button>
-            </div>
+            </form>
+            {subscribeSuccess && (
+              <p className="text-green-100 text-sm mt-2">
+                ✓ Successfully subscribed! Check your email to confirm.
+              </p>
+            )}
+            {subscribeError && (
+              <p className="text-red-200 text-sm mt-2">
+                {subscribeError}
+              </p>
+            )}
           </div>
         </div>
       </section>

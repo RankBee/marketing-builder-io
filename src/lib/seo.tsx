@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { ENV } from "./env";
 
 type JSONLD = Record<string, any>;
 
@@ -13,8 +14,7 @@ export interface SeoProps {
 
 const defaultOrigin =
   typeof window !== "undefined" ? window.location.origin : "https://rankbee.ai";
-const SITE_URL: string =
-  (import.meta.env.VITE_SITE_URL as string) || defaultOrigin;
+const SITE_URL: string = ENV.SITE_URL || defaultOrigin;
 
 function absoluteUrl(path?: string): string {
   const p = (path || "/").startsWith("/") ? (path || "/") : `/${path || ""}`;

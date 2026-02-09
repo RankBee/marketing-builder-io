@@ -11,6 +11,9 @@ import {
 } from "@clerk/clerk-react";
 import { publishableKey } from "./clerk-env";
 
+// SSR guard: Clerk hooks/components require ClerkProvider which is only available client-side
+const isServer = typeof window === 'undefined';
+
 type ChildrenProp = PropsWithChildren<{}>;
 type ClerkSignInProps = React.ComponentProps<typeof ClerkSignIn>;
 type ClerkSignUpProps = React.ComponentProps<typeof ClerkSignUp>;
@@ -27,24 +30,19 @@ type ClerkSignUpProps = React.ComponentProps<typeof ClerkSignUp>;
  */
 
 export function SafeSignedIn({ children }: ChildrenProp) {
-  if (!publishableKey) {
-    if ((import.meta as any)?.env?.DEV) {
-      // eslint-disable-next-line no-console
-      console.warn("[Clerk] publishableKey is missing in SafeSignedIn (DEV)");
-    }
+  if (isServer || !publishableKey) {
     return null;
   }
   return <ClerkSignedIn>{children}</ClerkSignedIn>;
 }
 
 export function SafeSignedOut({ children }: ChildrenProp) {
+  if (isServer) {
+    // During SSR, render nothing to avoid hydration mismatch
+    // (server doesn't know auth state; client will hydrate correctly)
+    return null;
+  }
   if (!publishableKey) {
-    if ((import.meta as any)?.env?.DEV) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[Clerk] publishableKey is missing in SafeSignedOut (DEV) - rendering children as signed-out"
-      );
-    }
     return <>{children}</>;
   }
   return (
@@ -77,17 +75,11 @@ function SignedOutCleanup() {
 }
 
 export function useSafeUser() {
-  if (!publishableKey) {
-    if ((import.meta as any)?.env?.DEV) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[Clerk] publishableKey is missing in useSafeUser (DEV) - returning unsigned stub"
-      );
-    }
+  if (isServer || !publishableKey) {
     return {
       user: undefined as any,
       isSignedIn: false,
-      isLoaded: true,
+      isLoaded: !isServer,
     };
   }
   return clerkUseUser();
@@ -106,7 +98,7 @@ export function useSafeUser() {
  * Returns both the computed boolean and whether Clerk data has loaded.
  */
 export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean } {
-  if (!publishableKey) {
+  if (isServer || !publishableKey) {
     return { onboarded: false, loaded: false };
   }
 
@@ -218,7 +210,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
             const loaded = Boolean(loadedStable);
             const onboarded = Boolean(firstOrgOnboarded || cachedTrue);
           
-            if ((import.meta as any)?.env?.DEV) {
+            if (!isServer && (typeof process !== 'undefined' ? process.env.NODE_ENV === 'development' : false)) {
               // eslint-disable-next-line no-console
               console.log("[OrgCTA][DEV]", {
                 listLoaded,
@@ -243,19 +235,13 @@ export function useOrgOnboarded(): boolean {
 }
 
 export function SafeSignIn(props: ClerkSignInProps) {
-  if (!publishableKey) {
-    if ((import.meta as any)?.env?.DEV) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[Clerk] VITE_CLERK_PUBLISHABLE_KEY not visible at runtime in SafeSignIn. Check .env and restart dev server."
-      );
-    }
+  if (isServer || !publishableKey) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="p-6 rounded-xl border border-gray-200 shadow-sm text-center">
           <h2 className="text-lg font-semibold mb-2">Authentication unavailable</h2>
           <p className="text-gray-600 mb-4">
-            Set VITE_CLERK_PUBLISHABLE_KEY to enable Sign In in this environment.
+            Set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY to enable Sign In in this environment.
           </p>
           <a href="/" className="text-purple-600 underline">
             Back to Home
@@ -268,19 +254,13 @@ export function SafeSignIn(props: ClerkSignInProps) {
 }
 
 export function SafeSignUp(props: ClerkSignUpProps) {
-  if (!publishableKey) {
-    if ((import.meta as any)?.env?.DEV) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[Clerk] VITE_CLERK_PUBLISHABLE_KEY not visible at runtime in SafeSignUp. Check .env and restart dev server."
-      );
-    }
+  if (isServer || !publishableKey) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="p-6 rounded-xl border border-gray-200 shadow-sm text-center">
           <h2 className="text-lg font-semibold mb-2">Authentication unavailable</h2>
           <p className="text-gray-600 mb-4">
-            Set VITE_CLERK_PUBLISHABLE_KEY to enable Sign Up in this environment.
+            Set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY to enable Sign Up in this environment.
           </p>
           <a href="/" className="text-purple-600 underline">
             Back to Home
@@ -298,7 +278,7 @@ export function SafeSignUp(props: ClerkSignUpProps) {
  * This mirrors how many apps default to the first org so org-dependent UI (like onboarded) works.
  */
 export function useEnsureActiveOrg() {
-  if (!publishableKey) return;
+  if (isServer || !publishableKey) return;
 
   const { organization } = useOrganization();
   const { isLoaded, userMemberships, setActive } = useOrganizationList({
@@ -341,6 +321,6 @@ export function useEnsureActiveOrg() {
  * You can pass showName or other Clerk UserButton props if desired.
  */
 export function SafeUserButton(props: React.ComponentProps<typeof UserButton>) {
-  if (!publishableKey) return null;
+  if (isServer || !publishableKey) return null;
   return <UserButton {...props} />;
 }

@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useSafeUser } from "../lib/clerk-safe";
-import { useOrganization, useOrganizationList } from "@clerk/clerk-react";
 import { trackEvent } from "../lib/posthog";
 import AccountCta from "./AccountCta";
 import { signInUrl } from "../lib/clerk-env";
@@ -23,9 +22,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [desktopSubmenuOpen, setDesktopSubmenuOpen] = useState<string | null>(null);
-  const { isLoaded: orgLoaded } = useOrganization();
-  const { isLoaded: listLoaded } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const loaded = orgLoaded || listLoaded;
+  // SSR-safe: skip Clerk org hooks on server
+  const loaded = typeof window === 'undefined' ? false : true;
   const { user } = useSafeUser();
 
   const navItems: NavItem[] = [
@@ -73,24 +71,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="hidden lg:block">
             <div className="flex items-baseline gap-1 xl:gap-4">
               {navItems.map((item) => (
-                item.id === "blog" ? (
-                  <a
-                    key={item.id}
-                    href="https://geo.rankbee.ai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50 whitespace-nowrap"
-                    onClick={() => {
-                      trackEvent('External Link Clicked', {
-                        link_text: 'Blog',
-                        destination_url: 'https://geo.rankbee.ai/',
-                        location: 'desktop_menu'
-                      });
-                    }}
-                  >
-                    {item.name}
-                  </a>
-                ) : item.submenu ? (
+                item.submenu ? (
                   <div
                     key={item.id}
                     className="relative group"
@@ -241,24 +222,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           <div className="lg:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                item.id === "blog" ? (
-                  <a
-                    key={item.id}
-                    href="https://geo.rankbee.ai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full text-left px-3 py-2 rounded-md transition-colors text-gray-700 hover:text-purple-600 hover:bg-gray-50"
-                    onClick={() => {
-                      trackEvent('External Link Clicked', {
-                        link_text: 'Blog',
-                        destination_url: 'https://geo.rankbee.ai/',
-                        location: 'mobile_menu'
-                      });
-                    }}
-                  >
-                    {item.name}
-                  </a>
-                ) : item.submenu ? (
+                item.submenu ? (
                   <div key={item.id}>
                     <button
                       onClick={() => setOpenSubmenu(openSubmenu === item.id ? null : item.id)}

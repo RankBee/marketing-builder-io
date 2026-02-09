@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function AnimatedNumber({ target, suffix = "", prefix = "" }) {
+function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
   const [displayValue, setDisplayValue] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef(null);

@@ -110,13 +110,14 @@ export function setUserProperties(userId: string, properties?: Record<string, an
  * It will automatically update GTM when the user signs in/out or switches orgs.
  */
 export function useGTMClerkSync(): void {
-  // Only run if Clerk is configured
-  if (!publishableKey) return;
-  
+  // Always call hooks unconditionally (Rules of Hooks)
   const { user, isSignedIn } = useUser();
   const { organization } = useOrganization();
   
   useEffect(() => {
+    // Only sync if Clerk is configured
+    if (!publishableKey) return;
+
     if (isSignedIn && user?.id) {
       const userId = user.id;
       const orgId = organization?.id;

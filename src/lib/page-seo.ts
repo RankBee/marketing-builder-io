@@ -98,6 +98,12 @@ const pages: Record<string, { title: string; description: string; path: string; 
     description: "Create your RankBee account.",
     path: "/sign-up",
     noindex: true
+  },
+  builder: {
+    title: "Page",
+    description: "RankBee — AI Visibility for ChatGPT, Claude, Gemini.",
+    path: "/builder",
+    noindex: false
   }
 };
 

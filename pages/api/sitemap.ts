@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
-const GHOST_CONTENT_API_KEY = process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || '';
+import { fetchBlogPosts } from '../../src/lib/builder';
 
 // Static routes with their priorities and change frequencies
 const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = [
@@ -21,23 +19,12 @@ const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = 
   { path: '/terms-of-service', priority: '0.3', changefreq: 'yearly' },
 ];
 
-async function fetchBlogSlugs(): Promise<string[]> {
-  try {
-    const url = `${GHOST_API_URL}/posts/?key=${GHOST_CONTENT_API_KEY}&limit=all&fields=slug`;
-    const res = await fetch(url);
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.posts || []).map((p: { slug: string }) => p.slug);
-  } catch {
-    return [];
-  }
-}
-
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rankbee.ai').replace(/\/+$/, '');
   const now = new Date().toISOString();
 
-  const blogSlugs = await fetchBlogSlugs();
+  const posts = await fetchBlogPosts();
+  const blogSlugs = posts.map(p => p.slug);
 
   const staticUrls = STATIC_ROUTES.map(
     (r) => `  <url>

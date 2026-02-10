@@ -89,7 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   } catch (error) {
     console.error(`[blog] Error fetching post ${slug}:`, error);
     return {
-      props: { post: null, slug },
+      notFound: true,
       revalidate: 60,
     };
   }

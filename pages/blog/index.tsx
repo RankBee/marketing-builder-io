@@ -1,4 +1,4 @@
-import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticProps } from 'next';
 import { SeoHead } from '../../src/lib/SeoHead';
 import { BlogPage } from '../../src/components/BlogPage';
 import { fetchBlogPosts, getPopularTags, type BlogPost } from '../../src/lib/builder';

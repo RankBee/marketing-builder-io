@@ -10,7 +10,7 @@ import { Navigation } from '../src/components/Navigation';
 
 // Dynamic import for Intercom (uses Clerk hooks, not available during SSR)
 const IntercomClient = dynamic(
-  () => import('../src/components/IntercomClinet').then(mod => ({ default: mod.IntercomClient })),
+  () => import('../src/components/IntercomClient').then(mod => ({ default: mod.IntercomClient })),
   { ssr: false }
 );
 

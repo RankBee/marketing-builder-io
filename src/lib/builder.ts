@@ -3,7 +3,6 @@
 
 import { ENV } from './env';
 
-const GHOST_CONTENT_API_KEY = process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || '';
 const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
 
 export interface GhostPost {
@@ -91,13 +90,13 @@ function transformGhostPost(ghostPost: GhostPost): BlogPost {
  * Fetch all blog posts from Ghost CMS
  */
 export async function fetchBlogPosts(): Promise<BlogPost[]> {
-  if (!GHOST_CONTENT_API_KEY) {
+  if (!ENV.GHOST_CONTENT_API_KEY) {
     console.warn('Ghost Content API key not configured');
     return [];
   }
 
   try {
-    const url = `${GHOST_API_URL}/posts/?key=${GHOST_CONTENT_API_KEY}&limit=100&include=tags,authors`;
+    const url = `${GHOST_API_URL}/posts/?key=${ENV.GHOST_CONTENT_API_KEY}&limit=all&include=tags,authors`;
     if (ENV.DEV) console.log('Fetching Ghost posts from:', url);
     
     const response = await fetch(url, {
@@ -197,13 +196,13 @@ export async function addGhostSubscriber(email: string, name?: string): Promise<
 }
 
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
-  if (!GHOST_CONTENT_API_KEY) {
+  if (!ENV.GHOST_CONTENT_API_KEY) {
     console.warn('Ghost Content API key not configured');
     return null;
   }
 
   try {
-    const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${GHOST_CONTENT_API_KEY}&include=tags,authors`;
+    const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${ENV.GHOST_CONTENT_API_KEY}&include=tags,authors`;
     if (ENV.DEV) console.log('Fetching Ghost post from:', url);
     
     const response = await fetch(url, {

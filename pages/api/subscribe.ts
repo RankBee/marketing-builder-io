@@ -59,6 +59,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ success: false, error: 'Email is required' });
   }
 
+  // Basic email format validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ success: false, error: 'Please enter a valid email address.' });
+  }
+
   if (!GHOST_ADMIN_API_KEY) {
     console.error('[subscribe] GHOST_ADMIN_API_KEY not configured');
     return res.status(500).json({ success: false, error: 'Newsletter subscription is temporarily unavailable.' });
@@ -88,7 +94,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.error('[subscribe] Ghost Members API error:', response.status, errorData);
 
       if (response.status === 422) {
-        return res.status(200).json({ success: false, error: 'This email is already subscribed to our newsletter.' });
+        const errMsg = JSON.stringify(errorData).toLowerCase();
+        if (errMsg.includes('member') || errMsg.includes('duplicate') || errMsg.includes('already')) {
+          return res.status(200).json({ success: false, error: 'This email is already subscribed to our newsletter.' });
+        }
+        return res.status(400).json({ success: false, error: 'Invalid email or subscription request.' });
       }
 
       return res.status(502).json({ success: false, error: `Failed to subscribe: ${response.statusText}` });

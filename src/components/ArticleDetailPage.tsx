@@ -387,7 +387,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
     }
     
     loadArticle();
-  }, [slug, allPosts]);
+  }, [slug, allPosts, initialPost]);
   
   if (loading) {
     return (

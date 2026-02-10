@@ -76,8 +76,9 @@ function SignedOutCleanup() {
 
 export function useSafeUser() {
   // Always call the hook unconditionally (Rules of Hooks)
-  const clerkResult = (!isServer && publishableKey) ? clerkUseUser() : null;
-  if (!clerkResult) {
+  const clerkResult = clerkUseUser();
+  const clerkEnabled = !isServer && !!publishableKey;
+  if (!clerkEnabled) {
     return {
       user: undefined as any,
       isSignedIn: false,
@@ -95,12 +96,12 @@ export function useSafeUser() {
 export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean } {
   // Always call hooks unconditionally (Rules of Hooks)
   const clerkEnabled = !isServer && !!publishableKey;
-  const orgListResult = clerkEnabled ? useOrganizationList({ userMemberships: { limit: 50 } }) : null;
-  const orgResult = clerkEnabled ? useOrganization() : null;
+  const orgListResult = useOrganizationList({ userMemberships: { limit: 50 } });
+  const orgResult = useOrganization();
 
-  const listLoaded = orgListResult?.isLoaded ?? false;
-  const userMemberships = orgListResult?.userMemberships ?? null;
-  const activeOrg = orgResult?.organization ?? null;
+  const listLoaded = clerkEnabled ? (orgListResult?.isLoaded ?? false) : false;
+  const userMemberships = clerkEnabled ? (orgListResult?.userMemberships ?? null) : null;
+  const activeOrg = clerkEnabled ? (orgResult?.organization ?? null) : null;
 
   const asBool = (v: any) => {
     if (v === true) return true;
@@ -275,13 +276,13 @@ export function SafeSignUp(props: ClerkSignUpProps) {
  */
 export function useEnsureActiveOrg() {
   const clerkEnabled = !isServer && !!publishableKey;
-  const orgResult = clerkEnabled ? useOrganization() : null;
-  const orgListResult = clerkEnabled ? useOrganizationList({ userMemberships: { limit: 50 } }) : null;
+  const orgResult = useOrganization();
+  const orgListResult = useOrganizationList({ userMemberships: { limit: 50 } });
 
-  const organization = orgResult?.organization ?? null;
-  const isLoaded = orgListResult?.isLoaded ?? false;
-  const userMemberships = orgListResult?.userMemberships ?? null;
-  const setActive = orgListResult?.setActive ?? null;
+  const organization = clerkEnabled ? (orgResult?.organization ?? null) : null;
+  const isLoaded = clerkEnabled ? (orgListResult?.isLoaded ?? false) : false;
+  const userMemberships = clerkEnabled ? (orgListResult?.userMemberships ?? null) : null;
+  const setActive = clerkEnabled ? (orgListResult?.setActive ?? null) : null;
 
   useEffect(() => {
     if (!clerkEnabled) return;

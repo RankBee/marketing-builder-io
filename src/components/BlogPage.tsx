@@ -100,9 +100,16 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
 
 
 
+  const matchesFilter = (post: BlogPost, filter: string): boolean => {
+    const f = filter.toLowerCase();
+    if (post.category?.toLowerCase() === f) return true;
+    if (post.tags?.some(t => t.toLowerCase() === f)) return true;
+    return false;
+  };
+
   const filteredPosts = activeFilter === "All" 
     ? blogPosts 
-    : blogPosts.filter(post => post.category?.toLowerCase() === activeFilter.toLowerCase());
+    : blogPosts.filter(post => matchesFilter(post, activeFilter));
 
   // Pagination
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
@@ -110,8 +117,7 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
   const endIndex = startIndex + postsPerPage;
   const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
 
-  const featuredPost = currentPage === 1 ? blogPosts.find(post => post.featured) : null;
-  const regularPosts = blogPosts.filter(post => !post.featured);
+  const featuredPost = currentPage === 1 ? filteredPosts.find(post => post.featured) : null;
 
   const getCategoryIcon = (category: string) => {
     switch(category) {

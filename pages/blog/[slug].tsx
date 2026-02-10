@@ -17,7 +17,7 @@ export default function BlogPostPage({ onPageChange, post, slug }: BlogPostPageP
     return (
       <>
         <SeoHead pageId="blog" />
-        <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} />
+        <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} initialPost={null} />
       </>
     );
   }
@@ -50,7 +50,7 @@ export default function BlogPostPage({ onPageChange, post, slug }: BlogPostPageP
         publishedTime={post.date}
         jsonLd={jsonLd}
       />
-      <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} />
+      <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} initialPost={post} />
     </>
   );
 }

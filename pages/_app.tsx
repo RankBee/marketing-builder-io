@@ -1,5 +1,3 @@
-'use client';
-
 import '../src/index.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
@@ -8,12 +6,9 @@ import { Footer } from '../src/components/Footer';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import { Navigation } from '../src/components/Navigation';
 
-// Dynamic imports for components that use Clerk hooks (not available during SSR)
-const Navigation = dynamic(
-  () => import('../src/components/Navigation').then(mod => ({ default: mod.Navigation })),
-  { ssr: false }
-);
+// Dynamic import for Intercom (uses Clerk hooks, not available during SSR)
 const IntercomClient = dynamic(
   () => import('../src/components/IntercomClinet').then(mod => ({ default: mod.IntercomClient })),
   { ssr: false }
@@ -54,23 +49,11 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  // Initialize PostHog
+  // Initialize PostHog (uses full config from src/lib/posthog.ts)
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-    const host = process.env.NEXT_PUBLIC_POSTHOG_HOST;
-    if (key && host && typeof window !== 'undefined') {
-      import('posthog-js').then(({ default: posthog }) => {
-        if (!posthog.__loaded) {
-          posthog.init(key, {
-            api_host: host,
-            person_profiles: 'always',
-            capture_pageview: true,
-            capture_pageleave: true,
-            autocapture: true,
-          });
-        }
-      }).catch(() => {});
-    }
+    import('../src/lib/posthog').then(({ initPostHog }) => {
+      initPostHog();
+    }).catch(() => {});
   }, []);
 
   const appContent = (

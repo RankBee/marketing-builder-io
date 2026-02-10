@@ -305,9 +305,9 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
           {/* Posts Grid */}
           {!loading && !error && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedPosts.map((post, index) => (
+            {paginatedPosts.map((post) => (
               <Card
-                key={index}
+                key={post.id}
                 className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
                 onClick={() => onPageChange(`blog/${post.slug}`)}
               >

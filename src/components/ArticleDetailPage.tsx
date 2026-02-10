@@ -6,6 +6,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
+import { getSiteUrl } from "../lib/page-seo";
 
 interface Article {
   id: string;
@@ -24,6 +25,7 @@ interface ArticleDetailPageProps {
   onPageChange: (page: string) => void;
   slug?: string;
   allPosts?: BlogPost[];
+  initialPost?: BlogPost | null;
 }
 
 const defaultArticles: Record<string, Article> = {
@@ -298,14 +300,14 @@ const defaultArticles: Record<string, Article> = {
   }
 };
 
-export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetailPageProps) {
+export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }: ArticleDetailPageProps) {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [subscribeError, setSubscribeError] = useState<string | null>(null);
-  const [article, setArticle] = useState<BlogPost | null>(null);
+  const [article, setArticle] = useState<BlogPost | null>(initialPost || null);
   const [relatedArticles, setRelatedArticles] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialPost);
   const [error, setError] = useState<string | null>(null);
   const [tagCounts, setTagCounts] = useState<Map<string, number>>(new Map());
 
@@ -345,17 +347,20 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetai
       }
 
       try {
-        setLoading(true);
-        setError(null);
-        
-        const post = await fetchBlogPost(slug);
+        // Use initialPost if available, otherwise fetch client-side
+        let post = initialPost || article;
+        if (!post) {
+          setLoading(true);
+          setError(null);
+          post = await fetchBlogPost(slug);
+        }
         
         if (!post) {
           setError("Article not found");
         } else {
-          setArticle(post);
+          if (!initialPost) setArticle(post);
           
-          // Fetch all posts if not provided
+          // Fetch all posts if not provided (for related articles + tag counts)
           const posts = allPosts || await fetchBlogPosts();
           
           // Count tag occurrences across all posts
@@ -369,7 +374,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetai
           
           // Fetch related articles
           const related = posts
-            .filter(p => p.id !== post.id && p.category === post.category)
+            .filter(p => p.id !== post!.id && p.category === post!.category)
             .slice(0, 3);
           setRelatedArticles(related);
         }
@@ -505,7 +510,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts }: ArticleDetai
               variant="outline" 
               className="border-purple-600 text-purple-600 hover:bg-purple-50"
               onClick={() => {
-                const url = `https://rankbee.ai/blog/${displayArticle.slug}`;
+                const url = `${getSiteUrl()}/blog/${displayArticle.slug}`;
                 const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
                 window.open(linkedInUrl, '_blank', 'width=600,height=600');
               }}

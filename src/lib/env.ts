@@ -17,7 +17,6 @@ export const ENV = {
   get POSTHOG_KEY() { return process.env.NEXT_PUBLIC_POSTHOG_KEY || ''; },
   get POSTHOG_HOST() { return process.env.NEXT_PUBLIC_POSTHOG_HOST || ''; },
   get GHOST_CONTENT_API_KEY() { return process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || ''; },
-  get GHOST_ADMIN_API_KEY() { return process.env.NEXT_PUBLIC_GHOST_ADMIN_API_KEY || ''; },
   get DEV() { return process.env.NODE_ENV === 'development'; },
   get PROD() { return process.env.NODE_ENV === 'production'; },
 };

@@ -19,8 +19,8 @@ type ClerkSignInProps = React.ComponentProps<typeof ClerkSignIn>;
 type ClerkSignUpProps = React.ComponentProps<typeof ClerkSignUp>;
 
 /**
- * Safe wrappers so the Vite/Builder app remains buildable without Clerk env.
- * - If VITE_CLERK_PUBLISHABLE_KEY is missing:
+ * Safe wrappers so the app remains buildable without Clerk env.
+ * - If NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is missing:
  *   - SafeSignedIn renders nothing
  *   - SafeSignedOut renders children (treat as signed-out UX)
  *   - useSafeUser returns a stub unsigned state
@@ -75,35 +75,32 @@ function SignedOutCleanup() {
 }
 
 export function useSafeUser() {
-  if (isServer || !publishableKey) {
+  // Always call the hook unconditionally (Rules of Hooks)
+  const clerkResult = (!isServer && publishableKey) ? clerkUseUser() : null;
+  if (!clerkResult) {
     return {
       user: undefined as any,
       isSignedIn: false,
       isLoaded: !isServer,
     };
   }
-  return clerkUseUser();
+  return clerkResult;
 }
 
 /**
- * Returns true if the FIRST organization in the user's memberships has publicMetadata.onboarded === true.
- * Rules:
- * - Ignore the active organization selection.
- * - Never read user.publicMetadata or user.organizationMemberships.
- * - Coerces string/number values ("true"/"1") to boolean true.
- */
-/**
  * Safe org onboarding state accessor for components that must also run without ClerkProvider
- * (e.g., Builder preview without VITE_CLERK_PUBLISHABLE_KEY).
+ * (e.g., Builder preview without NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY).
  * Returns both the computed boolean and whether Clerk data has loaded.
  */
 export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean } {
-  if (isServer || !publishableKey) {
-    return { onboarded: false, loaded: false };
-  }
+  // Always call hooks unconditionally (Rules of Hooks)
+  const clerkEnabled = !isServer && !!publishableKey;
+  const orgListResult = clerkEnabled ? useOrganizationList({ userMemberships: { limit: 50 } }) : null;
+  const orgResult = clerkEnabled ? useOrganization() : null;
 
-  const { isLoaded: listLoaded, userMemberships } = useOrganizationList({ userMemberships: { limit: 50 } });
-  const { organization: activeOrg } = useOrganization();
+  const listLoaded = orgListResult?.isLoaded ?? false;
+  const userMemberships = orgListResult?.userMemberships ?? null;
+  const activeOrg = orgResult?.organization ?? null;
 
   const asBool = (v: any) => {
     if (v === true) return true;
@@ -114,119 +111,118 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     return false;
   };
 
-            // FIRST membership org publicMetadata.onboarded (supports both array and paginated shapes)
-            const memAny: any = userMemberships as any;
-            const memberships: any[] =
-              Array.isArray(memAny)
-                ? memAny
-                : (Array.isArray(memAny?.data) ? memAny.data : []);
-          
-            const firstMembership: any = memberships?.[0];
-            // Prefer activeOrg (safe in impersonation) over list's first org (incomplete metadata in impersonation)
-            const firstOrg: any = activeOrg ?? firstMembership?.organization ?? undefined;
-          
-            // Inspect org metadata
-            const orgPublicMeta: any = firstOrg?.publicMetadata;
-            const hasOnboardedKey: boolean =
-              !!orgPublicMeta && Object.prototype.hasOwnProperty.call(orgPublicMeta, 'onboarded');
-            const firstOrgOnboardedRaw = orgPublicMeta?.onboarded;
-            console.log("firstOrgOnboardedRaw:", firstOrgOnboardedRaw);
-            const firstOrgOnboarded = asBool(firstOrgOnboardedRaw);
-            console.log("firstOrgOnboarded:", firstOrgOnboarded);
-      
-            // Cache: once we ever observe onboarded === true for this org, remember it to avoid future flicker.
-            const orgId: string | undefined = firstOrg?.id;
-            let cachedTrue = false;
-            if (typeof window !== 'undefined' && orgId) {
-              try {
-                cachedTrue = window.localStorage.getItem(`rb_o_onboarded_${orgId}`) === '1';
-              } catch {
-                // ignore storage errors
-              }
-            }
-      
-            const [loadedStable, setLoadedStable] = useState(false);
-            const FALSE_STABLE_DELAY_MS = 1500;
-            const ZERO_MEMBERSHIP_DELAY_MS = 1000;
-      
-            // Persist positive onboarding once observed
-            useEffect(() => {
-              if (typeof window === 'undefined') return;
-              if (!orgId) return;
-              if (firstOrgOnboarded === true) {
-                try {
-                  window.localStorage.setItem(`rb_o_onboarded_${orgId}`, '1');
-                } catch {
-                  // ignore
-                }
-              } else if (firstOrgOnboarded === false && cachedTrue) {
-                // If live value is explicitly false, clear the stale cache
-                try {
-                  window.localStorage.removeItem(`rb_o_onboarded_${orgId}`);
-                  cachedTrue = false; // reflect immediately in current render cycle if possible,
-                                      // but we need to trigger re-render or rely on effect update
-                } catch {
-                  // ignore
-                }
-              }
-            }, [orgId, firstOrgOnboarded]);
-      
-            useEffect(() => {
-              // Reset when list not loaded
-              if (!listLoaded) {
-                setLoadedStable(false);
-                return;
-              }
-          
-              // No orgs: avoid premature resolution; wait briefly to confirm truly zero
-              if (memberships.length === 0) {
-                const t = setTimeout(() => setLoadedStable(true), ZERO_MEMBERSHIP_DELAY_MS);
-                return () => clearTimeout(t);
-              }
-      
-              // Known onboarded via cache or live flag: resolve immediately
-              // But only if live flag doesn't contradict cache (handled by effect above, but check here too)
-              if ((!!orgId && cachedTrue && firstOrgOnboarded !== false) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
-                setLoadedStable(true);
-                return;
-              }
-          
-              // Explicit false (or missing key): wait briefly to avoid transient false -> true flips
-              // We treat missing key (hasOnboardedKey=false) as false too.
-              if (!!firstOrg?.id && firstOrgOnboarded !== true) {
-                const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
-                return () => clearTimeout(t);
-              }
-          
-              // Otherwise unresolved
-              setLoadedStable(false);
-            }, [listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded, cachedTrue]);
-          
-            // Keep original canResolve for logging visibility
-            const canResolve =
-              (!!firstOrg?.id && (firstOrgOnboarded === true || hasOnboardedKey)) ||
-              (!!orgId && cachedTrue);
-          
-            const loaded = Boolean(loadedStable);
-            const onboarded = Boolean(firstOrgOnboarded || cachedTrue);
-          
-            if (!isServer && (typeof process !== 'undefined' ? process.env.NODE_ENV === 'development' : false)) {
-              // eslint-disable-next-line no-console
-              console.log("[OrgCTA][DEV]", {
-                listLoaded,
-                firstOrgId: firstOrg?.id,
-                membershipsLength: memberships.length,
-                hasOnboardedKey,
-                firstOrgOnboarded,
-                cachedTrue,
-                onboarded,
-                loaded,
-                canResolve,
-              });
-            }
-          
-            return { onboarded, loaded };
-          }
+  // FIRST membership org publicMetadata.onboarded (supports both array and paginated shapes)
+  const memAny: any = userMemberships as any;
+  const memberships: any[] =
+    Array.isArray(memAny)
+      ? memAny
+      : (Array.isArray(memAny?.data) ? memAny.data : []);
+
+  const firstMembership: any = memberships?.[0];
+  // Prefer activeOrg (safe in impersonation) over list's first org (incomplete metadata in impersonation)
+  const firstOrg: any = activeOrg ?? firstMembership?.organization ?? undefined;
+
+  // Inspect org metadata
+  const orgPublicMeta: any = firstOrg?.publicMetadata;
+  const hasOnboardedKey: boolean =
+    !!orgPublicMeta && Object.prototype.hasOwnProperty.call(orgPublicMeta, 'onboarded');
+  const firstOrgOnboardedRaw = orgPublicMeta?.onboarded;
+  const firstOrgOnboarded = asBool(firstOrgOnboardedRaw);
+
+  // Cache: once we ever observe onboarded === true for this org, remember it to avoid future flicker.
+  const orgId: string | undefined = firstOrg?.id;
+  let cachedTrue = false;
+  if (typeof window !== 'undefined' && orgId) {
+    try {
+      cachedTrue = window.localStorage.getItem(`rb_o_onboarded_${orgId}`) === '1';
+    } catch {
+      // ignore storage errors
+    }
+  }
+
+  const [loadedStable, setLoadedStable] = useState(false);
+  const FALSE_STABLE_DELAY_MS = 1500;
+  const ZERO_MEMBERSHIP_DELAY_MS = 1000;
+
+  // Persist positive onboarding once observed
+  useEffect(() => {
+    if (!clerkEnabled) return;
+    if (typeof window === 'undefined') return;
+    if (!orgId) return;
+    if (firstOrgOnboarded === true) {
+      try {
+        window.localStorage.setItem(`rb_o_onboarded_${orgId}`, '1');
+      } catch {
+        // ignore
+      }
+    } else if (firstOrgOnboarded === false && cachedTrue) {
+      try {
+        window.localStorage.removeItem(`rb_o_onboarded_${orgId}`);
+        cachedTrue = false;
+      } catch {
+        // ignore
+      }
+    }
+  }, [clerkEnabled, orgId, firstOrgOnboarded]);
+
+  useEffect(() => {
+    if (!clerkEnabled) return;
+    // Reset when list not loaded
+    if (!listLoaded) {
+      setLoadedStable(false);
+      return;
+    }
+
+    // No orgs: avoid premature resolution; wait briefly to confirm truly zero
+    if (memberships.length === 0) {
+      const t = setTimeout(() => setLoadedStable(true), ZERO_MEMBERSHIP_DELAY_MS);
+      return () => clearTimeout(t);
+    }
+
+    // Known onboarded via cache or live flag: resolve immediately
+    if ((!!orgId && cachedTrue && firstOrgOnboarded !== false) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
+      setLoadedStable(true);
+      return;
+    }
+
+    // Explicit false (or missing key): wait briefly to avoid transient false -> true flips
+    if (!!firstOrg?.id && firstOrgOnboarded !== true) {
+      const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
+      return () => clearTimeout(t);
+    }
+
+    // Otherwise unresolved
+    setLoadedStable(false);
+  }, [clerkEnabled, listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded, cachedTrue]);
+
+  if (!clerkEnabled) {
+    return { onboarded: false, loaded: false };
+  }
+
+  const canResolve =
+    (!!firstOrg?.id && (firstOrgOnboarded === true || hasOnboardedKey)) ||
+    (!!orgId && cachedTrue);
+
+  const loaded = Boolean(loadedStable);
+  const onboarded = Boolean(firstOrgOnboarded || cachedTrue);
+
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-console
+    console.log("[OrgCTA][DEV]", {
+      listLoaded,
+      firstOrgId: firstOrg?.id,
+      membershipsLength: memberships.length,
+      hasOnboardedKey,
+      firstOrgOnboarded,
+      cachedTrue,
+      onboarded,
+      loaded,
+      canResolve,
+    });
+  }
+
+  return { onboarded, loaded };
+}
 
 /** Backwards-compat wrapper */
 export function useOrgOnboarded(): boolean {
@@ -278,14 +274,17 @@ export function SafeSignUp(props: ClerkSignUpProps) {
  * This mirrors how many apps default to the first org so org-dependent UI (like onboarded) works.
  */
 export function useEnsureActiveOrg() {
-  if (isServer || !publishableKey) return;
+  const clerkEnabled = !isServer && !!publishableKey;
+  const orgResult = clerkEnabled ? useOrganization() : null;
+  const orgListResult = clerkEnabled ? useOrganizationList({ userMemberships: { limit: 50 } }) : null;
 
-  const { organization } = useOrganization();
-  const { isLoaded, userMemberships, setActive } = useOrganizationList({
-    userMemberships: { limit: 50 },
-  });
+  const organization = orgResult?.organization ?? null;
+  const isLoaded = orgListResult?.isLoaded ?? false;
+  const userMemberships = orgListResult?.userMemberships ?? null;
+  const setActive = orgListResult?.setActive ?? null;
 
   useEffect(() => {
+    if (!clerkEnabled) return;
     if (!isLoaded) return;
     if (organization) return;
 
@@ -298,10 +297,8 @@ export function useEnsureActiveOrg() {
 
     if (firstOrgId && typeof setActive === "function") {
       try {
-        // Clerk accepts an object like { organization: orgId }
         (setActive as any)({ organization: firstOrgId });
       } catch {
-        // Older signatures may accept different shapes
         try {
           (setActive as any)({ organizationId: firstOrgId });
         } catch {
@@ -313,7 +310,7 @@ export function useEnsureActiveOrg() {
         }
       }
     }
-  }, [isLoaded, organization, userMemberships, setActive]);
+  }, [clerkEnabled, isLoaded, organization, userMemberships, setActive]);
 }
 
 /**

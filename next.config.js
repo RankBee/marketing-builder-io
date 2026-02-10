@@ -5,11 +5,12 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     disableStaticImages: true,
-    domains: [
-      'images.unsplash.com',
-      'geo.rankbee.ai',
-      'rankbee.ai',
-      'www.gravatar.com',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'geo.rankbee.ai' },
+      { protocol: 'https', hostname: 'rankbee.ai' },
+      { protocol: 'https', hostname: 'www.gravatar.com' },
+      { protocol: 'https', hostname: 'images.pexels.com' },
     ],
   },
   async redirects() {

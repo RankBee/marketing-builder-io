@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
-import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut, SafeUserButton, useSafeUser } from "../lib/clerk-safe";
 import { trackEvent } from "../lib/posthog";
-import AccountCta from "./AccountCta";
-import { signInUrl } from "../lib/clerk-env";
+import dynamic from "next/dynamic";
+
+const NavAuthButtons = dynamic(
+  () => import('./NavAuthButtons').then(mod => ({ default: mod.NavAuthButtons })),
+  { ssr: false }
+);
 
 interface NavItem {
   name: string;
@@ -22,9 +24,6 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [desktopSubmenuOpen, setDesktopSubmenuOpen] = useState<string | null>(null);
-  // SSR-safe: skip Clerk org hooks on server
-  const loaded = typeof window === 'undefined' ? false : true;
-  const { user } = useSafeUser();
 
   const navItems: NavItem[] = [
     { name: "Home", id: "home" },
@@ -43,7 +42,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
     { name: "Contact", id: "contact" }
   ];
 
-  const handleNavClick = (page: string, isMobile: boolean = false) => {
+  const pageToHref = (id: string): string => {
+    if (id === 'home') return '/';
+    return `/${id}`;
+  };
+
+  const handleNavClick = (e: React.MouseEvent, page: string, isMobile: boolean = false) => {
+    e.preventDefault();
     trackEvent('Navigation Click', {
       destination: page,
       location: isMobile ? 'mobile_menu' : 'desktop_menu',
@@ -59,12 +64,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         <div className="flex justify-between items-center h-16 gap-4">
           {/* Logo */}
           <div className="flex items-center shrink-0">
-            <button
-              onClick={() => handleNavClick("home")}
+            <a
+              href="/"
+              onClick={(e) => handleNavClick(e, "home")}
               className="transition-opacity hover:opacity-80"
             >
               <Logo className="h-10" />
-            </button>
+            </a>
           </div>
           
           {/* Desktop Navigation */}
@@ -78,8 +84,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     onMouseEnter={() => setDesktopSubmenuOpen(item.id)}
                     onMouseLeave={() => setDesktopSubmenuOpen(null)}
                   >
-                    <button
-                      className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap flex items-center gap-1 ${
+                    <span
+                      className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap flex items-center gap-1 cursor-default ${
                         currentPage === item.id || item.submenu?.some(sub => currentPage === sub.id)
                           ? "text-purple-600 bg-purple-50"
                           : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
@@ -87,39 +93,36 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     >
                       {item.name}
                       <ChevronDown className="w-4 h-4" />
-                    </button>
+                    </span>
 
-                    {/* Desktop Dropdown */}
-                    {desktopSubmenuOpen === item.id && (
-                      <div className="absolute left-0 mt-0 w-72 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10">
-                        {item.submenu.map((subitem) => (
-                          <button
-                            key={subitem.id}
-                            onClick={() => {
-                              trackEvent('Navigation Click', {
-                                destination: subitem.id,
-                                location: 'desktop_submenu',
-                                current_page: currentPage
-                              });
-                              handleNavClick(subitem.id, false);
-                              setDesktopSubmenuOpen(null);
-                            }}
-                            className={`block w-full text-left px-4 py-2 transition-colors whitespace-nowrap ${
-                              currentPage === subitem.id
-                                ? "text-purple-600 bg-purple-50"
-                                : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
-                            }`}
-                          >
-                            {subitem.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    {/* Desktop Dropdown — always rendered for crawlers, visually hidden until hover */}
+                    <div className={`absolute left-0 mt-0 w-72 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10 ${
+                      desktopSubmenuOpen === item.id ? '' : 'sr-only'
+                    }`}>
+                      {item.submenu.map((subitem) => (
+                        <a
+                          key={subitem.id}
+                          href={pageToHref(subitem.id)}
+                          onClick={(e) => {
+                            handleNavClick(e, subitem.id, false);
+                            setDesktopSubmenuOpen(null);
+                          }}
+                          className={`block w-full text-left px-4 py-2 transition-colors whitespace-nowrap ${
+                            currentPage === subitem.id
+                              ? "text-purple-600 bg-purple-50"
+                              : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
+                          }`}
+                        >
+                          {subitem.name}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 ) : (
-                  <button
+                  <a
                     key={item.id}
-                    onClick={() => handleNavClick(item.id, false)}
+                    href={pageToHref(item.id)}
+                    onClick={(e) => handleNavClick(e, item.id, false)}
                     className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
                       currentPage === item.id
                         ? "text-purple-600 bg-purple-50"
@@ -127,7 +130,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     }`}
                   >
                     {item.name}
-                  </button>
+                  </a>
                 )
               ))}
             </div>
@@ -135,75 +138,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden lg:flex items-center justify-end space-x-4 shrink-0" style={{ width: '300px' }}>
-            <SignedOut>
-              <a
-                href="/demo"
-                onClick={(e) => {
-                  e.preventDefault();
-                  trackEvent('CTA Clicked', {
-                    button_text: 'Book Demo',
-                    location: 'navigation_desktop',
-                    variant: 'outline',
-                    destination: 'demo'
-                  });
-                  onPageChange('demo');
-                }}
-              >
-                <Button
-                  variant="outline"
-                  className="border-cta text-cta hover:bg-cta/10 whitespace-nowrap"
-                >
-                  Book Demo
-                </Button>
-              </a>
-            </SignedOut>
-
-            <SignedOut>
-              <a
-                href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
-                onClick={() => {
-                  trackEvent('Sign In Clicked', {
-                    location: 'navigation_desktop',
-                    current_page: currentPage
-                  });
-                }}
-              >
-                <Button
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground whitespace-nowrap"
-                >
-                  Sign In
-                </Button>
-              </a>
-            </SignedOut>
-
-            <SignedIn>
-              {loaded ? (
-                <div className="flex items-center gap-4">
-                  <SafeUserButton />
-                  {user ? (
-                    <>
-                      <span className="hidden lg:inline xl:hidden text-gray-700 font-medium whitespace-nowrap">
-                        {user.firstName || (user.fullName?.split(" ")[0] ?? "")}
-                      </span>
-                      <span className="hidden xl:inline text-gray-700 font-medium whitespace-nowrap">
-                        {user.fullName || user.firstName || ""}
-                      </span>
-                    </>
-                  ) : null}
-                  <AccountCta
-                    location="navigation_desktop"
-                    size="default"
-                    className=""
-                    dashboardClassName="bg-gray-900 hover:bg-gray-800 text-white"
-                    onboardClassName="bg-cta hover:bg-cta/90 text-cta-foreground"
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <SafeUserButton />
-                </div>
-              )}
-            </SignedIn>
+            <NavAuthButtons currentPage={currentPage} onPageChange={onPageChange} variant="desktop" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -242,15 +177,11 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     {openSubmenu === item.id && (
                       <div className="bg-purple-50 pl-4 space-y-1">
                         {item.submenu.map((subitem) => (
-                          <button
+                          <a
                             key={subitem.id}
-                            onClick={() => {
-                              trackEvent('Navigation Click', {
-                                destination: subitem.id,
-                                location: 'mobile_submenu',
-                                current_page: currentPage
-                              });
-                              handleNavClick(subitem.id, true);
+                            href={pageToHref(subitem.id)}
+                            onClick={(e) => {
+                              handleNavClick(e, subitem.id, true);
                               setOpenSubmenu(null);
                             }}
                             className={`block w-full text-left px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
@@ -260,15 +191,16 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                             }`}
                           >
                             {subitem.name}
-                          </button>
+                          </a>
                         ))}
                       </div>
                     )}
                   </div>
                 ) : (
-                  <button
+                  <a
                     key={item.id}
-                    onClick={() => handleNavClick(item.id, true)}
+                    href={pageToHref(item.id)}
+                    onClick={(e) => handleNavClick(e, item.id, true)}
                     className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
                       currentPage === item.id
                         ? "text-purple-600 bg-purple-50"
@@ -276,74 +208,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                     }`}
                   >
                     {item.name}
-                  </button>
+                  </a>
                 )
               ))}
-              <div className="pt-2 space-y-2">
-                <SignedOut>
-                  <a
-                    href="/demo"
-                    className="block w-full"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      trackEvent('CTA Clicked', {
-                        button_text: 'Book Demo',
-                        location: 'navigation_mobile',
-                        variant: 'outline',
-                        destination: 'demo'
-                      });
-                      onPageChange('demo');
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    <Button
-                      variant="outline"
-                      className="w-full border-cta text-cta hover:bg-cta/10"
-                    >
-                      Book Demo
-                    </Button>
-                  </a>
-                </SignedOut>
-
-                <SignedOut>
-                  <a
-                    href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
-                    className="block w-full"
-                    onClick={() => {
-                      trackEvent('Sign In Clicked', {
-                        location: 'navigation_mobile',
-                        current_page: currentPage
-                      });
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    <Button
-                      className="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
-                    >
-                      Sign In
-                    </Button>
-                  </a>
-                </SignedOut>
-
-                <SignedIn>
-                  {loaded ? (
-                    <div className="flex items-center gap-4">
-                      <SafeUserButton />
-                      <AccountCta
-                        location="navigation_mobile"
-                        size="default"
-                        className="w-full"
-                        dashboardClassName="w-full bg-gray-900 hover:bg-gray-800 text-white"
-                        onboardClassName="w-full bg-cta hover:bg-cta/90 text-cta-foreground"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-4">
-                      <SafeUserButton />
-                    </div>
-                  )}
-                </SignedIn>
-              </div>
+              <NavAuthButtons
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+                variant="mobile"
+                onClose={() => setIsMobileMenuOpen(false)}
+              />
             </div>
           </div>
         )}

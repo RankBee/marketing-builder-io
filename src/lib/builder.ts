@@ -3,11 +3,8 @@
 
 import { ENV } from './env';
 
-const GHOST_CONTENT_API_KEY = '4d7724b1d3ab0bbf970850bf7f';
+const GHOST_CONTENT_API_KEY = process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || '';
 const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
-const GHOST_ADMIN_API_URL = 'https://geo.rankbee.ai/ghost/api/admin';
-// Admin API key needed for members - get from Ghost Admin → Settings → Integrations
-const GHOST_ADMIN_API_KEY = ENV.GHOST_ADMIN_API_KEY || '';
 
 export interface GhostPost {
   id: string;
@@ -101,7 +98,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
   try {
     const url = `${GHOST_API_URL}/posts/?key=${GHOST_CONTENT_API_KEY}&limit=100&include=tags,authors`;
-    console.log('Fetching Ghost posts from:', url);
+    if (ENV.DEV) console.log('Fetching Ghost posts from:', url);
     
     const response = await fetch(url, {
       headers: {
@@ -115,7 +112,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
     const result = await response.json();
     const posts = result.posts || [];
-    console.log(`Successfully fetched ${posts.length} posts from Ghost`);
+    if (ENV.DEV) console.log(`Successfully fetched ${posts.length} posts from Ghost`);
     
     return posts.map(transformGhostPost);
   } catch (error) {
@@ -182,133 +179,19 @@ export function getPopularTags(posts: BlogPost[], priorityTags: string[] = [], m
 }
 
 /**
- * Convert hex string to Uint8Array
- */
-function hexToBytes(hex: string): Uint8Array {
-  const bytes = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < hex.length; i += 2) {
-    bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
-  }
-  return bytes;
-}
-
-/**
- * Generate JWT token for Ghost Admin API
- */
-function generateGhostToken(apiKey: string): Promise<string> {
-  // Split the key into ID and SECRET (secret is hex-encoded)
-  const [id, secret] = apiKey.split(':');
-  
-  // Create JWT header and payload
-  const header = {
-    alg: 'HS256',
-    typ: 'JWT',
-    kid: id
-  };
-  
-  const payload = {
-    iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor(Date.now() / 1000) + (5 * 60), // 5 minutes
-    aud: '/admin/'
-  };
-  
-  // Base64url encode (note: Ghost uses base64url, not base64)
-  const base64Header = btoa(JSON.stringify(header))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
-  const base64Payload = btoa(JSON.stringify(payload))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
-  
-  const unsignedToken = `${base64Header}.${base64Payload}`;
-  
-  // Ghost Admin API secret is hex-encoded, need to decode it
-  const secretBytes = hexToBytes(secret);
-  const encoder = new TextEncoder();
-  const data = encoder.encode(unsignedToken);
-  
-  return crypto.subtle.importKey(
-    'raw',
-    secretBytes.buffer as ArrayBuffer,
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  ).then(cryptoKey => 
-    crypto.subtle.sign('HMAC', cryptoKey, data)
-  ).then(signature => {
-    const base64Signature = btoa(String.fromCharCode(...new Uint8Array(signature)))
-      .replace(/=/g, '')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_');
-    return `${unsignedToken}.${base64Signature}`;
-  }).catch(err => {
-    console.error('Failed to generate JWT signature:', err);
-    throw new Error('JWT generation failed');
-  });
-}
-
-/**
- * Add a subscriber to Ghost CMS
+ * Add a subscriber via server-side API route (keeps Ghost Admin key secret)
  */
 export async function addGhostSubscriber(email: string, name?: string): Promise<{ success: boolean; error?: string }> {
-  console.log('addGhostSubscriber called with email:', email);
-  console.log('GHOST_ADMIN_API_KEY configured:', !!GHOST_ADMIN_API_KEY);
-  
-  if (!GHOST_ADMIN_API_KEY) {
-    console.warn('Ghost Admin API key not configured');
-    return { success: false, error: 'Admin API key not configured. Please add VITE_GHOST_ADMIN_API_KEY to your .env file.' };
-  }
-
   try {
-    // Generate JWT token
-    const token = await generateGhostToken(GHOST_ADMIN_API_KEY);
-    console.log('Generated JWT token');
-    
-    const url = `${GHOST_ADMIN_API_URL}/members/`;
-    console.log('Posting to Ghost Admin API:', url);
-    
-    const payload = {
-      members: [{
-        email: email,
-        name: name || '',
-        subscribed: true,
-        labels: ['newsletter']
-      }]
-    };
-    console.log('Request payload:', payload);
-    
-    const response = await fetch(url, {
+    const response = await fetch('/api/subscribe', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Ghost ${token}`
-      },
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name }),
     });
-
-    console.log('Response status:', response.status);
-    console.log('Response ok:', response.ok);
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('Ghost Members API error:', response.status, errorData);
-      
-      // Handle specific error cases
-      if (response.status === 422) {
-        // 422 typically means the email already exists
-        return { success: false, error: 'This email is already subscribed to our newsletter.' };
-      }
-      
-      return { success: false, error: `Failed to subscribe: ${response.statusText}` };
-    }
-
-    const result = await response.json();
-    console.log('Successfully added subscriber to Ghost:', result);
-    return { success: true };
+    const data = await response.json();
+    return { success: data.success, error: data.error };
   } catch (error) {
-    console.error('Error adding subscriber to Ghost:', error);
+    console.error('Error subscribing:', error);
     return { success: false, error: 'Network error' };
   }
 }
@@ -321,7 +204,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
   try {
     const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${GHOST_CONTENT_API_KEY}&include=tags,authors`;
-    console.log('Fetching Ghost post from:', url);
+    if (ENV.DEV) console.log('Fetching Ghost post from:', url);
     
     const response = await fetch(url, {
       headers: {

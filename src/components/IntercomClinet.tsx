@@ -17,7 +17,7 @@ export function IntercomClient() {
 
     const appId = ENV.INTERCOM_APP_ID;
     if (!appId) {
-      console.warn('Intercom: VITE_INTERCOM_APP_ID not configured');
+      console.warn('Intercom: NEXT_PUBLIC_INTERCOM_APP_ID not configured');
       return;
     }
 

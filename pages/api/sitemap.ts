@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
-const GHOST_CONTENT_API_KEY = process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || '4d7724b1d3ab0bbf970850bf7f';
+const GHOST_CONTENT_API_KEY = process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || '';
 
 // Static routes with their priorities and change frequencies
 const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = [

@@ -4,7 +4,7 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 import { getSiteUrl } from "../lib/page-seo";
 import DOMPurify from "isomorphic-dompurify";
@@ -348,8 +348,10 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
       }
 
       try {
-        // Use initialPost if available, otherwise fetch client-side
-        let post = initialPost || article;
+        // Use initialPost if it matches the current slug, otherwise fetch
+        let post = (initialPost && initialPost.slug === slug) ? initialPost
+                 : (article && article.slug === slug) ? article
+                 : null;
         if (!post) {
           setLoading(true);
           setError(null);
@@ -359,7 +361,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
         if (!post) {
           setError("Article not found");
         } else {
-          if (!initialPost) setArticle(post);
+          setArticle(post);
           
           // Fetch all posts if not provided (for related articles + tag counts)
           const posts = allPosts || await fetchBlogPosts();

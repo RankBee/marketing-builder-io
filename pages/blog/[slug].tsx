@@ -28,7 +28,7 @@ export default function BlogPostPage({ onPageChange, post, slug }: BlogPostPageP
     headline: post.title,
     description: post.summary,
     image: post.image,
-    datePublished: post.date,
+    datePublished: post.isoDate,
     author: { "@type": "Organization", name: "RankBee" },
     publisher: {
       "@type": "Organization",
@@ -47,7 +47,7 @@ export default function BlogPostPage({ onPageChange, post, slug }: BlogPostPageP
         canonical={`${siteUrl}/blog/${post.slug}`}
         image={post.image}
         type="article"
-        publishedTime={post.date}
+        publishedTime={post.isoDate}
         jsonLd={jsonLd}
       />
       <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} initialPost={post} />

@@ -49,6 +49,7 @@ export interface BlogPost {
   title: string;
   summary: string;
   date: string;
+  isoDate: string;
   readTime: string;
   category: string;
   image: string;
@@ -73,8 +74,10 @@ function transformGhostPost(ghostPost: GhostPost): BlogPost {
     date: publishDate.toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: 'short', 
-      day: 'numeric' 
+      day: 'numeric',
+      timeZone: 'UTC'
     }),
+    isoDate: publishDate.toISOString(),
     readTime: ghostPost.reading_time ? `${ghostPost.reading_time} min read` : '5 min read',
     category: ghostPost.primary_tag?.name || 'Trends',
     image: ghostPost.feature_image || 'https://images.unsplash.com/photo-1638342863994-ae4eee256688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxibG9nJTIwd3JpdGluZyUyMGNvbnRlbnR8ZW58MXx8fHwxNzU5ODQyNDg1fDA&ixlib=rb-4.1.0&q=80&w=400',

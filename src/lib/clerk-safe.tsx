@@ -75,10 +75,17 @@ function SignedOutCleanup() {
 }
 
 export function useSafeUser() {
-  // Always call the hook unconditionally (Rules of Hooks)
-  const clerkResult = clerkUseUser();
   const clerkEnabled = !isServer && !!publishableKey;
-  if (!clerkEnabled) {
+  let clerkResult: ReturnType<typeof clerkUseUser> | null = null;
+  try {
+    // Always call the hook unconditionally (Rules of Hooks)
+    clerkResult = clerkUseUser();
+  } catch (err) {
+    if (clerkEnabled) {
+      console.error('[RankBee] CRITICAL: Clerk useUser() failed despite publishableKey being set. Auth is unavailable.', err);
+    }
+  }
+  if (!clerkEnabled || !clerkResult) {
     return {
       user: undefined as any,
       isSignedIn: false,
@@ -96,12 +103,20 @@ export function useSafeUser() {
 export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean } {
   // Always call hooks unconditionally (Rules of Hooks)
   const clerkEnabled = !isServer && !!publishableKey;
-  const orgListResult = useOrganizationList({ userMemberships: { limit: 50 } });
-  const orgResult = useOrganization();
+  let orgListResult: ReturnType<typeof useOrganizationList> | null = null;
+  let orgResult: ReturnType<typeof useOrganization> | null = null;
+  try {
+    orgListResult = useOrganizationList({ userMemberships: { limit: 50 } });
+    orgResult = useOrganization();
+  } catch (err) {
+    if (clerkEnabled) {
+      console.error('[RankBee] CRITICAL: Clerk org hooks failed despite publishableKey being set. Auth is unavailable.', err);
+    }
+  }
 
-  const listLoaded = clerkEnabled ? (orgListResult?.isLoaded ?? false) : false;
-  const userMemberships = clerkEnabled ? (orgListResult?.userMemberships ?? null) : null;
-  const activeOrg = clerkEnabled ? (orgResult?.organization ?? null) : null;
+  const listLoaded = clerkEnabled && orgListResult ? (orgListResult.isLoaded ?? false) : false;
+  const userMemberships = clerkEnabled && orgListResult ? (orgListResult.userMemberships ?? null) : null;
+  const activeOrg = clerkEnabled && orgResult ? (orgResult.organization ?? null) : null;
 
   const asBool = (v: any) => {
     if (v === true) return true;
@@ -276,13 +291,21 @@ export function SafeSignUp(props: ClerkSignUpProps) {
  */
 export function useEnsureActiveOrg() {
   const clerkEnabled = !isServer && !!publishableKey;
-  const orgResult = useOrganization();
-  const orgListResult = useOrganizationList({ userMemberships: { limit: 50 } });
+  let orgResult: ReturnType<typeof useOrganization> | null = null;
+  let orgListResult: ReturnType<typeof useOrganizationList> | null = null;
+  try {
+    orgResult = useOrganization();
+    orgListResult = useOrganizationList({ userMemberships: { limit: 50 } });
+  } catch (err) {
+    if (clerkEnabled) {
+      console.error('[RankBee] CRITICAL: Clerk org hooks failed despite publishableKey being set. Auth is unavailable.', err);
+    }
+  }
 
-  const organization = clerkEnabled ? (orgResult?.organization ?? null) : null;
-  const isLoaded = clerkEnabled ? (orgListResult?.isLoaded ?? false) : false;
-  const userMemberships = clerkEnabled ? (orgListResult?.userMemberships ?? null) : null;
-  const setActive = clerkEnabled ? (orgListResult?.setActive ?? null) : null;
+  const organization = clerkEnabled && orgResult ? (orgResult.organization ?? null) : null;
+  const isLoaded = clerkEnabled && orgListResult ? (orgListResult.isLoaded ?? false) : false;
+  const userMemberships = clerkEnabled && orgListResult ? (orgListResult.userMemberships ?? null) : null;
+  const setActive = clerkEnabled && orgListResult ? (orgListResult.setActive ?? null) : null;
 
   useEffect(() => {
     if (!clerkEnabled) return;

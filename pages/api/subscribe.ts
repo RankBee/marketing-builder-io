@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { webcrypto } from 'node:crypto';
 
 const GHOST_ADMIN_API_URL = 'https://geo.rankbee.ai/ghost/api/admin';
 const GHOST_ADMIN_API_KEY = process.env.GHOST_ADMIN_API_KEY || '';
@@ -42,14 +43,14 @@ async function generateGhostToken(apiKey: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(unsignedToken);
 
-  const cryptoKey = await crypto.subtle.importKey(
+  const cryptoKey = await webcrypto.subtle.importKey(
     'raw',
     secretBytes.buffer as ArrayBuffer,
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign']
   );
-  const signature = await crypto.subtle.sign('HMAC', cryptoKey, data);
+  const signature = await webcrypto.subtle.sign('HMAC', cryptoKey, data);
   const base64Signature = Buffer.from(signature).toString('base64url');
 
   return `${unsignedToken}.${base64Signature}`;

@@ -8,9 +8,10 @@ interface BlogPostPageProps {
   onPageChange?: (page: string) => void;
   post: BlogPost | null;
   slug: string;
+  allPosts?: BlogPost[];
 }
 
-export default function BlogPostPage({ onPageChange, post, slug }: BlogPostPageProps) {
+export default function BlogPostPage({ onPageChange, post, slug, allPosts }: BlogPostPageProps) {
   const siteUrl = getSiteUrl();
 
   if (!post) {
@@ -50,7 +51,7 @@ export default function BlogPostPage({ onPageChange, post, slug }: BlogPostPageP
         publishedTime={post.isoDate}
         jsonLd={jsonLd}
       />
-      <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} initialPost={post} />
+      <ArticleDetailPage onPageChange={onPageChange || (() => {})} slug={slug} initialPost={post} allPosts={allPosts} />
     </>
   );
 }
@@ -78,12 +79,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string;
 
   try {
-    const post = await fetchBlogPost(slug);
+    const [post, allPosts] = await Promise.all([
+      fetchBlogPost(slug),
+      fetchBlogPosts(),
+    ]);
     if (!post) {
       return { notFound: true };
     }
     return {
-      props: { post, slug },
+      props: { post, slug, allPosts },
       revalidate: 300, // Revalidate every 5 minutes
     };
   } catch (error) {

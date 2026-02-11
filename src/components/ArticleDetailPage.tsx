@@ -450,10 +450,33 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Meta Information */}
         <div className="mb-8">
-          <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 mb-4">
-            {getCategoryIcon(displayArticle.category)}
-            <span className="ml-2">{displayArticle.category}</span>
-          </Badge>
+          {(() => {
+            const allTags = displayArticle.tags && displayArticle.tags.length > 0
+              ? displayArticle.tags
+              : [displayArticle.category];
+            const rarestTag = allTags.reduce((rarest, tag) => {
+              const currentCount = tagCounts.get(tag) || 0;
+              const rarestCount = tagCounts.get(rarest) || 0;
+              return currentCount < rarestCount ? tag : rarest;
+            }, allTags[0]);
+            const count = tagCounts.get(rarestTag) || 0;
+            const isClickable = count >= 2;
+            return (
+              <Badge
+                className={isClickable
+                  ? "bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors mb-4"
+                  : "bg-purple-100 text-purple-700 hover:bg-purple-100 mb-4"
+                }
+                onClick={isClickable ? () => {
+                  const slug = rarestTag.toLowerCase().replace(/\s+/g, '-');
+                  onPageChange(`blog/tag/${slug}`);
+                } : undefined}
+              >
+                {getCategoryIcon(rarestTag)}
+                <span className="ml-2">{rarestTag}</span>
+              </Badge>
+            );
+          })()}
           
           <h1 className="text-4xl md:text-5xl mb-6 text-gray-900 leading-tight">
             {displayArticle.title}
@@ -481,31 +504,43 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
             </div>
           </div>
 
-          {/* Tags */}
-          {displayArticle.tags && displayArticle.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-8">
-              {displayArticle.tags.map((tag) => {
-                const count = tagCounts.get(tag) || 0;
-                const isClickable = count >= 2;
-                
-                return (
-                  <Badge
-                    key={tag}
-                    className={isClickable 
-                      ? "bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors"
-                      : "bg-gray-100 text-gray-600 cursor-default"
-                    }
-                    onClick={isClickable ? () => {
-                      const slug = tag.toLowerCase().replace(/\s+/g, '-');
-                      onPageChange(`blog/tag/${slug}`);
-                    } : undefined}
-                  >
-                    {tag}
-                  </Badge>
-                );
-              })}
-            </div>
-          )}
+          {/* Tags — sorted most popular to least popular, excluding the rarest tag shown above */}
+          {displayArticle.tags && displayArticle.tags.length > 1 && (() => {
+            const allTags = displayArticle.tags!;
+            const rarestTag = allTags.reduce((rarest, tag) => {
+              const currentCount = tagCounts.get(tag) || 0;
+              const rarestCount = tagCounts.get(rarest) || 0;
+              return currentCount < rarestCount ? tag : rarest;
+            }, allTags[0]);
+            const sortedTags = [...allTags]
+              .filter(tag => tag !== rarestTag)
+              .sort((a, b) => (tagCounts.get(b) || 0) - (tagCounts.get(a) || 0));
+            if (sortedTags.length === 0) return null;
+            return (
+              <div className="flex flex-wrap gap-2 mb-8">
+                {sortedTags.map((tag) => {
+                  const count = tagCounts.get(tag) || 0;
+                  const isClickable = count >= 2;
+                  
+                  return (
+                    <Badge
+                      key={tag}
+                      className={isClickable 
+                        ? "bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors"
+                        : "bg-gray-100 text-gray-600 cursor-default"
+                      }
+                      onClick={isClickable ? () => {
+                        const slug = tag.toLowerCase().replace(/\s+/g, '-');
+                        onPageChange(`blog/tag/${slug}`);
+                      } : undefined}
+                    >
+                      {tag}
+                    </Badge>
+                  );
+                })}
+              </div>
+            );
+          })()}
 
           {/* Share Button */}
           <div className="flex gap-2">

@@ -20,6 +20,13 @@ function hexToBytes(hex: string): Uint8Array {
 async function generateGhostToken(apiKey: string): Promise<string> {
   const [id, secret] = apiKey.split(':');
 
+  if (!id || !secret) {
+    console.error(
+      `[subscribe] GHOST_ADMIN_API_KEY is misconfigured. Expected format "id:secret" but got "${apiKey}".`
+    );
+    throw new Error('GHOST_ADMIN_API_KEY is not configured correctly');
+  }
+
   const header = { alg: 'HS256', typ: 'JWT', kid: id };
   const payload = {
     iat: Math.floor(Date.now() / 1000),

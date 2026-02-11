@@ -12,8 +12,7 @@ interface NavAuthButtonsProps {
 }
 
 export function NavAuthButtons({ currentPage, onPageChange, variant, onClose }: NavAuthButtonsProps) {
-  const loaded = typeof window === 'undefined' ? false : true;
-  const { user } = useSafeUser();
+  const { user, isLoaded: loaded } = useSafeUser();
 
   if (variant === 'desktop') {
     return (

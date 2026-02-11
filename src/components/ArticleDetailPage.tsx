@@ -7,6 +7,7 @@ import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "luc
 import { useState, useEffect } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 import { getSiteUrl } from "../lib/page-seo";
+import DOMPurify from "isomorphic-dompurify";
 
 interface Article {
   id: string;
@@ -541,18 +542,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
               <div
                 className="article-content"
                 dangerouslySetInnerHTML={{
-                  __html: displayArticle.content
-                    .split('\n')
-                    .filter(line => line.trim())
-                    .map(line => {
-                      if (line.startsWith('<h2>')) return line;
-                      if (line.startsWith('<h3>')) return line;
-                      if (line.startsWith('<p>')) return line;
-                      if (line.startsWith('<ul>')) return line;
-                      if (line.startsWith('<li>')) return line;
-                      return `<p>${line}</p>`;
-                    })
-                    .join('')
+                  __html: DOMPurify.sanitize(displayArticle.content)
                 }}
               />
             )}

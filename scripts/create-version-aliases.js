@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Creates symlinks in node_modules for versioned package imports.
- * Builder.io/Plasmic generates imports like "@radix-ui/react-slot@1.1.2"
+ * Builder.io generates imports like "@radix-ui/react-slot@1.1.2"
  * which Node.js can't resolve. This script creates symlinks so both
  * webpack (client) and Node.js require() (server SSR) can find them.
  */

@@ -27,21 +27,23 @@ export const initPostHog = () => {
       return
     }
 
+    const impersonated = isImpersonated();
+
     posthog.init(ENV.POSTHOG_KEY!, {
       api_host: ENV.POSTHOG_HOST,
       person_profiles: 'always',
-      capture_pageview: true,
-      capture_pageleave: true,
-      autocapture: true,
+      capture_pageview: !impersonated,
+      capture_pageleave: !impersonated,
+      autocapture: !impersonated,
+      opt_out_capturing_by_default: impersonated,
+      disable_session_recording: impersonated,
       session_recording: {
         recordCrossOriginIframes: true,
         maskAllInputs: false,
         maskTextSelector: '[data-private]',
       },
       loaded: (ph) => {
-        if (isImpersonated()) {
-          ph.opt_out_capturing();
-        } else if (ph.sessionRecording?.status === 'lazy_loading') {
+        if (!impersonated && ph.sessionRecording?.status === 'lazy_loading') {
           ph.startSessionRecording();
         }
       },

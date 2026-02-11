@@ -1,5 +1,5 @@
 // Centralized SEO metadata for all pages (used by Next.js pages)
-const SITE_URL = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SITE_URL) || 'https://rankbee.ai';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://rankbee.ai';
 
 export interface PageSeo {
   title: string;

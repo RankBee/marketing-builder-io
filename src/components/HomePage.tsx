@@ -102,16 +102,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <SignedOut>
                 <a
-                  href={signUpUrl}
-                  onClick={(e) => {
-                    e.preventDefault();
+                  href={typeof window !== 'undefined' ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
+                  onClick={() => {
                     trackEvent('CTA Clicked', {
                       button_text: 'Start Free Trial',
                       location: 'homepage_hero',
                       variant: 'primary',
                       destination: 'sign-up'
                     });
-                    window.location.href = `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}`;
                   }}
                 >
                   <Button
@@ -205,15 +203,13 @@ export function HomePage({ onPageChange }: HomePageProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <SignedOut>
-              <a href={signUpUrl} onClick={(e) => {
-                e.preventDefault();
+              <a href={typeof window !== 'undefined' ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl} onClick={() => {
                 trackEvent('CTA Clicked', {
                   button_text: 'Start Free Trial',
                   location: 'homepage_footer',
                   variant: 'primary',
                   destination: 'sign-up'
                 });
-                window.location.href = `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}`;
               }}>
                 <Button
                   size="lg"

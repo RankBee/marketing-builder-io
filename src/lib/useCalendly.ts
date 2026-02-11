@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { trackEvent } from "../lib/posthog";
-import { ENV } from "../lib/env";
 
 interface CalendlyConfig {
   primaryColor?: string;
@@ -234,7 +233,7 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
       } catch (error) {
         console.error("Location detection error:", error);
         // Default to OTHERS if detection fails
-        const defaultUrl = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_CALENDLY_OTHERS) || "https://calendly.com/rankbee/onboarding";
+        const defaultUrl = process.env.NEXT_PUBLIC_CALENDLY_OTHERS || "https://calendly.com/rankbee/onboarding";
         setCalendlyUrl(defaultUrl);
       }
     };

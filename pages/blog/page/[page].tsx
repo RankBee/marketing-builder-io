@@ -8,6 +8,7 @@ interface PaginatedBlogProps {
   onPageChange?: (page: string) => void;
   pageNumber: number;
   posts: BlogPost[];
+  totalPages: number;
   filters: string[];
 }
 
@@ -25,18 +26,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<Omit<PaginatedBlogProps, 'onPageChange'>> = async ({ params }) => {
   const pageNumber = parseInt(params?.page as string, 10) || 1;
-  const posts = await fetchBlogPosts();
+  const allPosts = await fetchBlogPosts();
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+  const startIndex = (pageNumber - 1) * POSTS_PER_PAGE;
+  const posts = allPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
   const priorityTags = ['Political Campaigns', 'AI Search', 'GAIO Optimization'];
-  const popularTags = getPopularTags(posts, priorityTags, 8);
+  const popularTags = getPopularTags(allPosts, priorityTags, 8);
   const filters = ['All', ...popularTags];
 
   return {
-    props: { pageNumber, posts, filters },
+    props: { pageNumber, posts, totalPages, filters },
     revalidate: 300,
   };
 };
 
-export default function PaginatedBlog({ onPageChange, pageNumber, posts, filters }: PaginatedBlogProps) {
+export default function PaginatedBlog({ onPageChange, pageNumber, posts, totalPages, filters }: PaginatedBlogProps) {
   const siteUrl = getSiteUrl();
 
   return (
@@ -51,6 +55,7 @@ export default function PaginatedBlog({ onPageChange, pageNumber, posts, filters
         onPageChange={onPageChange || (() => {})}
         pageNumber={pageNumber}
         initialPosts={posts}
+        totalPages={totalPages}
         initialFilters={filters}
       />
     </>

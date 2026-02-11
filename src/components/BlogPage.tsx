@@ -13,9 +13,10 @@ interface BlogPageProps {
   pageNumber?: number;
   initialPosts?: BlogPost[];
   initialFilters?: string[];
+  totalPages?: number;
 }
 
-export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts, initialFilters }: BlogPageProps) {
+export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts, initialFilters, totalPages: totalPagesProp }: BlogPageProps) {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialPosts || []);
   const [filters, setFilters] = useState<string[]>(initialFilters || ["All"]);
   const [loading, setLoading] = useState(!initialPosts);
@@ -107,15 +108,17 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
     return false;
   };
 
-  const filteredPosts = activeFilter === "All" 
-    ? blogPosts 
-    : blogPosts.filter(post => matchesFilter(post, activeFilter));
+  // When totalPagesProp is set, posts arrive pre-filtered and pre-sliced from SSR/SSG
+  const filteredPosts = totalPagesProp != null
+    ? blogPosts
+    : activeFilter === "All" 
+      ? blogPosts 
+      : blogPosts.filter(post => matchesFilter(post, activeFilter));
 
-  // Pagination
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const endIndex = startIndex + postsPerPage;
-  const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+  const totalPages = totalPagesProp ?? Math.ceil(filteredPosts.length / postsPerPage);
+  const paginatedPosts = totalPagesProp != null
+    ? filteredPosts
+    : filteredPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
 
   const featuredPost = currentPage === 1 ? filteredPosts.find(post => post.featured) : null;
 

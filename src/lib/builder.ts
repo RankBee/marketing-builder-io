@@ -140,14 +140,25 @@ function capitalizeWords(str: string): string {
  * Get popular tags from blog posts, ensuring priority tags are always included
  */
 export function getPopularTags(posts: BlogPost[], priorityTags: string[] = [], maxTags: number = 8, minCount: number = 2): string[] {
-  // Count tag occurrences
+  // Count tag occurrences (category + tags[])
   const tagCounts = new Map<string, number>();
   
   posts.forEach(post => {
+    const seen = new Set<string>();
     if (post.category) {
-      const currentCount = tagCounts.get(post.category) || 0;
-      tagCounts.set(post.category, currentCount + 1);
+      const key = post.category.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        tagCounts.set(post.category, (tagCounts.get(post.category) || 0) + 1);
+      }
     }
+    post.tags?.forEach(tag => {
+      const key = tag.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+      }
+    });
   });
   
   // Filter tags that appear at least minCount times

@@ -4,10 +4,13 @@ import { BlogPage } from '../../../src/components/BlogPage';
 import { getSiteUrl } from '../../../src/lib/page-seo';
 import { fetchBlogPosts, getPopularTags, type BlogPost } from '../../../src/lib/builder';
 
+const POSTS_PER_PAGE = 12;
+
 interface TagPageProps {
   onPageChange?: (page: string) => void;
   tag: string;
   posts: BlogPost[];
+  totalPages: number;
   filters: string[];
 }
 
@@ -27,18 +30,26 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<Omit<TagPageProps, 'onPageChange'>> = async ({ params }) => {
   const tag = params?.tag as string;
-  const posts = await fetchBlogPosts();
+  const allPosts = await fetchBlogPosts();
+  const normalizedTag = tag.toLowerCase().replace(/-/g, ' ');
+  const filteredPosts = allPosts.filter(post => {
+    if (post.category?.toLowerCase() === normalizedTag) return true;
+    if (post.tags?.some(t => t.toLowerCase() === normalizedTag)) return true;
+    return false;
+  });
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const posts = filteredPosts.slice(0, POSTS_PER_PAGE);
   const priorityTags = ['Political Campaigns', 'AI Search', 'GAIO Optimization'];
-  const popularTags = getPopularTags(posts, priorityTags, 8);
+  const popularTags = getPopularTags(allPosts, priorityTags, 8);
   const filters = ['All', ...popularTags];
 
   return {
-    props: { tag, posts, filters },
+    props: { tag, posts, totalPages, filters },
     revalidate: 300,
   };
 };
 
-export default function TagPage({ onPageChange, tag, posts, filters }: TagPageProps) {
+export default function TagPage({ onPageChange, tag, posts, totalPages, filters }: TagPageProps) {
   const siteUrl = getSiteUrl();
   const decodedTag = decodeURIComponent(tag);
 
@@ -54,6 +65,7 @@ export default function TagPage({ onPageChange, tag, posts, filters }: TagPagePr
         onPageChange={onPageChange || (() => {})}
         filterTag={decodedTag}
         initialPosts={posts}
+        totalPages={totalPages}
         initialFilters={filters}
       />
     </>

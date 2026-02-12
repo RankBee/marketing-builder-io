@@ -82,15 +82,38 @@ export async function fetchAllArticles(): Promise<HintoArticlesResponse> {
 }
 
 export async function fetchArticle(id: number): Promise<HintoArticle | null> {
-  const res = await fetch(`${HINTO_BASE_URL}/projects/articles?${id}`, { headers: headers() });
+  const res = await fetch(`${HINTO_BASE_URL}/projects/articles?id=${id}`, { headers: headers() });
   if (!res.ok) {
     if (res.status === 404) return null;
-    throw new Error(`Hinto API /projects/articles?${id} failed: ${res.status} ${res.statusText}`);
+    throw new Error(`Hinto API /projects/articles?id=${id} failed: ${res.status} ${res.statusText}`);
   }
   const data: HintoArticlesResponse = await res.json();
   // The endpoint returns the full articles array; find the one we need
   const article = data.articles?.find((a) => a.id === id);
   return article || null;
+}
+
+// ─── HTML Sanitization ──────────────────────────────────────────────
+
+/**
+ * Sanitize HTML from external sources to prevent XSS.
+ * Strips script/iframe/object/embed tags, event handlers, and javascript: URLs.
+ * Applied server-side in getStaticProps before content reaches the client.
+ */
+export function sanitizeHtml(html: string): string {
+  let result = html;
+  // Remove <script>...</script> tags and their content
+  result = result.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+  // Remove self-closing <script /> tags
+  result = result.replace(/<script\b[^>]*\/>/gi, '');
+  // Remove <iframe>, <object>, <embed>, <form> tags and their content
+  result = result.replace(/<(iframe|object|embed|form)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
+  result = result.replace(/<(iframe|object|embed)\b[^>]*\/>/gi, '');
+  // Remove on* event handler attributes (e.g. onclick, onerror, onload)
+  result = result.replace(/\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+  // Remove javascript: URLs in href/src attributes
+  result = result.replace(/(href|src)\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, '$1=""');
+  return result;
 }
 
 // ─── HTML Processing ─────────────────────────────────────────────────
@@ -201,12 +224,13 @@ export function buildArticleMap(
 }
 
 /**
- * Process article HTML: extract main content and rewrite links.
+ * Process article HTML: extract main content, sanitize, and rewrite links.
  */
 export function processArticleHtml(
   fullHtml: string,
   articleMap: Map<number, { id: number; title: string }>
 ): string {
   const content = extractMainContent(fullHtml);
-  return rewriteArticleLinks(content, articleMap);
+  const sanitized = sanitizeHtml(content);
+  return rewriteArticleLinks(sanitized, articleMap);
 }

@@ -41,7 +41,15 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     fetchStructure().catch(() => null),
   ]);
   const blogSlugs = posts.map(p => p.slug);
-  const kbArticles = structureRes ? collectArticleStubs(structureRes.structure.folders) : [];
+  const kbArticles = structureRes
+    ? [
+        ...collectArticleStubs(structureRes.structure.folders),
+        ...(structureRes.structure.rootArticles || []).map((a: { id: number; updated_at: string }) => ({
+          id: a.id,
+          updated_at: a.updated_at,
+        })),
+      ]
+    : [];
 
   const staticUrls = STATIC_ROUTES.map(
     (r) => `  <url>

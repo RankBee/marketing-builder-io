@@ -6,7 +6,7 @@ import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "./AccountCta";
-import { signUpUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { signUpUrl } from "../lib/clerk-env";
 import { trackEvent } from "../lib/posthog";
 import { NewsAnnouncementBanner } from "./NewsAnnouncementBanner";
 

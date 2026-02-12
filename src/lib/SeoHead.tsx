@@ -79,7 +79,7 @@ export function SeoHead({
       <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
       <link rel="alternate" hrefLang="en" href={canonical} />
       {allJsonLd.map((data, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />
       ))}
     </Head>
   );

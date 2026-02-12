@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "../components/AccountCta";
 import { trackEvent } from "../lib/posthog";
-import { signUpUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { signUpUrl } from "../lib/clerk-env";
 
 function ChatGptScenario() {
   return (

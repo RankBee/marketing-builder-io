@@ -7,7 +7,7 @@ import imgAiRewrite from "../assets/ff7c2f79b38849b108899f24c4791f28ab53f527.png
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "../components/AccountCta";
 import { trackEvent } from "../lib/posthog";
-import { signUpUrl, onboardRedirectUrl } from "../lib/clerk-env";
+import { signUpUrl } from "../lib/clerk-env";
 
 function Heading2() {
   return (

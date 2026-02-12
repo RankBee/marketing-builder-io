@@ -19,7 +19,14 @@ const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
 const signInUrl = process.env.NEXT_PUBLIC_SIGN_IN_URL || '/sign-in';
 const signUpUrl = process.env.NEXT_PUBLIC_SIGN_UP_URL || '/sign-up';
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-const allowedOrigins: string[] = appUrl ? [new URL(appUrl).origin] : [];
+let allowedOrigins: string[] = [];
+if (appUrl) {
+  try {
+    allowedOrigins = [new URL(appUrl).origin];
+  } catch {
+    // Invalid URL — fall back to empty allow-list
+  }
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "../components/AccountCta";
 import { trackEvent } from "../lib/posthog";
-import { signUpUrl } from "../lib/clerk-env";
+import { signUpUrl, onboardRedirectUrl } from "../lib/clerk-env";
 
 function ChatGptScenario() {
   return (
@@ -150,7 +150,7 @@ function Details() {
       >
         <SignedOut>
           <a
-            href={typeof window !== "undefined" ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
+            href={`${signUpUrl}?redirect_url=${encodeURIComponent('/onboard')}`}
             onClick={() => {
               trackEvent('CTA Clicked', {
                 button_text: 'Get Your AI Visibility Report',

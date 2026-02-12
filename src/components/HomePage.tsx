@@ -6,7 +6,7 @@ import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "./AccountCta";
-import { signUpUrl } from "../lib/clerk-env";
+import { signUpUrl, onboardRedirectUrl } from "../lib/clerk-env";
 import { trackEvent } from "../lib/posthog";
 import { NewsAnnouncementBanner } from "./NewsAnnouncementBanner";
 
@@ -102,7 +102,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <SignedOut>
                 <a
-                  href={typeof window !== 'undefined' ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
+                  href={`${signUpUrl}?redirect_url=${encodeURIComponent('/onboard')}`}
                   onClick={() => {
                     trackEvent('CTA Clicked', {
                       button_text: 'Start Free Trial',
@@ -203,7 +203,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <SignedOut>
-              <a href={typeof window !== 'undefined' ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl} onClick={() => {
+              <a href={`${signUpUrl}?redirect_url=${encodeURIComponent('/onboard')}`} onClick={() => {
                 trackEvent('CTA Clicked', {
                   button_text: 'Start Free Trial',
                   location: 'homepage_footer',

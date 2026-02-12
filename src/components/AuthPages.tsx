@@ -68,7 +68,7 @@ export function SignUpPage() {
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
-          afterSignUpUrl={onboardRedirectUrl || "/"}
+          forceRedirectUrl="/onboard"
         />
       </div>
     </div>

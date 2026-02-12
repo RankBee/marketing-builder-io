@@ -18,6 +18,8 @@ const IntercomClient = dynamic(
 const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
 const signInUrl = process.env.NEXT_PUBLIC_SIGN_IN_URL || '/sign-in';
 const signUpUrl = process.env.NEXT_PUBLIC_SIGN_UP_URL || '/sign-up';
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || '';
+const allowedOrigins: string[] = appUrl ? [new URL(appUrl).origin] : [];
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -90,8 +92,13 @@ export default function App({ Component, pageProps }: AppProps) {
         signInUrl={signInUrl}
         signUpUrl={signUpUrl}
         afterSignOutUrl="/"
-        routerPush={(to) => router.push(to)}
-        routerReplace={(to) => router.replace(to)}
+        allowedRedirectOrigins={allowedOrigins}
+        routerPush={(to) => {
+          if (to.startsWith('http')) { window.location.href = to; } else { router.push(to); }
+        }}
+        routerReplace={(to) => {
+          if (to.startsWith('http')) { window.location.replace(to); } else { router.replace(to); }
+        }}
       >
         {appContent}
       </ClerkProvider>

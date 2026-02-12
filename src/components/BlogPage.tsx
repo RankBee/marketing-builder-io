@@ -4,7 +4,7 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPosts, getPopularTags, type BlogPost, addGhostSubscriber } from "../lib/builder";
 
 interface BlogPageProps {
@@ -26,6 +26,15 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [subscribeError, setSubscribeError] = useState<string | null>(null);
+  const successTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  useEffect(() => {
+    return () => {
+      if (successTimeoutRef.current) {
+        clearTimeout(successTimeoutRef.current);
+      }
+    };
+  }, []);
   
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +52,7 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
         setSubscribeSuccess(true);
         setEmail(""); // Clear the input
         // Reset success message after 5 seconds
-        setTimeout(() => setSubscribeSuccess(false), 5000);
+        successTimeoutRef.current = setTimeout(() => setSubscribeSuccess(false), 5000);
       } else {
         setSubscribeError(result.error || "Failed to subscribe. Please try again.");
       }

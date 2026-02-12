@@ -247,7 +247,8 @@ export function useOrgOnboarded(): boolean {
 }
 
 export function SafeSignIn(props: ClerkSignInProps) {
-  if (isServer || !publishableKey) {
+  if (isServer) return null;
+  if (!publishableKey) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="p-6 rounded-xl border border-gray-200 shadow-sm text-center">
@@ -266,7 +267,8 @@ export function SafeSignIn(props: ClerkSignInProps) {
 }
 
 export function SafeSignUp(props: ClerkSignUpProps) {
-  if (isServer || !publishableKey) {
+  if (isServer) return null;
+  if (!publishableKey) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="p-6 rounded-xl border border-gray-200 shadow-sm text-center">

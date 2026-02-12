@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { signInUrl, signUpUrl } from "../lib/clerk-env";
+import { signInUrl, signUpUrl, onboardRedirectUrl } from "../lib/clerk-env";
 import { SafeSignIn, SafeSignUp } from "../lib/clerk-safe";
 
 /**
@@ -68,7 +68,7 @@ export function SignUpPage() {
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
-          afterSignUpUrl="/"
+          afterSignUpUrl={onboardRedirectUrl || "/"}
         />
       </div>
     </div>

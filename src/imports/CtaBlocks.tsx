@@ -1,6 +1,7 @@
 import svgPaths from "./svg-arf0p9jlye";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePageActive } from "../lib/usePageActive";
 
 function HeadingDisc() {
   return (
@@ -104,6 +105,8 @@ function BubbleBackgroundLayer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const prefersReduced = useReducedMotion();
+  const isPageActive = usePageActive();
+  const shouldAnimate = isVisible && isPageActive && !prefersReduced;
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -134,14 +137,14 @@ function BubbleBackgroundLayer() {
     return () => observer.disconnect();
   }, []);
 
-  // Only attach mouse listener when visible and not reduced-motion
+  // Only attach mouse listener when actively animating
   useEffect(() => {
-    if (!isVisible || prefersReduced) return;
+    if (!shouldAnimate) return;
     const container = containerRef.current;
     if (!container) return;
     container.addEventListener("mousemove", handleMouseMove);
     return () => container.removeEventListener("mousemove", handleMouseMove);
-  }, [isVisible, prefersReduced, handleMouseMove]);
+  }, [shouldAnimate, handleMouseMove]);
 
   const makeGradient = (color: string) =>
     `radial-gradient(circle at center, rgba(${color}, 0.8) 0%, rgba(${color}, 0) 50%)`;
@@ -173,8 +176,8 @@ function BubbleBackgroundLayer() {
     );
   }
 
-  // When off-screen, render container (for IntersectionObserver) but skip heavy filter + animations
-  if (!isVisible) {
+  // When off-screen or idle, render container (for IntersectionObserver) but skip heavy filter + animations
+  if (!shouldAnimate) {
     return <div ref={containerRef} className="absolute inset-0" />;
   }
 

@@ -1,6 +1,7 @@
 import '../src/index.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
+import { usePageActive } from '../src/lib/usePageActive';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { Footer } from '../src/components/Footer';
 import { useRouter } from 'next/router';
@@ -20,6 +21,17 @@ const signUpUrl = process.env.NEXT_PUBLIC_SIGN_UP_URL || '/sign-up';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const isPageActive = usePageActive();
+
+  // Toggle body class to pause/resume all CSS animations site-wide
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (isPageActive) {
+      document.body.classList.remove('animations-paused');
+    } else {
+      document.body.classList.add('animations-paused');
+    }
+  }, [isPageActive]);
 
   // Map Next.js path to internal page id for Navigation highlighting
   const currentPage = pathToPage(router.asPath);

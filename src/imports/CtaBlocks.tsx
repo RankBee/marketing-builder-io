@@ -1,5 +1,6 @@
 import svgPaths from "./svg-arf0p9jlye";
-import { motion } from "motion/react";
+import { motion, useMotionValue, useSpring } from "motion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function HeadingDisc() {
   return (
@@ -87,33 +88,220 @@ function CtaNewsletterSection() {
   );
 }
 
+function useReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReduced(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+  return prefersReduced;
+}
+
+function BubbleBackgroundLayer() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const prefersReduced = useReducedMotion();
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      mouseX.set(e.clientX - centerX);
+      mouseY.set(e.clientY - centerY);
+    },
+    [mouseX, mouseY],
+  );
+
+  // Pause everything when off-screen
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  // Only attach mouse listener when visible and not reduced-motion
+  useEffect(() => {
+    if (!isVisible || prefersReduced) return;
+    const container = containerRef.current;
+    if (!container) return;
+    container.addEventListener("mousemove", handleMouseMove);
+    return () => container.removeEventListener("mousemove", handleMouseMove);
+  }, [isVisible, prefersReduced, handleMouseMove]);
+
+  const makeGradient = (color: string) =>
+    `radial-gradient(circle at center, rgba(${color}, 0.8) 0%, rgba(${color}, 0) 50%)`;
+
+  const colors = {
+    first: "138,43,226",
+    second: "221,74,255",
+    third: "100,50,255",
+    fourth: "200,80,200",
+    fifth: "180,100,255",
+    sixth: "140,100,255",
+  };
+
+  // Reduced motion: show static gradient blobs, no animation
+  if (prefersReduced) {
+    return (
+      <div ref={containerRef} className="absolute inset-0">
+        <div className="absolute inset-0" style={{ filter: "blur(40px)" }}>
+          <div
+            className="absolute rounded-full mix-blend-hard-light"
+            style={{ width: "80%", height: "80%", top: "10%", left: "10%", background: makeGradient(colors.first) }}
+          />
+          <div
+            className="absolute rounded-full mix-blend-hard-light"
+            style={{ width: "80%", height: "80%", top: "5%", left: "15%", background: makeGradient(colors.second) }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // When off-screen, render container (for IntersectionObserver) but skip heavy filter + animations
+  if (!isVisible) {
+    return <div ref={containerRef} className="absolute inset-0" />;
+  }
+
+  return (
+    <div ref={containerRef} className="absolute inset-0">
+      {/* SVG goo filter */}
+      <svg className="hidden" aria-hidden="true">
+        <defs>
+          <filter id="bubble-goo">
+            <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              result="goo"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+            />
+            <feBlend in="SourceGraphic" in2="goo" />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Bubbles container with goo filter */}
+      <div className="absolute inset-0" style={{ filter: "url(#bubble-goo) blur(40px)" }}>
+        {/* Bubble 1 - vertical float */}
+        <motion.div
+          className="absolute rounded-full mix-blend-hard-light"
+          style={{
+            width: "80%",
+            height: "80%",
+            top: "10%",
+            left: "10%",
+            background: makeGradient(colors.first),
+          }}
+          animate={{ y: [-50, 50, -50] }}
+          transition={{ duration: 30, ease: "easeInOut", repeat: Infinity }}
+        />
+
+        {/* Bubble 2 - rotating orbit */}
+        <motion.div
+          className="absolute inset-0 flex justify-center items-center"
+          style={{ transformOrigin: "calc(50% - 400px) center" }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+        >
+          <div
+            className="rounded-full mix-blend-hard-light"
+            style={{
+              width: "80%",
+              height: "80%",
+              background: makeGradient(colors.second),
+            }}
+          />
+        </motion.div>
+
+        {/* Bubble 3 - rotating orbit offset */}
+        <motion.div
+          className="absolute inset-0 flex justify-center items-center"
+          style={{ transformOrigin: "calc(50% + 400px) center" }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+        >
+          <div
+            className="absolute rounded-full mix-blend-hard-light"
+            style={{
+              width: "80%",
+              height: "80%",
+              top: "calc(50% + 200px)",
+              left: "calc(50% - 500px)",
+              background: makeGradient(colors.third),
+            }}
+          />
+        </motion.div>
+
+        {/* Bubble 4 - horizontal float */}
+        <motion.div
+          className="absolute rounded-full mix-blend-hard-light opacity-70"
+          style={{
+            width: "80%",
+            height: "80%",
+            top: "10%",
+            left: "10%",
+            background: makeGradient(colors.fourth),
+          }}
+          animate={{ x: [-50, 50, -50] }}
+          transition={{ duration: 40, ease: "easeInOut", repeat: Infinity }}
+        />
+
+        {/* Bubble 5 - large rotating orbit */}
+        <motion.div
+          className="absolute inset-0 flex justify-center items-center"
+          style={{ transformOrigin: "calc(50% - 800px) calc(50% + 200px)" }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+        >
+          <div
+            className="absolute rounded-full mix-blend-hard-light"
+            style={{
+              width: "160%",
+              height: "160%",
+              top: "calc(50% - 80%)",
+              left: "calc(50% - 80%)",
+              background: makeGradient(colors.fifth),
+            }}
+          />
+        </motion.div>
+
+        {/* Bubble 6 - interactive, follows mouse */}
+        <motion.div
+          className="absolute rounded-full mix-blend-hard-light opacity-70"
+          style={{
+            width: "100%",
+            height: "100%",
+            background: makeGradient(colors.sixth),
+            x: springX,
+            y: springY,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function CtaBlocks() {
   return (
     <div className="bg-gradient-to-br from-[#9810fa] via-[#7b1bd9] to-[#9810fa] relative w-full py-12 sm:py-16 lg:py-20 overflow-hidden" data-name="CTA Blocks">
-      {/* Animated background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-full">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-white rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.3, 0.8, 0.3],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      {/* Bubble background effect */}
+      <BubbleBackgroundLayer />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Info Banner */}

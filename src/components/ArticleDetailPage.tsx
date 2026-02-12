@@ -4,7 +4,7 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 import { getSiteUrl } from "../lib/page-seo";
 import DOMPurify from "isomorphic-dompurify";
@@ -311,6 +311,15 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
   const [loading, setLoading] = useState(!initialPost);
   const [error, setError] = useState<string | null>(null);
   const [tagCounts, setTagCounts] = useState<Map<string, number>>(new Map());
+  const successTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (successTimeoutRef.current) {
+        clearTimeout(successTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -328,7 +337,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
         setSubscribeSuccess(true);
         setEmail(""); // Clear the input
         // Reset success message after 5 seconds
-        setTimeout(() => setSubscribeSuccess(false), 5000);
+        successTimeoutRef.current = setTimeout(() => setSubscribeSuccess(false), 5000);
       } else {
         setSubscribeError(result.error || "Failed to subscribe. Please try again.");
       }

@@ -110,13 +110,28 @@ export function setUserProperties(userId: string, properties?: Record<string, an
  * It will automatically update GTM when the user signs in/out or switches orgs.
  */
 export function useGTMClerkSync(): void {
+  const isServer = typeof window === 'undefined';
+  const clerkEnabled = !isServer && !!publishableKey;
+
   // Always call hooks unconditionally (Rules of Hooks)
-  const { user, isSignedIn } = useUser();
-  const { organization } = useOrganization();
-  
+  let userResult: ReturnType<typeof useUser> | null = null;
+  let orgResult: ReturnType<typeof useOrganization> | null = null;
+  try {
+    userResult = useUser();
+    orgResult = useOrganization();
+  } catch (err) {
+    if (clerkEnabled) {
+      console.error('[GTM] Clerk hooks failed despite publishableKey being set.', err);
+    }
+  }
+
+  const user = clerkEnabled && userResult ? userResult.user : undefined;
+  const isSignedIn = clerkEnabled && userResult ? userResult.isSignedIn : false;
+  const organization = clerkEnabled && orgResult ? orgResult.organization : undefined;
+
   useEffect(() => {
     // Only sync if Clerk is configured
-    if (!publishableKey) return;
+    if (!clerkEnabled) return;
 
     if (isSignedIn && user?.id) {
       const userId = user.id;
@@ -136,7 +151,7 @@ export function useGTMClerkSync(): void {
         console.log('[GTM] Clerk context cleared (user signed out)');
       }
     }
-  }, [isSignedIn, user?.id, organization?.id]);
+  }, [clerkEnabled, isSignedIn, user?.id, organization?.id]);
 }
 
 /**

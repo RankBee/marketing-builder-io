@@ -2,6 +2,16 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchBlogPosts } from '../../src/lib/builder';
 import { fetchStructure, type HintoFolder } from '../../src/lib/hinto';
 
+/** Escape XML special characters in dynamic values */
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 // Static routes with their priorities and change frequencies
 const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
@@ -62,7 +72,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
   const blogUrls = blogSlugs.map(
     (slug) => `  <url>
-    <loc>${siteUrl}/blog/${slug}</loc>
+    <loc>${escapeXml(siteUrl)}/blog/${escapeXml(slug)}</loc>
     <lastmod>${now}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -71,8 +81,8 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
   const kbUrls = kbArticles.map(
     (a) => `  <url>
-    <loc>${siteUrl}/knowledge-base/${a.id}</loc>
-    <lastmod>${a.updated_at}</lastmod>
+    <loc>${escapeXml(siteUrl)}/knowledge-base/${a.id}</loc>
+    <lastmod>${escapeXml(a.updated_at)}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>`

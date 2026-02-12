@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 import {
   SignedIn as ClerkSignedIn,
   SignedOut as ClerkSignedOut,
@@ -147,13 +147,16 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
   // Cache: once we ever observe onboarded === true for this org, remember it to avoid future flicker.
   const orgId: string | undefined = firstOrg?.id;
-  let cachedTrue = false;
+  const cachedTrueRef = useRef(false);
+  // Sync ref from localStorage on every render (cheap read)
   if (typeof window !== 'undefined' && orgId) {
     try {
-      cachedTrue = window.localStorage.getItem(`rb_o_onboarded_${orgId}`) === '1';
+      cachedTrueRef.current = window.localStorage.getItem(`rb_o_onboarded_${orgId}`) === '1';
     } catch {
       // ignore storage errors
     }
+  } else {
+    cachedTrueRef.current = false;
   }
 
   const [loadedStable, setLoadedStable] = useState(false);
@@ -168,13 +171,14 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     if (firstOrgOnboarded === true) {
       try {
         window.localStorage.setItem(`rb_o_onboarded_${orgId}`, '1');
+        cachedTrueRef.current = true;
       } catch {
         // ignore
       }
-    } else if (firstOrgOnboarded === false && cachedTrue) {
+    } else if (firstOrgOnboarded === false && cachedTrueRef.current) {
       try {
         window.localStorage.removeItem(`rb_o_onboarded_${orgId}`);
-        cachedTrue = false;
+        cachedTrueRef.current = false;
       } catch {
         // ignore
       }
@@ -196,7 +200,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     }
 
     // Known onboarded via cache or live flag: resolve immediately
-    if ((!!orgId && cachedTrue && firstOrgOnboarded !== false) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
+    if ((!!orgId && cachedTrueRef.current && firstOrgOnboarded !== false) || (!!firstOrg?.id && firstOrgOnboarded === true)) {
       setLoadedStable(true);
       return;
     }
@@ -209,7 +213,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
     // Otherwise unresolved
     setLoadedStable(false);
-  }, [clerkEnabled, listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded, cachedTrue]);
+  }, [clerkEnabled, listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
 
   if (!clerkEnabled) {
     return { onboarded: false, loaded: false };
@@ -217,10 +221,10 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
   const canResolve =
     (!!firstOrg?.id && (firstOrgOnboarded === true || hasOnboardedKey)) ||
-    (!!orgId && cachedTrue);
+    (!!orgId && cachedTrueRef.current);
 
   const loaded = Boolean(loadedStable);
-  const onboarded = Boolean(firstOrgOnboarded || cachedTrue);
+  const onboarded = Boolean(firstOrgOnboarded || cachedTrueRef.current);
 
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line no-console
@@ -230,7 +234,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
       membershipsLength: memberships.length,
       hasOnboardedKey,
       firstOrgOnboarded,
-      cachedTrue,
+      cachedTrue: cachedTrueRef.current,
       onboarded,
       loaded,
       canResolve,

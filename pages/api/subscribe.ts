@@ -23,7 +23,7 @@ async function generateGhostToken(apiKey: string): Promise<string> {
 
   if (!id || !secret) {
     console.error(
-      `[subscribe] GHOST_ADMIN_API_KEY is misconfigured. Expected format "id:secret" but got "${apiKey}".`
+      `[subscribe] GHOST_ADMIN_API_KEY is misconfigured. Expected format "id:secret" but got a key of length ${apiKey.length} without a colon separator.`
     );
     throw new Error('GHOST_ADMIN_API_KEY is not configured correctly');
   }

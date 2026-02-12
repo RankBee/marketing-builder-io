@@ -92,6 +92,7 @@ function CtaNewsletterSection() {
 function useReducedMotion() {
   const [prefersReduced, setPrefersReduced] = useState(false);
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReduced(mql.matches);
     const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);

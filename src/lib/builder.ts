@@ -141,7 +141,9 @@ function capitalizeWords(str: string): string {
  */
 export function getPopularTags(posts: BlogPost[], priorityTags: string[] = [], maxTags: number = 8, minCount: number = 2): string[] {
   // Count tag occurrences (category + tags[])
+  // Use lowercase keys for consistent counting; store first-seen display name
   const tagCounts = new Map<string, number>();
+  const tagDisplayName = new Map<string, string>();
   
   posts.forEach(post => {
     const seen = new Set<string>();
@@ -149,14 +151,16 @@ export function getPopularTags(posts: BlogPost[], priorityTags: string[] = [], m
       const key = post.category.toLowerCase();
       if (!seen.has(key)) {
         seen.add(key);
-        tagCounts.set(post.category, (tagCounts.get(post.category) || 0) + 1);
+        tagCounts.set(key, (tagCounts.get(key) || 0) + 1);
+        if (!tagDisplayName.has(key)) tagDisplayName.set(key, post.category);
       }
     }
     post.tags?.forEach(tag => {
       const key = tag.toLowerCase();
       if (!seen.has(key)) {
         seen.add(key);
-        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+        tagCounts.set(key, (tagCounts.get(key) || 0) + 1);
+        if (!tagDisplayName.has(key)) tagDisplayName.set(key, tag);
       }
     });
   });
@@ -187,8 +191,8 @@ export function getPopularTags(posts: BlogPost[], priorityTags: string[] = [], m
     ...remainingTags.slice(0, availableSlots)
   ];
   
-  // Capitalize all tags for consistent display
-  return finalTags.map(tag => capitalizeWords(tag));
+  // Use original display names (first-seen casing) for consistent display
+  return finalTags.map(tag => tagDisplayName.get(tag) || capitalizeWords(tag));
 }
 
 /**

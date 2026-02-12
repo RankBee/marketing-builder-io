@@ -1,6 +1,8 @@
 // Hinto AI Knowledge Base API client
 // Server-side only — uses HINTO_API_KEY (no NEXT_PUBLIC_ prefix)
 
+import DOMPurify from 'isomorphic-dompurify';
+
 const HINTO_BASE_URL = 'https://app.hintoai.com/api/external/v1';
 
 function getApiKey(): string {
@@ -97,23 +99,24 @@ export async function fetchArticle(id: number): Promise<HintoArticle | null> {
 
 /**
  * Sanitize HTML from external sources to prevent XSS.
- * Strips script/iframe/object/embed tags, event handlers, and javascript: URLs.
+ * Uses DOMPurify for robust sanitization (same library used by blog ArticleDetailPage).
  * Applied server-side in getStaticProps before content reaches the client.
  */
 export function sanitizeHtml(html: string): string {
-  let result = html;
-  // Remove <script>...</script> tags and their content
-  result = result.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
-  // Remove self-closing <script /> tags
-  result = result.replace(/<script\b[^>]*\/>/gi, '');
-  // Remove <iframe>, <object>, <embed>, <form> tags and their content
-  result = result.replace(/<(iframe|object|embed|form)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
-  result = result.replace(/<(iframe|object|embed)\b[^>]*\/>/gi, '');
-  // Remove on* event handler attributes (e.g. onclick, onerror, onload)
-  result = result.replace(/\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
-  // Remove javascript: URLs in href/src attributes
-  result = result.replace(/(href|src)\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, '$1=""');
-  return result;
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'ul', 'ol', 'li',
+      'strong', 'b', 'em', 'i', 'u', 'br', 'hr', 'img', 'video', 'source',
+      'div', 'span', 'blockquote', 'pre', 'code', 'table', 'thead', 'tbody',
+      'tr', 'th', 'td', 'figure', 'figcaption', 'main', 'section', 'article',
+      'nav', 'details', 'summary', 'mark', 'sub', 'sup', 'dl', 'dt', 'dd',
+    ],
+    ALLOWED_ATTR: [
+      'href', 'src', 'alt', 'title', 'class', 'id', 'target', 'rel',
+      'width', 'height', 'style', 'data-article-id', 'loading', 'type',
+      'controls', 'autoplay', 'muted', 'loop', 'poster',
+    ],
+  });
 }
 
 // ─── HTML Processing ─────────────────────────────────────────────────

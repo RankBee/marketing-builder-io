@@ -112,6 +112,7 @@ function pathToPage(pathname: string): string {
     const slug = path.substring(6);
     if (slug && slug !== 'tag' && slug !== 'page') return `blog/${slug}`;
   }
+  if (path.startsWith('/knowledge-base/')) return 'knowledge-base';
   switch (path) {
     case '/about': return 'about';
     case '/pricing': return 'pricing';
@@ -121,6 +122,7 @@ function pathToPage(pathname: string): string {
     case '/agencies': return 'agencies';
     case '/political-campaigns': return 'political-campaigns';
     case '/blog': return 'blog';
+    case '/knowledge-base': return 'knowledge-base';
     case '/demo': return 'demo';
     case '/onboarding-meeting': return 'onboarding-meeting';
     case '/contact': return 'contact';

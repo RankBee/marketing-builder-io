@@ -11,6 +11,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'rankbee.ai' },
       { protocol: 'https', hostname: 'www.gravatar.com' },
       { protocol: 'https', hostname: 'images.pexels.com' },
+      { protocol: 'https', hostname: 'app.hintoai.com' },
     ],
   },
   async redirects() {

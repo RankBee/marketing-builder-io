@@ -11,6 +11,7 @@ export function Footer({ onPageChange }: FooterProps) {
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
     { name: "Blog", id: "blog" },
+    { name: "Knowledge Base", id: "knowledge-base" },
     { name: "Contact", id: "contact" },
     { name: "Demo", id: "demo" }
   ];

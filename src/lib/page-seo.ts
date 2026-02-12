@@ -99,6 +99,11 @@ const pages: Record<string, { title: string; description: string; path: string; 
     path: "/sign-up",
     noindex: true
   },
+  "knowledge-base": {
+    title: "Knowledge Base",
+    description: "Learn how to use RankBee AI to optimize your brand's visibility in generative AI search. Step-by-step guides, tutorials, and best practices.",
+    path: "/knowledge-base"
+  },
   builder: {
     title: "Page",
     description: "RankBee — AI Visibility for ChatGPT, Claude, Gemini.",

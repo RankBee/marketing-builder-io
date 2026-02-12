@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchBlogPosts } from '../../src/lib/builder';
+import { fetchStructure, type HintoFolder } from '../../src/lib/hinto';
 
 // Static routes with their priorities and change frequencies
 const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = [
@@ -15,16 +16,32 @@ const STATIC_ROUTES: { path: string; priority: string; changefreq: string }[] = 
   { path: '/agencies', priority: '0.6', changefreq: 'monthly' },
   { path: '/political-campaigns', priority: '0.6', changefreq: 'monthly' },
   { path: '/news', priority: '0.5', changefreq: 'monthly' },
+  { path: '/knowledge-base', priority: '0.7', changefreq: 'weekly' },
   { path: '/privacy-policy', priority: '0.3', changefreq: 'yearly' },
   { path: '/terms-of-service', priority: '0.3', changefreq: 'yearly' },
 ];
+
+function collectArticleStubs(folders: HintoFolder[]): { id: number; updated_at: string }[] {
+  const stubs: { id: number; updated_at: string }[] = [];
+  for (const folder of folders) {
+    for (const article of folder.articles) {
+      stubs.push({ id: article.id, updated_at: article.updated_at });
+    }
+    stubs.push(...collectArticleStubs(folder.children));
+  }
+  return stubs;
+}
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://rankbee.ai').replace(/\/+$/, '');
   const now = new Date().toISOString();
 
-  const posts = await fetchBlogPosts();
+  const [posts, structureRes] = await Promise.all([
+    fetchBlogPosts(),
+    fetchStructure().catch(() => null),
+  ]);
   const blogSlugs = posts.map(p => p.slug);
+  const kbArticles = structureRes ? collectArticleStubs(structureRes.structure.folders) : [];
 
   const staticUrls = STATIC_ROUTES.map(
     (r) => `  <url>
@@ -44,9 +61,18 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   </url>`
   );
 
+  const kbUrls = kbArticles.map(
+    (a) => `  <url>
+    <loc>${siteUrl}/knowledge-base/${a.id}</loc>
+    <lastmod>${a.updated_at}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>`
+  );
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticUrls, ...blogUrls].join('\n')}
+${[...staticUrls, ...blogUrls, ...kbUrls].join('\n')}
 </urlset>`;
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');

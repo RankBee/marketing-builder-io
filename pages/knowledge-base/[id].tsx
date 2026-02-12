@@ -13,6 +13,123 @@ import {
   type HintoFolder,
 } from '../../src/lib/hinto';
 
+const kbArticleStyles = `
+  .kb-article-content h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #111827;
+    line-height: 1.2;
+  }
+
+  .kb-article-content h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #111827;
+    line-height: 1.2;
+  }
+
+  .kb-article-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+  }
+
+  .kb-article-content p {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    color: #374151;
+    font-size: 1.125rem;
+  }
+
+  .kb-article-content ul,
+  .kb-article-content ol {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .kb-article-content ul {
+    list-style-type: disc;
+  }
+
+  .kb-article-content ol {
+    list-style-type: decimal;
+  }
+
+  .kb-article-content li {
+    margin-bottom: 0.625rem;
+    color: #374151;
+    line-height: 1.8;
+    font-size: 1.125rem;
+  }
+
+  .kb-article-content strong,
+  .kb-article-content b {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .kb-article-content a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .kb-article-content a:hover {
+    text-decoration: underline;
+  }
+
+  .kb-article-content .article-link {
+    color: #2563eb;
+    text-decoration: none;
+    background: #ede9fe;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+
+  .kb-article-content .article-link:hover {
+    background: #ddd6fe;
+    text-decoration: none;
+  }
+
+  .kb-article-content .ce-article-link {
+    color: #2563eb;
+    text-decoration: none;
+    background: #ede9fe;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+
+  .kb-article-content .ce-article-link:hover {
+    background: #ddd6fe;
+    text-decoration: none;
+  }
+
+  .kb-article-content img {
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    margin: 1.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .kb-article-content .video-timestamp {
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  }
+`;
+
 interface KBArticleProps {
   onPageChange?: (page: string) => void;
   folders: HintoFolder[];
@@ -197,10 +314,13 @@ export default function KnowledgeBaseArticle({ folders, article }: KBArticleProp
 
             {/* Content */}
             <main className="flex-1 min-w-0">
-              <article
-                className="prose prose-lg prose-blue max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-h1:text-3xl sm:prose-h1:text-4xl prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-5 prose-li:text-gray-700 prose-li:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-lg prose-img:my-8 prose-ul:my-5 prose-ol:my-5 prose-strong:text-gray-900"
-                dangerouslySetInnerHTML={{ __html: article.html }}
-              />
+              <div className="prose prose-lg max-w-none">
+                <div
+                  className="kb-article-content"
+                  dangerouslySetInnerHTML={{ __html: article.html }}
+                />
+                <style>{kbArticleStyles}</style>
+              </div>
             </main>
           </div>
         </section>

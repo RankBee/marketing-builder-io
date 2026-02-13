@@ -1,4 +1,5 @@
 import type { GetStaticProps } from 'next';
+import Head from 'next/head';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { SeoHead } from '../../src/lib/SeoHead';
@@ -134,13 +135,17 @@ export default function KnowledgeBaseIndex({ folders, firstArticle }: KBIndexPro
             {/* Content */}
             <main className="flex-1 min-w-0">
               {firstArticle ? (
-                <div className="prose prose-lg max-w-none">
-                  <div
-                    className="kb-article-content"
-                    dangerouslySetInnerHTML={{ __html: firstArticle.html }}
-                  />
-                  <style>{kbArticleStyles}</style>
-                </div>
+                <>
+                  <Head>
+                    <style dangerouslySetInnerHTML={{ __html: kbArticleStyles }} />
+                  </Head>
+                  <div className="prose prose-lg max-w-none">
+                    <div
+                      className="kb-article-content"
+                      dangerouslySetInnerHTML={{ __html: firstArticle.html }}
+                    />
+                  </div>
+                </>
               ) : (
                 <div className="text-center py-16">
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">

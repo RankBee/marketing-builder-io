@@ -1,4 +1,5 @@
 import type { GetStaticProps, GetStaticPaths } from 'next';
+import Head from 'next/head';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { SeoHead } from '../../src/lib/SeoHead';
@@ -203,12 +204,14 @@ export default function KnowledgeBaseArticle({ folders, article }: KBArticleProp
 
             {/* Content */}
             <main className="flex-1 min-w-0">
+              <Head>
+                <style dangerouslySetInnerHTML={{ __html: kbArticleStyles }} />
+              </Head>
               <div className="prose prose-lg max-w-none">
                 <div
                   className="kb-article-content"
                   dangerouslySetInnerHTML={{ __html: article.html }}
                 />
-                <style>{kbArticleStyles}</style>
               </div>
             </main>
           </div>

@@ -102,6 +102,40 @@ export const kbArticleStyles = `
     text-decoration: none;
   }
 
+  .kb-article-content blockquote {
+    border-left: 4px solid #7c3aed !important;
+    background: #f5f3ff !important;
+    margin: 2rem 0 !important;
+    padding: 1.5rem 1.75rem 1.5rem 1.75rem !important;
+    border-radius: 0 0.75rem 0.75rem 0 !important;
+    font-style: italic !important;
+    color: #4b5563 !important;
+    position: relative;
+    quotes: none !important;
+  }
+
+  .kb-article-content blockquote::before {
+    content: "\\201C";
+    font-size: 3rem;
+    line-height: 1;
+    color: #7c3aed;
+    opacity: 0.3;
+    position: absolute;
+    top: 0.25rem;
+    left: 0.5rem;
+    font-style: normal;
+  }
+
+  .kb-article-content blockquote p {
+    margin-bottom: 0.5rem !important;
+    color: #4b5563 !important;
+    padding-left: 1.5rem;
+  }
+
+  .kb-article-content blockquote p:last-child {
+    margin-bottom: 0 !important;
+  }
+
   .kb-article-content img {
     border-radius: 0.75rem;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);

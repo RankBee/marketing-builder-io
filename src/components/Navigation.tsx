@@ -38,7 +38,14 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       ]
     },
     { name: "Enterprise", id: "rankbee-api" },
-    { name: "Blog", id: "blog" },
+    {
+      name: "Learn",
+      id: "learn",
+      submenu: [
+        { name: "Blog", id: "blog" },
+        { name: "Knowledge Base", id: "knowledge-base" }
+      ]
+    },
     { name: "Contact", id: "contact" }
   ];
 

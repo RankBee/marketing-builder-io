@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, FileText } from 'lucide-react';
+import { BookOpen, ChevronDown, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface ArticleStub {
@@ -19,20 +19,45 @@ interface KnowledgeBaseSidebarProps {
   activeArticleId?: number;
 }
 
+/**
+ * Knowledge Base Sidebar — Design Spec
+ *
+ * Width:       280px (enforced via inline style on <nav> and parent <aside>)
+ * Fonts:       text-base (16px) for both folder names and article links
+ * Header:      BookOpen icon + "Knowledge Base" label, links to /knowledge-base,
+ *              separated from folders by a gray border-bottom
+ * Folders:     Bold (font-semibold), ChevronDown when open / ChevronRight when closed,
+ *              collapsed by default — only the folder containing the active article expands
+ * Alignment:   Both folder buttons and article rows use identical flex layout:
+ *              flex items-start gap-2 with a w-4 first element (chevron for folders,
+ *              empty div spacer for articles). Identical structure = identical alignment.
+ * Articles:    Gray text (gray-500), left-aligned with folder titles via matching flex layout
+ * Wrapping:    Long titles wrap to 2–3 lines within 280px (overflowWrap: anywhere)
+ * Active:      Purple text + font-medium on the currently viewed article
+ */
 export function KnowledgeBaseSidebar({ folders, activeArticleId }: KnowledgeBaseSidebarProps) {
-  // Determine which folder contains the active article so it starts expanded
   const activeFolderId = findFolderForArticle(folders, activeArticleId);
 
   return (
-    <nav className="w-full">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Articles</h2>
+    <nav className="w-full overflow-hidden" style={{ width: 280, maxWidth: 280, overflowWrap: 'anywhere' }}>
+      {/* Documentation header — links back to KB home */}
+      <Link
+        href="/knowledge-base"
+        className="flex items-center gap-3 pb-6 mb-6 border-b border-gray-200 group"
+      >
+        <BookOpen className="w-5 h-5 text-purple-600 shrink-0" />
+        <span className="text-base font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+          Knowledge Base
+        </span>
+      </Link>
+
       <div className="space-y-1">
         {folders.map((folder) => (
           <FolderSection
             key={folder.id}
             folder={folder}
             activeArticleId={activeArticleId}
-            defaultOpen={folder.id === activeFolderId || !activeArticleId}
+            defaultOpen={folder.id === activeFolderId}
           />
         ))}
       </div>
@@ -50,38 +75,42 @@ function FolderSection({
   defaultOpen: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const hasArticles = folder.articles.length > 0 || folder.children.length > 0;
 
   return (
-    <div>
+    <div className="mb-1">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full text-left px-2 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+        className="flex items-start gap-2 w-full text-left py-2 text-base font-semibold text-gray-900 hover:text-purple-600 transition-colors"
       >
-        <span className="flex-1 pr-2">{folder.name}</span>
-        <ChevronDown
-          className={`w-4 h-4 shrink-0 text-gray-400 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
-        />
+        {hasArticles ? (
+          isOpen
+            ? <ChevronDown className="w-4 h-4 shrink-0 mt-[4px] text-gray-400" />
+            : <ChevronRight className="w-4 h-4 shrink-0 mt-[3px] text-gray-400" />
+        ) : (
+          <div className="w-4 shrink-0" />
+        )}
+        <span className="leading-snug break-words min-w-0">{folder.name}</span>
       </button>
 
-      {isOpen && (
-        <div className="ml-2 border-l border-gray-200 pl-2 space-y-0.5 mt-0.5">
+      {isOpen && hasArticles && (
+        <div className="pb-2 mt-0.5">
           {folder.articles.map((article) => {
             const isActive = article.id === activeArticleId;
             return (
-              <Link
-                key={article.id}
-                href={`/knowledge-base/${article.id}`}
-                className={`flex items-start gap-2 px-2 py-1.5 text-sm rounded-md transition-colors ${
-                  isActive
-                    ? 'text-purple-700 bg-purple-50 font-medium'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                <FileText className="w-4 h-4 shrink-0 mt-0.5" />
-                <span>{article.title}</span>
-              </Link>
+              <div key={article.id} className="flex items-start gap-2 py-1.5">
+                <div className="w-4 h-4 shrink-0" />
+                <Link
+                  href={`/knowledge-base/${article.id}`}
+                  className={`text-base leading-relaxed break-words transition-colors ${
+                    isActive
+                      ? 'text-purple-600 font-medium'
+                      : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                >
+                  {article.title}
+                </Link>
+              </div>
             );
           })}
 

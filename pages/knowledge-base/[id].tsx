@@ -190,11 +190,12 @@ export default function KnowledgeBaseArticle({ folders, article }: KBArticleProp
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
             {/* Sidebar */}
             <aside
-              className={`lg:w-72 xl:w-80 shrink-0 ${
+              className={`shrink-0 ${
                 sidebarOpen ? 'block' : 'hidden lg:block'
               }`}
+              style={{ width: 280, maxWidth: 280 }}
             >
-              <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-4 bg-gray-50 rounded-xl p-5 lg:bg-transparent lg:p-0">
+              <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto rounded-xl p-5 lg:p-0">
                 <KnowledgeBaseSidebar
                   folders={folders}
                   activeArticleId={article.id}

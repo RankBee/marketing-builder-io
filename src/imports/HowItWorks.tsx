@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import svgPaths from "./svg-sw856ngjo0";
-import imgCompetitorDashboard from "figma:asset/d4a12367347ed2aa1674106dece510531cd8cb06.png";
-import imgAttributeHeatmap from "figma:asset/4f12a8f353f78fec8dedb2120afa3e6d2bf347e0.png";
-import imgAiRewrite from "figma:asset/ff7c2f79b38849b108899f24c4791f28ab53f527.png";
+import imgCompetitorDashboard from "../assets/d4a12367347ed2aa1674106dece510531cd8cb06.png";
+import imgAttributeHeatmap from "../assets/4f12a8f353f78fec8dedb2120afa3e6d2bf347e0.png";
+import imgAiRewrite from "../assets/ff7c2f79b38849b108899f24c4791f28ab53f527.png";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "../components/AccountCta";
 import { trackEvent } from "../lib/posthog";
@@ -289,7 +289,7 @@ function CardContent2() {
       <GaoHomePage4 />
       <SignedOut>
         <a
-          href={typeof window !== "undefined" ? `${signUpUrl}?redirect_url=${encodeURIComponent(window.location.href)}` : signUpUrl}
+          href={`${signUpUrl}?redirect_url=${encodeURIComponent('/onboard')}`}
           className="w-full"
           onClick={() => {
             trackEvent('CTA Clicked', {

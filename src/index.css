@@ -3907,3 +3907,10 @@ button:hover {
     display: inline;
   }
 }
+
+/* Pause all CSS animations when the page is inactive (tab hidden or user idle) */
+body.animations-paused *,
+body.animations-paused *::before,
+body.animations-paused *::after {
+  animation-play-state: paused !important;
+}

@@ -2,7 +2,7 @@ import { Badge } from "./ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 
-const comparisonData = [
+const comparisonData: { category: string; scores: Record<string, number | null> }[] = [
   {
     category: "Subscription Lifecycle Management",
     scores: {

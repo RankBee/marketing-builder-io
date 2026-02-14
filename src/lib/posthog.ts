@@ -1,12 +1,13 @@
 import posthog from 'posthog-js'
 import { isImpersonated } from './check-impersonated'
+import { ENV } from './env'
 
 const isPostHogEnabled = (): boolean => {
   if (typeof window === 'undefined') {
     return false
   }
   
-  const env = import.meta.env.VITE_APP_ENV
+  const env = ENV.APP_ENV
   return env === 'production' || env === 'preprod' || env === 'development'
 }
 
@@ -22,26 +23,28 @@ export const initPostHog = () => {
     }
 
     // Only initialize if we have the required config
-    if (!import.meta.env.VITE_POSTHOG_KEY || !import.meta.env.VITE_POSTHOG_HOST) {
+    if (!ENV.POSTHOG_KEY || !ENV.POSTHOG_HOST) {
       return
     }
 
-    posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
-      api_host: import.meta.env.VITE_POSTHOG_HOST,
+    const impersonated = isImpersonated();
+
+    posthog.init(ENV.POSTHOG_KEY!, {
+      api_host: ENV.POSTHOG_HOST,
       person_profiles: 'always',
-      capture_pageview: true,
-      capture_pageleave: true,
-      autocapture: true,
+      capture_pageview: !impersonated,
+      capture_pageleave: !impersonated,
+      autocapture: !impersonated,
+      opt_out_capturing_by_default: impersonated,
+      disable_session_recording: impersonated,
       session_recording: {
         recordCrossOriginIframes: true,
         maskAllInputs: false,
         maskTextSelector: '[data-private]',
-        disable_session_recording: isImpersonated(),
       },
       loaded: (ph) => {
-        // Force start session recording if it's lazy loading
-        if (ph.sessionRecording?.status === 'lazy_loading' && !isImpersonated()) {
-          ph.startSessionRecording()
+        if (!impersonated && ph.sessionRecording?.status === 'lazy_loading') {
+          ph.startSessionRecording();
         }
       },
       disable_external_dependency_loading: false,

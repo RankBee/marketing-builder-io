@@ -1,11 +1,11 @@
 {
-      "name": "Homepage Design for RankBee",
+      "name": "rankbee-marketing",
       "version": "0.1.0",
       "private": true,
       "dependencies": {
+            "@builder.io/sdk-react": "^5.1.0",
             "@clerk/clerk-react": "^5.31.8",
             "@intercom/messenger-js-sdk": "^0.0.14",
-            "@netlify/functions": "*",
             "@radix-ui/react-accordion": "^1.2.3",
             "@radix-ui/react-alert-dialog": "^1.1.6",
             "@radix-ui/react-aspect-ratio": "^1.1.2",
@@ -38,14 +38,15 @@
             "embla-carousel-react": "^8.6.0",
             "framer-motion": "^12.23.24",
             "input-otp": "^1.4.2",
+            "isomorphic-dompurify": "^3.0.0-rc.2",
             "lucide-react": "^0.487.0",
             "motion": "*",
+            "next": "^15.5.12",
             "next-themes": "^0.4.6",
             "posthog-js": "^1.96.1",
             "react": "^18.3.1",
             "react-day-picker": "^8.10.1",
             "react-dom": "^18.3.1",
-            "react-helmet-async": "^2.0.5",
             "react-hook-form": "^7.55.0",
             "react-resizable-panels": "^2.1.7",
             "recharts": "^2.15.2",
@@ -57,16 +58,14 @@
             "@types/node": "^20.10.0",
             "@types/react": "^18.3.12",
             "@types/react-dom": "^18.3.1",
-            "@vitejs/plugin-react-swc": "^3.10.2",
-            "typescript": "^5.6.3",
-            "vite": "6.3.5"
+            "typescript": "^5.6.3"
       },
       "scripts": {
-            "dev": "vite",
-            "build": "vite build",
-            "prerender": "node scripts/prerender.mjs",
-            "build:ssg": "npm run build && npm run prerender && node scripts/generate-seo.mjs",
-            "start": "npx serve build -s -l 8080",
-            "seo": "node scripts/generate-seo.mjs"
+            "postinstall": "node scripts/create-version-aliases.js",
+            "dev": "node scripts/create-version-aliases.js && next dev -p 3000",
+            "build": "node scripts/create-version-aliases.js && next build",
+            "build:ssg": "node scripts/create-version-aliases.js && next build",
+            "start": "next start -p 8080",
+            "lint": "next lint"
       }
 }

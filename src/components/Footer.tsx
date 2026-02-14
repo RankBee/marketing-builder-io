@@ -1,4 +1,3 @@
-import { Button } from "./ui/button";
 import { Linkedin } from "lucide-react";
 import { Logo } from "./Logo";
 import { trackEvent } from "../lib/posthog";
@@ -12,6 +11,7 @@ export function Footer({ onPageChange }: FooterProps) {
     { name: "About", id: "about" },
     { name: "Pricing", id: "pricing" },
     { name: "Blog", id: "blog" },
+    { name: "Knowledge Base", id: "knowledge-base" },
     { name: "Contact", id: "contact" },
     { name: "Demo", id: "demo" }
   ];
@@ -32,64 +32,46 @@ export function Footer({ onPageChange }: FooterProps) {
           
           {/* Brand Logo */}
           <div className="flex flex-col items-center space-y-6 sm:space-y-8">
-            <button
-              onClick={() => onPageChange("home")}
+            <a
+              href="/"
+              onClick={(e) => { e.preventDefault(); onPageChange("home"); }}
               className="transition-opacity hover:opacity-80"
             >
               <Logo className="h-10" />
-            </button>
+            </a>
             
             {/* Main Navigation Links */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
               {mainNavItems.map((item) => (
-                item.id === "blog" ? (
-                  <a
-                    key={item.id}
-                    href="https://geo.rankbee.ai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
-                  >
-                    {item.name}
-                  </a>
-                ) : item.id === "demo" ? (
-                  <a
-                    key={item.id}
-                    href="/demo"
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      trackEvent('Navigation Click', {
-                        destination: 'demo',
-                        location: 'footer_nav'
-                      });
-                      onPageChange('demo');
-                    }}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <button
-                    key={item.id}
-                    onClick={() => onPageChange(item.id)}
-                    className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
-                  >
-                    {item.name}
-                  </button>
-                )
+                <a
+                  key={item.id}
+                  href={item.id === 'home' ? '/' : `/${item.id}`}
+                  className="text-sm sm:text-base text-gray-600 hover:text-primary hover:underline transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    trackEvent('Navigation Click', {
+                      destination: item.id,
+                      location: 'footer_nav'
+                    });
+                    onPageChange(item.id);
+                  }}
+                >
+                  {item.name}
+                </a>
               ))}
             </div>
 
             {/* Legal Links - Smaller, Subdued */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-4 border-t border-gray-200">
               {legalNavItems.map((item) => (
-                <button
+                <a
                   key={item.id}
-                  onClick={() => onPageChange(item.id)}
+                  href={`/${item.id}`}
+                  onClick={(e) => { e.preventDefault(); onPageChange(item.id); }}
                   className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 hover:underline transition-colors"
                 >
                   {item.name}
-                </button>
+                </a>
               ))}
             </div>
           </div>
@@ -102,23 +84,23 @@ export function Footer({ onPageChange }: FooterProps) {
               {socialLinks.map((social) => {
                 const IconComponent = social.icon;
                 return (
-                  <Button
+                  <a
                     key={social.name}
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800"
-                    onClick={() => window.open(social.href, '_blank')}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center h-8 w-8 p-0 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 transition-colors"
                   >
                     <IconComponent className="h-4 w-4" />
                     <span className="sr-only">{social.name}</span>
-                  </Button>
+                  </a>
                 );
               })}
             </div>
 
             {/* Copyright */}
             <p className="text-sm text-gray-500 text-center">
-              © 2024 RankBee. All rights reserved
+              © {new Date().getFullYear()} RankBee. All rights reserved
             </p>
           </div>
 

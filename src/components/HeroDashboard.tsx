@@ -1,5 +1,5 @@
 import svgPaths from "../imports/svg-d2wbzq4ilg";
-import imgChatGptLogoSvg1 from "figma:asset/9340dc6d4f7e1823f26d71086af558cabd844e38.png";
+import imgChatGptLogoSvg1 from "../assets/9340dc6d4f7e1823f26d71086af558cabd844e38.png";
 
 export function HeroDashboard() {
   return (

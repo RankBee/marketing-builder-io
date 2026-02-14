@@ -51,7 +51,7 @@ export function AccountCta({
 
   return (
     <a
-      href={onboardRedirectUrl}
+      href={onboardRedirectUrl || dashboardUrl}
       onClick={() =>
         trackEvent("Onboarding Link Clicked", {
           location,

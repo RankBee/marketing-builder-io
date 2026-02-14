@@ -1,9 +1,10 @@
-// Google Tag Manager utility for Vite app
+// Google Tag Manager utility
 // Pushes events to dataLayer for GTM to process
 
 import { useEffect } from 'react';
 import { useUser, useOrganization } from '@clerk/clerk-react';
 import { publishableKey } from './clerk-env';
+import { ENV } from './env';
 
 declare global {
   interface Window {
@@ -25,14 +26,14 @@ let currentToolId: string | undefined;
  * Get the appropriate GTM ID based on environment
  */
 export function getGTMId(): string | undefined {
-  const env = import.meta.env.VITE_APP_ENV as string;
+  const env = ENV.APP_ENV;
   
   // Use production GTM ID for production, staging for everything else
   if (env === 'production') {
-    return import.meta.env.VITE_GTM_ID_PROD as string | undefined;
+    return ENV.GTM_ID_PROD;
   }
   
-  return import.meta.env.VITE_GTM_ID_STG as string | undefined;
+  return ENV.GTM_ID_STG;
 }
 
 /**
@@ -76,7 +77,7 @@ export function pushToDataLayer(event: string, data?: Record<string, any>): void
   
   window.dataLayer.push(eventData);
   
-  if (import.meta.env.DEV) {
+  if (ENV.DEV) {
     console.log('[GTM] Event pushed to dataLayer:', eventData);
   }
 }
@@ -98,7 +99,7 @@ export function setUserProperties(userId: string, properties?: Record<string, an
     ...properties,
   });
   
-  if (import.meta.env.DEV) {
+  if (ENV.DEV) {
     console.log('[GTM] User properties set:', { userId, ...properties });
   }
 }
@@ -109,13 +110,29 @@ export function setUserProperties(userId: string, properties?: Record<string, an
  * It will automatically update GTM when the user signs in/out or switches orgs.
  */
 export function useGTMClerkSync(): void {
-  // Only run if Clerk is configured
-  if (!publishableKey) return;
-  
-  const { user, isSignedIn } = useUser();
-  const { organization } = useOrganization();
-  
+  const isServer = typeof window === 'undefined';
+  const clerkEnabled = !isServer && !!publishableKey;
+
+  // Always call hooks unconditionally (Rules of Hooks)
+  let userResult: ReturnType<typeof useUser> | null = null;
+  let orgResult: ReturnType<typeof useOrganization> | null = null;
+  try {
+    userResult = useUser();
+    orgResult = useOrganization();
+  } catch (err) {
+    if (clerkEnabled) {
+      console.error('[GTM] Clerk hooks failed despite publishableKey being set.', err);
+    }
+  }
+
+  const user = clerkEnabled && userResult ? userResult.user : undefined;
+  const isSignedIn = clerkEnabled && userResult ? userResult.isSignedIn : false;
+  const organization = clerkEnabled && orgResult ? orgResult.organization : undefined;
+
   useEffect(() => {
+    // Only sync if Clerk is configured
+    if (!clerkEnabled) return;
+
     if (isSignedIn && user?.id) {
       const userId = user.id;
       const orgId = organization?.id;
@@ -123,18 +140,18 @@ export function useGTMClerkSync(): void {
       // Update GTM with Clerk context
       setClerkContext(userId, orgId);
       
-      if (import.meta.env.DEV) {
+      if (ENV.DEV) {
         console.log('[GTM] Clerk context synced:', { userId, orgId });
       }
     } else {
       // User signed out, clear context
       setClerkContext(undefined, undefined, undefined);
       
-      if (import.meta.env.DEV) {
+      if (ENV.DEV) {
         console.log('[GTM] Clerk context cleared (user signed out)');
       }
     }
-  }, [isSignedIn, user?.id, organization?.id]);
+  }, [clerkEnabled, isSignedIn, user?.id, organization?.id]);
 }
 
 /**

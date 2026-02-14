@@ -1,34 +1,31 @@
-// Clerk environment helpers for Vite app
-// Required env: VITE_CLERK_PUBLISHABLE_KEY
-// Optional env: VITE_APP_URL, VITE_SIGN_IN_URL, VITE_ONBOARD_URL
+// Clerk environment helpers
+// Required env: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+// Optional env: NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_SIGN_IN_URL, NEXT_PUBLIC_ONBOARD_URL
 
-// Use Vite's import.meta.env directly and sanitize/trim the value
-const rawPk = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string | undefined;
+import { ENV } from './env';
+
+const rawPk = ENV.CLERK_PUBLISHABLE_KEY;
 export const publishableKey: string | undefined =
   typeof rawPk === 'string' && rawPk.trim().length ? rawPk.trim() : undefined;
 
-export const dashboardUrl: string =
-  (import.meta.env.VITE_APP_URL as string) || 'https://app.rankbee.ai';
+export const dashboardUrl: string = ENV.APP_URL;
 
-export const signInUrl: string =
-  (import.meta.env.VITE_SIGN_IN_URL as string) || '/sign-in';
+export const signInUrl: string = ENV.SIGN_IN_URL;
 
-export const signUpUrl: string =
-  (import.meta.env.VITE_SIGN_UP_URL as string) || '/sign-up';
+export const signUpUrl: string = ENV.SIGN_UP_URL;
 
 // Where to send users when they need to complete setup (RankBee-marketing /onboard)
 // Can be absolute (https://rankbee.ai/onboard) or path (/onboard) depending on deployment routing.
-export const onboardRedirectUrl: string =
-  (import.meta.env.VITE_ONBOARD_URL as string);
+export const onboardRedirectUrl: string = ENV.ONBOARD_URL;
 
 // Safe helpers
 /**
  * DEPRECATED: Use useOrgOnboardingState() from src/lib/clerk-safe.tsx.
- * Onboarding state is determined solely from the FIRST organization’s publicMetadata.onboarded.
+ * Onboarding state is determined solely from the FIRST organization's publicMetadata.onboarded.
  * This function no longer reads user.publicMetadata and always returns false.
  */
 export function isOnboarded(_user: any): boolean {
-  if ((import.meta as any)?.env?.DEV) {
+  if (ENV.DEV) {
     // eslint-disable-next-line no-console
     console.warn(
       "[Deprecated] isOnboarded(user) is deprecated. Use useOrgOnboardingState() for org-based onboarding."

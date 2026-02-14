@@ -59,6 +59,10 @@ export default function App({ Component, pageProps }: AppProps) {
       : process.env.NEXT_PUBLIC_GTM_ID_STG;
 
     if (gtmId && typeof window !== 'undefined') {
+      // Avoid injecting duplicate GTM scripts (e.g. React Strict Mode, remounts)
+      const alreadyLoaded = document.querySelector(`script[src*="googletagmanager.com/gtm.js?id=${gtmId}"]`);
+      if (alreadyLoaded) return;
+
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
 

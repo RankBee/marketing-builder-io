@@ -63,7 +63,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
   const staticUrls = STATIC_ROUTES.map(
     (r) => `  <url>
-    <loc>${siteUrl}${r.path}</loc>
+    <loc>${escapeXml(siteUrl)}${r.path}</loc>
     <lastmod>${now}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>

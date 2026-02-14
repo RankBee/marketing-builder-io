@@ -7,6 +7,7 @@ import { KnowledgeBaseSidebar } from '../../src/components/KnowledgeBaseSidebar'
 import {
   fetchStructure,
   type HintoFolder,
+  type HintoArticleStub,
 } from '../../src/lib/hinto';
 
 const MAX_VISIBLE_ARTICLES = 5;
@@ -14,6 +15,7 @@ const MAX_VISIBLE_ARTICLES = 5;
 interface KBIndexProps {
   onPageChange?: (page: string) => void;
   folders: HintoFolder[];
+  rootArticles: HintoArticleStub[];
 }
 
 export const getStaticProps: GetStaticProps<KBIndexProps> = async () => {
@@ -23,6 +25,7 @@ export const getStaticProps: GetStaticProps<KBIndexProps> = async () => {
     return {
       props: {
         folders: structureRes.structure.folders,
+        rootArticles: structureRes.structure.rootArticles || [],
       },
       revalidate: 300,
     };
@@ -31,6 +34,7 @@ export const getStaticProps: GetStaticProps<KBIndexProps> = async () => {
     return {
       props: {
         folders: [],
+        rootArticles: [],
       },
       revalidate: 60,
     };
@@ -45,7 +49,19 @@ function countArticles(folder: HintoFolder): number {
   return count;
 }
 
-export default function KnowledgeBaseIndex({ folders }: KBIndexProps) {
+function collectAllArticles(folder: HintoFolder): HintoArticleStub[] {
+  const articles: HintoArticleStub[] = [...folder.articles];
+  for (const child of folder.children) {
+    articles.push(...collectAllArticles(child));
+  }
+  return articles;
+}
+
+export default function KnowledgeBaseIndex({ folders, rootArticles }: KBIndexProps) {
+  // Build the display list: real folders + a virtual folder for root-level articles
+  const allFolders: HintoFolder[] = rootArticles.length > 0
+    ? [...folders, { id: -1, name: 'General', articles: rootArticles, children: [] }]
+    : folders;
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -99,9 +115,9 @@ export default function KnowledgeBaseIndex({ folders }: KBIndexProps) {
 
             {/* Card Grid */}
             <main className="flex-1 min-w-0">
-              {folders.length > 0 ? (
+              {allFolders.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {folders.map((folder) => (
+                  {allFolders.map((folder) => (
                     <FolderCard key={folder.id} folder={folder} />
                   ))}
                 </div>
@@ -133,9 +149,7 @@ export default function KnowledgeBaseIndex({ folders }: KBIndexProps) {
  */
 function FolderCard({ folder }: { folder: HintoFolder }) {
   const [expanded, setExpanded] = useState(false);
-  const allArticles = folder.articles;
-  const childArticles = folder.children.flatMap((c) => c.articles);
-  const totalArticles = [...allArticles, ...childArticles];
+  const totalArticles = collectAllArticles(folder);
   const visibleArticles = expanded ? totalArticles : totalArticles.slice(0, MAX_VISIBLE_ARTICLES);
   const hiddenCount = totalArticles.length - MAX_VISIBLE_ARTICLES;
   const articleCount = countArticles(folder);

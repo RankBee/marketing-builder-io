@@ -114,9 +114,82 @@ export function sanitizeHtml(html: string): string {
     ALLOWED_ATTR: [
       'href', 'src', 'alt', 'title', 'class', 'id', 'target', 'rel',
       'width', 'height', 'style', 'data-article-id', 'loading', 'type',
-      'controls', 'autoplay', 'muted', 'loop', 'poster',
+      'controls', 'autoplay', 'muted', 'loop', 'poster', 'start',
     ],
   });
+}
+
+// ─── Ordered List Continuation ───────────────────────────────────────
+
+/**
+ * Fix ordered list numbering when <ol> tags are interrupted by images or
+ * other block-level elements. Browsers restart numbering at 1 for each
+ * new <ol>. This function adds `start` attributes so numbering continues.
+ */
+export function fixOrderedListContinuation(html: string): string {
+  // Split the HTML into tokens: <ol...>, </ol>, <li...>, </li>, and everything else
+  const tagRegex = /(<\/?ol\b[^>]*>|<\/?li\b[^>]*>)/gi;
+  const tokens = html.split(tagRegex);
+
+  let olDepth = 0; // nesting depth of <ol>
+  let liCount = 0; // number of <li> in the current top-level <ol> sequence
+  let inOlSequence = false; // whether we're tracking a sequence of <ol> blocks
+  const result: string[] = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+    const lower = token.toLowerCase().trim();
+
+    if (/^<ol\b/i.test(lower)) {
+      olDepth++;
+      if (olDepth === 1) {
+        if (inOlSequence && liCount > 0) {
+          // This is a continuation <ol> — add start attribute
+          const startVal = liCount + 1;
+          if (/<ol\s/i.test(token)) {
+            // <ol already has attributes — inject start
+            result.push(token.replace(/^<ol\s/i, `<ol start="${startVal}" `));
+          } else {
+            // Plain <ol> or <ol>
+            result.push(token.replace(/^<ol/i, `<ol start="${startVal}"`));
+          }
+          continue;
+        } else {
+          // First <ol> in a new sequence
+          inOlSequence = true;
+          liCount = 0;
+        }
+      }
+      result.push(token);
+    } else if (/^<\/ol>/i.test(lower)) {
+      olDepth--;
+      result.push(token);
+    } else if (/^<li\b/i.test(lower)) {
+      if (olDepth === 1) {
+        liCount++;
+      }
+      result.push(token);
+    } else if (/^<\/li>/i.test(lower)) {
+      result.push(token);
+    } else {
+      // Non-list content — check if it breaks the sequence
+      // Only reset if there's substantial non-whitespace content that isn't
+      // an image, figure, or similar inline interruption
+      if (olDepth === 0 && inOlSequence) {
+        const stripped = token.replace(/<[^>]*>/g, '').trim();
+        const isVisualInterruption = /^\s*$/.test(stripped) ||
+          /<(img|figure|figcaption|div|br|hr|p)\b/i.test(token);
+        if (!isVisualInterruption && stripped.length > 0) {
+          // Real content between lists — reset the sequence
+          inOlSequence = false;
+          liCount = 0;
+        }
+      }
+      result.push(token);
+    }
+  }
+
+  return result.join('');
 }
 
 // ─── HTML Processing ─────────────────────────────────────────────────
@@ -127,12 +200,12 @@ export function sanitizeHtml(html: string): string {
  */
 export function extractMainContent(fullHtml: string): string {
   // Match content inside <main ...>...</main>
-  const mainMatch = fullHtml.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+  const mainMatch = fullHtml.match(/<main[^>]*>([\s\S]*)<\/main>/i);
   if (mainMatch) {
     return mainMatch[1].trim();
   }
   // Fallback: match content inside <body>...</body>
-  const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+  const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   if (bodyMatch) {
     return bodyMatch[1].trim();
   }
@@ -146,7 +219,7 @@ export function extractMainContent(fullHtml: string): string {
 export function extractDescription(html: string): string {
   const content = extractMainContent(html);
   // Remove the H1 first, then grab the first <p>
-  const withoutH1 = content.replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, '');
+  const withoutH1 = content.replace(/<h1[^>]*>[\s\S]*<\/h1>/i, '');
   const pMatch = withoutH1.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
   if (pMatch) {
     // Strip HTML tags from the paragraph
@@ -219,7 +292,7 @@ export function buildArticleMap(
   for (const folder of structure.folders) {
     addFromFolder(folder);
   }
-  for (const article of structure.rootArticles) {
+  for (const article of structure.rootArticles || []) {
     map.set(article.id, { id: article.id, title: article.title });
   }
 
@@ -235,5 +308,6 @@ export function processArticleHtml(
 ): string {
   const content = extractMainContent(fullHtml);
   const sanitized = sanitizeHtml(content);
-  return rewriteArticleLinks(sanitized, articleMap);
+  const withLinks = rewriteArticleLinks(sanitized, articleMap);
+  return fixOrderedListContinuation(withLinks);
 }

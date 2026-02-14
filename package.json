@@ -54,6 +54,9 @@
             "tailwind-merge": "*",
             "vaul": "^1.1.2"
       },
+      "overrides": {
+            "isolated-vm": "npm:empty-npm-package@1.0.0"
+      },
       "devDependencies": {
             "@types/node": "^20.10.0",
             "@types/react": "^18.3.12",

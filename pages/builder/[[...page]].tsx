@@ -1,8 +1,6 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { Content, fetchOneEntry } from '@builder.io/sdk-react';
 import { SeoHead } from '../../src/lib/SeoHead';
-
-const BUILDER_API_KEY = process.env.NEXT_PUBLIC_BUILDER_API_KEY || '';
+import { BUILDER_API_KEY, Content, fetchOneEntry } from '../../src/lib/builder-io';
 const MODEL_NAME = 'page';
 
 export const getStaticPaths: GetStaticPaths = async () => {

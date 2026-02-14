@@ -192,6 +192,76 @@ export function fixOrderedListContinuation(html: string): string {
   return result.join('');
 }
 
+// ─── Orphaned List Items ─────────────────────────────────────────────
+
+/**
+ * Wrap orphaned <li> elements (not inside <ol>/<ul>) in a <ul>.
+ * Hinto sometimes outputs sub-items as bare <li> tags between list blocks,
+ * which browsers and DOMPurify silently discard as invalid HTML.
+ */
+export function wrapOrphanedListItems(html: string): string {
+  const tagRegex = /(<\/?(?:ol|ul|li)\b[^>]*>)/gi;
+  const tokens = html.split(tagRegex);
+
+  let listDepth = 0; // nesting depth of <ol>/<ul>
+  let orphanBuffer: string[] = []; // collects consecutive orphaned <li>...</li>
+  let inOrphanLi = false;
+  const result: string[] = [];
+
+  function flushOrphans() {
+    if (orphanBuffer.length > 0) {
+      result.push('<ul>');
+      result.push(...orphanBuffer);
+      result.push('</ul>');
+      orphanBuffer = [];
+    }
+  }
+
+  for (const token of tokens) {
+    const lower = token.toLowerCase().trim();
+
+    if (/^<(ol|ul)\b/i.test(lower)) {
+      flushOrphans();
+      listDepth++;
+      result.push(token);
+    } else if (/^<\/(ol|ul)>/i.test(lower)) {
+      listDepth--;
+      result.push(token);
+    } else if (/^<li\b/i.test(lower)) {
+      if (listDepth === 0) {
+        // Orphaned <li> — buffer it
+        inOrphanLi = true;
+        orphanBuffer.push(token);
+      } else {
+        result.push(token);
+      }
+    } else if (/^<\/li>/i.test(lower)) {
+      if (inOrphanLi && listDepth === 0) {
+        orphanBuffer.push(token);
+        inOrphanLi = false;
+      } else {
+        result.push(token);
+      }
+    } else {
+      if (inOrphanLi && listDepth === 0) {
+        // Content inside an orphaned <li>
+        orphanBuffer.push(token);
+      } else {
+        // Non-list content — flush any buffered orphans first
+        // but only if this isn't just whitespace between orphaned <li>s
+        const stripped = token.replace(/<[^>]*>/g, '').trim();
+        if (stripped.length > 0 && !inOrphanLi) {
+          flushOrphans();
+        }
+        result.push(token);
+      }
+    }
+  }
+
+  flushOrphans();
+  return result.join('');
+}
+
 // ─── HTML Processing ─────────────────────────────────────────────────
 
 /**
@@ -307,7 +377,8 @@ export function processArticleHtml(
   articleMap: Map<number, { id: number; title: string }>
 ): string {
   const content = extractMainContent(fullHtml);
-  const sanitized = sanitizeHtml(content);
+  const wrapped = wrapOrphanedListItems(content);
+  const sanitized = sanitizeHtml(wrapped);
   const withLinks = rewriteArticleLinks(sanitized, articleMap);
   return fixOrderedListContinuation(withLinks);
 }

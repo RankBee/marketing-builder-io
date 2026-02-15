@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import Image from "next/image";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
@@ -215,10 +215,13 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
           <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-8">
             {displayArticle.author && displayArticle.authorImage && (
               <div className="flex items-center gap-2">
-                <img
+                <Image
                   src={displayArticle.authorImage}
                   alt={displayArticle.author}
+                  width={40}
+                  height={40}
                   className="w-10 h-10 rounded-full object-cover"
+                  quality={75}
                 />
                 <div>
                   <div className="font-medium text-gray-900">{displayArticle.author}</div>
@@ -291,10 +294,15 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
 
         {/* Featured Image */}
         <div className="mb-12 rounded-lg overflow-hidden">
-          <ImageWithFallback
+          <Image
             src={displayArticle.image}
             alt={displayArticle.title}
+            width={896}
+            height={384}
             className="w-full h-96 object-cover"
+            sizes="(max-width: 896px) 100vw, 896px"
+            quality={75}
+            priority
           />
         </div>
 
@@ -362,10 +370,13 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
         {displayArticle.author && displayArticle.authorImage && (
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-12">
             <div className="flex items-start gap-4">
-              <img
+              <Image
                 src={displayArticle.authorImage}
                 alt={displayArticle.author}
+                width={64}
+                height={64}
                 className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                quality={75}
               />
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -393,10 +404,14 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
                   onClick={() => onPageChange(`blog/${article.slug}`)}
                 >
                   <div className="aspect-video overflow-hidden">
-                    <ImageWithFallback
+                    <Image
                       src={article.image}
                       alt={article.title}
+                      width={420}
+                      height={236}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      quality={75}
                     />
                   </div>
                   <CardHeader>

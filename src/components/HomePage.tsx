@@ -1,7 +1,6 @@
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { CaseStudySection } from "./CaseStudySection";
 import CtaBlocks from "../imports/CtaBlocks";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";

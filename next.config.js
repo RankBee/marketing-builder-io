@@ -3,6 +3,14 @@ const path = require('path');
 
 const nextConfig = {
   reactStrictMode: true,
+  compiler: {
+    // Remove console.log in production builds to reduce bundle size
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
+  experimental: {
+    // Enable optimized CSS loading
+    optimizeCss: false,
+  },
   images: {
     disableStaticImages: true,
     remotePatterns: [
@@ -13,6 +21,31 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.pexels.com' },
       { protocol: 'https', hostname: 'app.hintoai.com' },
     ],
+  },
+  async headers() {
+    return [
+      {
+        // Cache static assets aggressively (images, fonts, JS, CSS in _next/static)
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        // Cache public images
+        source: '/images/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        // Cache static media assets
+        source: '/static/media/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [];

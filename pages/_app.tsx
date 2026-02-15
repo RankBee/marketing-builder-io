@@ -8,6 +8,14 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Navigation } from '../src/components/Navigation';
+import localFont from 'next/font/local';
+
+const inter = localFont({
+  src: '../public/fonts/Inter-Variable.woff2',
+  variable: '--font-inter',
+  display: 'swap',
+  weight: '100 900',
+});
 
 // Dynamic import for Intercom (uses Clerk hooks, not available during SSR)
 const IntercomClient = dynamic(
@@ -82,7 +90,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   const appContent = (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className={`min-h-screen bg-white flex flex-col ${inter.variable} ${inter.className}`}>
       <Head>
         <meta name="theme-color" content="#7c3aed" />
         <meta name="referrer" content="no-referrer-when-downgrade" />

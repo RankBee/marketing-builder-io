@@ -6,6 +6,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
+import { trackEvent } from "../lib/posthog";
 import { getSiteUrl } from "../lib/page-seo";
 import DOMPurify from "isomorphic-dompurify";
 
@@ -49,6 +50,11 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
       const result = await addGhostSubscriber(email);
       
       if (result.success) {
+        trackEvent('Newsletter Subscribed', {
+          email,
+          location: 'article_detail_page',
+          article_slug: slug,
+        });
         setSubscribeSuccess(true);
         setEmail(""); // Clear the input
         // Reset success message after 5 seconds

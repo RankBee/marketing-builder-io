@@ -2,6 +2,7 @@ import svgPaths from "./svg-arf0p9jlye";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePageActive } from "../lib/usePageActive";
+import { useIsMobile } from "../components/ui/use-mobile";
 
 function HeadingDisc() {
   return (
@@ -106,8 +107,9 @@ function BubbleBackgroundLayer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const prefersReduced = useReducedMotion();
+  const isMobile = useIsMobile();
   const isPageActive = usePageActive();
-  const shouldAnimate = isVisible && isPageActive && !prefersReduced;
+  const shouldAnimate = isVisible && isPageActive && !prefersReduced && !isMobile;
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -159,8 +161,8 @@ function BubbleBackgroundLayer() {
     sixth: "140,100,255",
   };
 
-  // Reduced motion: show static gradient blobs, no animation
-  if (prefersReduced) {
+  // Reduced motion or mobile: show static gradient blobs, no heavy animation
+  if (prefersReduced || isMobile) {
     return (
       <div ref={containerRef} className="absolute inset-0">
         <div className="absolute inset-0" style={{ filter: "blur(40px)" }}>

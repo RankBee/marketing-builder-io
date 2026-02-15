@@ -63,6 +63,14 @@
             "@types/react-dom": "^18.3.1",
             "typescript": "^5.6.3"
       },
+      "browserslist": [
+            "last 2 Chrome versions",
+            "last 2 Firefox versions",
+            "last 2 Safari versions",
+            "last 2 Edge versions",
+            "not dead",
+            "not ie 11"
+      ],
       "scripts": {
             "postinstall": "node scripts/create-version-aliases.js",
             "dev": "node scripts/create-version-aliases.js && next dev -p 3000",

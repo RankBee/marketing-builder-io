@@ -139,6 +139,7 @@ function pathToPage(pathname: string): string {
     if (slug && slug !== 'tag' && slug !== 'page') return `blog/${slug}`;
   }
   if (path.startsWith('/knowledge-base/')) return 'knowledge-base';
+  if (path === '/press-events' || path.startsWith('/press-events/')) return 'press-events';
   switch (path) {
     case '/about': return 'about';
     case '/pricing': return 'pricing';

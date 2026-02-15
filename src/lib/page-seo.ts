@@ -104,6 +104,11 @@ const pages: Record<string, { title: string; description: string; path: string; 
     description: "Learn how to use RankBee AI to optimize your brand's visibility in generative AI search. Step-by-step guides, tutorials, and best practices.",
     path: "/knowledge-base"
   },
+  "press-events": {
+    title: "Press & Events",
+    description: "Speaking engagements, conferences, awards, and press coverage from the RankBee team. See where we're sharing insights on AI visibility.",
+    path: "/press-events"
+  },
   builder: {
     title: "Page",
     description: "RankBee — AI Visibility for ChatGPT, Claude, Gemini.",

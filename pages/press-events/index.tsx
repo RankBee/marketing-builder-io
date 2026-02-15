@@ -30,20 +30,16 @@ function typeIcon(type: EventEntry['type']) {
 }
 
 function renderSpeaker(speaker: string): React.ReactNode {
-  const parts: React.ReactNode[] = [];
-  let remaining = speaker;
-  for (const [name, href] of Object.entries(SPEAKER_LINKS)) {
-    const idx = remaining.indexOf(name);
-    if (idx !== -1) {
-      if (idx > 0) parts.push(remaining.slice(0, idx));
-      parts.push(
-        <Link key={name} href={href} className="text-purple-600 hover:text-purple-700 hover:underline">{name}</Link>
-      );
-      remaining = remaining.slice(idx + name.length);
-    }
-  }
-  if (remaining) parts.push(remaining);
-  return parts.length > 0 ? <>{parts}</> : speaker;
+  const names = Object.keys(SPEAKER_LINKS);
+  if (names.length === 0) return speaker;
+  const pattern = new RegExp(`(${names.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`);
+  const segments = speaker.split(pattern);
+  const parts = segments.map((seg, i) =>
+    SPEAKER_LINKS[seg]
+      ? <Link key={i} href={SPEAKER_LINKS[seg]} className="text-purple-600 hover:text-purple-700 hover:underline">{seg}</Link>
+      : seg
+  );
+  return <>{parts}</>;
 }
 
 // ─── Server-side date splitting (ISR) ─────────────────────────────────────────
@@ -133,10 +129,10 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
                         <div className={`w-full h-64 md:h-full bg-gradient-to-br ${accentGradient(event.type)} flex items-center justify-center`}>
                           <div className="text-center text-white">
                             <div className="text-5xl font-bold mb-1">
-                              {new Date(event.date + 'T00:00:00').getDate()}
+                              {new Date(event.date + 'T00:00:00Z').getUTCDate()}
                             </div>
                             <div className="text-lg font-medium uppercase tracking-wider">
-                              {new Date(event.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                              {new Date(event.date + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}
                             </div>
                             {event.location && (
                               <div className="flex items-center justify-center gap-1.5 mt-3 text-white/80 text-sm">

@@ -155,7 +155,7 @@ const PERSON_SCHEMA: Record<string, object> = {
   },
   'Rizwan Khan': {
     '@type': 'Person',
-    name: 'Riz Kahn',
+    name: 'Rizwan Khan',
     url: `${SITE_URL}/about#riz-kahn`,
     jobTitle: 'Chief Revenue Officer',
     worksFor: { '@type': 'Organization', name: 'RankBee', url: SITE_URL },
@@ -163,8 +163,10 @@ const PERSON_SCHEMA: Record<string, object> = {
   },
 };
 
-function buildEventJsonLd(events: EventEntry[]): object {
+function buildEventJsonLd(events: EventEntry[], todayISO: string): object {
+  const todayMs = new Date(todayISO + 'T00:00:00Z').getTime();
   return events.map((e) => {
+    const isPast = new Date(e.date + 'T00:00:00Z').getTime() < todayMs;
     const schema: Record<string, any> = {
       '@type': 'Event',
       name: e.title,
@@ -173,7 +175,9 @@ function buildEventJsonLd(events: EventEntry[]): object {
       eventAttendanceMode: e.type === 'webinar'
         ? 'https://schema.org/OnlineEventAttendanceMode'
         : 'https://schema.org/OfflineEventAttendanceMode',
-      eventStatus: 'https://schema.org/EventScheduled',
+      eventStatus: isPast
+        ? 'https://schema.org/EventCompleted'
+        : 'https://schema.org/EventScheduled',
     };
     if (e.location || e.venue) {
       schema.location = e.type === 'webinar'
@@ -193,8 +197,8 @@ function buildEventJsonLd(events: EventEntry[]): object {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(iso: string): string {
-  const d = new Date(iso + 'T00:00:00');
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const d = new Date(iso + 'T00:00:00Z');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
 function typeLabel(type: EventEntry['type']): string {
@@ -260,7 +264,7 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@graph': buildEventJsonLd([...upcoming, ...past]),
+            '@graph': buildEventJsonLd([...upcoming, ...past], todayISO),
           }),
         }}
       />

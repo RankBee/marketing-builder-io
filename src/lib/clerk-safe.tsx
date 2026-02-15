@@ -220,7 +220,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
     // Otherwise unresolved
     setLoadedStable(false);
-  }, [clerkEnabled, listLoaded, loadedStable, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clerkEnabled, listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
 
   if (!clerkEnabled) {
     return { onboarded: false, loaded: false };

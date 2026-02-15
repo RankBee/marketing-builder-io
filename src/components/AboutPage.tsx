@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ExternalLink } from "lucide-react";
+import Image from "next/image";
 import { useRef } from "react";
 import { trackEvent } from "../lib/posthog";
 import { getSiteUrl } from "../lib/page-seo";
@@ -133,10 +134,13 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               <Card key={index} id={member.slug} className="bg-white hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center">
                   <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                    <img
+                    <Image
                       src={member.image}
                       alt={member.name}
+                      width={128}
+                      height={128}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      quality={75}
                     />
                   </div>
                   <div className="text-center">
@@ -198,10 +202,13 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
               <Card key={index} id={member.slug} className="bg-white hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center">
                   <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                    <img
+                    <Image
                       src={member.image}
                       alt={member.name}
+                      width={128}
+                      height={128}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      quality={75}
                     />
                   </div>
                   <div className="text-center">

@@ -133,9 +133,6 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     Array.isArray(memAny)
       ? memAny
       : (Array.isArray(memAny?.data) ? memAny.data : []);
-  // Stabilize the memberships reference to avoid re-render loops from new array identity
-  const membershipsLenRef = useRef(membershipsRaw.length);
-  membershipsLenRef.current = membershipsRaw.length;
   const memberships = membershipsRaw;
 
   const firstMembership: any = memberships?.[0];
@@ -223,8 +220,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
     // Otherwise unresolved
     setLoadedStable(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clerkEnabled, listLoaded, loadedStable, membershipsLenRef.current, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
+  }, [clerkEnabled, listLoaded, loadedStable, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
 
   if (!clerkEnabled) {
     return { onboarded: false, loaded: false };
@@ -256,7 +252,8 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
       loaded,
       canResolve,
     });
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listLoaded, firstOrg?.id, memberships.length, hasOnboardedKey, firstOrgOnboarded, onboarded, loaded]);
 
   return { onboarded, loaded };
 }

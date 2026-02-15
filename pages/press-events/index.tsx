@@ -1,9 +1,12 @@
+import React from 'react';
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
-import { Calendar, MapPin, ExternalLink, ArrowRight, Mic, Trophy, Newspaper, Landmark } from 'lucide-react';
+import { Calendar, MapPin, ExternalLink, Mic, Trophy, Newspaper, Landmark } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../src/components/ui/card';
 import { Badge } from '../../src/components/ui/badge';
 import { Button } from '../../src/components/ui/button';
 import { SeoHead } from '../../src/lib/SeoHead';
+import { getSiteUrl } from '../../src/lib/page-seo';
 
 // ─── Data Types ───────────────────────────────────────────────────────────────
 
@@ -16,7 +19,8 @@ interface EventEntry {
   url?: string;
   image?: string;
   type: 'speaking' | 'award' | 'press' | 'conference' | 'webinar';
-  speaker?: string;
+  speaker?: React.ReactNode;
+  performers?: string[];
 }
 
 // ─── All Events ──────────────────────────────────────────────────────────────
@@ -34,7 +38,8 @@ const allEvents: EventEntry[] = [
     url: 'https://athenseo.com/speakers/aris-vrakas/',
     image: '/images/athens-seo-conference-2026.png',
     type: 'conference',
-    speaker: 'Aris Vrakas (Moderator)',
+    speaker: <><Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>{' (Moderator)'}</>,
+    performers: ['Aris Vrakas'],
   },
   {
     title: 'Winning with AEO: How to Succeed in SEO for AI',
@@ -46,7 +51,8 @@ const allEvents: EventEntry[] = [
     url: 'https://affpapaconf.com/madrid-2026/',
     image: '/images/affpapa-conference-madrid-2026.png',
     type: 'conference',
-    speaker: 'Aris Vrakas',
+    speaker: <Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>,
+    performers: ['Aris Vrakas'],
   },
   {
     title: 'How to Win with AI Content',
@@ -58,7 +64,8 @@ const allEvents: EventEntry[] = [
     url: 'https://next.io/summits/newyork/',
     image: '/images/nextio-nyc-conference-2025.webp',
     type: 'conference',
-    speaker: 'Aris Vrakas',
+    speaker: <Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>,
+    performers: ['Aris Vrakas'],
   },
   // ── Past ────────────────────────────────────────────────────────────────────
   {
@@ -70,7 +77,8 @@ const allEvents: EventEntry[] = [
     url: 'https://www.seoclarity.net/webinar/ai-search-visibility-and-brand-accuracy/',
     image: '/images/seoclarity-rankbee-ai-search-webinar.png',
     type: 'webinar',
-    speaker: 'Aris Vrakas & Will Gallahue',
+    speaker: <><Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>{' & Will Gallahue'}</>,
+    performers: ['Aris Vrakas', 'Will Gallahue'],
   },
   {
     title: 'Female Founders Forum Launch at the UK House of Lords',
@@ -79,9 +87,10 @@ const allEvents: EventEntry[] = [
     date: '2026-02-08',
     location: 'London, UK',
     venue: 'UK House of Lords',
-    image: '/images/yin-noe-house-of-lords-female-founders-2026.jpeg',
+    image: '/images/yin-parliament.png',
     type: 'conference',
-    speaker: 'Yin Noe',
+    speaker: <Link href="/about#yin-noe" className="text-purple-600 hover:text-purple-700 hover:underline">Yin Noe</Link>,
+    performers: ['Yin Noe'],
   },
   {
     title: 'AEO & AI Visibility: The New SEO Playbook — Live AMA with Minuttia & RankBee',
@@ -91,7 +100,8 @@ const allEvents: EventEntry[] = [
     url: 'https://www.linkedin.com/events/7414981604428800000/',
     image: '/images/minuttia-rankbee-aeo-webinar-2026.png',
     type: 'webinar',
-    speaker: 'Aris Vrakas',
+    speaker: <Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>,
+    performers: ['Aris Vrakas'],
   },
   {
     title: 'Winning the AI Vote: How Political Voices Get Seen (or Silenced) in the Age of LLMs',
@@ -103,7 +113,8 @@ const allEvents: EventEntry[] = [
     url: 'https://www.politicaltech.eu/events/winning-the-ai-vote-how-political-voices-get-seen-(or-silenced)-in-the-age-of-llms',
     image: '/images/political-tech-summit-berlin-2026.png',
     type: 'conference',
-    speaker: 'Aris Vrakas, Yin Noe & Rizwan Khan',
+    speaker: <><Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>{', '}<Link href="/about#yin-noe" className="text-purple-600 hover:text-purple-700 hover:underline">Yin Noe</Link>{' & '}<Link href="/about#riz-kahn" className="text-purple-600 hover:text-purple-700 hover:underline">Rizwan Khan</Link></>,
+    performers: ['Aris Vrakas', 'Yin Noe', 'Rizwan Khan'],
   },
   {
     title: 'Beyond Keywords: Redefining Search Intent in the Age of LLMs',
@@ -113,11 +124,70 @@ const allEvents: EventEntry[] = [
     location: 'Athens, Greece',
     venue: 'Athens SEO 2025',
     url: 'https://athenseo.com/speakers/aris-vrakas/',
-    image: '/images/athens-seo-2025.png',
+    image: '/images/collage-athens-seo-2025.png',
     type: 'conference',
-    speaker: 'Aris Vrakas',
+    speaker: <Link href="/about#aris-vrakas" className="text-purple-600 hover:text-purple-700 hover:underline">Aris Vrakas</Link>,
+    performers: ['Aris Vrakas'],
   },
 ];
+
+// ─── Person schema lookup (for JSON-LD) ──────────────────────────────────────
+
+const SITE_URL = getSiteUrl();
+
+const PERSON_SCHEMA: Record<string, object> = {
+  'Aris Vrakas': {
+    '@type': 'Person',
+    name: 'Aris Vrakas',
+    url: `${SITE_URL}/about#aris-vrakas`,
+    jobTitle: 'Founder/CEO/CTO',
+    worksFor: { '@type': 'Organization', name: 'RankBee', url: SITE_URL },
+    sameAs: ['https://www.linkedin.com/in/arisvrakas/'],
+  },
+  'Yin Noe': {
+    '@type': 'Person',
+    name: 'Yin Noe',
+    url: `${SITE_URL}/about#yin-noe`,
+    jobTitle: 'Chief Operations Officer',
+    worksFor: { '@type': 'Organization', name: 'RankBee', url: SITE_URL },
+    sameAs: ['https://www.linkedin.com/in/yinnoe'],
+  },
+  'Rizwan Khan': {
+    '@type': 'Person',
+    name: 'Riz Kahn',
+    url: `${SITE_URL}/about#riz-kahn`,
+    jobTitle: 'Chief Revenue Officer',
+    worksFor: { '@type': 'Organization', name: 'RankBee', url: SITE_URL },
+    sameAs: ['https://www.linkedin.com/in/rizwankhan1986/'],
+  },
+};
+
+function buildEventJsonLd(events: EventEntry[]): object {
+  return events.map((e) => {
+    const schema: Record<string, any> = {
+      '@type': 'Event',
+      name: e.title,
+      description: e.description,
+      startDate: e.date,
+      eventAttendanceMode: e.type === 'webinar'
+        ? 'https://schema.org/OnlineEventAttendanceMode'
+        : 'https://schema.org/OfflineEventAttendanceMode',
+      eventStatus: 'https://schema.org/EventScheduled',
+    };
+    if (e.location || e.venue) {
+      schema.location = e.type === 'webinar'
+        ? { '@type': 'VirtualLocation', url: e.url || '' }
+        : { '@type': 'Place', name: e.venue || '', address: e.location || '' };
+    }
+    if (e.url) schema.url = e.url;
+    if (e.image) schema.image = `${SITE_URL}${e.image}`;
+    if (e.performers?.length) {
+      schema.performer = e.performers.map((name) => PERSON_SCHEMA[name] || { '@type': 'Person', name });
+    }
+    schema.organizer = { '@type': 'Organization', name: 'RankBee', url: SITE_URL };
+    return schema;
+  });
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -156,23 +226,43 @@ function accentGradient(type: EventEntry['type']): string {
   }
 }
 
+// ─── Server-side date splitting (ISR) ─────────────────────────────────────────
+
+interface PressEventsProps {
+  todayISO: string;
+}
+
+export const getStaticProps: GetStaticProps<PressEventsProps> = async () => {
+  const now = new Date();
+  const todayISO = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}-${String(now.getUTCDate()).padStart(2, '0')}`;
+  return { props: { todayISO }, revalidate: 3600 };
+};
+
 // ─── Page Component ───────────────────────────────────────────────────────────
 
-export default function PressEventsIndex() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+export default function PressEventsIndex({ todayISO }: PressEventsProps) {
+  const todayMs = new Date(todayISO + 'T00:00:00Z').getTime();
 
   const upcoming = allEvents
-    .filter((e) => new Date(e.date + 'T00:00:00') >= today)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .filter((e) => new Date(e.date + 'T00:00:00Z').getTime() >= todayMs)
+    .sort((a, b) => new Date(a.date + 'T00:00:00Z').getTime() - new Date(b.date + 'T00:00:00Z').getTime());
 
   const past = allEvents
-    .filter((e) => new Date(e.date + 'T00:00:00') < today)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .filter((e) => new Date(e.date + 'T00:00:00Z').getTime() < todayMs)
+    .sort((a, b) => new Date(b.date + 'T00:00:00Z').getTime() - new Date(a.date + 'T00:00:00Z').getTime());
 
   return (
     <>
       <SeoHead pageId="press-events" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': buildEventJsonLd([...upcoming, ...past]),
+          }),
+        }}
+      />
 
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -258,6 +348,11 @@ export default function PressEventsIndex() {
                           </span>
                         )}
                       </div>
+                      {event.speaker && (
+                        <div className="text-sm text-gray-500 mb-4">
+                          {event.speaker}
+                        </div>
+                      )}
                       {event.url && (
                         <a
                           href={event.url}
@@ -292,9 +387,17 @@ export default function PressEventsIndex() {
                 {past.map((entry, i) => (
                   <Card
                     key={i}
-                    className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer overflow-hidden"
+                    className={`bg-white hover:shadow-lg transition-all duration-300 group overflow-hidden${entry.url ? ' cursor-pointer' : ''}`}
+                    role={entry.url ? 'link' : undefined}
+                    tabIndex={entry.url ? 0 : undefined}
                     onClick={() => {
                       if (entry.url) window.open(entry.url, '_blank', 'noopener,noreferrer');
+                    }}
+                    onKeyDown={(e: React.KeyboardEvent) => {
+                      if (entry.url && (e.key === 'Enter' || e.key === ' ')) {
+                        e.preventDefault();
+                        window.open(entry.url, '_blank', 'noopener,noreferrer');
+                      }
                     }}
                   >
                     {/* Event image or colored accent strip */}
@@ -312,28 +415,28 @@ export default function PressEventsIndex() {
 
                     <CardHeader>
                       <div className="flex items-center justify-between mb-2">
-                        <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs">
+                        <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-sm">
                           {typeIcon(entry.type)}
                           <span className="ml-1">{typeLabel(entry.type)}</span>
                         </Badge>
                         {entry.location && (
-                          <div className="flex items-center gap-1 text-xs text-gray-500">
-                            <MapPin className="w-3 h-3" />
+                          <div className="flex items-center gap-1 text-sm text-gray-500">
+                            <MapPin className="w-3.5 h-3.5" />
                             <span>{entry.location}</span>
                           </div>
                         )}
                       </div>
                       {entry.venue && (
-                        <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-1">
+                        <p className="text-sm font-semibold text-purple-600 uppercase tracking-wider mb-1">
                           {entry.venue}
                         </p>
                       )}
-                      <CardTitle className="text-lg leading-tight group-hover:text-purple-600 transition-colors">
+                      <CardTitle className="text-xl leading-tight group-hover:text-purple-600 transition-colors">
                         {entry.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-gray-600 leading-relaxed mb-4 text-sm line-clamp-5">
+                      <p className="text-gray-600 leading-relaxed mb-4 text-base line-clamp-5">
                         {entry.description}
                       </p>
                       <div className="flex items-center justify-between">
@@ -341,7 +444,7 @@ export default function PressEventsIndex() {
                           {formatDate(entry.date)}
                         </div>
                         {entry.speaker && (
-                          <div className="text-xs text-gray-400">
+                          <div className="text-sm text-gray-500" onClick={(e) => e.stopPropagation()}>
                             {entry.speaker}
                           </div>
                         )}

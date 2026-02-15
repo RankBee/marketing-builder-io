@@ -51,51 +51,34 @@ export default function App({ Component, pageProps }: AppProps) {
     router.push(target);
   };
 
-  // Initialize GTM — deferred to reduce main-thread blocking
+  // Initialize GTM
   useEffect(() => {
-    const loadGTM = () => {
-      const env = process.env.NEXT_PUBLIC_APP_ENV;
-      const gtmId = env === 'production'
-        ? process.env.NEXT_PUBLIC_GTM_ID_PROD
-        : process.env.NEXT_PUBLIC_GTM_ID_STG;
+    const env = process.env.NEXT_PUBLIC_APP_ENV;
+    const gtmId = env === 'production'
+      ? process.env.NEXT_PUBLIC_GTM_ID_PROD
+      : process.env.NEXT_PUBLIC_GTM_ID_STG;
 
-      if (gtmId && typeof window !== 'undefined') {
-        // Avoid injecting duplicate GTM scripts (e.g. React Strict Mode, remounts)
-        const alreadyLoaded = document.querySelector(`script[src*="googletagmanager.com/gtm.js?id=${gtmId}"]`);
-        if (alreadyLoaded) return;
+    if (gtmId && typeof window !== 'undefined') {
+      // Avoid injecting duplicate GTM scripts (e.g. React Strict Mode, remounts)
+      const alreadyLoaded = document.querySelector(`script[src*="googletagmanager.com/gtm.js?id=${gtmId}"]`);
+      if (alreadyLoaded) return;
 
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
 
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
-        const firstScript = document.getElementsByTagName('script')[0];
-        firstScript.parentNode?.insertBefore(script, firstScript);
-      }
-    };
-
-    // Defer GTM until after initial paint
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(loadGTM, { timeout: 3000 });
-    } else {
-      setTimeout(loadGTM, 2500);
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+      const firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode?.insertBefore(script, firstScript);
     }
   }, []);
 
-  // Initialize PostHog — deferred to reduce main-thread blocking
+  // Initialize PostHog (uses full config from src/lib/posthog.ts)
   useEffect(() => {
-    const loadPostHog = () => {
-      import('../src/lib/posthog').then(({ initPostHog }) => {
-        initPostHog();
-      }).catch(() => {});
-    };
-
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(loadPostHog, { timeout: 4000 });
-    } else {
-      setTimeout(loadPostHog, 3000);
-    }
+    import('../src/lib/posthog').then(({ initPostHog }) => {
+      initPostHog();
+    }).catch(() => {});
   }, []);
 
   const appContent = (

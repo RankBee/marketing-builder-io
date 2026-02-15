@@ -6,6 +6,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPosts, getPopularTags, type BlogPost, addGhostSubscriber } from "../lib/builder";
+import { trackEvent } from "../lib/posthog";
 
 interface BlogPageProps {
   onPageChange: (page: string) => void;
@@ -49,6 +50,10 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
       const result = await addGhostSubscriber(email);
       
       if (result.success) {
+        trackEvent('Newsletter Subscribed', {
+          email,
+          location: 'blog_page',
+        });
         setSubscribeSuccess(true);
         setEmail(""); // Clear the input
         // Reset success message after 5 seconds

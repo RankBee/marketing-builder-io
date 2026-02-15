@@ -129,10 +129,14 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
   // FIRST membership org publicMetadata.onboarded (supports both array and paginated shapes)
   const memAny: any = userMemberships as any;
-  const memberships: any[] =
+  const membershipsRaw: any[] =
     Array.isArray(memAny)
       ? memAny
       : (Array.isArray(memAny?.data) ? memAny.data : []);
+  // Stabilize the memberships reference to avoid re-render loops from new array identity
+  const membershipsLenRef = useRef(membershipsRaw.length);
+  membershipsLenRef.current = membershipsRaw.length;
+  const memberships = membershipsRaw;
 
   const firstMembership: any = memberships?.[0];
   // Prefer activeOrg (safe in impersonation) over list's first org (incomplete metadata in impersonation)
@@ -195,8 +199,11 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
     // No orgs: avoid premature resolution; wait briefly to confirm truly zero
     if (memberships.length === 0) {
-      const t = setTimeout(() => setLoadedStable(true), ZERO_MEMBERSHIP_DELAY_MS);
-      return () => clearTimeout(t);
+      if (!loadedStable) {
+        const t = setTimeout(() => setLoadedStable(true), ZERO_MEMBERSHIP_DELAY_MS);
+        return () => clearTimeout(t);
+      }
+      return;
     }
 
     // Known onboarded via cache or live flag: resolve immediately
@@ -207,13 +214,17 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
 
     // Explicit false (or missing key): wait briefly to avoid transient false -> true flips
     if (!!firstOrg?.id && firstOrgOnboarded !== true) {
-      const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
-      return () => clearTimeout(t);
+      if (!loadedStable) {
+        const t = setTimeout(() => setLoadedStable(true), FALSE_STABLE_DELAY_MS);
+        return () => clearTimeout(t);
+      }
+      return;
     }
 
     // Otherwise unresolved
     setLoadedStable(false);
-  }, [clerkEnabled, listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clerkEnabled, listLoaded, loadedStable, membershipsLenRef.current, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
 
   if (!clerkEnabled) {
     return { onboarded: false, loaded: false };
@@ -226,7 +237,13 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
   const loaded = Boolean(loadedStable);
   const onboarded = Boolean(firstOrgOnboarded || cachedTrueRef.current);
 
-  if (process.env.NODE_ENV === 'development') {
+  // Dev-only logging — deduplicated via ref to avoid noise from Clerk re-renders with same values
+  const prevDebugKeyRef = useRef('');
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') return;
+    const key = `${listLoaded}|${firstOrg?.id}|${memberships.length}|${hasOnboardedKey}|${firstOrgOnboarded}|${onboarded}|${loaded}`;
+    if (key === prevDebugKeyRef.current) return;
+    prevDebugKeyRef.current = key;
     // eslint-disable-next-line no-console
     console.log("[OrgCTA][DEV]", {
       listLoaded,
@@ -239,7 +256,7 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
       loaded,
       canResolve,
     });
-  }
+  });
 
   return { onboarded, loaded };
 }

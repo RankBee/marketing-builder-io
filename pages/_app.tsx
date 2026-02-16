@@ -1,8 +1,8 @@
 import '../src/index.css';
 import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePageActive } from '../src/lib/usePageActive';
-import { ClerkProvider } from '@clerk/clerk-react';
+import { ClerkProvider, useSession } from '@clerk/clerk-react';
 import { Footer } from '../src/components/Footer';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -119,12 +119,31 @@ export default function App({ Component, pageProps }: AppProps) {
           if (to.startsWith('http')) { window.location.replace(to); } else { router.replace(to); }
         }}
       >
+        <ImpersonationRedirect />
         {appContent}
       </ClerkProvider>
     );
   }
 
   return appContent;
+}
+
+/**
+ * Detects Clerk impersonation (session.actor is non-null) and redirects
+ * to the App where impersonation is fully supported via @clerk/nextjs middleware.
+ */
+function ImpersonationRedirect() {
+  const { session, isLoaded } = useSession();
+  const redirectedRef = useRef(false);
+
+  useEffect(() => {
+    if (!isLoaded || !session?.actor || redirectedRef.current) return;
+    if (!appUrl) return;
+    redirectedRef.current = true;
+    window.location.replace(appUrl);
+  }, [isLoaded, session]);
+
+  return null;
 }
 
 // Map URL path to internal page id (mirrors App.tsx logic)

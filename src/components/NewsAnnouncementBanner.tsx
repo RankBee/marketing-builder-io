@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Radio, MapPin, Mic, Landmark } from 'lucide-react';
 import { Button } from './ui/button';
 import { trackEvent } from '../lib/posthog';
@@ -9,8 +9,14 @@ interface NewsAnnouncementBannerProps {
 }
 
 export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const event = getNextBannerEvent();
+
+  useEffect(() => {
+    if (sessionStorage.getItem('banner_dismissed') !== '1') {
+      setIsVisible(true);
+    }
+  }, []);
 
   if (!isVisible || !event) {
     return null;
@@ -18,6 +24,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
 
   const handleClose = () => {
     setIsVisible(false);
+    sessionStorage.setItem('banner_dismissed', '1');
     trackEvent('News Banner Closed', {
       event_type: event.type,
       event_title: event.title,

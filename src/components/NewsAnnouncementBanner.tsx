@@ -120,12 +120,12 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
         </div>
 
         {/* Bottom row: two buttons side by side */}
-        <div className="flex gap-3 w-full">
+        <div className="flex items-center justify-center gap-3">
           <a
             href={ctaHref}
             target={isExternal ? '_blank' : undefined}
             rel={isExternal ? 'noopener noreferrer' : undefined}
-            className="flex-1 text-center text-sm font-semibold text-purple-700 bg-white hover:bg-white/90 transition-colors rounded-lg px-4"
+            className="text-center text-sm font-semibold text-purple-700 bg-white hover:bg-white/90 transition-colors rounded-lg px-4"
             style={{ height: '36px', lineHeight: '36px' }}
             onClick={() =>
               trackEvent('News Banner Clicked', {
@@ -135,11 +135,11 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
               })
             }
           >
-            {ctaLabel}
+            More →
           </a>
           <button
             onClick={handleClose}
-            className="flex-1 text-center text-sm font-semibold text-white bg-white/20 hover:bg-white/30 transition-colors rounded-lg px-4"
+            className="text-center text-sm font-semibold text-white border border-white/60 bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-4"
             style={{ height: '36px', lineHeight: '36px' }}
           >
             Dismiss

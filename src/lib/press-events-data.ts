@@ -219,6 +219,27 @@ export function typeLabel(type: EventEntry['type']): string {
   }
 }
 
+/**
+ * Returns the nearest upcoming webinar or conference (by date).
+ * Returns `null` when there is no future event of those types.
+ */
+export function getNextBannerEvent(): EventEntry | null {
+  const nowMs = Date.now();
+  return (
+    allEvents
+      .filter(
+        (e) =>
+          (e.type === 'webinar' || e.type === 'conference') &&
+          new Date(e.date + 'T00:00:00Z').getTime() >= nowMs
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.date + 'T00:00:00Z').getTime() -
+          new Date(b.date + 'T00:00:00Z').getTime()
+      )[0] ?? null
+  );
+}
+
 export function accentGradient(type: EventEntry['type']): string {
   switch (type) {
     case 'conference': return 'from-purple-600 to-purple-400';

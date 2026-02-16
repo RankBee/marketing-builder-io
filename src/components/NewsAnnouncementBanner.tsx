@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Megaphone } from 'lucide-react';
+import { X, Radio, MapPin, Mic, Landmark } from 'lucide-react';
 import { Button } from './ui/button';
 import { trackEvent } from '../lib/posthog';
+import { getNextBannerEvent, formatDate, typeLabel } from '../lib/press-events-data';
 
 interface NewsAnnouncementBannerProps {
   onPageChange: (page: string) => void;
@@ -9,50 +10,132 @@ interface NewsAnnouncementBannerProps {
 
 export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const event = getNextBannerEvent();
 
-  if (!isVisible) {
+  if (!isVisible || !event) {
     return null;
   }
 
   const handleClose = () => {
     setIsVisible(false);
     trackEvent('News Banner Closed', {
-      event_type: 'speaking_event'
+      event_type: event.type,
+      event_title: event.title,
     });
   };
 
-  const handleNewsClick = () => {
-    trackEvent('News Banner Clicked', {
-      event_type: 'speaking_event',
-      destination: 'news_page'
-    });
-    onPageChange('news');
-  };
+  const ctaLabel =
+    event.type === 'webinar' ? 'Attend FREE webinar →' : 'Learn more →';
+
+  const ctaHref = '/press-events';
+  const isExternal = false;
+
+  const typeIcon = event.type === 'webinar'
+    ? <Mic className="w-3 h-3" />
+    : <Landmark className="w-3 h-3" />;
+
+  // Build the first speaker name (before any "&" or ",")
+  const speakerFirst = event.speaker?.split(/[,&]/)[0]?.trim();
 
   return (
-    <div className="announcement-banner w-full bg-gradient-to-r from-[#9810fa] via-[#7b1bd9] to-[#9810fa] text-white py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-center gap-4">
-          <Megaphone className="flex-shrink-0 text-white" size={24} />
-          <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-center sm:gap-6 text-center sm:text-center">
-            <h3 className="text-sm sm:text-base font-bold leading-snug text-white">
-              Join us Feb 4: RankBee & Minuttia on mastering AI visibility and winning AI search
-            </h3>
-            <a
-              href="https://www.linkedin.com/feed/update/urn:li:activity:7415000487760052224"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs sm:text-sm text-white font-medium hover:underline inline-block flex-shrink-0 mt-1 sm:mt-0"
-            >
-              Attend FREE webinar →
-            </a>
-          </div>
+    <div className="w-full bg-gradient-to-r from-[#9810fa] via-[#7b1bd9] to-[#9810fa] text-white px-4 sm:px-6 lg:px-8" style={{ paddingTop: '14px', paddingBottom: '14px' }}>
+      <style>{`
+        .banner-mobile { display: none; }
+        .banner-desktop { display: flex; }
+        @media (max-width: 639px) {
+          .banner-mobile { display: flex; }
+          .banner-desktop { display: none !important; }
+        }
+      `}</style>
+
+      {/* ── Desktop: single centered row ── */}
+      <div className="banner-desktop items-center justify-center gap-3 sm:gap-4">
+          <Radio className="flex-shrink-0 text-white" size={20} />
+
+          {/* Type badge */}
+          <span className="hidden sm:inline-flex items-center gap-1.5 bg-white/20 text-white text-xs font-semibold uppercase tracking-wider rounded-full px-3 py-1 flex-shrink-0">
+            {typeIcon}
+            {typeLabel(event.type)}
+          </span>
+
+          {/* Main text — venue, location & title baked in so they're always visible */}
+          <span className="text-sm sm:text-base font-medium text-white truncate">
+            Join us {formatDate(event.date)}
+            {event.venue ? ` at ${event.venue}` : ''}
+            {event.location ? ` (${event.location})` : ''}
+            {' — '}{event.title}
+          </span>
+
+          {/* Speaker */}
+          {speakerFirst && (
+            <span className="hidden md:inline-flex items-center text-white/80 text-sm flex-shrink-0 whitespace-nowrap">
+              ft. {speakerFirst}
+            </span>
+          )}
+
+          {/* CTA */}
+          <a
+            href={ctaHref}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            className="text-sm text-white font-semibold bg-white/20 hover:bg-white/30 transition-colors rounded-full px-4 py-1.5 flex-shrink-0 whitespace-nowrap"
+            onClick={() =>
+              trackEvent('News Banner Clicked', {
+                event_type: event.type,
+                event_title: event.title,
+                destination: ctaHref,
+              })
+            }
+          >
+            {ctaLabel}
+          </a>
+
           <button
             onClick={handleClose}
-            className="flex-shrink-0 inline-flex text-white hover:bg-purple-700 transition-colors p-2 rounded"
+            className="flex-shrink-0 inline-flex text-white/70 hover:text-white hover:bg-white/10 transition-colors p-1 rounded"
             aria-label="Close announcement"
           >
-            <X size={24} />
+            <X size={18} />
+          </button>
+      </div>
+
+      {/* ── Mobile: stacked layout ── */}
+      <div className="banner-mobile flex-col items-center gap-3">
+        {/* Top row: icon + text */}
+        <div className="flex items-start gap-3">
+          <Radio className="flex-shrink-0 text-white mt-0.5" size={20} />
+          <span className="text-sm font-medium text-white leading-snug">
+            Join us {formatDate(event.date)}
+            {event.venue ? ` at ${event.venue}` : ''}
+            {event.location ? ` (${event.location})` : ''}
+            {' — '}{event.title}
+          </span>
+        </div>
+
+        {/* Bottom row: two buttons side by side */}
+        <div className="flex gap-3 w-full">
+          <a
+            href={ctaHref}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            className="flex-1 text-center text-sm font-semibold text-purple-700 bg-white hover:bg-white/90 transition-colors rounded-full px-4"
+            style={{ height: '36px', lineHeight: '36px' }}
+            onClick={() =>
+              trackEvent('News Banner Clicked', {
+                event_type: event.type,
+                event_title: event.title,
+                destination: ctaHref,
+              })
+            }
+          >
+            {ctaLabel}
+          </a>
+          <button
+            onClick={handleClose}
+            className="flex-1 text-center text-sm font-semibold text-white bg-white/20 hover:bg-white/30 transition-colors rounded-full px-4"
+            style={{ height: '36px', lineHeight: '36px' }}
+          >
+            Dismiss
           </button>
         </div>
       </div>

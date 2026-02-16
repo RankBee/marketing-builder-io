@@ -85,7 +85,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
             href={ctaHref}
             target={isExternal ? '_blank' : undefined}
             rel={isExternal ? 'noopener noreferrer' : undefined}
-            className="text-sm text-white font-semibold bg-white/20 hover:bg-white/30 transition-colors rounded-full px-4 py-1.5 flex-shrink-0 whitespace-nowrap"
+            className="text-sm text-white font-semibold bg-white/20 hover:bg-white/30 transition-colors rounded-lg px-4 py-1.5 flex-shrink-0 whitespace-nowrap"
             onClick={() =>
               trackEvent('News Banner Clicked', {
                 event_type: event.type,
@@ -125,7 +125,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
             href={ctaHref}
             target={isExternal ? '_blank' : undefined}
             rel={isExternal ? 'noopener noreferrer' : undefined}
-            className="flex-1 text-center text-sm font-semibold text-purple-700 bg-white hover:bg-white/90 transition-colors rounded-full px-4"
+            className="flex-1 text-center text-sm font-semibold text-purple-700 bg-white hover:bg-white/90 transition-colors rounded-lg px-4"
             style={{ height: '36px', lineHeight: '36px' }}
             onClick={() =>
               trackEvent('News Banner Clicked', {
@@ -139,7 +139,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
           </a>
           <button
             onClick={handleClose}
-            className="flex-1 text-center text-sm font-semibold text-white bg-white/20 hover:bg-white/30 transition-colors rounded-full px-4"
+            className="flex-1 text-center text-sm font-semibold text-white bg-white/20 hover:bg-white/30 transition-colors rounded-lg px-4"
             style={{ height: '36px', lineHeight: '36px' }}
           >
             Dismiss

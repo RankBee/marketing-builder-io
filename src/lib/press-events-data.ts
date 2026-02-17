@@ -137,7 +137,7 @@ export const allEvents: EventEntry[] = [
 export const SPEAKER_LINKS: Record<string, string> = {
   'Aris Vrakas': '/about#aris-vrakas',
   'Yin Noe': '/about#yin-noe',
-  'Rizwan Khan': '/about#riz-kahn',
+  'Rizwan Khan': '/about#rizwan-khan',
 };
 
 // ─── Person schema lookup (for JSON-LD) ──────────────────────────────────────
@@ -164,14 +164,14 @@ const PERSON_SCHEMA: Record<string, object> = {
   'Rizwan Khan': {
     '@type': 'Person',
     name: 'Rizwan Khan',
-    url: `${SITE_URL}/about#riz-kahn`,
+    url: `${SITE_URL}/about#rizwan-khan`,
     jobTitle: 'Chief Revenue Officer',
     worksFor: { '@type': 'Organization', name: 'RankBee', url: SITE_URL },
     sameAs: ['https://www.linkedin.com/in/rizwankhan1986/'],
   },
 };
 
-export function buildEventJsonLd(events: EventEntry[], todayISO: string): object {
+export function buildEventJsonLd(events: EventEntry[], todayISO: string): object[] {
   const todayMs = new Date(todayISO + 'T00:00:00Z').getTime();
   return events.map((e) => {
     const isPast = new Date(e.date + 'T00:00:00Z').getTime() < todayMs;

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Radio, MapPin, Mic, Landmark } from 'lucide-react';
-import { Button } from './ui/button';
+import { X, Radio, Mic, Landmark } from 'lucide-react';
+import Link from 'next/link';
 import { trackEvent } from '../lib/posthog';
 import { getNextBannerEvent, formatDate, typeLabel } from '../lib/press-events-data';
 
-interface NewsAnnouncementBannerProps {
-  onPageChange: (page: string) => void;
-}
-
-export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerProps) {
+export function NewsAnnouncementBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const event = getNextBannerEvent();
 
@@ -35,7 +31,6 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
     event.type === 'webinar' ? 'Attend FREE webinar →' : 'Learn more →';
 
   const ctaHref = '/press-events';
-  const isExternal = false;
 
   const typeIcon = event.type === 'webinar'
     ? <Mic className="w-3 h-3" />
@@ -81,10 +76,8 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
           )}
 
           {/* CTA */}
-          <a
+          <Link
             href={ctaHref}
-            target={isExternal ? '_blank' : undefined}
-            rel={isExternal ? 'noopener noreferrer' : undefined}
             className="text-sm text-white font-semibold bg-white/20 hover:bg-white/30 transition-colors rounded-lg px-4 py-1.5 flex-shrink-0 whitespace-nowrap"
             onClick={() =>
               trackEvent('News Banner Clicked', {
@@ -95,7 +88,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
             }
           >
             {ctaLabel}
-          </a>
+          </Link>
 
           <button
             onClick={handleClose}
@@ -121,10 +114,8 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
 
         {/* Bottom row: two buttons side by side */}
         <div className="flex items-center justify-center gap-3">
-          <a
+          <Link
             href={ctaHref}
-            target={isExternal ? '_blank' : undefined}
-            rel={isExternal ? 'noopener noreferrer' : undefined}
             className="text-center text-sm font-semibold text-purple-700 bg-white hover:bg-white/90 transition-colors rounded-lg px-4"
             style={{ height: '36px', lineHeight: '36px' }}
             onClick={() =>
@@ -136,7 +127,7 @@ export function NewsAnnouncementBanner({ onPageChange }: NewsAnnouncementBannerP
             }
           >
             More →
-          </a>
+          </Link>
           <button
             onClick={handleClose}
             className="text-center text-sm font-semibold text-white border border-white/60 bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-4"

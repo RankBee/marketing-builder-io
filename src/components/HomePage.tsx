@@ -65,7 +65,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
           100% { box-shadow: inset 0 0 0 2px rgb(147, 51, 234); }
         }
       `}</style>
-      <NewsAnnouncementBanner onPageChange={onPageChange} />
+      <NewsAnnouncementBanner />
       <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-12 sm:py-16 lg:py-20">

@@ -76,7 +76,7 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@graph': buildEventJsonLd([...upcoming, ...past], todayISO),
-          }),
+          }).replace(/</g, '\u003c'),
         }}
       />
 
@@ -174,15 +174,18 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
                         </div>
                       )}
                       {event.url && (
-                        <a
-                          href={event.url}
-                          target={event.url.startsWith('http') ? '_blank' : undefined}
-                          rel={event.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        <Button
+                          asChild
+                          className="bg-purple-600 hover:bg-purple-700 text-white"
                         >
-                          <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                          <a
+                            href={event.url}
+                            target={event.url.startsWith('http') ? '_blank' : undefined}
+                            rel={event.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          >
                             Learn More
-                          </Button>
-                        </a>
+                          </a>
+                        </Button>
                       )}
                     </div>
                   </div>

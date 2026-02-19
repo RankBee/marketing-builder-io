@@ -216,6 +216,7 @@ export function typeLabel(type: EventEntry['type']): string {
     case 'press': return 'Press';
     case 'conference': return 'Conference';
     case 'webinar': return 'Webinar';
+    default: return type;
   }
 }
 
@@ -247,5 +248,6 @@ export function accentGradient(type: EventEntry['type']): string {
     case 'speaking': return 'from-blue-600 to-blue-400';
     case 'award': return 'from-amber-500 to-amber-400';
     case 'press': return 'from-green-600 to-green-400';
+    default: return 'from-gray-600 to-gray-400';
   }
 }

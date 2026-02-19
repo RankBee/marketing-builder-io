@@ -9,7 +9,11 @@ export function NewsAnnouncementBanner() {
   const event = getNextBannerEvent();
 
   useEffect(() => {
-    if (sessionStorage.getItem('banner_dismissed') !== '1') {
+    try {
+      if (typeof window !== 'undefined' && sessionStorage.getItem('banner_dismissed') !== '1') {
+        setIsVisible(true);
+      }
+    } catch {
       setIsVisible(true);
     }
   }, []);

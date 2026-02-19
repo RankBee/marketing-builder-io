@@ -223,10 +223,6 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clerkEnabled, listLoaded, memberships.length, orgId, firstOrg?.id, hasOnboardedKey, firstOrgOnboarded]);
 
-  if (!clerkEnabled) {
-    return { onboarded: false, loaded: false };
-  }
-
   const canResolve =
     (!!firstOrg?.id && (firstOrgOnboarded === true || hasOnboardedKey)) ||
     (!!orgId && cachedTrueRef.current);
@@ -255,6 +251,10 @@ export function useOrgOnboardingState(): { onboarded: boolean; loaded: boolean }
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listLoaded, firstOrg?.id, memberships.length, hasOnboardedKey, firstOrgOnboarded, onboarded, loaded]);
+
+  if (!clerkEnabled) {
+    return { onboarded: false, loaded: false };
+  }
 
   return { onboarded, loaded };
 }

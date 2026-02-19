@@ -34,7 +34,7 @@ export const allEvents: EventEntry[] = [
     performers: ['Aris Vrakas'],
   },
   {
-    title: 'Winning with AEO: How to Succeed in SEO for AI',
+    title: 'Beyond Keywords: The New Era of Search Strategy for iGaming Brands SEO',
     description:
       'Aris Vrakas will speak at AffPapa Conference Madrid — one of the largest iGaming affiliate conferences in Europe, bringing together over 1,500 affiliates, operators, and B2B providers across two full days. The talk will cover how to succeed with Answer Engine Optimization (AEO) and Generative AI Optimization (GAIO) in the new era of AI-powered search.',
     date: '2026-05-19',

@@ -7,6 +7,7 @@ interface CalendlyConfig {
   backgroundColor?: string;
   hideHeaders?: boolean;
   hideCookieSettings?: boolean;
+  overrideUrl?: string;
 }
 
 const normalizeHex = (color: string): string => {
@@ -30,6 +31,7 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
     backgroundColor = "#FFFFFF",
     hideHeaders = true,
     hideCookieSettings = true,
+    overrideUrl,
   } = config;
 
   useEffect(() => {
@@ -182,9 +184,11 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
         
         const calendlyEu = process.env.NEXT_PUBLIC_CALENDLY_EU || '';
         const calendlyOthers = process.env.NEXT_PUBLIC_CALENDLY_OTHERS || '';
-        let baseUrl = isEU 
-          ? (calendlyEu || "https://calendly.com/rankbee/demo-onboarding-clone")
-          : (calendlyOthers || "https://calendly.com/rankbee/onboarding");
+        let baseUrl = overrideUrl
+          ? overrideUrl
+          : isEU 
+            ? (calendlyEu || "https://calendly.com/rankbee/demo-onboarding-clone")
+            : (calendlyOthers || "https://calendly.com/rankbee/onboarding");
         
         // Apply customization options
         const embedUrl = (() => {
@@ -239,7 +243,7 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
     };
 
     detectLocation();
-  }, [pageName, primaryColor, textColor, backgroundColor, hideHeaders, hideCookieSettings]);
+  }, [pageName, primaryColor, textColor, backgroundColor, hideHeaders, hideCookieSettings, overrideUrl]);
 
   return calendlyUrl;
 }

@@ -41,8 +41,11 @@ export function NavAuthButtons({ currentPage, onPageChange, variant, onClose }: 
         </SignedOut>
 
         <SignedOut>
+          {/* Intentional: no redirect_url appended. Post-auth destination is
+              controlled by NEXT_PUBLIC_SIGN_IN_URL (and Clerk's afterSignInUrl).
+              Do not add dynamic redirect_url here. */}
           <a
-            href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
+            href={signInUrl}
             onClick={() => {
               trackEvent('Sign In Clicked', {
                 location: 'navigation_desktop',
@@ -119,8 +122,11 @@ export function NavAuthButtons({ currentPage, onPageChange, variant, onClose }: 
       </SignedOut>
 
       <SignedOut>
+        {/* Intentional: no redirect_url appended. Post-auth destination is
+            controlled by NEXT_PUBLIC_SIGN_IN_URL (and Clerk's afterSignInUrl).
+            Do not add dynamic redirect_url here. */}
         <a
-          href={typeof window !== "undefined" ? `${signInUrl}${signInUrl.startsWith("http") ? `?redirect_url=${encodeURIComponent(window.location.href)}` : ""}` : signInUrl}
+          href={signInUrl}
           className="block w-full"
           onClick={() => {
             trackEvent('Sign In Clicked', {

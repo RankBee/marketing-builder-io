@@ -132,22 +132,20 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
           <p className="text-gray-700 text-lg mb-12 max-w-3xl mx-auto">
             AI assistants are becoming a primary gateway to political information. Campaigns that ignore this shift risk losing control of their message. <span className="font-semibold">RankBee helps you stay visible, accurate, and trusted - where voters are increasingly looking.</span>
           </p>
-          <a href="/contact" onClick={(e) => {
-            e.preventDefault();
+          <a href="/demo/political" onClick={() => {
             trackEvent('CTA Clicked', {
-              button_text: 'Talk to a Campaign Specialist',
+              button_text: 'Book a Campaign Strategy Call',
               location: 'political_campaigns_cta_section',
               variant: 'primary',
-              destination: 'contact'
+              destination: 'demo/political'
             });
-            onPageChange('contact');
           }} className="inline-block relative overflow-hidden px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300" style={{
             background: 'linear-gradient(to right, rgb(147, 51, 234), rgb(244, 114, 182), rgb(147, 51, 234))',
             backgroundSize: '200% 100%',
             animation: 'shimmer 2s ease-in-out infinite',
             color: 'white'
           }}>
-            Talk to a Campaign Specialist
+            Book a Campaign Strategy Call
           </a>
         </div>
       </section>

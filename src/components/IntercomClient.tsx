@@ -13,6 +13,17 @@ export function IntercomClient() {
   useEffect(() => {
     // Skip if not in production/preprod or if already loaded
     if (isLoaded) return;
+    const isDev = process.env.NODE_ENV === 'development';
+    if (isDev && process.env.NEXT_PUBLIC_ENABLE_INTERCOM_IN_DEV !== '1') {
+      console.log('Intercom: Skipping load (development mode)');
+      // Intentional: mark as loaded to prevent this effect from re-running on
+      // every render cycle in development (avoids infinite loop / log spam).
+      // To enable Intercom in dev, set NEXT_PUBLIC_ENABLE_INTERCOM_IN_DEV=1
+      // and do a full page reload.
+      setIsLoaded(true);
+      return;
+    }
+
     if (!(ENV.APP_ENV === 'production' || ENV.APP_ENV === 'preprod')) {
       console.log('Intercom: Skipping load (not production/preprod environment)');
       return;

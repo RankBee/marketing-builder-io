@@ -93,8 +93,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Description */}
             <div className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              <p>We help companies grow organic visibility using AI-powered content and SEO.</p>
-              <p>Whether you need fully managed growth, enterprise-scale automation, or self-serve tools - we meet you where you are.</p>
+              <p>Powered by GAIO frameworks, deep SEO expertise, and proprietary optimization technology, we give brands measurable control over how AI models discover, describe, and recommend them.</p>
             </div>
             
             {/* CTA */}

@@ -163,6 +163,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
       <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 text-center"><span className="text-gray-900">What We </span><span className="text-purple-600">Offer</span></h2>
+          <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto text-center mb-12 leading-relaxed">We offer a new standard for content optimization, combining cutting edge AI technology, strategic planning, scalable production, and measurable performance across SEO and AI search. Whether you need fully managed growth, enterprise-scale automation, or self-serve tools - we meet you where you are.</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* RankBee Toolkit */}
             <button onClick={() => { onPageChange('pricing'); window.scrollTo(0, 0); }} className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow duration-300 text-left cursor-pointer" style={{animation: 'borderShimmer 2s ease-in-out infinite', boxShadow: 'inset 0 0 0 2px rgb(147, 51, 234)'}}>

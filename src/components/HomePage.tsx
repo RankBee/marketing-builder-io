@@ -93,7 +93,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Description */}
             <div className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              <p>Powered by GAIO frameworks, deep SEO expertise, and proprietary optimization technology, we give brands measurable control over how AI models discover, describe, and recommend them.</p>
+              <p>RankBee is your AI Visibility partner for the generative era. Combining advanced GAIO (Generative AI Optimization), proven SEO intelligence, and proprietary technology, we help brands measure, influence, and win how AI engines discover and recommend their products. As search shifts to AI-driven recommendations, we provide the strategy and execution to secure lasting competitive advantage.</p>
             </div>
             
             {/* CTA */}

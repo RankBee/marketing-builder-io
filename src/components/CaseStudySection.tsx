@@ -69,7 +69,7 @@ export function CaseStudySection() {
 
               <div className="text-[#cad5e2] space-y-4">
                 <p>
-                  DJ Studio, a B2C DJ software company identified underperforming attributes, rewrote key pages and published articles using the RankBee Content writer. After optimization, ChatGPT mentioned their brand in{' '}
+                  <a href="https://growcreate.co.uk/blog/how-to-get-recommended-by-chatgpt-before-your-competitors-do/" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">GrowCreate</a>, a global Enterprise Digital Transformation agency, identified underperforming attributes, rewrote key pages and published articles using the RankBee Content writer. After optimization, ChatGPT mentioned their brand in{' '}
                   <span className="font-bold">64%</span> of relevant prompts - up from{' '}
                   <span className="font-bold">6%</span>.
                 </p>

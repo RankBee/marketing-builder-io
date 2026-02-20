@@ -66,6 +66,12 @@ const pages: Record<string, { title: string; description: string; path: string; 
     description: "Run a free AI visibility test across ChatGPT, Claude, and Gemini.",
     path: "/demo"
   },
+  "demo/political": {
+    title: "Book a Campaign Strategy Call",
+    description: "Book a 30-minute strategy call with RankBee's election team to see how your campaign appears across AI platforms and how to control your AI narrative.",
+    path: "/demo/political",
+    noindex: false
+  },
   "onboarding-meeting": {
     title: "Schedule a meeting to setup your brand",
     description: "Schedule an onboarding meeting with the RankBee team.",
@@ -103,6 +109,11 @@ const pages: Record<string, { title: string; description: string; path: string; 
     title: "Knowledge Base",
     description: "Learn how to use RankBee AI to optimize your brand's visibility in generative AI search. Step-by-step guides, tutorials, and best practices.",
     path: "/knowledge-base"
+  },
+  "press-events": {
+    title: "Press & Events",
+    description: "Speaking engagements, conferences, awards, and press coverage from the RankBee team. See where we're sharing insights on AI visibility.",
+    path: "/press-events"
   },
   builder: {
     title: "Page",

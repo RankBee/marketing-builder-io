@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Mail, MessageCircle, Phone, MapPin, Coffee, Calendar, ArrowRight, X, Copy, Check } from "lucide-react";
-import { useIntercom, useTeamAvailability } from "../lib/intercom";
+import { useIntercom, useTeamAvailability } from "../lib/useIntercom";
 import { trackEvent } from "../lib/posthog";
 
 interface ContactPageProps {}

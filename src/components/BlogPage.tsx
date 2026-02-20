@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import Image from "next/image";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPosts, getPopularTags, type BlogPost, addGhostSubscriber } from "../lib/builder";
@@ -216,10 +216,14 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="md:flex">
                 <div className="md:w-1/2">
-                  <ImageWithFallback
+                  <Image
                     src={featuredPost.image}
                     alt={featuredPost.title}
+                    width={640}
+                    height={400}
                     className="w-full h-64 md:h-full object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    quality={75}
                   />
                 </div>
                 <div className="md:w-1/2 p-8">
@@ -338,10 +342,14 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
                 onClick={() => onPageChange(`blog/${post.slug}`)}
               >
                 <div className="aspect-video overflow-hidden">
-                  <ImageWithFallback
+                  <Image
                     src={post.image}
                     alt={post.title}
+                    width={420}
+                    height={236}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    quality={75}
                   />
                 </div>
                 <CardHeader>

@@ -1,6 +1,6 @@
 import '../src/index.css';
 import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { usePageActive } from '../src/lib/usePageActive';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { Footer } from '../src/components/Footer';
@@ -27,6 +27,7 @@ const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
 const signInUrl = process.env.NEXT_PUBLIC_SIGN_IN_URL || '/sign-in';
 const signUpUrl = process.env.NEXT_PUBLIC_SIGN_UP_URL || '/sign-up';
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || '';
+const debugClerkRedirects = process.env.NODE_ENV === 'development';
 let allowedOrigins: string[] = [];
 if (appUrl) {
   try {
@@ -39,7 +40,6 @@ if (appUrl) {
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isPageActive = usePageActive();
-
   // Toggle body class to pause/resume all CSS animations site-wide
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -54,13 +54,16 @@ export default function App({ Component, pageProps }: AppProps) {
   const currentPage = pathToPage(router.asPath);
 
   // Navigation handler: use Next.js router instead of window.history
-  const onPageChange = (page: string) => {
+  const onPageChange = useCallback((page: string) => {
     const target = page === 'home' ? '/' : `/${page}`;
     router.push(target);
-  };
+  }, [router]);
 
   // Initialize GTM
   useEffect(() => {
+    const isDev = process.env.NODE_ENV === 'development';
+    if (isDev && process.env.NEXT_PUBLIC_ENABLE_GTM_IN_DEV !== '1') return;
+
     const env = process.env.NEXT_PUBLIC_APP_ENV;
     const gtmId = env === 'production'
       ? process.env.NEXT_PUBLIC_GTM_ID_PROD
@@ -84,10 +87,83 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // Initialize PostHog (uses full config from src/lib/posthog.ts)
   useEffect(() => {
+    const isDev = process.env.NODE_ENV === 'development';
+    if (isDev && process.env.NEXT_PUBLIC_ENABLE_POSTHOG_IN_DEV !== '1') return;
+
     import('../src/lib/posthog').then(({ initPostHog }) => {
       initPostHog();
     }).catch(() => {});
   }, []);
+
+  // Optional dev-only cleanup for stale service workers from older local setups.
+  // Kept opt-in because aggressive unregistering can itself create noisy refresh
+  // behavior in some local browser sessions.
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') return;
+    if (process.env.NEXT_PUBLIC_CLEAR_SW_ON_DEV !== '1') return;
+    if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) return;
+
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) => {
+        registrations.forEach((registration) => {
+          registration.unregister().catch(() => {});
+        });
+      })
+      .catch(() => {});
+  }, []);
+
+  const isNoopNavigation = useCallback((to: string): boolean => {
+    if (typeof window === 'undefined') return false;
+    try {
+      const target = to.startsWith('http')
+        ? new URL(to)
+        : new URL(to, window.location.origin);
+      const current = new URL(window.location.href);
+      return (
+        target.origin === current.origin &&
+        target.pathname === current.pathname &&
+        target.search === current.search &&
+        // Must also match hash: Clerk uses hash-routing for multi-step auth flows
+        // (e.g. /sign-in → /sign-in#/factor-one). Different hash = real navigation.
+        target.hash === current.hash
+      );
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const handleClerkNavigation = useCallback((mode: 'push' | 'replace', to: string) => {
+    if (debugClerkRedirects) {
+      // eslint-disable-next-line no-console
+      console.info(`[Clerk ${mode}]`, { to, current: typeof window !== 'undefined' ? window.location.href : 'server' });
+    }
+
+    if (isNoopNavigation(to)) {
+      if (debugClerkRedirects) {
+        // eslint-disable-next-line no-console
+        console.warn(`[Clerk ${mode}] blocked no-op navigation`, to);
+      }
+      return;
+    }
+
+    if (to.startsWith('http')) {
+      if (typeof window !== 'undefined') {
+        if (mode === 'replace') {
+          window.location.replace(to);
+        } else {
+          window.location.assign(to);
+        }
+      }
+      return;
+    }
+
+    if (mode === 'replace') {
+      router.replace(to);
+      return;
+    }
+    router.push(to);
+  }, [router, isNoopNavigation]);
 
   const appContent = (
     <div className={`min-h-screen bg-white flex flex-col ${inter.variable} ${inter.className}`}>
@@ -112,12 +188,8 @@ export default function App({ Component, pageProps }: AppProps) {
         signUpUrl={signUpUrl}
         afterSignOutUrl="/"
         allowedRedirectOrigins={allowedOrigins}
-        routerPush={(to) => {
-          if (to.startsWith('http')) { window.location.href = to; } else { router.push(to); }
-        }}
-        routerReplace={(to) => {
-          if (to.startsWith('http')) { window.location.replace(to); } else { router.replace(to); }
-        }}
+        routerPush={(to) => handleClerkNavigation('push', to)}
+        routerReplace={(to) => handleClerkNavigation('replace', to)}
       >
         {appContent}
       </ClerkProvider>
@@ -139,6 +211,7 @@ function pathToPage(pathname: string): string {
     if (slug && slug !== 'tag' && slug !== 'page') return `blog/${slug}`;
   }
   if (path.startsWith('/knowledge-base/')) return 'knowledge-base';
+  if (path === '/press-events' || path.startsWith('/press-events/')) return 'press-events';
   switch (path) {
     case '/about': return 'about';
     case '/pricing': return 'pricing';
@@ -150,6 +223,7 @@ function pathToPage(pathname: string): string {
     case '/blog': return 'blog';
     case '/knowledge-base': return 'knowledge-base';
     case '/demo': return 'demo';
+    case '/demo/political': return 'demo/political';
     case '/onboarding-meeting': return 'onboarding-meeting';
     case '/contact': return 'contact';
     case '/privacy-policy': return 'privacy-policy';

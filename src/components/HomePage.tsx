@@ -81,20 +81,9 @@ export function HomePage({ onPageChange }: HomePageProps) {
             
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-              <span>
-                <span>
-                  Proven to Win in{" "}
-                  <span style={{ color: "rgb(144, 19, 254)" }}>
-                    AI Search
-                  </span>
-                </span>
-              </span>
+              RankBee is your AI Visibility partner for the generative era. Combining advanced GAIO (Generative AI Optimization), proven SEO intelligence, and proprietary technology, we help brands measure, influence, and win how AI engines discover and recommend them. As search shifts to AI-driven recommendations, we provide the strategy and execution to secure lasting competitive advantage.
             </h1>
             
-            {/* Description */}
-            <div className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              <p>RankBee is your AI Visibility partner for the generative era. Combining advanced GAIO (Generative AI Optimization), proven SEO intelligence, and proprietary technology, we help brands measure, influence, and win how AI engines discover and recommend their products. As search shifts to AI-driven recommendations, we provide the strategy and execution to secure lasting competitive advantage.</p>
-            </div>
             
             {/* CTA */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">

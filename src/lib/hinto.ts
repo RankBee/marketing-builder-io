@@ -2,6 +2,7 @@
 // Server-side only — uses HINTO_API_KEY (no NEXT_PUBLIC_ prefix)
 
 import DOMPurify from 'isomorphic-dompurify';
+import he from 'he';
 
 const HINTO_BASE_URL = 'https://app.hintoai.com/api/external/v1';
 
@@ -298,16 +299,7 @@ export function extractH1(html: string): string | null {
 }
 
 function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-    .trim();
+  return he.decode(text).trim();
 }
 
 /**

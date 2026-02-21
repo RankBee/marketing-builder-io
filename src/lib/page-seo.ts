@@ -12,8 +12,8 @@ export interface PageSeo {
 
 const pages: Record<string, { title: string; description: string; path: string; noindex?: boolean }> = {
   home: {
-    title: "AI Visibility for ChatGPT, Claude, Gemini",
-    description: "Optimize your site so AI assistants actually mention your brand. Track rankings, citations, and competitive share-of-voice across models.",
+    title: "Rank in ChatGPT, Claude & Google AI Overviews",
+    description: "RankBee helps your brand get cited in ChatGPT, Claude, Gemini, and Google AI Overviews. Simulate AI responses, maximally optimise your content, and outrank competitors in AI search.",
     path: "/"
   },
   about: {

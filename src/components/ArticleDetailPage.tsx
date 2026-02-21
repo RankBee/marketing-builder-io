@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import Image from "next/image";
+import Link from "next/link";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
@@ -166,13 +167,14 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
       {/* Navigation Back */}
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <button
+          <Link
+            href="/blog"
             onClick={() => onPageChange("blog")}
             className="flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -191,17 +193,23 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
             }, allTags[0]);
             const count = tagCounts.get(rarestTag) || 0;
             const isClickable = count >= 2;
+            if (isClickable) {
+              const tagSlug = rarestTag.toLowerCase().replace(/\s+/g, '-');
+              return (
+                <Link
+                  href={`/blog/tag/${tagSlug}`}
+                  onClick={() => onPageChange(`blog/tag/${tagSlug}`)}
+                  className="inline-flex mb-4"
+                >
+                  <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors">
+                    {getCategoryIcon(rarestTag)}
+                    <span className="ml-2">{rarestTag}</span>
+                  </Badge>
+                </Link>
+              );
+            }
             return (
-              <Badge
-                className={isClickable
-                  ? "bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors mb-4"
-                  : "bg-purple-100 text-purple-700 hover:bg-purple-100 mb-4"
-                }
-                onClick={isClickable ? () => {
-                  const slug = rarestTag.toLowerCase().replace(/\s+/g, '-');
-                  onPageChange(`blog/tag/${slug}`);
-                } : undefined}
-              >
+              <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 mb-4">
                 {getCategoryIcon(rarestTag)}
                 <span className="ml-2">{rarestTag}</span>
               </Badge>
@@ -255,17 +263,24 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
                   const count = tagCounts.get(tag) || 0;
                   const isClickable = count >= 2;
                   
+                  if (isClickable) {
+                    const tagSlug = tag.toLowerCase().replace(/\s+/g, '-');
+                    return (
+                      <Link
+                        key={tag}
+                        href={`/blog/tag/${tagSlug}`}
+                        onClick={() => onPageChange(`blog/tag/${tagSlug}`)}
+                      >
+                        <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors">
+                          {tag}
+                        </Badge>
+                      </Link>
+                    );
+                  }
                   return (
                     <Badge
                       key={tag}
-                      className={isClickable 
-                        ? "bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer transition-colors"
-                        : "bg-gray-100 text-gray-600 cursor-default"
-                      }
-                      onClick={isClickable ? () => {
-                        const slug = tag.toLowerCase().replace(/\s+/g, '-');
-                        onPageChange(`blog/tag/${slug}`);
-                      } : undefined}
+                      className="bg-gray-100 text-gray-600 cursor-default"
                     >
                       {tag}
                     </Badge>
@@ -398,37 +413,40 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
             <h2 className="text-3xl font-bold text-gray-900 mb-12">Related Articles</h2>
             <div className="grid md:grid-cols-3 gap-8">
               {relatedArticles.map((article) => (
-                <Card
+                <Link
                   key={article.id}
-                  className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
+                  href={`/blog/${article.slug}`}
                   onClick={() => onPageChange(`blog/${article.slug}`)}
+                  className="block group"
                 >
-                  <div className="aspect-video overflow-hidden">
-                    <Image
-                      src={article.image}
-                      alt={article.title}
-                      width={420}
-                      height={236}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      quality={75}
-                    />
-                  </div>
-                  <CardHeader>
-                    <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs w-fit mb-2">
-                      {getCategoryIcon(article.category)}
-                      <span className="ml-1">{article.category}</span>
-                    </Badge>
-                    <CardTitle className="text-lg leading-tight group-hover:text-purple-600 transition-colors">
-                      {article.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-sm text-gray-500">
-                      {article.date}
+                  <Card className="bg-white hover:shadow-lg transition-all duration-300 h-full">
+                    <div className="aspect-video overflow-hidden">
+                      <Image
+                        src={article.image}
+                        alt={article.title}
+                        width={420}
+                        height={236}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        quality={75}
+                      />
                     </div>
-                  </CardContent>
-                </Card>
+                    <CardHeader>
+                      <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs w-fit mb-2">
+                        {getCategoryIcon(article.category)}
+                        <span className="ml-1">{article.category}</span>
+                      </Badge>
+                      <CardTitle className="text-lg leading-tight group-hover:text-purple-600 transition-colors">
+                        {article.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-sm text-gray-500">
+                        {article.date}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>

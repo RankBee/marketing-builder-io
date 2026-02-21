@@ -8,7 +8,6 @@ const homeJsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": `${siteUrl}/pricing#toolkit`,
     name: "RankBee Toolkit",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",

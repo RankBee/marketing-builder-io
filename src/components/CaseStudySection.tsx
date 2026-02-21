@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
-  const [displayValue, setDisplayValue] = useState(target);
+  const [displayValue, setDisplayValue] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef(null);
 
@@ -14,7 +14,6 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
           const duration = 1.5; // Animation duration in seconds
           const startTime = Date.now();
           const startValue = 0;
-          setDisplayValue(0);
 
           const animate = () => {
             const elapsed = (Date.now() - startTime) / 1000;
@@ -40,13 +39,14 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
       { threshold: 0.3 }
     );
 
-    if (ref.current) observer.observe(ref.current);
+    const el = ref.current;
+    if (el) observer.observe(el);
     return () => {
-      if (ref.current) observer.unobserve(ref.current);
+      if (el) observer.unobserve(el);
     };
   }, [target, hasAnimated]);
 
-  return <span ref={ref}>{prefix}{displayValue}{suffix}</span>;
+  return <span ref={ref} suppressHydrationWarning>{prefix}{displayValue}{suffix}</span>;
 }
 
 export function CaseStudySection() {
@@ -70,7 +70,7 @@ export function CaseStudySection() {
 
               <div className="text-[#cad5e2] space-y-4">
                 <p>
-                  In this <a href="https://growcreate.co.uk/blog/how-to-get-recommended-by-chatgpt-before-your-competitors-do/" target="_blank" rel="noopener" className="text-purple-400 underline hover:text-purple-300" style={{textDecoration: 'underline'}}>published case study</a>, GrowCreate — a global Enterprise Digital Transformation agency — identified underperforming attributes, rewrote key pages and published articles using the RankBee Content writer. After optimization, ChatGPT mentioned their brand in{' '}
+                  In this <a href="https://growcreate.co.uk/blog/how-to-get-recommended-by-chatgpt-before-your-competitors-do/" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300" style={{textDecoration: 'underline'}}>published case study</a>, GrowCreate — a global Enterprise Digital Transformation agency — identified underperforming attributes, rewrote key pages and published articles using the RankBee Content writer. After optimization, ChatGPT mentioned their brand in{' '}
                   <span className="font-bold">64%</span> of relevant prompts - up from{' '}
                   <span className="font-bold">6%</span>.
                 </p>

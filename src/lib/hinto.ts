@@ -2,6 +2,7 @@
 // Server-side only — uses HINTO_API_KEY (no NEXT_PUBLIC_ prefix)
 
 import DOMPurify from 'isomorphic-dompurify';
+import he from 'he';
 
 const HINTO_BASE_URL = 'https://app.hintoai.com/api/external/v1';
 
@@ -284,6 +285,24 @@ export function extractMainContent(fullHtml: string): string {
 }
 
 /**
+ * Extract the text content of the first <h1> element from the article HTML.
+ * Returns null if no H1 is found.
+ */
+export function extractH1(html: string): string | null {
+  const content = extractMainContent(html);
+  const h1Match = content.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+  if (h1Match) {
+    const text = h1Match[1].replace(/<[^>]+>/g, '').trim();
+    return decodeHtmlEntities(text);
+  }
+  return null;
+}
+
+function decodeHtmlEntities(text: string): string {
+  return he.decode(text).trim();
+}
+
+/**
  * Extract the first paragraph text from HTML content for use as meta description.
  */
 export function extractDescription(html: string): string {
@@ -377,7 +396,8 @@ export function processArticleHtml(
   articleMap: Map<number, { id: number; title: string }>
 ): string {
   const content = extractMainContent(fullHtml);
-  const wrapped = wrapOrphanedListItems(content);
+  const withoutLeadingH1 = content.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, '');
+  const wrapped = wrapOrphanedListItems(withoutLeadingH1);
   const sanitized = sanitizeHtml(wrapped);
   const withLinks = rewriteArticleLinks(sanitized, articleMap);
   return fixOrderedListContinuation(withLinks);

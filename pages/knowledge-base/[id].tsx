@@ -11,6 +11,7 @@ import {
   buildArticleMap,
   processArticleHtml,
   extractDescription,
+  extractH1,
   type HintoFolder,
 } from '../../src/lib/hinto';
 import { kbArticleStyles } from '../../src/lib/kb-styles';
@@ -21,6 +22,7 @@ interface KBArticleProps {
   article: {
     id: number;
     title: string;
+    h1Title: string | null;
     html: string;
     description: string;
     updatedAt: string;
@@ -89,6 +91,7 @@ export const getStaticProps: GetStaticProps<KBArticleProps> = async ({ params })
         article: {
           id: fullArticle.id,
           title: fullArticle.title,
+          h1Title: extractH1(fullArticle.content.html),
           html: processArticleHtml(fullArticle.content.html, articleMap),
           description: extractDescription(fullArticle.content.html),
           updatedAt: fullArticle.updated_at,
@@ -164,7 +167,7 @@ export default function KnowledgeBaseArticle({ folders, article }: KBArticleProp
                 <span className="text-purple-600 font-medium">{article.folderName}</span>
               </nav>
               <h1 className="text-3xl sm:text-4xl md:text-5xl mb-4 text-gray-900 max-w-4xl mx-auto leading-tight font-bold">
-                {article.title}
+                {article.h1Title ?? article.title}
               </h1>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 {article.description}

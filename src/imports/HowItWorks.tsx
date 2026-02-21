@@ -351,6 +351,9 @@ export default function HowItWorks() {
   return (
     <div className="flex flex-col gap-[48px] w-full" data-name="How it works">
       <Heading2 />
+      <div className="max-w-3xl mx-auto">
+        <p className="text-lg text-gray-600 leading-relaxed text-center">Our platform tracks, measures and optimizes your content to win in the AI search. It doesn't guess what content will perform in AI search - it simulates AI decisions before publishing. It ingests competitor and ecosystem content, generates hundreds of content variations, and runs large-scale LLM simulations to see which versions AI cites, prefers, and recommends. Only the winning version is surfaced. The result: no trial-and-error, no wasted content, and no waiting to see what works. Just content engineered to influence AI recommendations from day one.</p>
+      </div>
       <Container />
     </div>
   );

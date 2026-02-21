@@ -363,6 +363,48 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
               font-weight: 600;
               color: #111827;
             }
+
+            .article-content table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 1.75rem 0;
+              font-size: 0.9375rem;
+              line-height: 1.6;
+              overflow-x: auto;
+              display: block;
+              border-radius: 0.5rem;
+              box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08);
+            }
+
+            .article-content thead {
+              background-color: #f3f0ff;
+            }
+
+            .article-content th {
+              padding: 0.75rem 1rem;
+              text-align: left;
+              font-weight: 600;
+              font-size: 0.875rem;
+              color: #4c1d95;
+              border: 1px solid #e5e7eb;
+              white-space: nowrap;
+            }
+
+            .article-content td {
+              padding: 0.75rem 1rem;
+              text-align: left;
+              color: #374151;
+              border: 1px solid #e5e7eb;
+              vertical-align: top;
+            }
+
+            .article-content tbody tr:nth-child(even) {
+              background-color: #fafafa;
+            }
+
+            .article-content tbody tr:hover {
+              background-color: #f5f3ff;
+            }
           `}</style>
         </div>
 

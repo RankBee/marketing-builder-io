@@ -377,7 +377,8 @@ export function processArticleHtml(
   articleMap: Map<number, { id: number; title: string }>
 ): string {
   const content = extractMainContent(fullHtml);
-  const wrapped = wrapOrphanedListItems(content);
+  const withoutLeadingH1 = content.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, '');
+  const wrapped = wrapOrphanedListItems(withoutLeadingH1);
   const sanitized = sanitizeHtml(wrapped);
   const withLinks = rewriteArticleLinks(sanitized, articleMap);
   return fixOrderedListContinuation(withLinks);

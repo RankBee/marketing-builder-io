@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import Image from "next/image";
+import Link from "next/link";
 import { Clock, Search, TrendingUp, Users, Target } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPosts, getPopularTags, type BlogPost, addGhostSubscriber } from "../lib/builder";
@@ -244,12 +245,13 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
                       <span>{featuredPost.readTime}</span>
                     </div>
                   </div>
-                  <Button
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                  <Link
+                    href={`/blog/${featuredPost.slug}`}
                     onClick={() => onPageChange(`blog/${featuredPost.slug}`)}
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-purple-600 hover:bg-purple-700 text-white h-10 px-4 py-2"
                   >
                     Read Full Article
-                  </Button>
+                  </Link>
                 </div>
               </div>
             </Card>
@@ -277,9 +279,9 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
                   variant="ghost"
                   size="sm"
                   className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                  onClick={() => onPageChange("blog")}
+                  asChild
                 >
-                  Clear filter
+                  <Link href="/blog" onClick={() => onPageChange("blog")}>Clear filter</Link>
                 </Button>
               </div>
             )}
@@ -287,27 +289,27 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {filters.map((filter) => (
-              <Button
-                key={filter}
-                variant={activeFilter === filter ? "default" : "outline"}
-                onClick={() => {
-                  if (filter === "All") {
-                    onPageChange("blog");
-                  } else {
-                    // Convert to URL-friendly slug
-                    const slug = filter.toLowerCase().replace(/\s+/g, '-');
-                    onPageChange(`blog/tag/${slug}`);
+            {filters.map((filter) => {
+              const filterHref = filter === "All" ? "/blog" : `/blog/tag/${filter.toLowerCase().replace(/\s+/g, '-')}`;
+              return (
+                <Button
+                  key={filter}
+                  variant={activeFilter === filter ? "default" : "outline"}
+                  className={activeFilter === filter 
+                    ? "bg-purple-600 hover:bg-purple-700 text-white" 
+                    : "border-purple-600 text-purple-600 hover:bg-purple-50"
                   }
-                }}
-                className={activeFilter === filter 
-                  ? "bg-purple-600 hover:bg-purple-700 text-white" 
-                  : "border-purple-600 text-purple-600 hover:bg-purple-50"
-                }
-              >
-                {filter}
-              </Button>
-            ))}
+                  asChild
+                >
+                  <Link
+                    href={filterHref}
+                    onClick={() => onPageChange(filter === "All" ? "blog" : `blog/tag/${filter.toLowerCase().replace(/\s+/g, '-')}`)}
+                  >
+                    {filter}
+                  </Link>
+                </Button>
+              );
+            })}
           </div>
 
           {/* Loading State */}
@@ -336,46 +338,49 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
           {!loading && !error && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {paginatedPosts.map((post) => (
-              <Card
+              <Link
                 key={post.id}
-                className="bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer"
+                href={`/blog/${post.slug}`}
                 onClick={() => onPageChange(`blog/${post.slug}`)}
+                className="block group"
               >
-                <div className="aspect-video overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    width={420}
-                    height={236}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    quality={75}
-                  />
-                </div>
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs">
-                      {getCategoryIcon(post.category)}
-                      <span className="ml-1">{post.category}</span>
-                    </Badge>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <Clock className="w-3 h-3" />
-                      <span>{post.readTime}</span>
+                <Card className="bg-white hover:shadow-lg transition-all duration-300 h-full">
+                  <div className="aspect-video overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={420}
+                      height={236}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      quality={75}
+                    />
+                  </div>
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-xs">
+                        {getCategoryIcon(post.category)}
+                        <span className="ml-1">{post.category}</span>
+                      </Badge>
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <Clock className="w-3 h-3" />
+                        <span>{post.readTime}</span>
+                      </div>
                     </div>
-                  </div>
-                  <CardTitle className="text-lg leading-tight group-hover:text-purple-600 transition-colors">
-                    {post.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 leading-relaxed mb-4">
-                    {post.summary}
-                  </CardDescription>
-                  <div className="text-sm text-gray-500">
-                    {post.date}
-                  </div>
-                </CardContent>
-              </Card>
+                    <CardTitle className="text-lg leading-tight group-hover:text-purple-600 transition-colors">
+                      {post.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-gray-600 leading-relaxed mb-4">
+                      {post.summary}
+                    </CardDescription>
+                    <div className="text-sm text-gray-500">
+                      {post.date}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
           )}
@@ -383,64 +388,67 @@ export function BlogPage({ onPageChange, filterTag, pageNumber = 1, initialPosts
           {/* Pagination */}
           {!loading && !error && totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 mt-12">
-              {currentPage > 1 && (
-                <Button
-                  variant="outline"
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
-                  onClick={() => {
-                    const prevPage = currentPage - 1;
-                    if (activeFilter === "All") {
-                      onPageChange(prevPage === 1 ? "blog" : `blog/page/${prevPage}`);
-                    } else {
-                      const slug = activeFilter.toLowerCase().replace(/\s+/g, '-');
-                      onPageChange(`blog/tag/${slug}/page/${prevPage}`);
-                    }
-                  }}
-                >
-                  Previous
-                </Button>
-              )}
+              {currentPage > 1 && (() => {
+                const prevPage = currentPage - 1;
+                const prevHref = activeFilter === "All"
+                  ? (prevPage === 1 ? "/blog" : `/blog/page/${prevPage}`)
+                  : `/blog/tag/${activeFilter.toLowerCase().replace(/\s+/g, '-')}/page/${prevPage}`;
+                const prevPage_ = activeFilter === "All"
+                  ? (prevPage === 1 ? "blog" : `blog/page/${prevPage}`)
+                  : `blog/tag/${activeFilter.toLowerCase().replace(/\s+/g, '-')}/page/${prevPage}`;
+                return (
+                  <Button
+                    variant="outline"
+                    className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                    asChild
+                  >
+                    <Link href={prevHref} onClick={() => onPageChange(prevPage_)}>Previous</Link>
+                  </Button>
+                );
+              })()}
               
               <div className="flex gap-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <Button
-                    key={page}
-                    variant={page === currentPage ? "default" : "outline"}
-                    className={page === currentPage
-                      ? "bg-purple-600 hover:bg-purple-700 text-white"
-                      : "border-purple-600 text-purple-600 hover:bg-purple-50"
-                    }
-                    onClick={() => {
-                      if (activeFilter === "All") {
-                        onPageChange(page === 1 ? "blog" : `blog/page/${page}`);
-                      } else {
-                        const slug = activeFilter.toLowerCase().replace(/\s+/g, '-');
-                        onPageChange(`blog/tag/${slug}/page/${page}`);
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                  const pageHref = activeFilter === "All"
+                    ? (page === 1 ? "/blog" : `/blog/page/${page}`)
+                    : `/blog/tag/${activeFilter.toLowerCase().replace(/\s+/g, '-')}/page/${page}`;
+                  const pagePage = activeFilter === "All"
+                    ? (page === 1 ? "blog" : `blog/page/${page}`)
+                    : `blog/tag/${activeFilter.toLowerCase().replace(/\s+/g, '-')}/page/${page}`;
+                  return (
+                    <Button
+                      key={page}
+                      variant={page === currentPage ? "default" : "outline"}
+                      className={page === currentPage
+                        ? "bg-purple-600 hover:bg-purple-700 text-white"
+                        : "border-purple-600 text-purple-600 hover:bg-purple-50"
                       }
-                    }}
-                  >
-                    {page}
-                  </Button>
-                ))}
+                      asChild
+                    >
+                      <Link href={pageHref} onClick={() => onPageChange(pagePage)}>{page}</Link>
+                    </Button>
+                  );
+                })}
               </div>
               
-              {currentPage < totalPages && (
-                <Button
-                  variant="outline"
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
-                  onClick={() => {
-                    const nextPage = currentPage + 1;
-                    if (activeFilter === "All") {
-                      onPageChange(`blog/page/${nextPage}`);
-                    } else {
-                      const slug = activeFilter.toLowerCase().replace(/\s+/g, '-');
-                      onPageChange(`blog/tag/${slug}/page/${nextPage}`);
-                    }
-                  }}
-                >
-                  Next
-                </Button>
-              )}
+              {currentPage < totalPages && (() => {
+                const nextPage = currentPage + 1;
+                const nextHref = activeFilter === "All"
+                  ? `/blog/page/${nextPage}`
+                  : `/blog/tag/${activeFilter.toLowerCase().replace(/\s+/g, '-')}/page/${nextPage}`;
+                const nextPage_ = activeFilter === "All"
+                  ? `blog/page/${nextPage}`
+                  : `blog/tag/${activeFilter.toLowerCase().replace(/\s+/g, '-')}/page/${nextPage}`;
+                return (
+                  <Button
+                    variant="outline"
+                    className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                    asChild
+                  >
+                    <Link href={nextHref} onClick={() => onPageChange(nextPage_)}>Next</Link>
+                  </Button>
+                );
+              })()}
             </div>
           )}
         </div>

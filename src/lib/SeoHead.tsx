@@ -41,17 +41,50 @@ export function SeoHead({
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
       name: "RankBee",
       url: siteUrl,
-      logo: `${siteUrl}/rankbee-logo.png`,
-      sameAs: ["https://x.com/rankbeeai", "https://www.linkedin.com/company/rankbee"]
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/rankbee-logo.png`,
+        width: 200,
+        height: 60
+      },
+      description: "RankBee helps companies grow organic visibility using AI-powered content and SEO. Track brand citations across ChatGPT, Claude, and Gemini, and optimise content for AI search.",
+      foundingDate: "2024",
+      founder: [
+        {
+          "@type": "Person",
+          name: "Aris Vrakas",
+          url: `${siteUrl}/about#aris-vrakas`,
+          sameAs: "https://www.linkedin.com/in/arisvrakas/"
+        }
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        url: `${siteUrl}/contact`
+      },
+      sameAs: [
+        "https://x.com/rankbeeai",
+        "https://www.linkedin.com/company/rankbee"
+      ]
     },
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
       name: "RankBee",
       url: siteUrl,
-      potentialAction: { "@type": "SearchAction", target: `${siteUrl}/?q={search_term_string}`, "query-input": "required name=search_term_string" }
+      publisher: { "@id": `${siteUrl}/#organization` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${siteUrl}/?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
     }
   ];
 

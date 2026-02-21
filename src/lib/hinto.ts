@@ -284,6 +284,33 @@ export function extractMainContent(fullHtml: string): string {
 }
 
 /**
+ * Extract the text content of the first <h1> element from the article HTML.
+ * Returns null if no H1 is found.
+ */
+export function extractH1(html: string): string | null {
+  const content = extractMainContent(html);
+  const h1Match = content.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+  if (h1Match) {
+    const text = h1Match[1].replace(/<[^>]+>/g, '').trim();
+    return decodeHtmlEntities(text);
+  }
+  return null;
+}
+
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .trim();
+}
+
+/**
  * Extract the first paragraph text from HTML content for use as meta description.
  */
 export function extractDescription(html: string): string {

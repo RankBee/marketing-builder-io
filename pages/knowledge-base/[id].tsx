@@ -211,6 +211,7 @@ export default function KnowledgeBaseArticle({ folders, article }: KBArticleProp
               <div className="prose prose-lg max-w-none">
                 <div
                   className="kb-article-content"
+                  suppressHydrationWarning
                   dangerouslySetInnerHTML={{ __html: article.html }}
                 />
               </div>

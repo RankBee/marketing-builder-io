@@ -150,4 +150,54 @@ export const kbArticleStyles = `
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
   }
+
+  .kb-article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9375rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  }
+
+  .kb-article-content thead {
+    background: #7c3aed;
+    color: #ffffff;
+  }
+
+  .kb-article-content thead th {
+    padding: 0.875rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+    border: none;
+    color: #ffffff;
+  }
+
+  .kb-article-content tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.15s;
+  }
+
+  .kb-article-content tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .kb-article-content tbody tr:nth-child(even) {
+    background: #f9f7ff;
+  }
+
+  .kb-article-content tbody tr:hover {
+    background: #ede9fe;
+  }
+
+  .kb-article-content td {
+    padding: 0.75rem 1rem;
+    color: #374151;
+    vertical-align: top;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
 `;

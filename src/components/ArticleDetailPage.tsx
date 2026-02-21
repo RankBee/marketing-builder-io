@@ -331,6 +331,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
             {displayArticle.content && (
               <div
                 className="article-content"
+                suppressHydrationWarning
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(displayArticle.content)
                 }}

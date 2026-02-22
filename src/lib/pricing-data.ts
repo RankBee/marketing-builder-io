@@ -106,8 +106,9 @@ export const PRICING_TIERS: PricingTier[] = [
       { description: "1500 AI Prompts tracking", bold: true },
       { description: "2 AI Models (Google AIO, ChatGPT)" },
       { description: "Unlimited Brands", bold: true },
-      { description: "API access for content generation", bold: true },
-      { description: "API access for content performance simulation", bold: true },
+      { description: "API: Content Writing", bold: true },
+      { description: "API: Content Re-writing & Optimisation", bold: true },
+      { description: "API: Content Scoring & Simulation", bold: true },
     ],
   },
 ];
@@ -142,6 +143,10 @@ export const PRICING_SECTIONS: FeatureSection[] = [
         name: "Existing Content Optimization Engine",
         tiers: { Pro: true, "Content Growth": true, "For agencies": true },
       },
+      {
+        name: "Content add-on packages",
+        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+      },
     ],
   },
   {
@@ -152,11 +157,19 @@ export const PRICING_SECTIONS: FeatureSection[] = [
         tiers: { Pro: "500", "Content Growth": "500", "For agencies": "1500" },
       },
       {
-        name: "ChatGPT (1 AI Model)",
+        name: "ChatGPT",
         tiers: { Pro: true, "Content Growth": true, "For agencies": true },
       },
       {
-        name: "Google AIO (2 AI Models)",
+        name: "Google AIO",
+        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+      },
+      {
+        name: "Add more models (Perplexity, Grok)",
+        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+      },
+      {
+        name: "AI prompts tracking add-ons",
         tiers: { Pro: false, "Content Growth": true, "For agencies": true },
       },
     ],
@@ -170,7 +183,24 @@ export const PRICING_SECTIONS: FeatureSection[] = [
       },
       {
         name: "14-day free trial",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": false },
+        tiers: { Pro: true, "Content Growth": false, "For agencies": false },
+      },
+    ],
+  },
+  {
+    name: "API Access",
+    features: [
+      {
+        name: "API: Content Writing",
+        tiers: { Pro: false, "Content Growth": false, "For agencies": true },
+      },
+      {
+        name: "API: Content Re-writing & Optimisation",
+        tiers: { Pro: false, "Content Growth": false, "For agencies": true },
+      },
+      {
+        name: "API: Content Scoring & Simulation",
+        tiers: { Pro: false, "Content Growth": false, "For agencies": true },
       },
     ],
   },

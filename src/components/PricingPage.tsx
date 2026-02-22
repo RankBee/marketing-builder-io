@@ -99,6 +99,42 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
                   <p className="text-gray-600">We offer pro-rated refunds on cancellations. You'll only pay for the time you've used, making it risk-free to try RankBee.</p>
                 </CardContent>
               </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">What's the difference between Pro and Content Growth?</h4>
+                  <p className="text-gray-600">Pro is built for solo founders and early-stage teams — you get 10 content generations/month, ChatGPT tracking, and 1 brand. Content Growth steps it up to 50 generations, adds Google AIO tracking, and unlocks the ability to add more AI models (Perplexity, Grok) and purchase content and prompt tracking add-on packages as your needs grow.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">What are content add-on packages?</h4>
+                  <p className="text-gray-600">If you need more content generations than your plan includes, you can purchase add-on packages without upgrading your entire plan. This is available on Content Growth and Agency plans, giving you flexibility to scale content output when you have a busy month without committing to a higher tier permanently.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">Can I add more AI models to track?</h4>
+                  <p className="text-gray-600">Yes — on Content Growth and Agency plans you can add Perplexity and Grok on top of the included ChatGPT and Google AIO models. You can also purchase AI prompts tracking add-ons if you need to monitor more queries than your plan's base allowance.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">What does API access include on the Agency plan?</h4>
+                  <p className="text-gray-600">The Agency plan includes three API endpoints: Content Writing (generate AI-ready content programmatically), Content Re-writing & Optimisation (improve and optimise existing content at scale), and Content Scoring & Simulation (simulate content against competitors to know how your content could perform before publishing it, or to compare multiple content versions). These are designed for agencies that want to embed RankBee's capabilities directly into their own workflows or client dashboards.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">Can I switch plans later?</h4>
+                  <p className="text-gray-600">Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately and are pro-rated. Downgrades apply at the start of your next billing cycle.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">Is the Agency plan right for me if I manage multiple clients?</h4>
+                  <p className="text-gray-600">Yes — the Agency plan is built specifically for this. You get unlimited brands, 300 content generations/month, 1500 AI prompt tracking slots, and full API access so you can automate content workflows across all your clients. We recommend tracking at least 200 prompts per brand for meaningful visibility data — if you need more, you can purchase additional AI prompts tracking add-on packages at any time. If you're unsure whether it fits your setup, book a demo and we'll walk you through it.</p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { trackEvent } from "../lib/posthog";
 import { signUpUrl } from "../lib/clerk-env";
+import { PRICING_DISPLAY } from "../lib/pricing-data";
 
 interface GrowingBusinessPageProps {
   onPageChange: (page: string) => void;
@@ -39,7 +40,7 @@ export function GrowingBusinessPage({ onPageChange }: GrowingBusinessPageProps) 
 
             <div className="pt-4 space-y-4 flex flex-col items-center">
               <div className="text-center">
-                <p className="text-4xl font-bold text-gray-900">£199</p>
+                <p className="text-4xl font-bold text-gray-900">{PRICING_DISPLAY.contentGrowth.symbol}{PRICING_DISPLAY.contentGrowth.amount}</p>
                 <p className="text-lg text-gray-600">per month</p>
               </div>
               <a

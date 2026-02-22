@@ -275,9 +275,9 @@ function GaoHomePage5() {
         className="bg-brand-800 hover:bg-brand-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 h-[44px] rounded-[8px] px-[16px] py-[8px] flex items-center justify-center shrink-0 cursor-pointer"
         data-name="Button"
       >
-        <p className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
+        <span className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
           {isLoading ? "Analyzing..." : "Free Trial"}
-        </p>
+        </span>
       </button>
     </form>
   );
@@ -310,9 +310,9 @@ function CardContent2() {
             }}
             data-name="Button"
           >
-            <p className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
+            <span className="font-['Inter:Medium',_sans-serif] leading-[20px] text-[14px] text-white tracking-[-0.1504px]">
               Free Trial
-            </p>
+            </span>
           </button>
         </a>
       </SignedOut>

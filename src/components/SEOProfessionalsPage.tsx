@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { trackEvent } from "../lib/posthog";
 import { signUpUrl } from "../lib/clerk-env";
+import { PRICING_DISPLAY } from "../lib/pricing-data";
 
 interface SEOProfessionalsPageProps {
   onPageChange: (page: string) => void;
@@ -35,7 +36,7 @@ export function SEOProfessionalsPage({ onPageChange }: SEOProfessionalsPageProps
 
             <div className="pt-4 space-y-4 flex flex-col items-center">
               <div className="text-center">
-                <p className="text-4xl font-bold text-gray-900">£99</p>
+                <p className="text-4xl font-bold text-gray-900">{PRICING_DISPLAY.pro.symbol}{PRICING_DISPLAY.pro.amount}</p>
                 <p className="text-lg text-gray-600">per month</p>
               </div>
               <a

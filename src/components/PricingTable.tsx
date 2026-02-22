@@ -19,11 +19,11 @@ const FREQUENCIES: BillingFrequency[] = [
 ];
 
 const LOGOS = [
-  { name: "Growcreate", src: "/images/logos/growcreate.svg", url: "https://growcreate.co.uk", height: 28, invert: false, pill: false },
-  { name: "Alpha Bank", src: "/images/logos/alphabank.svg", url: "https://www.alpha.gr", height: 36, invert: false, pill: true },
-  { name: "DJ Studio", src: "/images/logos/djstudio.svg", url: "https://dj.studio", height: 26, invert: false, pill: false },
-  { name: "Sagacity", src: "/images/logos/sagacity.svg", url: "https://www.sagacitysolutions.co.uk", height: 44, invert: true, pill: false },
-  { name: "Carv", src: "/images/logos/carv.png", url: "https://www.carv.com", height: 28, invert: false, pill: false },
+  { name: "Growcreate", src: "/images/logos/growcreate.svg", url: "https://growcreate.co.uk", height: 28, invert: false, pill: false, imgStyle: {} },
+  { name: "Alpha Bank", src: "/images/logos/alphabank.svg", url: "https://www.alpha.gr", height: 36, invert: false, pill: true, imgStyle: {} },
+  { name: "DJ Studio", src: "/images/logos/djstudio.svg", url: "https://dj.studio", height: 26, invert: false, pill: false, imgStyle: {} },
+  { name: "Sagacity", src: "/images/logos/sagacity.svg", url: "https://www.sagacitysolutions.co.uk", height: 26, invert: true, pill: false, imgStyle: { margin: 0, padding: 0, display: "block" } },
+  { name: "Carv", src: "/images/logos/carv.png", url: "https://www.carv.com", height: 28, invert: false, pill: false, imgStyle: {} },
 ];
 
 function detectCurrency(): Currency {
@@ -169,7 +169,7 @@ export function PricingTable() {
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
               >
-                <img src={client.src} alt={client.name} style={{ height: `${client.height}px`, width: "auto", display: "block", filter: client.invert ? "brightness(0) invert(1)" : "none" }} />
+                <img src={client.src} alt={client.name} style={{ height: `${client.height}px`, width: "auto", display: "block", filter: client.invert ? "brightness(0) invert(1)" : "none", ...client.imgStyle }} />
               </a>
             ))}
           </div>

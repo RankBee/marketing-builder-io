@@ -100,7 +100,7 @@ export function Footer({ onPageChange }: FooterProps) {
             </div>
 
             {/* Copyright */}
-            <p className="text-sm text-gray-500 text-center">
+            <p className="text-sm text-gray-500 text-center" suppressHydrationWarning>
               © {new Date().getFullYear()} RankBee. All rights reserved
             </p>
           </div>

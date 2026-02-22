@@ -121,7 +121,7 @@ export function PricingTable() {
                 <div style={{ borderRadius: "2rem", padding: "8px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", display: "grid", gridTemplateColumns: "1fr" }}>
                   <div style={{ position: "relative", overflow: "hidden", borderRadius: "1.75rem", backgroundColor: "#fff", padding: "2.5rem", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column" }}>
                     {tier.badge && (
-                      <div style={{ position: "absolute", top: "36px", right: "-36px", backgroundColor: "#111827", color: "#fff", fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "6px 48px", transform: "rotate(45deg)", whiteSpace: "nowrap", zIndex: 1 }}>
+                      <div style={{ position: "absolute", top: "45px", right: "-45px", backgroundColor: "#111827", color: "#fff", fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "6px 48px", transform: "rotate(45deg)", whiteSpace: "nowrap", zIndex: 1 }}>
                         {tier.badge}
                       </div>
                     )}

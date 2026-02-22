@@ -107,6 +107,12 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
               </Card>
               <Card>
                 <CardContent className="pt-6">
+                  <h4 className="text-lg mb-2 text-gray-900">What are Attributes, and why do they matter for AI ranking?</h4>
+                  <p className="text-gray-600">Attributes are the specific features, benefits, and qualities that AI models reason about when deciding which brands and content to recommend. When someone asks an AI assistant a question, it doesn't just match keywords — it evaluates whether your content clearly signals the right attributes for that query (e.g. "fast onboarding", "enterprise-grade security", "best for agencies"). RankBee automatically generates prompts based on your brand's attributes, so you're tracking the queries that actually matter for your visibility — not just generic ones. The better your content covers the attributes AI models reward, the more likely you are to appear in AI-generated answers. <a href="/knowledge-base/12476" className="text-purple-600 underline hover:text-purple-800">Learn more about Attributes in our Knowledge Base →</a></p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
                   <h4 className="text-lg mb-2 text-gray-900">What are content add-on packages?</h4>
                   <p className="text-gray-600">If you need more content generations than your plan includes, you can purchase add-on packages without upgrading your entire plan. This is available on Content Growth and Agency plans, giving you flexibility to scale content output when you have a busy month without committing to a higher tier permanently.</p>
                 </CardContent>

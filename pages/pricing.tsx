@@ -100,6 +100,62 @@ const pricingJsonLd = [
           "@type": "Answer",
           text: "We offer pro-rated refunds on cancellations. You'll only pay for the time you've used, making it risk-free to try RankBee."
         }
+      },
+      {
+        "@type": "Question",
+        name: "What's the difference between Pro and Content Growth?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Pro is built for solo founders and early-stage teams — you get 10 content generations/month, ChatGPT tracking, and 1 brand. Content Growth steps it up to 50 generations, adds Google AIO tracking, and unlocks the ability to add more AI models (Perplexity, Grok) and purchase content and prompt tracking add-on packages as your needs grow."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What are Attributes, and why do they matter for AI ranking?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Attributes are the specific features, benefits, and qualities that AI models reason about when deciding which brands and content to recommend. When someone asks an AI assistant a question, it doesn't just match keywords — it evaluates whether your content clearly signals the right attributes for that query. RankBee automatically generates prompts based on your brand's attributes, so you're tracking the queries that actually matter for your visibility — not just generic ones. The better your content covers the attributes AI models reward, the more likely you are to appear in AI-generated answers. Learn more at rankbee.ai/knowledge-base/12476"
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What are content add-on packages?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "If you need more content generations than your plan includes, you can purchase add-on packages without upgrading your entire plan. This is available on Content Growth and Agency plans, giving you flexibility to scale content output when you have a busy month without committing to a higher tier permanently."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Can I add more AI models to track?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes — on Content Growth and Agency plans you can add Perplexity and Grok on top of the included ChatGPT and Google AIO models. You can also purchase AI prompts tracking add-ons if you need to monitor more queries than your plan's base allowance."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "What does API access include on the Agency plan?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The Agency plan includes three API endpoints: Content Writing (generate AI-ready content programmatically), Content Re-writing & Optimisation (improve and optimise existing content at scale), and Content Scoring & Simulation (simulate content against competitors to know how your content could perform before publishing it, or to compare multiple content versions). These are designed for agencies that want to embed RankBee's capabilities directly into their own workflows or client dashboards."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Can I switch plans later?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately and are pro-rated. Downgrades apply at the start of your next billing cycle."
+        }
+      },
+      {
+        "@type": "Question",
+        name: "Is the Agency plan right for me if I manage multiple clients?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes — the Agency plan is built specifically for this. You get unlimited brands, 300 content generations/month, 1500 AI prompt tracking slots, and full API access so you can automate content workflows across all your clients. We recommend tracking at least 200 prompts per brand for meaningful visibility data — if you need more, you can purchase additional AI prompts tracking add-on packages at any time."
+        }
       }
     ]
   }

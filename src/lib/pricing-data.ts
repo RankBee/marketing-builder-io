@@ -144,6 +144,14 @@ export const PRICING_SECTIONS: FeatureSection[] = [
         tiers: { Pro: true, "Content Growth": true, "For agencies": true },
       },
       {
+        name: "Competitor Analysis",
+        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+      },
+      {
+        name: "Citations Analysis",
+        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+      },
+      {
         name: "Content add-on packages",
         tiers: { Pro: false, "Content Growth": true, "For agencies": true },
       },
@@ -155,6 +163,10 @@ export const PRICING_SECTIONS: FeatureSection[] = [
       {
         name: "AI Prompts tracking",
         tiers: { Pro: "500", "Content Growth": "500", "For agencies": "1500" },
+      },
+      {
+        name: "Automated prompt generation based on Attributes",
+        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
       },
       {
         name: "ChatGPT",

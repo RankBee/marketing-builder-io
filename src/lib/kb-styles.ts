@@ -157,7 +157,7 @@ export const kbArticleStyles = `
     margin: 2rem 0;
     font-size: 0.9375rem;
     border-radius: 0.75rem;
-    overflow: hidden;
+    overflow-y: hidden;
     display: block;
     overflow-x: auto;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);

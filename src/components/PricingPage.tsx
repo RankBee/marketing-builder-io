@@ -1,9 +1,9 @@
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { useEffect } from "react";
-import { trackEvent as trackGTMEvent } from "../lib/gtm";
 import { trackEvent } from "../lib/posthog";
 import HowItWorks from "../imports/HowItWorks";
+import { PricingTable } from "./PricingTable";
 
 interface PricingPageProps {
   onPageChange: (page: string) => void;
@@ -11,67 +11,7 @@ interface PricingPageProps {
 
 export function PricingPage({ onPageChange }: PricingPageProps) {
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    // Wait for DOM to be ready before loading ChargeBee
-    const loadChargeBee = () => {
-      const script = document.createElement("script");
-      script.src = "https://js.chargebee.com/v2/chargebee.js";
-      script.async = true;
-      script.onload = async () => {
-        try {
-          const chargebee = (window as any).Chargebee.init({
-            site: "rankbee",
-          });
-          const pricingTable = await chargebee.pricingTable();
-          pricingTable.init();
-          
-          // Add click tracking to ChargeBee pricing table
-          // Use event delegation to catch clicks on dynamically loaded buttons
-          setTimeout(() => {
-            const pricingContainer = document.getElementById('chargebee-pricing-table');
-            if (pricingContainer) {
-              pricingContainer.addEventListener('click', (e) => {
-                const target = e.target as HTMLElement;
-                // Check if clicked element or parent is a subscribe/buy button
-                const button = target.closest('button, a[data-cb-type="checkout"]');
-                if (button) {
-                  const buttonText = button.textContent?.trim() || 'Subscribe';
-                  
-                  // Track in both GTM and PostHog
-                  trackGTMEvent('Pricing Click on Subscription', {
-                    page: 'pricing',
-                  });
-                  
-                  trackEvent('Plan Selected', {
-                    location: 'pricing_page',
-                    button_text: buttonText,
-                    interaction_type: 'chargebee_table'
-                  });
-                }
-              });
-            }
-          }, 1000); // Wait for ChargeBee to render
-        } catch (error) {
-          console.error("ChargeBee initialization error:", error);
-        }
-      };
-      script.onerror = () => {
-        console.error("Failed to load ChargeBee script");
-      };
-      document.head.appendChild(script);
-    };
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", loadChargeBee);
-      return () => {
-        document.removeEventListener("DOMContentLoaded", loadChargeBee);
-      };
-    } else {
-      loadChargeBee();
-    }
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -138,22 +78,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
 
       {/* Pricing Table */}
       <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            id="chargebee-pricing-table"
-            data-name="chargebee-pricing-table"
-            data-pricing-table-site="01K71J9W9RW0THGY5E90GSH62X"
-            data-pricing-table-id="01KGPN8CZ1VRCNVVS4QSHTYZZ2"
-            data-pricing-table-viewport-default-height="1200px"
-            data-pricing-table-auto-select-local-currency="true"
-            data-pricing-table-show-currency-dropdown="false"
-            style={{
-              
-              display: "block",
-              width: "100%"
-            }}
-          ></div>
-        </div>
+        <PricingTable />
       </section>
 
       {/* FAQ Section */}

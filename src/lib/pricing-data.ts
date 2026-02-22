@@ -203,15 +203,15 @@ export const PRICING_SECTIONS: FeatureSection[] = [
     name: "API Access",
     features: [
       {
-        name: "API: Content Writing",
+        name: "Content Writing",
         tiers: { Pro: false, "Content Growth": false, "For agencies": true },
       },
       {
-        name: "API: Content Re-writing & Optimisation",
+        name: "Content Re-writing & Optimisation",
         tiers: { Pro: false, "Content Growth": false, "For agencies": true },
       },
       {
-        name: "API: Content Scoring & Simulation",
+        name: "Content Scoring & Simulation",
         tiers: { Pro: false, "Content Growth": false, "For agencies": true },
       },
     ],

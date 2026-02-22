@@ -1,9 +1,89 @@
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { trackEvent } from "../lib/posthog";
 import HowItWorks from "../imports/HowItWorks";
 import { PricingTable } from "./PricingTable";
+
+function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const alwaysOpen = [
+    {
+      q: "What's included in the free 14 days?",
+      a: <p className="text-gray-600">You get a full tracking package to monitor your AI visibility across all platforms, plus 10 content creation credits to start optimizing your content for AI discovery right away.</p>,
+    },
+    {
+      q: "What happens if I cancel?",
+      a: <p className="text-gray-600">We offer pro-rated refunds on cancellations. You'll only pay for the time you've used, making it risk-free to try RankBee.</p>,
+    },
+    {
+      q: "What's the difference between Pro and Content Growth?",
+      a: <p className="text-gray-600">Pro is built for solo founders and early-stage teams — you get 10 content generations/month, ChatGPT tracking, and 1 brand. Content Growth steps it up to 50 generations, adds Google AIO tracking, and unlocks the ability to add more AI models (Perplexity, Grok) and purchase content and prompt tracking add-on packages as your needs grow.</p>,
+    },
+    {
+      q: "What are Attributes, and why do they matter for AI ranking?",
+      a: <p className="text-gray-600">Attributes are the specific features, benefits, and qualities that AI models reason about when deciding which brands and content to recommend. When someone asks an AI assistant a question, it doesn't just match keywords — it evaluates whether your content clearly signals the right attributes for that query (e.g. "fast onboarding", "enterprise-grade security", "best for agencies"). RankBee automatically generates prompts based on your brand's attributes, so you're tracking the queries that actually matter for your visibility — not just generic ones. The better your content covers the attributes AI models reward, the more likely you are to appear in AI-generated answers. <a href="/knowledge-base/12476" className="text-purple-600 underline hover:text-purple-800">Learn more about Attributes in our Knowledge Base →</a></p>,
+    },
+  ];
+
+  const collapsible = [
+    {
+      q: "What are content add-on packages?",
+      a: "If you need more content generations than your plan includes, you can purchase add-on packages without upgrading your entire plan. This is available on Content Growth and Agency plans, giving you flexibility to scale content output when you have a busy month without committing to a higher tier permanently.",
+    },
+    {
+      q: "Can I add more AI models to track?",
+      a: "Yes — on Content Growth and Agency plans you can add Perplexity and Grok on top of the included ChatGPT and Google AIO models. You can also purchase AI prompts tracking add-ons if you need to monitor more queries than your plan's base allowance.",
+    },
+    {
+      q: "What does API access include on the Agency plan?",
+      a: "The Agency plan includes three API endpoints: Content Writing (generate AI-ready content programmatically), Content Re-writing & Optimisation (improve and optimise existing content at scale), and Content Scoring & Simulation (simulate content against competitors to know how your content could perform before publishing it, or to compare multiple content versions). These are designed for agencies that want to embed RankBee's capabilities directly into their own workflows or client dashboards.",
+    },
+    {
+      q: "Can I switch plans later?",
+      a: "Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately and are pro-rated. Downgrades apply at the start of your next billing cycle.",
+    },
+    {
+      q: "Is the Agency plan right for me if I manage multiple clients?",
+      a: "Yes — the Agency plan is built specifically for this. You get unlimited brands, 300 content generations/month, 1500 AI prompt tracking slots, and full API access so you can automate content workflows across all your clients. We recommend tracking at least 200 prompts per brand for meaningful visibility data — if you need more, you can purchase additional AI prompts tracking add-on packages at any time. If you're unsure whether it fits your setup, book a demo and we'll walk you through it.",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      {alwaysOpen.map((faq, i) => (
+        <Card key={i}>
+          <CardContent className="pt-6">
+            <h4 className="text-lg mb-2 text-gray-900">{faq.q}</h4>
+            {faq.a}
+          </CardContent>
+        </Card>
+      ))}
+      <div className="space-y-2 mt-2">
+        {collapsible.map((faq, i) => {
+          const isOpen = openIndex === i;
+          return (
+            <div key={i} style={{ border: "1px solid #e5e7eb", borderRadius: "0.75rem", overflow: "hidden" }}>
+              <button
+                onClick={() => setOpenIndex(isOpen ? null : i)}
+                style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1.25rem 1.5rem", background: "none", border: "none", cursor: "pointer", textAlign: "left", gap: "1rem" }}
+              >
+                <h4 style={{ fontSize: "1rem", fontWeight: 600, color: "#111827", margin: 0 }}>{faq.q}</h4>
+                <span style={{ flexShrink: 0, fontSize: "1.25rem", color: "#9333ea", lineHeight: 1, display: "inline-block", transform: isOpen ? "rotate(45deg)" : "none", transition: "transform 0.2s" }}>+</span>
+              </button>
+              {isOpen && (
+                <div style={{ padding: "0 1.5rem 1.25rem" }}>
+                  <p style={{ margin: 0, fontSize: "0.9375rem", color: "#4b5563", lineHeight: 1.7 }}>{faq.a}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 interface PricingPageProps {
   onPageChange: (page: string) => void;
@@ -86,62 +166,7 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <h3 className="text-2xl mb-8 text-center text-gray-900">Frequently Asked Questions</h3>
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What's included in the free 14 days?</h4>
-                  <p className="text-gray-600">You get a full tracking package to monitor your AI visibility across all platforms, plus 10 content creation credits to start optimizing your content for AI discovery right away.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What happens if I cancel?</h4>
-                  <p className="text-gray-600">We offer pro-rated refunds on cancellations. You'll only pay for the time you've used, making it risk-free to try RankBee.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What's the difference between Pro and Content Growth?</h4>
-                  <p className="text-gray-600">Pro is built for solo founders and early-stage teams — you get 10 content generations/month, ChatGPT tracking, and 1 brand. Content Growth steps it up to 50 generations, adds Google AIO tracking, and unlocks the ability to add more AI models (Perplexity, Grok) and purchase content and prompt tracking add-on packages as your needs grow.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What are Attributes, and why do they matter for AI ranking?</h4>
-                  <p className="text-gray-600">Attributes are the specific features, benefits, and qualities that AI models reason about when deciding which brands and content to recommend. When someone asks an AI assistant a question, it doesn't just match keywords — it evaluates whether your content clearly signals the right attributes for that query (e.g. "fast onboarding", "enterprise-grade security", "best for agencies"). RankBee automatically generates prompts based on your brand's attributes, so you're tracking the queries that actually matter for your visibility — not just generic ones. The better your content covers the attributes AI models reward, the more likely you are to appear in AI-generated answers. <a href="/knowledge-base/12476" className="text-purple-600 underline hover:text-purple-800">Learn more about Attributes in our Knowledge Base →</a></p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What are content add-on packages?</h4>
-                  <p className="text-gray-600">If you need more content generations than your plan includes, you can purchase add-on packages without upgrading your entire plan. This is available on Content Growth and Agency plans, giving you flexibility to scale content output when you have a busy month without committing to a higher tier permanently.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">Can I add more AI models to track?</h4>
-                  <p className="text-gray-600">Yes — on Content Growth and Agency plans you can add Perplexity and Grok on top of the included ChatGPT and Google AIO models. You can also purchase AI prompts tracking add-ons if you need to monitor more queries than your plan's base allowance.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">What does API access include on the Agency plan?</h4>
-                  <p className="text-gray-600">The Agency plan includes three API endpoints: Content Writing (generate AI-ready content programmatically), Content Re-writing & Optimisation (improve and optimise existing content at scale), and Content Scoring & Simulation (simulate content against competitors to know how your content could perform before publishing it, or to compare multiple content versions). These are designed for agencies that want to embed RankBee's capabilities directly into their own workflows or client dashboards.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">Can I switch plans later?</h4>
-                  <p className="text-gray-600">Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately and are pro-rated. Downgrades apply at the start of your next billing cycle.</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h4 className="text-lg mb-2 text-gray-900">Is the Agency plan right for me if I manage multiple clients?</h4>
-                  <p className="text-gray-600">Yes — the Agency plan is built specifically for this. You get unlimited brands, 300 content generations/month, 1500 AI prompt tracking slots, and full API access so you can automate content workflows across all your clients. We recommend tracking at least 200 prompts per brand for meaningful visibility data — if you need more, you can purchase additional AI prompts tracking add-on packages at any time. If you're unsure whether it fits your setup, book a demo and we'll walk you through it.</p>
-                </CardContent>
-              </Card>
-            </div>
+            <FaqSection />
           </div>
         </div>
       </section>

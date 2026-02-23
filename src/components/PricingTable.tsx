@@ -46,7 +46,15 @@ export function PricingTable() {
   const [currency, setCurrency] = useState<Currency>("GBP");
   const [billing, setBilling] = useState<BillingCycle>("monthly");
 
-  useEffect(() => { setCurrency(detectCurrency()); }, []);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const param = params.get("currency")?.toUpperCase();
+    if (param === "GBP" || param === "USD" || param === "EUR") {
+      setCurrency(param);
+    } else {
+      setCurrency(detectCurrency());
+    }
+  }, []);
 
   const symbol = CURRENCY_SYMBOLS[currency];
   const currencyLabel = CURRENCY_LABELS[currency];
@@ -61,7 +69,7 @@ export function PricingTable() {
         .pt-desktop-table { display: table; }
         .pt-mobile-tabs { display: none; }
         .pt-tab[data-selected] { border-bottom: 2px solid #9333ea !important; }
-        .pt-tab:focus { outline: none; }
+        .pt-tab:focus-visible { outline: 2px solid #7c3aed; outline-offset: 2px; }
         .pt-table-container { padding-top: 3rem; }
         .pricing-cards-wrap { margin: 2rem auto 4rem; }
         .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
@@ -84,7 +92,7 @@ export function PricingTable() {
             Plans That Fit Your Growth, No Surprises
           </h2>
           <p style={{ marginTop: "1rem", fontSize: "1.125rem", color: "#4b5563", lineHeight: 1.6, marginBottom: 0 }}>
-            Start small or go big—unlimited users, weekly crawls, and insights that pay off fast. First month free on all.
+            Start small or go big—unlimited users, weekly crawls, and insights that pay off fast. Pro plan includes a 14-day free trial.
           </p>
           <div style={{ marginTop: "2rem", display: "flex", justifyContent: "center" }}>
             <fieldset style={{ border: "none", padding: 0, margin: 0 }} aria-label="Billing frequency">
@@ -219,7 +227,7 @@ export function PricingTable() {
                 <tr key={feature.name} style={{ borderBottom: '1px solid #f3f4f6' }}>
                   <th scope="row" style={{ padding: '1rem 0', fontSize: '0.875rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</th>
                   {PRICING_TIERS.map((tier) => {
-                    const value = feature.tiers[tier.name];
+                    const value = feature.tiers[tier.key];
                     return (
                       <td key={tier.name} style={{ padding: '1rem' }}>
                         {typeof value === 'string' ? (
@@ -250,7 +258,7 @@ export function PricingTable() {
               </Tab>
             ))}
           </TabList>
-          <TabPanels as={Fragment}>
+          <TabPanels>
             {PRICING_TIERS.map((tier) => (
               <TabPanel key={tier.name}>
                 <a href={tier.href} onClick={() => handlePricingClick(tier.name, tier.ctaLabel)}
@@ -264,9 +272,9 @@ export function PricingTable() {
                         <div key={feature.name} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid #f3f4f6', padding: '1rem 0' }}>
                           <dt style={{ fontSize: '0.875rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</dt>
                           <dd style={{ textAlign: 'right' }}>
-                            {typeof feature.tiers[tier.name] === 'string' ? (
-                              <span style={{ fontSize: '0.875rem', color: '#030712' }}>{feature.tiers[tier.name] as string}</span>
-                            ) : feature.tiers[tier.name] === true ? (
+                            {typeof feature.tiers[tier.key] === 'string' ? (
+                              <span style={{ fontSize: '0.875rem', color: '#030712' }}>{feature.tiers[tier.key] as string}</span>
+                            ) : feature.tiers[tier.key] === true ? (
                               <CheckIcon aria-hidden="true" style={{ display: 'inline-block', width: '1rem', height: '1rem', fill: '#16a34a' }} />
                             ) : (
                               <MinusIcon aria-hidden="true" style={{ display: 'inline-block', width: '1rem', height: '1rem', fill: '#9ca3af' }} />

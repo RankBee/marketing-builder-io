@@ -113,9 +113,11 @@ export const PRICING_TIERS: PricingTier[] = [
   },
 ];
 
+export type TierKey = "pro" | "contentGrowth" | "agency";
+
 export interface FeatureRow {
   name: string;
-  tiers: Record<string, string | boolean>;
+  tiers: Record<TierKey, string | boolean>;
 }
 
 export interface FeatureSection {
@@ -129,31 +131,31 @@ export const PRICING_SECTIONS: FeatureSection[] = [
     features: [
       {
         name: "Content Generations per month",
-        tiers: { Pro: "10", "Content Growth": "50", "For agencies": "300" },
+        tiers: { pro: "10", contentGrowth: "50", agency: "300" },
       },
       {
         name: "Content Writer",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "Content Recommendation Engine",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "Existing Content Optimization Engine",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "Competitor Analysis",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "Citations Analysis",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "Content add-on packages",
-        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+        tiers: { pro: false, contentGrowth: true, agency: true },
       },
     ],
   },
@@ -162,27 +164,27 @@ export const PRICING_SECTIONS: FeatureSection[] = [
     features: [
       {
         name: "AI Prompts tracking",
-        tiers: { Pro: "500", "Content Growth": "500", "For agencies": "1500" },
+        tiers: { pro: "500", contentGrowth: "500", agency: "1500" },
       },
       {
         name: "Automated prompt generation based on Attributes",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "ChatGPT",
-        tiers: { Pro: true, "Content Growth": true, "For agencies": true },
+        tiers: { pro: true, contentGrowth: true, agency: true },
       },
       {
         name: "Google AIO",
-        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+        tiers: { pro: false, contentGrowth: true, agency: true },
       },
       {
         name: "Add more models (Perplexity, Grok)",
-        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+        tiers: { pro: false, contentGrowth: true, agency: true },
       },
       {
         name: "AI prompts tracking add-ons",
-        tiers: { Pro: false, "Content Growth": true, "For agencies": true },
+        tiers: { pro: false, contentGrowth: true, agency: true },
       },
     ],
   },
@@ -191,11 +193,11 @@ export const PRICING_SECTIONS: FeatureSection[] = [
     features: [
       {
         name: "Brands",
-        tiers: { Pro: "1", "Content Growth": "1", "For agencies": "Unlimited" },
+        tiers: { pro: "1", contentGrowth: "1", agency: "Unlimited" },
       },
       {
         name: "14-day free trial",
-        tiers: { Pro: true, "Content Growth": false, "For agencies": false },
+        tiers: { pro: true, contentGrowth: false, agency: false },
       },
     ],
   },
@@ -204,15 +206,15 @@ export const PRICING_SECTIONS: FeatureSection[] = [
     features: [
       {
         name: "Content Writing",
-        tiers: { Pro: false, "Content Growth": false, "For agencies": true },
+        tiers: { pro: false, contentGrowth: false, agency: true },
       },
       {
         name: "Content Re-writing & Optimisation",
-        tiers: { Pro: false, "Content Growth": false, "For agencies": true },
+        tiers: { pro: false, contentGrowth: false, agency: true },
       },
       {
         name: "Content Scoring & Simulation",
-        tiers: { Pro: false, "Content Growth": false, "For agencies": true },
+        tiers: { pro: false, contentGrowth: false, agency: true },
       },
     ],
   },

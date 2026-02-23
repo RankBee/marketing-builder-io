@@ -92,7 +92,7 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
                 Where RankBee <span className="text-purple-600">Takes the Stage</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Conferences, speaking engagements, awards, and press coverage — see where the RankBee team is sharing insights on AI visibility.
+                Conferences, speaking engagements, awards, and press coverage - see where the RankBee team is sharing insights on AI visibility.
               </p>
             </div>
           </div>

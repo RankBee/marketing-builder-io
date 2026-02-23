@@ -23,7 +23,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'State of Search: The Unfiltered Edition',
     description:
-      'Aris Vrakas moderates a panel with Lily Ray (Amsive), Dan Taylor (SALT.agency), and John Campbell (ROAST) at Athens SEO — Greece\'s flagship search conference. Leading voices in SEO and AI discuss what\'s really happening in search right now: the wins, the challenges, and what\'s actually working in today\'s rapidly evolving landscape.',
+      'Aris Vrakas moderates a panel with Lily Ray (Amsive), Dan Taylor (SALT.agency), and John Campbell (ROAST) at Athens SEO - Greece\'s flagship search conference. Leading voices in SEO and AI discuss what\'s really happening in search right now: the wins, the challenges, and what\'s actually working in today\'s rapidly evolving landscape.',
     date: '2026-05-23',
     location: 'Athens, Greece',
     venue: 'Athens SEO 2026',
@@ -36,7 +36,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'Beyond Keywords: The New Era of Search Strategy for iGaming Brands SEO',
     description:
-      'Aris Vrakas will speak at AffPapa Conference Madrid — one of the largest iGaming affiliate conferences in Europe, bringing together over 1,500 affiliates, operators, and B2B providers across two full days. The talk will cover how to succeed with Answer Engine Optimization (AEO) and Generative AI Optimization (GAIO) in the new era of AI-powered search.',
+      'Aris Vrakas will speak at AffPapa Conference Madrid - one of the largest iGaming affiliate conferences in Europe, bringing together over 1,500 affiliates, operators, and B2B providers across two full days. The talk will cover how to succeed with Answer Engine Optimization (AEO) and Generative AI Optimization (GAIO) in the new era of AI-powered search.',
     date: '2026-05-19',
     location: 'Madrid, Spain',
     venue: 'AffPapa Conference Madrid 2026',
@@ -62,7 +62,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'How to Win with AI Content',
     description:
-      'Aris Vrakas joins a panel at NEXT.io Summit New York — North America\'s foremost iGaming and sports betting summit, hosted at Convene Brookfield Place. The panel will explore strategies for winning with AI-generated content in an increasingly competitive landscape. Exact topic to be confirmed.',
+      'Aris Vrakas joins a panel at NEXT.io Summit New York - North America\'s foremost iGaming and sports betting summit, hosted at Convene Brookfield Place. The panel will explore strategies for winning with AI-generated content in an increasingly competitive landscape. Exact topic to be confirmed.',
     date: '2026-03-10',
     location: 'New York, USA',
     venue: 'NEXT.io Summit NYC 2026',
@@ -85,7 +85,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'Visibility at Risk: How AI Search Shapes Your Brand — And How to Take Control',
     description:
-      'seoClarity — one of the world\'s largest enterprise SEO platforms, trusted by Fortune 500 brands — brought in Aris Vrakas (CEO, RankBee & former Head of Global SEO at Amazon) and Will Gallahue (Product Lead, RankBee) as expert guests alongside Mark Traphagen (VP of Product Marketing, seoClarity). The webinar shared exclusive insights from joint AI search research, real-world case studies of brands successfully optimizing for AI-driven search, and a clear framework to structure content so AI search engines can recognize and prioritize your brand.',
+      'seoClarity - one of the world\'s largest enterprise SEO platforms, trusted by Fortune 500 brands - brought in Aris Vrakas (CEO, RankBee & former Head of Global SEO at Amazon) and Will Gallahue (Product Lead, RankBee) as expert guests alongside Mark Traphagen (VP of Product Marketing, seoClarity). The webinar shared exclusive insights from joint AI search research, real-world case studies of brands successfully optimizing for AI-driven search, and a clear framework to structure content so AI search engines can recognize and prioritize your brand.',
     date: '2025-12-01',
     venue: 'seoClarity Webinar Series',
     url: 'https://www.seoclarity.net/webinar/ai-search-visibility-and-brand-accuracy/',
@@ -97,7 +97,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'Female Founders Forum Launch at the UK House of Lords',
     description:
-      'Yin Noe, COO of RankBee, attended the launch of the Female Founders Forum by Barclays and The Entrepreneurs Network at the UK House of Lords. The event focused on how female-led spinouts are created and what barriers hold them back — highlighting the need for more funding, visibility, and real institutional support to widen pathways for women in innovation.',
+      'Yin Noe, COO of RankBee, attended the launch of the Female Founders Forum by Barclays and The Entrepreneurs Network at the UK House of Lords. The event focused on how female-led spinouts are created and what barriers hold them back - highlighting the need for more funding, visibility, and real institutional support to widen pathways for women in innovation.',
     date: '2026-02-08',
     location: 'London, UK',
     venue: 'UK House of Lords',
@@ -109,7 +109,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'AEO & AI Visibility: The New SEO Playbook — Live AMA with Minuttia & RankBee',
     description:
-      'Aris Vrakas joined Minuttia — a leading SEO and content strategy consultancy trusted by high-growth SaaS companies — for a live AMA on the new era of AI visibility. The session unpacked what "ranking" means in the age of generative AI, the emerging AEO (Answer Engine Optimization) tech stack, and a practical playbook for turning AI visibility gaps into an actionable roadmap for modern SEO and content teams.',
+      'Aris Vrakas joined Minuttia - a leading SEO and content strategy consultancy trusted by high-growth SaaS companies - for a live AMA on the new era of AI visibility. The session unpacked what "ranking" means in the age of generative AI, the emerging AEO (Answer Engine Optimization) tech stack, and a practical playbook for turning AI visibility gaps into an actionable roadmap for modern SEO and content teams.',
     date: '2026-02-04',
     url: 'https://www.linkedin.com/events/7414981604428800000/',
     image: '/images/minuttia-rankbee-aeo-webinar-2026.png',
@@ -120,7 +120,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'Winning the AI Vote: How Political Voices Get Seen (or Silenced) in the Age of LLMs',
     description:
-      'Aris Vrakas, Yin Noe, and Rizwan Khan from RankBee delivered a deep-dive workshop at the Political Tech Summit — Europe\'s premier conference at the intersection of politics and technology, bringing together political strategists, technologists, and policymakers from across the continent. The session explored how large language models are rapidly reshaping political discovery, influence, and trust, and equipped participants with actionable frameworks for securing visibility in AI-generated answers.',
+      'Aris Vrakas, Yin Noe, and Rizwan Khan from RankBee delivered a deep-dive workshop at the Political Tech Summit - Europe\'s premier conference at the intersection of politics and technology, bringing together political strategists, technologists, and policymakers from across the continent. The session explored how large language models are rapidly reshaping political discovery, influence, and trust, and equipped participants with actionable frameworks for securing visibility in AI-generated answers.',
     date: '2026-01-24',
     location: 'Berlin, Germany',
     venue: 'Political Tech Summit 2026',
@@ -133,7 +133,7 @@ export const allEvents: EventEntry[] = [
   {
     title: 'Beyond Keywords: Redefining Search Intent in the Age of LLMs',
     description:
-      'Aris Vrakas closed the Athens SEO 2025 stage with a lightning session exploring how prompt engineering, corpus shaping, and vector-based optimisation are changing everything we know about keyword strategies. The talk challenged the audience to rethink search in the age of LLMs — a glimpse into the future of SEO.',
+      'Aris Vrakas closed the Athens SEO 2025 stage with a lightning session exploring how prompt engineering, corpus shaping, and vector-based optimisation are changing everything we know about keyword strategies. The talk challenged the audience to rethink search in the age of LLMs - a glimpse into the future of SEO.',
     date: '2025-05-24',
     location: 'Athens, Greece',
     venue: 'Athens SEO 2025',

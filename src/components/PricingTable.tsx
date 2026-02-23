@@ -18,6 +18,30 @@ const FREQUENCIES: BillingFrequency[] = [
   { value: "annual", label: "Annually" },
 ];
 
+const PRICING_TABLE_CSS = `
+  @keyframes pricing-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  .pcta:hover { animation: pricing-shimmer 1.5s ease-in-out infinite !important; box-shadow: 0 4px 15px rgba(147,51,234,0.4) !important; }
+  .pricing-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .pricing-purple-bg { position: absolute; left: 0; right: 0; bottom: 0; top: 192px; background: radial-gradient(circle at center, #9810fa, #6d1cb5, #030712 70%); }
+  .pt-desktop-table { display: table; }
+  .pt-mobile-tabs { display: none; }
+  .pt-tab[data-headlessui-state~="selected"] { border-bottom: 2px solid #9333ea !important; }
+  .pt-tab:focus-visible { outline: 2px solid #7c3aed; outline-offset: 2px; }
+  .pt-table-container { padding-top: 3rem; }
+  .pricing-cards-wrap { margin: 2rem auto 4rem; }
+  .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
+  @media (max-width: 640px) {
+    .pricing-cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .pricing-purple-bg { top: 0; }
+    .pricing-logos { gap: 1.5rem; padding: 2rem 0; }
+    .pt-desktop-table { display: none; }
+    .pt-mobile-tabs { display: block; }
+    .pt-table-container { padding-top: 1rem; }
+    .pricing-cards-wrap { margin: 0 auto; }
+    .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
+  }
+`;
+
 const LOGOS = [
   { name: "Growcreate", src: "/images/logos/growcreate.svg", url: "https://growcreate.co.uk", height: 28, invert: false, pill: false, imgStyle: {} },
   { name: "Alpha Bank", src: "/images/logos/alphabank.svg", url: "https://www.alpha.gr", height: 36, invert: false, pill: true, imgStyle: {} },
@@ -61,29 +85,7 @@ export function PricingTable() {
 
   return (
     <div className="bg-white">
-      <style>{`
-        @keyframes pricing-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-        .pcta:hover { animation: pricing-shimmer 1.5s ease-in-out infinite !important; box-shadow: 0 4px 15px rgba(147,51,234,0.4) !important; }
-        .pricing-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-        .pricing-purple-bg { position: absolute; left: 0; right: 0; bottom: 0; top: 192px; background: radial-gradient(circle at center, #9810fa, #6d1cb5, #030712 70%); }
-        .pt-desktop-table { display: table; }
-        .pt-mobile-tabs { display: none; }
-        .pt-tab[data-selected] { border-bottom: 2px solid #9333ea !important; }
-        .pt-tab:focus-visible { outline: 2px solid #7c3aed; outline-offset: 2px; }
-        .pt-table-container { padding-top: 3rem; }
-        .pricing-cards-wrap { margin: 2rem auto 4rem; }
-        .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
-        @media (max-width: 640px) {
-          .pricing-cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-          .pricing-purple-bg { top: 0; }
-          .pricing-logos { gap: 1.5rem; padding: 2rem 0; }
-          .pt-desktop-table { display: none; }
-          .pt-mobile-tabs { display: block; }
-          .pt-table-container { padding-top: 1rem; }
-          .pricing-cards-wrap { margin: 0 auto; }
-          .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
-        }
-      `}</style>
+      <style suppressHydrationWarning>{PRICING_TABLE_CSS}</style>
 
       {/* ── Hero ── */}
       <div className="pricing-hero">
@@ -125,7 +127,7 @@ export function PricingTable() {
           {/* Cards grid */}
           <div className="pricing-cards-grid">
             {PRICING_TIERS.map((tier) => (
-              <div key={tier.name} style={{ borderRadius: "2rem", background: "rgba(255,255,255,0.025)", boxShadow: "inset 0 0 2px 1px rgba(255,255,255,0.3)", display: "grid", gridTemplateColumns: "1fr", backgroundColor: "#fff" }}>
+              <div key={tier.name} style={{ borderRadius: "2rem", background: "rgba(255,255,255,0.025)", boxShadow: "inset 0 0 2px 1px rgba(255,255,255,0.3)", display: "grid", gridTemplateColumns: "1fr", backgroundColor: "#fff", border: "1px solid #f3f4f7ff" }}>
                 <div style={{ borderRadius: "2rem", padding: "8px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", display: "grid", gridTemplateColumns: "1fr" }}>
                   <div style={{ position: "relative", overflow: "hidden", borderRadius: "1.75rem", backgroundColor: "#fff", padding: "2.5rem", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column" }}>
                     {tier.badge && (
@@ -134,8 +136,8 @@ export function PricingTable() {
                       </div>
                     )}
                     <div style={{ minHeight: "7rem" }}>
-                      <p style={{ fontSize: "0.875rem", fontWeight: 600, color: "#9333ea", margin: 0 }}>{tier.name}</p>
-                      <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#4b5563", lineHeight: 1.6, marginBottom: 0 }}>{tier.description}</p>
+                      <p style={{ fontSize: "1rem", fontWeight: 600, color: "#9333ea", margin: 0 }}>{tier.name}</p>
+                      <p style={{ marginTop: "0.5rem", fontSize: "1rem", color: "#4b5563", lineHeight: 1.6, marginBottom: 0 }}>{tier.description}</p>
                     </div>
                     <div style={{ marginTop: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
                       <span style={{ fontSize: "3rem", fontWeight: 600, color: "#030712", lineHeight: 1 }}>{symbol}{tier.prices[billing][currency]}</span>
@@ -151,14 +153,14 @@ export function PricingTable() {
                       </a>
                     </div>
                     <div style={{ marginTop: "2rem" }}>
-                      <h3 style={{ fontSize: "0.875rem", fontWeight: 600, color: "#030712", margin: 0 }}>What&apos;s included</h3>
+                      <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "#030712", margin: 0 }}>What&apos;s included</h3>
                       <ul style={{ marginTop: "0.75rem", listStyle: "none", padding: 0, margin: "0.75rem 0 0 0", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                         {tier.highlights.map((h) => (
-                          <li key={h.description} style={{ display: "flex", alignItems: "flex-start", gap: "1rem", fontSize: "0.875rem", color: "#4b5563" }}>
+                          <li key={h.description} style={{ display: "flex", alignItems: "flex-start", gap: "1rem", fontSize: "1rem", color: h.disabled ? "#9ca3af" : "#4b5563", textDecoration: h.disabled ? "line-through" : "none" }}>
                             <span style={{ display: "inline-flex", height: "1.5rem", alignItems: "center" }}>
-                              <CheckIcon aria-hidden="true" style={{ width: "1rem", height: "1rem", flexShrink: 0, fill: "#9333ea" }} />
+                              <CheckIcon aria-hidden="true" style={{ width: "1rem", height: "1rem", flexShrink: 0, fill: h.disabled ? "#9ca3af" : "#9333ea" }} />
                             </span>
-                            {h.description}
+                            <span style={{ fontWeight: h.bold ? 600 : 400 }}>{h.description}</span>
                           </li>
                         ))}
                       </ul>
@@ -201,7 +203,7 @@ export function PricingTable() {
               <td style={{ padding: 0 }} />
               {PRICING_TIERS.map((tier) => (
                 <th key={tier.name} scope="col" style={{ padding: 0 }}>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#9333ea' }}>{tier.name}</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 600, color: '#9333ea' }}>{tier.name}</div>
                 </th>
               ))}
             </tr>
@@ -210,7 +212,7 @@ export function PricingTable() {
               {PRICING_TIERS.map((tier) => (
                 <td key={tier.name} style={{ padding: '0.75rem 0 0 0' }}>
                   <a href={tier.href} onClick={() => handlePricingClick(tier.name, tier.ctaLabel)}
-                    style={{ display: 'inline-block', borderRadius: '6px', padding: '6px 14px', fontSize: '0.875rem', fontWeight: 600, color: '#111827', textDecoration: 'none', backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 0 0 1px #d1d5db' }}
+                    style={{ display: 'inline-block', borderRadius: '6px', padding: '6px 14px', fontSize: '1rem', fontWeight: 600, color: '#111827', textDecoration: 'none', backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 0 0 1px #d1d5db' }}
                   >{tier.ctaLabel}</a>
                 </td>
               ))}
@@ -220,18 +222,18 @@ export function PricingTable() {
             <tbody key={section.name}>
               <tr>
                 <th colSpan={4} scope="colgroup" style={{ padding: '2.5rem 0 0 0' }}>
-                  <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '0.875rem', fontWeight: 600, color: '#030712', marginLeft: '-1rem', marginRight: '-1rem' }}>{section.name}</div>
+                  <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '1rem', fontWeight: 600, color: '#030712', marginLeft: '-1rem', marginRight: '-1rem' }}>{section.name}</div>
                 </th>
               </tr>
               {section.features.map((feature) => (
                 <tr key={feature.name} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                  <th scope="row" style={{ padding: '1rem 0', fontSize: '0.875rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</th>
+                  <th scope="row" style={{ padding: '1rem 0', fontSize: '1rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</th>
                   {PRICING_TIERS.map((tier) => {
                     const value = feature.tiers[tier.key];
                     return (
                       <td key={tier.name} style={{ padding: '1rem' }}>
                         {typeof value === 'string' ? (
-                          <span style={{ fontSize: '0.875rem', color: '#030712' }}>{value}</span>
+                          <span style={{ fontSize: '1rem', color: '#030712' }}>{value}</span>
                         ) : value === true ? (
                           <CheckIcon aria-hidden="true" style={{ display: 'inline-block', width: '1rem', height: '1rem', fill: '#16a34a' }} />
                         ) : (
@@ -251,7 +253,7 @@ export function PricingTable() {
           <TabList style={{ display: 'flex', borderBottom: '1px solid #e5e7eb' }}>
             {PRICING_TIERS.map((tier) => (
               <Tab key={tier.name}
-                style={{ flex: 1, padding: '1rem 0', fontSize: '0.875rem', fontWeight: 500, color: '#9333ea', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '2px solid transparent' }}
+                style={{ flex: 1, padding: '1rem 0', fontSize: '1rem', fontWeight: 500, color: '#9333ea', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '2px solid transparent' }}
                 className="pt-tab"
               >
                 {tier.name}
@@ -262,18 +264,18 @@ export function PricingTable() {
             {PRICING_TIERS.map((tier) => (
               <TabPanel key={tier.name}>
                 <a href={tier.href} onClick={() => handlePricingClick(tier.name, tier.ctaLabel)}
-                  style={{ display: 'block', marginTop: '1.5rem', borderRadius: '8px', padding: '0.75rem 1rem', textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: '#111827', textDecoration: 'none', backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 0 0 1px #d1d5db' }}
+                  style={{ display: 'block', marginTop: '1.5rem', borderRadius: '8px', padding: '0.75rem 1rem', textAlign: 'center', fontSize: '1rem', fontWeight: 600, color: '#111827', textDecoration: 'none', backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 0 0 1px #d1d5db' }}
                 >{tier.ctaLabel}</a>
                 {PRICING_SECTIONS.map((section) => (
                   <Fragment key={section.name}>
-                    <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '0.875rem', fontWeight: 600, color: '#030712', margin: '1.5rem -0.5rem 0' }}>{section.name}</div>
+                    <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '1rem', fontWeight: 600, color: '#030712', margin: '1.5rem -0.5rem 0' }}>{section.name}</div>
                     <dl>
                       {section.features.map((feature) => (
                         <div key={feature.name} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid #f3f4f6', padding: '1rem 0' }}>
-                          <dt style={{ fontSize: '0.875rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</dt>
+                          <dt style={{ fontSize: '1rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</dt>
                           <dd style={{ textAlign: 'right' }}>
                             {typeof feature.tiers[tier.key] === 'string' ? (
-                              <span style={{ fontSize: '0.875rem', color: '#030712' }}>{feature.tiers[tier.key] as string}</span>
+                              <span style={{ fontSize: '1rem', color: '#030712' }}>{feature.tiers[tier.key] as string}</span>
                             ) : feature.tiers[tier.key] === true ? (
                               <CheckIcon aria-hidden="true" style={{ display: 'inline-block', width: '1rem', height: '1rem', fill: '#16a34a' }} />
                             ) : (

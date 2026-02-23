@@ -3913,3 +3913,8 @@ body.animations-paused *::before,
 body.animations-paused *::after {
   animation-play-state: paused !important;
 }
+
+/* Minimum paragraph font size — consistent across all screen sizes */
+p {
+  font-size: 1.125rem;
+}

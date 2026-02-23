@@ -39,6 +39,7 @@ const PRICING_TABLE_CSS = `
     .pt-table-container { padding-top: 1rem; }
     .pricing-cards-wrap { margin: 0 auto; }
     .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
+    .pricing-card-inner { padding: 1.5rem !important; }
   }
 `;
 
@@ -129,15 +130,15 @@ export function PricingTable() {
             {PRICING_TIERS.map((tier) => (
               <div key={tier.name} style={{ borderRadius: "2rem", background: "rgba(255,255,255,0.025)", boxShadow: "inset 0 0 2px 1px rgba(255,255,255,0.3)", display: "grid", gridTemplateColumns: "1fr", backgroundColor: "#fff", border: "1px solid #f3f4f7ff" }}>
                 <div style={{ borderRadius: "2rem", padding: "8px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", display: "grid", gridTemplateColumns: "1fr" }}>
-                  <div style={{ position: "relative", overflow: "hidden", borderRadius: "1.75rem", backgroundColor: "#fff", padding: "2.5rem", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column" }}>
+                  <div className="pricing-card-inner" style={{ position: "relative", overflow: "hidden", borderRadius: "1.75rem", backgroundColor: "#fff", padding: "2.5rem", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column" }}>
                     {tier.badge && (
                       <div style={{ position: "absolute", top: "45px", right: "-45px", backgroundColor: "#111827", color: "#fff", fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "6px 48px", transform: "rotate(45deg)", whiteSpace: "nowrap", zIndex: 1 }}>
                         {tier.badge}
                       </div>
                     )}
                     <div style={{ minHeight: "7rem" }}>
-                      <p style={{ fontSize: "1rem", fontWeight: 600, color: "#9333ea", margin: 0 }}>{tier.name}</p>
-                      <p style={{ marginTop: "0.5rem", fontSize: "1rem", color: "#4b5563", lineHeight: 1.6, marginBottom: 0 }}>{tier.description}</p>
+                      <p style={{ fontSize: "1.125rem", fontWeight: 600, color: "#9333ea", margin: 0 }}>{tier.name}</p>
+                      <p style={{ marginTop: "0.5rem", fontSize: "1.125rem", color: "#4b5563", lineHeight: 1.6, marginBottom: 0 }}>{tier.description}</p>
                     </div>
                     <div style={{ marginTop: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
                       <span style={{ fontSize: "3rem", fontWeight: 600, color: "#030712", lineHeight: 1 }}>{symbol}{tier.prices[billing][currency]}</span>
@@ -153,10 +154,10 @@ export function PricingTable() {
                       </a>
                     </div>
                     <div style={{ marginTop: "2rem" }}>
-                      <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "#030712", margin: 0 }}>What&apos;s included</h3>
+                      <h3 style={{ fontSize: "1.125rem", fontWeight: 600, color: "#030712", margin: 0 }}>What&apos;s included</h3>
                       <ul style={{ marginTop: "0.75rem", listStyle: "none", padding: 0, margin: "0.75rem 0 0 0", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                         {tier.highlights.map((h) => (
-                          <li key={h.description} style={{ display: "flex", alignItems: "flex-start", gap: "1rem", fontSize: "1rem", color: h.disabled ? "#9ca3af" : "#4b5563", textDecoration: h.disabled ? "line-through" : "none" }}>
+                          <li key={h.description} style={{ display: "flex", alignItems: "flex-start", gap: "1rem", fontSize: "1.125rem", color: h.disabled ? "#9ca3af" : "#4b5563", textDecoration: h.disabled ? "line-through" : "none" }}>
                             <span style={{ display: "inline-flex", height: "1.5rem", alignItems: "center" }}>
                               <CheckIcon aria-hidden="true" style={{ width: "1rem", height: "1rem", flexShrink: 0, fill: h.disabled ? "#9ca3af" : "#9333ea" }} />
                             </span>
@@ -203,7 +204,7 @@ export function PricingTable() {
               <td style={{ padding: 0 }} />
               {PRICING_TIERS.map((tier) => (
                 <th key={tier.name} scope="col" style={{ padding: 0 }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 600, color: '#9333ea' }}>{tier.name}</div>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 600, color: '#9333ea' }}>{tier.name}</div>
                 </th>
               ))}
             </tr>
@@ -212,7 +213,7 @@ export function PricingTable() {
               {PRICING_TIERS.map((tier) => (
                 <td key={tier.name} style={{ padding: '0.75rem 0 0 0' }}>
                   <a href={tier.href} onClick={() => handlePricingClick(tier.name, tier.ctaLabel)}
-                    style={{ display: 'inline-block', borderRadius: '6px', padding: '6px 14px', fontSize: '1rem', fontWeight: 600, color: '#111827', textDecoration: 'none', backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 0 0 1px #d1d5db' }}
+                    style={{ display: 'inline-block', borderRadius: '6px', padding: '6px 14px', fontSize: '1.125rem', fontWeight: 600, color: '#111827', textDecoration: 'none', backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.05), inset 0 0 0 1px #d1d5db' }}
                   >{tier.ctaLabel}</a>
                 </td>
               ))}
@@ -222,18 +223,18 @@ export function PricingTable() {
             <tbody key={section.name}>
               <tr>
                 <th colSpan={4} scope="colgroup" style={{ padding: '2.5rem 0 0 0' }}>
-                  <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '1rem', fontWeight: 600, color: '#030712', marginLeft: '-1rem', marginRight: '-1rem' }}>{section.name}</div>
+                  <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '1.125rem', fontWeight: 600, color: '#030712', marginLeft: '-1rem', marginRight: '-1rem' }}>{section.name}</div>
                 </th>
               </tr>
               {section.features.map((feature) => (
                 <tr key={feature.name} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                  <th scope="row" style={{ padding: '1rem 0', fontSize: '1rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</th>
+                  <th scope="row" style={{ padding: '1rem 0', fontSize: '1.125rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</th>
                   {PRICING_TIERS.map((tier) => {
                     const value = feature.tiers[tier.key];
                     return (
                       <td key={tier.name} style={{ padding: '1rem' }}>
                         {typeof value === 'string' ? (
-                          <span style={{ fontSize: '1rem', color: '#030712' }}>{value}</span>
+                          <span style={{ fontSize: '1.125rem', color: '#030712' }}>{value}</span>
                         ) : value === true ? (
                           <CheckIcon aria-hidden="true" style={{ display: 'inline-block', width: '1rem', height: '1rem', fill: '#16a34a' }} />
                         ) : (
@@ -253,7 +254,7 @@ export function PricingTable() {
           <TabList style={{ display: 'flex', borderBottom: '1px solid #e5e7eb' }}>
             {PRICING_TIERS.map((tier) => (
               <Tab key={tier.name}
-                style={{ flex: 1, padding: '1rem 0', fontSize: '1rem', fontWeight: 500, color: '#9333ea', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '2px solid transparent' }}
+                style={{ flex: 1, padding: '1rem 0', fontSize: '1.125rem', fontWeight: 500, color: '#9333ea', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '2px solid transparent' }}
                 className="pt-tab"
               >
                 {tier.name}
@@ -268,14 +269,14 @@ export function PricingTable() {
                 >{tier.ctaLabel}</a>
                 {PRICING_SECTIONS.map((section) => (
                   <Fragment key={section.name}>
-                    <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '1rem', fontWeight: 600, color: '#030712', margin: '1.5rem -0.5rem 0' }}>{section.name}</div>
+                    <div style={{ borderRadius: '8px', backgroundColor: '#f9fafb', padding: '10px 16px', fontSize: '1.125rem', fontWeight: 600, color: '#030712', margin: '1.5rem -0.5rem 0' }}>{section.name}</div>
                     <dl>
                       {section.features.map((feature) => (
                         <div key={feature.name} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid #f3f4f6', padding: '1rem 0' }}>
-                          <dt style={{ fontSize: '1rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</dt>
+                          <dt style={{ fontSize: '1.125rem', fontWeight: 400, color: '#4b5563' }}>{feature.name}</dt>
                           <dd style={{ textAlign: 'right' }}>
                             {typeof feature.tiers[tier.key] === 'string' ? (
-                              <span style={{ fontSize: '1rem', color: '#030712' }}>{feature.tiers[tier.key] as string}</span>
+                              <span style={{ fontSize: '1.125rem', color: '#030712' }}>{feature.tiers[tier.key] as string}</span>
                             ) : feature.tiers[tier.key] === true ? (
                               <CheckIcon aria-hidden="true" style={{ display: 'inline-block', width: '1rem', height: '1rem', fill: '#16a34a' }} />
                             ) : (

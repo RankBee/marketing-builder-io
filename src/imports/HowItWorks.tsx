@@ -51,7 +51,7 @@ function ImageWithFallback() {
 function GaoHomePage() {
   return (
     <div className="w-full" data-name="GAOHomePage">
-      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#4a5565] tracking-[-0.1504px]" style={{ fontSize: '1rem' }}>Track visibility, mentions, and ranking across hundreds of real AI prompts. See how you stack up against competitors in ChatGPT, Claude, and Gemini.</p>
+      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#4a5565] tracking-[-0.1504px] text-lg">Track visibility, mentions, and ranking across hundreds of real AI prompts. See how you stack up against competitors in ChatGPT, Claude, and Gemini.</p>
     </div>
   );
 }
@@ -145,7 +145,7 @@ function ImageWithFallback1() {
 function GaoHomePage2() {
   return (
     <div className="w-full" data-name="GAOHomePage">
-      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#4a5565] tracking-[-0.1504px]" style={{ fontSize: '1rem' }}>
+      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#4a5565] tracking-[-0.1504px] text-lg">
         We're the only platform that scores content at the <span className="font-['Inter:Bold',_sans-serif]">attribute level</span> - the features and benefits AI models actually reason about. Forget keywords. Optimize for attributes.
       </p>
     </div>
@@ -155,7 +155,7 @@ function GaoHomePage2() {
 function ListItem({ text }: { text: string }) {
   return (
     <div className="bg-slate-50 px-[8px] py-[4.5px] rounded-[8px]" data-name="List Item">
-      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#364153] tracking-[-0.1504px]" style={{ fontSize: '1rem' }}>{text}</p>
+      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#364153] tracking-[-0.1504px] text-lg">{text}</p>
     </div>
   );
 }
@@ -225,7 +225,7 @@ function ImageWithFallback2() {
 function GaoHomePage4() {
   return (
     <div className="w-full" data-name="GAOHomePage">
-      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#4a5565] tracking-[-0.1504px]" style={{ fontSize: '1rem' }}>
+      <p className="font-['Inter:Regular',_sans-serif] leading-[24px] text-[#4a5565] tracking-[-0.1504px] text-lg">
         Paste any URL or raw text. We ingest the page, rewrite it, and re-test against competitors with proprietary prompt sets. Every page gets a <span className="font-bold">Pre</span> and <span className="font-bold">Post</span> Optimization Score before you publish.
       </p>
     </div>

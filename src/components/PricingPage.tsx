@@ -67,6 +67,7 @@ function FaqSection() {
             <div key={i} style={{ border: "1px solid #e5e7eb", borderRadius: "0.75rem", overflow: "hidden" }}>
               <button
                 onClick={() => setOpenIndex(isOpen ? null : i)}
+                aria-expanded={isOpen}
                 style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1.25rem 1.5rem", background: "none", border: "none", cursor: "pointer", textAlign: "left", gap: "1rem" }}
               >
                 <h4 style={{ fontSize: "1rem", fontWeight: 600, color: "#111827", margin: 0 }}>{faq.q}</h4>

@@ -17,7 +17,7 @@ const pricingJsonLd = [
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "GBP",
-      lowPrice: "79",
+      lowPrice: "99",
       highPrice: "599",
       offerCount: 3,
       offers: [
@@ -25,11 +25,11 @@ const pricingJsonLd = [
           "@type": "Offer",
           name: "Pro",
           description: "For individual entrepreneurs and early-stage startups. 10 content generations/month, 500 AI prompt tracking, ChatGPT model, 1 brand. Includes 14-day free trial.",
-          price: "79",
+          price: "99",
           priceCurrency: "GBP",
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "79",
+            price: "99",
             priceCurrency: "GBP",
             unitText: "MON"
           },

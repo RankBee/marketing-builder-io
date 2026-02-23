@@ -95,7 +95,8 @@ export function PricingPage({ onPageChange }: PricingPageProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-100">
+    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
+      {/* NOTE: w-full + overflow-x-hidden are required to prevent a white gap on the right at 1024-1084px viewport widths. Do not remove without testing that breakpoint range. */}
       {/* Hero Section */}
       {/* <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">

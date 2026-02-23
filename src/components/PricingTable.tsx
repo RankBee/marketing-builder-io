@@ -102,7 +102,7 @@ export function PricingTable() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px", borderRadius: "9999px", padding: "4px", border: "1px solid #e5e7eb" }}>
                 {FREQUENCIES.map((freq) => (
                   <label key={freq.value} style={{ position: "relative", borderRadius: "9999px", padding: "6px 20px", cursor: "pointer", textAlign: "center", fontSize: "0.75rem", fontWeight: 600, backgroundColor: billing === freq.value ? "#9333ea" : "transparent", transition: "background-color 0.15s" }}>
-                    <input value={freq.value} checked={billing === freq.value} onChange={() => setBilling(freq.value)} name="frequency" type="radio" style={{ position: "absolute", inset: 0, appearance: "none", borderRadius: "9999px", margin: 0, cursor: "pointer" }} />
+                    <input value={freq.value} checked={billing === freq.value} onChange={() => setBilling(freq.value)} name="frequency" type="radio" aria-label={freq.label} style={{ position: "absolute", inset: 0, appearance: "none", borderRadius: "9999px", margin: 0, cursor: "pointer" }} />
                     <span style={{ color: billing === freq.value ? "#fff" : "#6b7280", position: "relative" }}>{freq.label}</span>
                   </label>
                 ))}

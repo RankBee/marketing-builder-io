@@ -10,7 +10,7 @@ import {
  * Custom hook to track team availability status in real-time
  */
 export function useTeamAvailability() {
-  const [isAvailable, setIsAvailable] = useState(isWithinBusinessHours());
+  const [isAvailable, setIsAvailable] = useState(false);
 
   useEffect(() => {
     // Check availability immediately

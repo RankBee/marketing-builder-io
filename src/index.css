@@ -448,7 +448,7 @@
   }
 
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) p {
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: var(--font-weight-normal);
     line-height: 1.6;
   }
@@ -3912,4 +3912,9 @@ body.animations-paused *,
 body.animations-paused *::before,
 body.animations-paused *::after {
   animation-play-state: paused !important;
+}
+
+/* Minimum paragraph font size — consistent across all screen sizes */
+p {
+  font-size: 1.125rem;
 }

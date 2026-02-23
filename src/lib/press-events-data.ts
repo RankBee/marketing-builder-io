@@ -47,6 +47,18 @@ export const allEvents: EventEntry[] = [
     performers: ['Aris Vrakas'],
   },
   {
+    title: 'AI Search Is Rewriting iGaming - What Brands Must Do to Win',
+    description:
+      'Aris Vrakas speaks at HIPTHER Prague — a premier conference for innovators in the iGaming and digital marketing space. The session explores how AI-powered search is transforming the iGaming landscape and what brands must do to maintain visibility and competitiveness in this new era.',
+    date: '2026-03-24',
+    location: 'Prague, Czech Republic',
+    venue: 'HIPTHER Prague 2026',
+    url: 'https://hipther.c',
+    type: 'conference',
+    speaker: 'Aris Vrakas',
+    performers: ['Aris Vrakas'],
+  },
+  {
     title: 'How to Win with AI Content',
     description:
       'Aris Vrakas joins a panel at NEXT.io Summit New York — North America\'s foremost iGaming and sports betting summit, hosted at Convene Brookfield Place. The panel will explore strategies for winning with AI-generated content in an increasingly competitive landscape. Exact topic to be confirmed.',

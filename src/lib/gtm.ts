@@ -62,9 +62,17 @@ export function setClerkContext(userId?: string, orgId?: string, toolId?: string
  * @param event - Event name
  * @param data - Additional event data
  */
+const DATA_LAYER_MAX = 1000;
+const DATA_LAYER_TRIM_TO = 500;
+
 export function pushToDataLayer(event: string, data?: Record<string, any>): void {
   if (typeof window === 'undefined' || !window.dataLayer) return;
-  
+
+  // Guard against unbounded growth when GTM is blocked (e.g. ad blockers)
+  if (window.dataLayer.length >= DATA_LAYER_MAX) {
+    window.dataLayer.splice(0, window.dataLayer.length - DATA_LAYER_TRIM_TO);
+  }
+
   const eventData = {
     event,
     timestamp: new Date().toISOString(),

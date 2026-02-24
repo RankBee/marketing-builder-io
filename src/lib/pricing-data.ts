@@ -95,7 +95,7 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     key: "agency",
     name: "For agencies",
-    description: "Unlimited Brands, and 300 content generations to enable content growth for multiple clients.",
+    description: "Unlimited Brands, 300 content generations, and full API access to enable content growth for multiple clients.",
     prices: PRICING.agency,
     href: CHARGEBEE_URLS.agency,
     ctaLabel: "Setup a call",

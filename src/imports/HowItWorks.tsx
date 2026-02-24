@@ -9,6 +9,7 @@ import { signUpUrl } from "../lib/clerk-env";
 
 const imgCompetitorDashboard = "/images/competitor-dashboard.png";
 const imgAttributeHeatmap = "/images/attribute-heatmap.png";
+const imgAiRewrite = "/images/ai-rewrite.png";
 
 function Heading2() {
   return (

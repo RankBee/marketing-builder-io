@@ -28,7 +28,7 @@ export const allEvents: EventEntry[] = [
     location: 'Athens, Greece',
     venue: 'Athens SEO 2026',
     url: 'https://athenseo.com/speakers/aris-vrakas/',
-    image: '/images/athens-seo-conference-2026.png',
+    image: '/images/athens-seo-conference-2026.webp',
     type: 'conference',
     speaker: 'Aris Vrakas (Moderator)',
     performers: ['Aris Vrakas'],
@@ -41,7 +41,7 @@ export const allEvents: EventEntry[] = [
     location: 'Madrid, Spain',
     venue: 'AffPapa Conference Madrid 2026',
     url: 'https://affpapaconf.com/madrid-2026/',
-    image: '/images/affpapa-conference-madrid-2026.png',
+    image: '/images/affpapa-conference-madrid-2026.webp',
     type: 'conference',
     speaker: 'Aris Vrakas',
     performers: ['Aris Vrakas'],
@@ -76,7 +76,7 @@ export const allEvents: EventEntry[] = [
     date: '2025-12-01',
     venue: 'seoClarity Webinar Series',
     url: 'https://www.seoclarity.net/webinar/ai-search-visibility-and-brand-accuracy/',
-    image: '/images/seoclarity-rankbee-ai-search-webinar.png',
+    image: '/images/seoclarity-rankbee-ai-search-webinar.webp',
     type: 'webinar',
     speaker: 'Aris Vrakas & Will Gallahue',
     performers: ['Aris Vrakas', 'Will Gallahue'],
@@ -88,7 +88,7 @@ export const allEvents: EventEntry[] = [
     date: '2026-02-08',
     location: 'London, UK',
     venue: 'UK House of Lords',
-    image: '/images/yin-parliament.png',
+    image: '/images/yin-parliament.webp',
     type: 'conference',
     speaker: 'Yin Noe',
     performers: ['Yin Noe'],
@@ -99,7 +99,7 @@ export const allEvents: EventEntry[] = [
       'Aris Vrakas joined Minuttia — a leading SEO and content strategy consultancy trusted by high-growth SaaS companies — for a live AMA on the new era of AI visibility. The session unpacked what "ranking" means in the age of generative AI, the emerging AEO (Answer Engine Optimization) tech stack, and a practical playbook for turning AI visibility gaps into an actionable roadmap for modern SEO and content teams.',
     date: '2026-02-04',
     url: 'https://www.linkedin.com/events/7414981604428800000/',
-    image: '/images/minuttia-rankbee-aeo-webinar-2026.png',
+    image: '/images/minuttia-rankbee-aeo-webinar-2026.webp',
     type: 'webinar',
     speaker: 'Aris Vrakas',
     performers: ['Aris Vrakas'],
@@ -112,7 +112,7 @@ export const allEvents: EventEntry[] = [
     location: 'Berlin, Germany',
     venue: 'Political Tech Summit 2026',
     url: 'https://www.politicaltech.eu/events/winning-the-ai-vote-how-political-voices-get-seen-(or-silenced)-in-the-age-of-llms',
-    image: '/images/political-tech-summit-berlin-2026.png',
+    image: '/images/political-tech-summit-berlin-2026.webp',
     type: 'conference',
     speaker: 'Aris Vrakas, Yin Noe & Rizwan Khan',
     performers: ['Aris Vrakas', 'Yin Noe', 'Rizwan Khan'],
@@ -125,7 +125,7 @@ export const allEvents: EventEntry[] = [
     location: 'Athens, Greece',
     venue: 'Athens SEO 2025',
     url: 'https://athenseo.com/speakers/aris-vrakas/',
-    image: '/images/collage-athens-seo-2025.png',
+    image: '/images/collage-athens-seo-2025.webp',
     type: 'conference',
     speaker: 'Aris Vrakas',
     performers: ['Aris Vrakas'],
@@ -180,9 +180,11 @@ export function buildEventJsonLd(events: EventEntry[], todayISO: string): object
       name: e.title,
       description: e.description,
       startDate: e.date,
-      eventAttendanceMode: e.type === 'webinar'
-        ? 'https://schema.org/OnlineEventAttendanceMode'
-        : 'https://schema.org/OfflineEventAttendanceMode',
+      ...(e.type === 'webinar'
+        ? { eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode' }
+        : e.location
+          ? { eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode' }
+          : {}),
       eventStatus: isPast
         ? 'https://schema.org/EventCompleted'
         : 'https://schema.org/EventScheduled',
@@ -223,6 +225,10 @@ export function typeLabel(type: EventEntry['type']): string {
 /**
  * Returns the nearest upcoming webinar or conference (by date).
  * Returns `null` when there is no future event of those types.
+ *
+ * NOTE: Intentionally uses `Date.now()` (not an injected date like `buildEventJsonLd`).
+ * This function is only evaluated client-side — the banner component gates visibility
+ * behind `useEffect`/`isVisible`, so SSR always returns null and the date is always live.
  */
 export function getNextBannerEvent(): EventEntry | null {
   const nowMs = Date.now();

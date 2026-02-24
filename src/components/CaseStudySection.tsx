@@ -6,6 +6,8 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
   const ref = useRef(null);
 
   useEffect(() => {
+    let rafId: number | null = null;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
@@ -29,11 +31,11 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
             }
 
             if (progress < 1) {
-              requestAnimationFrame(animate);
+              rafId = requestAnimationFrame(animate);
             }
           };
 
-          requestAnimationFrame(animate);
+          rafId = requestAnimationFrame(animate);
         }
       },
       { threshold: 0.3 }
@@ -43,6 +45,7 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
     if (el) observer.observe(el);
     return () => {
       if (el) observer.unobserve(el);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, [target, hasAnimated]);
 

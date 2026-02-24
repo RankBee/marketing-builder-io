@@ -96,17 +96,11 @@ export function pushToDataLayer(event: string, data?: Record<string, any>): void
  * @param properties - Additional user properties
  */
 export function setUserProperties(userId: string, properties?: Record<string, any>): void {
-  if (typeof window === 'undefined' || !window.dataLayer) return;
-  
-  window.dataLayer.push({
-    event: 'user_properties_set',
+  pushToDataLayer('user_properties_set', {
     userId,
-    clerk_user_id: currentClerkUserId,
-    clerk_org_id: currentClerkOrgId,
-    tool_id: currentToolId,
     ...properties,
   });
-  
+
   if (ENV.DEV) {
     console.log('[GTM] User properties set:', { userId, ...properties });
   }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
   const [displayValue, setDisplayValue] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimated = useRef(false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -10,8 +10,8 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
 
           const duration = 1.5; // Animation duration in seconds
           const startTime = Date.now();
@@ -47,7 +47,7 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
       if (el) observer.unobserve(el);
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [target, hasAnimated]);
+  }, [target]);
 
   return <span ref={ref} suppressHydrationWarning>{prefix}{displayValue}{suffix}</span>;
 }

@@ -180,9 +180,11 @@ export function buildEventJsonLd(events: EventEntry[], todayISO: string): object
       name: e.title,
       description: e.description,
       startDate: e.date,
-      eventAttendanceMode: e.type === 'webinar'
-        ? 'https://schema.org/OnlineEventAttendanceMode'
-        : 'https://schema.org/OfflineEventAttendanceMode',
+      ...(e.type === 'webinar'
+        ? { eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode' }
+        : e.location
+          ? { eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode' }
+          : {}),
       eventStatus: isPast
         ? 'https://schema.org/EventCompleted'
         : 'https://schema.org/EventScheduled',

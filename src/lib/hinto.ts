@@ -2,6 +2,7 @@
 // Server-side only — uses HINTO_API_KEY (no NEXT_PUBLIC_ prefix)
 
 import sanitize from 'sanitize-html';
+import { sharedSanitizeOptions } from './sanitize-config';
 import he from 'he';
 
 const HINTO_BASE_URL = 'https://app.hintoai.com/api/external/v1';
@@ -104,27 +105,7 @@ export async function fetchArticle(id: number): Promise<HintoArticle | null> {
  * Applied server-side in getStaticProps before content reaches the client.
  */
 export function sanitizeHtml(html: string): string {
-  const allowedTags = [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'ul', 'ol', 'li',
-    'strong', 'b', 'em', 'i', 'u', 'br', 'hr', 'img', 'video', 'source',
-    'div', 'span', 'blockquote', 'pre', 'code', 'table', 'thead', 'tbody',
-    'tr', 'th', 'td', 'figure', 'figcaption', 'main', 'section', 'article',
-    'nav', 'details', 'summary', 'mark', 'sub', 'sup', 'dl', 'dt', 'dd',
-  ];
-  const allowedAttributes: Record<string, string[]> = {};
-  const sharedAttrs = [
-    'href', 'src', 'alt', 'title', 'class', 'id', 'target', 'rel',
-    'width', 'height', 'style', 'data-article-id', 'loading', 'type',
-    'controls', 'autoplay', 'muted', 'loop', 'poster', 'start',
-  ];
-  for (const tag of allowedTags) {
-    allowedAttributes[tag] = sharedAttrs;
-  }
-  return sanitize(html, {
-    allowedTags,
-    allowedAttributes,
-    allowedSchemes: ['http', 'https', 'mailto'],
-  });
+  return sanitize(html, sharedSanitizeOptions);
 }
 
 // ─── Ordered List Continuation ───────────────────────────────────────

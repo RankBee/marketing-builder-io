@@ -3,6 +3,7 @@
 
 import { ENV } from './env';
 import sanitize from 'sanitize-html';
+import { sharedSanitizeOptions } from './sanitize-config';
 
 const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
 
@@ -225,22 +226,7 @@ export async function addGhostSubscriber(email: string, name?: string): Promise<
  * Call this in getStaticProps so the component never needs isomorphic-dompurify.
  */
 export function sanitizeBlogHtml(html: string): string {
-  return sanitize(html, {
-    allowedTags: sanitize.defaults.allowedTags.concat([
-      'img', 'figure', 'figcaption', 'video', 'source', 'iframe',
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'details', 'summary',
-    ]),
-    allowedAttributes: {
-      ...sanitize.defaults.allowedAttributes,
-      '*': ['class', 'id', 'style'],
-      img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
-      a: ['href', 'target', 'rel', 'title'],
-      iframe: ['src', 'width', 'height', 'frameborder', 'allowfullscreen'],
-      video: ['src', 'controls', 'autoplay', 'muted', 'loop', 'poster', 'width', 'height'],
-      source: ['src', 'type'],
-    },
-    allowedSchemes: ['http', 'https', 'mailto'],
-  });
+  return sanitize(html, sharedSanitizeOptions);
 }
 
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {

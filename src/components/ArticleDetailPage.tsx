@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
+import { fetchBlogPost, fetchBlogPosts, sanitizeBlogHtml, type BlogPost, addGhostSubscriber } from "../lib/builder";
 import { trackEvent } from "../lib/posthog";
 import { getSiteUrl } from "../lib/page-seo";
 
@@ -86,6 +86,11 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
           setLoading(true);
           setError(null);
           post = await fetchBlogPost(slug);
+          // Sanitize client-side fetched content (getStaticProps sanitizes
+          // at build time, but this fallback path receives raw HTML).
+          if (post?.content) {
+            post.content = sanitizeBlogHtml(post.content);
+          }
         }
         
         if (!post) {

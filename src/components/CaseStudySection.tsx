@@ -45,6 +45,7 @@ function AnimatedNumber({ target, suffix = "", prefix = "" }: { target: number; 
     if (el) observer.observe(el);
     return () => {
       if (el) observer.unobserve(el);
+      observer.disconnect();
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, [target]);

@@ -41,7 +41,6 @@
             "framer-motion": "^12.23.24",
             "he": "^1.2.0",
             "input-otp": "^1.4.2",
-            "isomorphic-dompurify": "^3.0.0-rc.2",
             "lucide-react": "^0.487.0",
             "motion": "*",
             "next": "^15.5.12",
@@ -65,6 +64,7 @@
             "@types/node": "^20.10.0",
             "@types/react": "^18.3.12",
             "@types/react-dom": "^18.3.1",
+            "@types/sanitize-html": "^2.16.0",
             "typescript": "^5.6.3"
       },
       "browserslist": [
@@ -80,7 +80,7 @@
             "dev": "node scripts/create-version-aliases.js && next dev -p 3000",
             "build": "node scripts/create-version-aliases.js && next build",
             "build:ssg": "node scripts/create-version-aliases.js && next build",
-            "start": "next start -p 8080",
+            "start": "NODE_OPTIONS='--max-old-space-size=768' next start -p 8080",
             "lint": "next lint"
       }
 }

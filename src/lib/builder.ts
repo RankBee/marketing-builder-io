@@ -2,6 +2,7 @@
 // Fetches blog posts from Ghost CMS
 
 import { ENV } from './env';
+import sanitize from 'sanitize-html';
 
 const GHOST_API_URL = 'https://geo.rankbee.ai/ghost/api/content';
 
@@ -111,6 +112,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
       headers: {
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -218,6 +220,29 @@ export async function addGhostSubscriber(email: string, name?: string): Promise<
   }
 }
 
+/**
+ * Sanitize blog HTML content server-side using sanitize-html (no JSDOM, no memory leak).
+ * Call this in getStaticProps so the component never needs isomorphic-dompurify.
+ */
+export function sanitizeBlogHtml(html: string): string {
+  return sanitize(html, {
+    allowedTags: sanitize.defaults.allowedTags.concat([
+      'img', 'figure', 'figcaption', 'video', 'source', 'iframe',
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'details', 'summary',
+    ]),
+    allowedAttributes: {
+      ...sanitize.defaults.allowedAttributes,
+      '*': ['class', 'id', 'style'],
+      img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
+      a: ['href', 'target', 'rel', 'title'],
+      iframe: ['src', 'width', 'height', 'frameborder', 'allowfullscreen'],
+      video: ['src', 'controls', 'autoplay', 'muted', 'loop', 'poster', 'width', 'height'],
+      source: ['src', 'type'],
+    },
+    allowedSchemes: ['http', 'https', 'mailto'],
+  });
+}
+
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
   if (!getGhostContentKey()) {
     console.warn('Ghost Content API key not configured');
@@ -232,6 +257,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
       headers: {
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     });
 
     if (!response.ok) {

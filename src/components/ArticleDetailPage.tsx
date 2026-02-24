@@ -9,7 +9,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
 import { trackEvent } from "../lib/posthog";
 import { getSiteUrl } from "../lib/page-seo";
-import DOMPurify from "isomorphic-dompurify";
 
 interface ArticleDetailPageProps {
   onPageChange: (page: string) => void;
@@ -333,7 +332,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
                 className="article-content"
                 suppressHydrationWarning
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(displayArticle.content)
+                  __html: displayArticle.content
                 }}
               />
             )}

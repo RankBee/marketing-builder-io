@@ -1,7 +1,8 @@
 // Hinto AI Knowledge Base API client
 // Server-side only — uses HINTO_API_KEY (no NEXT_PUBLIC_ prefix)
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitize from 'sanitize-html';
+import { sharedSanitizeOptions } from './sanitize-config';
 import he from 'he';
 
 const HINTO_BASE_URL = 'https://app.hintoai.com/api/external/v1';
@@ -69,7 +70,7 @@ export interface HintoArticlesResponse {
 // ─── API Fetchers ────────────────────────────────────────────────────
 
 export async function fetchStructure(): Promise<HintoStructureResponse> {
-  const res = await fetch(`${HINTO_BASE_URL}/projects/structure`, { headers: headers() });
+  const res = await fetch(`${HINTO_BASE_URL}/projects/structure`, { headers: headers(), cache: 'no-store' });
   if (!res.ok) {
     throw new Error(`Hinto API /projects/structure failed: ${res.status} ${res.statusText}`);
   }
@@ -77,7 +78,7 @@ export async function fetchStructure(): Promise<HintoStructureResponse> {
 }
 
 export async function fetchAllArticles(): Promise<HintoArticlesResponse> {
-  const res = await fetch(`${HINTO_BASE_URL}/projects/articles`, { headers: headers() });
+  const res = await fetch(`${HINTO_BASE_URL}/projects/articles`, { headers: headers(), cache: 'no-store' });
   if (!res.ok) {
     throw new Error(`Hinto API /projects/articles failed: ${res.status} ${res.statusText}`);
   }
@@ -85,7 +86,7 @@ export async function fetchAllArticles(): Promise<HintoArticlesResponse> {
 }
 
 export async function fetchArticle(id: number): Promise<HintoArticle | null> {
-  const res = await fetch(`${HINTO_BASE_URL}/projects/articles?id=${id}`, { headers: headers() });
+  const res = await fetch(`${HINTO_BASE_URL}/projects/articles?id=${id}`, { headers: headers(), cache: 'no-store' });
   if (!res.ok) {
     if (res.status === 404) return null;
     throw new Error(`Hinto API /projects/articles?id=${id} failed: ${res.status} ${res.statusText}`);
@@ -100,24 +101,11 @@ export async function fetchArticle(id: number): Promise<HintoArticle | null> {
 
 /**
  * Sanitize HTML from external sources to prevent XSS.
- * Uses DOMPurify for robust sanitization (same library used by blog ArticleDetailPage).
+ * Uses sanitize-html for robust sanitization (no JSDOM, no memory leak).
  * Applied server-side in getStaticProps before content reaches the client.
  */
 export function sanitizeHtml(html: string): string {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: [
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'ul', 'ol', 'li',
-      'strong', 'b', 'em', 'i', 'u', 'br', 'hr', 'img', 'video', 'source',
-      'div', 'span', 'blockquote', 'pre', 'code', 'table', 'thead', 'tbody',
-      'tr', 'th', 'td', 'figure', 'figcaption', 'main', 'section', 'article',
-      'nav', 'details', 'summary', 'mark', 'sub', 'sup', 'dl', 'dt', 'dd',
-    ],
-    ALLOWED_ATTR: [
-      'href', 'src', 'alt', 'title', 'class', 'id', 'target', 'rel',
-      'width', 'height', 'style', 'data-article-id', 'loading', 'type',
-      'controls', 'autoplay', 'muted', 'loop', 'poster', 'start',
-    ],
-  });
+  return sanitize(html, sharedSanitizeOptions);
 }
 
 // ─── Ordered List Continuation ───────────────────────────────────────
@@ -198,7 +186,7 @@ export function fixOrderedListContinuation(html: string): string {
 /**
  * Wrap orphaned <li> elements (not inside <ol>/<ul>) in a <ul>.
  * Hinto sometimes outputs sub-items as bare <li> tags between list blocks,
- * which browsers and DOMPurify silently discard as invalid HTML.
+ * which browsers silently discard as invalid HTML.
  */
 export function wrapOrphanedListItems(html: string): string {
   const tagRegex = /(<\/?(?:ol|ul|li)\b[^>]*>)/gi;

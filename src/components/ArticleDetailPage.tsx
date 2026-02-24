@@ -6,10 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Clock, ArrowLeft, Share2, Target, TrendingUp, Search, Users } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-import { fetchBlogPost, fetchBlogPosts, type BlogPost, addGhostSubscriber } from "../lib/builder";
+import { fetchBlogPost, fetchBlogPosts, sanitizeBlogHtml, type BlogPost, addGhostSubscriber } from "../lib/builder";
 import { trackEvent } from "../lib/posthog";
 import { getSiteUrl } from "../lib/page-seo";
-import DOMPurify from "isomorphic-dompurify";
 
 interface ArticleDetailPageProps {
   onPageChange: (page: string) => void;
@@ -87,6 +86,11 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
           setLoading(true);
           setError(null);
           post = await fetchBlogPost(slug);
+          // Sanitize client-side fetched content (getStaticProps sanitizes
+          // at build time, but this fallback path receives raw HTML).
+          if (post?.content) {
+            post.content = sanitizeBlogHtml(post.content);
+          }
         }
         
         if (!post) {
@@ -333,7 +337,7 @@ export function ArticleDetailPage({ onPageChange, slug, allPosts, initialPost }:
                 className="article-content"
                 suppressHydrationWarning
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(displayArticle.content)
+                  __html: displayArticle.content
                 }}
               />
             )}

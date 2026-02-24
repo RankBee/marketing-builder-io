@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { SeoHead } from '../../src/lib/SeoHead';
 import { ArticleDetailPage } from '../../src/components/ArticleDetailPage';
-import { fetchBlogPost, fetchBlogPosts, BlogPost } from '../../src/lib/builder';
+import { fetchBlogPost, fetchBlogPosts, sanitizeBlogHtml, BlogPost } from '../../src/lib/builder';
 import { getSiteUrl } from '../../src/lib/page-seo';
 
 interface BlogPostPageProps {
@@ -85,6 +85,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     ]);
     if (!post) {
       return { notFound: true };
+    }
+    // Sanitize HTML content at build time (server-side) so the component
+    // never needs isomorphic-dompurify, which leaks memory via JSDOM.
+    if (post.content) {
+      post.content = sanitizeBlogHtml(post.content);
     }
     return {
       props: { post, slug, allPosts },

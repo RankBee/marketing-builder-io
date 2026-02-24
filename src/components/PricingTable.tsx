@@ -203,7 +203,7 @@ export function PricingTable() {
             <tr>
               <td style={{ padding: 0 }} />
               {PRICING_TIERS.map((tier) => (
-                <th key={tier.name} scope="col" style={{ padding: 0 }}>
+                <th key={tier.name} scope="col" style={{ padding: '2rem 0 0 0' }}>
                   <div style={{ fontSize: '1.125rem', fontWeight: 600, color: '#9333ea' }}>{tier.name}</div>
                 </th>
               ))}

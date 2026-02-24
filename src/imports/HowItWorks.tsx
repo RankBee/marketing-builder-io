@@ -1,14 +1,14 @@
 import { useState } from "react";
-import Image from "next/image";
 import { toast } from "sonner";
+import { ImageWithFallback as ImgWithFallback } from "../components/figma/ImageWithFallback";
 import svgPaths from "./svg-sw856ngjo0";
-import imgCompetitorDashboard from "../assets/d4a12367347ed2aa1674106dece510531cd8cb06.png";
-import imgAttributeHeatmap from "../assets/4f12a8f353f78fec8dedb2120afa3e6d2bf347e0.png";
-import imgAiRewrite from "../assets/ff7c2f79b38849b108899f24c4791f28ab53f527.png";
 import { SafeSignedIn as SignedIn, SafeSignedOut as SignedOut } from "../lib/clerk-safe";
 import AccountCta from "../components/AccountCta";
 import { trackEvent } from "../lib/posthog";
 import { signUpUrl } from "../lib/clerk-env";
+
+const imgCompetitorDashboard = "/images/competitor-dashboard.png";
+const imgAttributeHeatmap = "/images/attribute-heatmap.png";
 
 function Heading2() {
   return (
@@ -43,7 +43,7 @@ function CardTitle() {
 function ImageWithFallback() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <Image alt="Competitor Dashboard showing Wilgot overview with competitive metrics" className="w-full h-full object-cover rounded-[10px]" src={imgCompetitorDashboard} width={420} height={315} sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={75} />
+      <ImgWithFallback alt="Competitor Dashboard showing Wilgot overview with competitive metrics" className="w-full h-full object-cover rounded-[10px]" src={imgCompetitorDashboard} loading="eager" decoding="async" />
     </div>
   );
 }
@@ -137,7 +137,7 @@ function CardTitle1() {
 function ImageWithFallback1() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <Image alt="Attribute Heatmap showing billing features coverage" className="w-full h-full object-cover rounded-[10px]" src={imgAttributeHeatmap} width={420} height={315} sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={75} />
+      <ImgWithFallback alt="Attribute Heatmap showing billing features coverage" className="w-full h-full object-cover rounded-[10px]" src={imgAttributeHeatmap} loading="lazy" decoding="async" />
     </div>
   );
 }
@@ -217,7 +217,7 @@ function CardTitle2() {
 function ImageWithFallback2() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <Image alt="AI Content Optimization showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} width={420} height={315} sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={75} />
+      <ImgWithFallback alt="AI Content Optimization showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} loading="lazy" decoding="async" />
     </div>
   );
 }

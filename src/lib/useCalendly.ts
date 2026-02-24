@@ -53,14 +53,16 @@ export function useCalendly(config: CalendlyConfig = {}, pageName: string = 'unk
       document.body.appendChild(script);
     };
 
+    let listenerRegistered = false;
     if (document.readyState === "loading") {
+      listenerRegistered = true;
       document.addEventListener("DOMContentLoaded", loadCalendly);
     } else {
       loadCalendly();
     }
 
     return () => {
-      if (document.readyState === "loading") {
+      if (listenerRegistered) {
         document.removeEventListener("DOMContentLoaded", loadCalendly);
       }
     };

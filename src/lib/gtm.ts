@@ -62,9 +62,17 @@ export function setClerkContext(userId?: string, orgId?: string, toolId?: string
  * @param event - Event name
  * @param data - Additional event data
  */
+const DATA_LAYER_MAX = 1000;
+const DATA_LAYER_TRIM_TO = 500;
+
 export function pushToDataLayer(event: string, data?: Record<string, any>): void {
   if (typeof window === 'undefined' || !window.dataLayer) return;
-  
+
+  // Guard against unbounded growth when GTM is blocked (e.g. ad blockers)
+  if (window.dataLayer.length >= DATA_LAYER_MAX) {
+    window.dataLayer.splice(0, window.dataLayer.length - DATA_LAYER_TRIM_TO);
+  }
+
   const eventData = {
     event,
     timestamp: new Date().toISOString(),
@@ -88,17 +96,11 @@ export function pushToDataLayer(event: string, data?: Record<string, any>): void
  * @param properties - Additional user properties
  */
 export function setUserProperties(userId: string, properties?: Record<string, any>): void {
-  if (typeof window === 'undefined' || !window.dataLayer) return;
-  
-  window.dataLayer.push({
-    event: 'user_properties_set',
+  pushToDataLayer('user_properties_set', {
     userId,
-    clerk_user_id: currentClerkUserId,
-    clerk_org_id: currentClerkOrgId,
-    tool_id: currentToolId,
     ...properties,
   });
-  
+
   if (ENV.DEV) {
     console.log('[GTM] User properties set:', { userId, ...properties });
   }

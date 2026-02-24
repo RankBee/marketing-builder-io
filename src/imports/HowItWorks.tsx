@@ -42,7 +42,7 @@ function CardTitle() {
 function ImageWithFallback() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <img alt="Competitor Dashboard showing Wilgot overview with competitive metrics" className="w-full h-full object-cover rounded-[10px]" src={imgCompetitorDashboard} />
+      <img alt="Competitor Dashboard showing Wilgot overview with competitive metrics" className="w-full h-full object-cover rounded-[10px]" src={imgCompetitorDashboard} loading="eager" decoding="async" />
     </div>
   );
 }
@@ -136,7 +136,7 @@ function CardTitle1() {
 function ImageWithFallback1() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <img alt="Attribute Heatmap showing billing features coverage" className="w-full h-full object-cover rounded-[10px]" src={imgAttributeHeatmap} />
+      <img alt="Attribute Heatmap showing billing features coverage" className="w-full h-full object-cover rounded-[10px]" src={imgAttributeHeatmap} loading="lazy" decoding="async" />
     </div>
   );
 }
@@ -216,7 +216,7 @@ function CardTitle2() {
 function ImageWithFallback2() {
   return (
     <div className="w-full rounded-[10px] overflow-hidden aspect-[4/3]" data-name="ImageWithFallback">
-      <img alt="AI Content Optimization showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} />
+      <img alt="AI Content Optimization showing optimization metrics" className="w-full h-full object-cover rounded-[10px]" src={imgAiRewrite} loading="lazy" decoding="async" />
     </div>
   );
 }

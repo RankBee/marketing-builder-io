@@ -21,7 +21,10 @@ const FREQUENCIES: BillingFrequency[] = [
 const PRICING_TABLE_CSS = `
   @keyframes pricing-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
   .pcta:hover { animation: pricing-shimmer 1.5s ease-in-out infinite !important; box-shadow: 0 4px 15px rgba(147,51,234,0.4) !important; }
-  .pricing-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .pricing-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; align-items: stretch; }
+  .pc-desc { min-height: 12rem; }
+  .pc-price { min-height: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .pc-cta { min-height: 3.5rem; }
   .pricing-purple-bg { position: absolute; left: 0; right: 0; bottom: 0; top: 192px; background: radial-gradient(circle at center, #9810fa, #6d1cb5, #030712 70%); }
   .pt-desktop-table { display: table; }
   .pt-mobile-tabs { display: none; }
@@ -32,6 +35,9 @@ const PRICING_TABLE_CSS = `
   .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
   @media (max-width: 640px) {
     .pricing-cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .pc-desc { min-height: 0; }
+    .pc-price { min-height: 0; }
+    .pc-cta { min-height: 0; }
     .pricing-purple-bg { top: 0; }
     .pricing-logos { gap: 1.5rem; padding: 2rem 0; }
     .pt-desktop-table { display: none; }
@@ -39,7 +45,6 @@ const PRICING_TABLE_CSS = `
     .pt-table-container { padding-top: 1rem; }
     .pricing-cards-wrap { margin: 0 auto; }
     .pricing-hero { padding-top: 0; padding-bottom: 1rem; }
-    .pricing-card-inner { padding: 1.5rem !important; }
   }
 `;
 
@@ -136,18 +141,18 @@ export function PricingTable() {
                         {tier.badge}
                       </div>
                     )}
-                    <div style={{ minHeight: "7rem" }}>
+                    <div className="pc-desc">
                       <p style={{ fontSize: "1.125rem", fontWeight: 600, color: "#9333ea", margin: 0 }}>{tier.name}</p>
                       <p style={{ marginTop: "0.5rem", fontSize: "1.125rem", color: "#4b5563", lineHeight: 1.6, marginBottom: 0 }}>{tier.description}</p>
                     </div>
-                    <div style={{ marginTop: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+                    <div className="pc-price" style={{ marginTop: "2rem" }}>
                       <span style={{ fontSize: "3rem", fontWeight: 600, color: "#030712", lineHeight: 1 }}>{symbol}{tier.prices[billing][currency]}</span>
                       <div style={{ fontSize: "0.875rem", color: "#4b5563" }}>
                         <p style={{ margin: 0 }}>{currencyLabel}</p>
                         <p style={{ margin: 0 }}>per month</p>
                       </div>
                     </div>
-                    <div style={{ marginTop: "2rem" }}>
+                    <div className="pc-cta" style={{ marginTop: "2rem" }}>
                       <a href={tier.href} onClick={() => handlePricingClick(tier.name, tier.ctaLabel)} className="pcta"
                         style={{ display: "inline-block", borderRadius: "0.5rem", padding: "0.625rem 1rem", fontSize: "0.875rem", fontWeight: 600, color: "#fff", textDecoration: "none", background: "linear-gradient(to right, rgb(147,51,234), rgb(244,114,182), rgb(147,51,234))", backgroundSize: "200% 100%", backgroundPosition: "0% 0" }}>
                         {tier.ctaLabel}

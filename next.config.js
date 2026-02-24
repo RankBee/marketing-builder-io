@@ -1,5 +1,25 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
+const fs = require('fs');
+
+if (process.env.NODE_ENV === 'development') {
+  const imgDir = path.join(__dirname, 'public/images');
+  const MAX_KB = 500;
+  if (fs.existsSync(imgDir)) {
+    fs.readdirSync(imgDir).forEach((file) => {
+      const isRaster = /\.(png|jpe?g)$/i.test(file);
+      const isWebP = /\.webp$/i.test(file);
+      if (isRaster || isWebP) {
+        const limit = isWebP ? 200 : MAX_KB;
+        const sizeKB = Math.round(fs.statSync(path.join(imgDir, file)).size / 1024);
+        if (sizeKB > limit) {
+          const hint = isRaster ? 'Convert to WebP before deploying.' : 'Compress or resize this WebP.';
+          console.warn(`\n⚠️  [images] public/images/${file} is ${sizeKB}KB — exceeds ${limit}KB. ${hint}\n`);
+        }
+      }
+    });
+  }
+}
 
 const nextConfig = {
   reactStrictMode: true,

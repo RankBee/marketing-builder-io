@@ -60,9 +60,9 @@ export const allEvents: EventEntry[] = [
     performers: ['Aris Vrakas'],
   },
   {
-    title: 'How to Win with AI Content',
+    title: 'Beyond Search: The New Rules of Player Acquisition',
     description:
-      'Aris Vrakas joins a panel at NEXT.io Summit New York - North America\'s foremost iGaming and sports betting summit, hosted at Convene Brookfield Place. The panel will explore strategies for winning with AI-generated content in an increasingly competitive landscape. Exact topic to be confirmed.',
+      'Aris Vrakas joins a panel at NEXT.io Summit New York - North America\'s foremost iGaming and sports betting summit, hosted at Convene Brookfield Place. The session explores the new rules of player acquisition beyond traditional search, covering AI-powered discovery and what brands must do to stay competitive.',
     date: '2026-03-10',
     location: 'New York, USA',
     venue: 'NEXT.io Summit NYC 2026',

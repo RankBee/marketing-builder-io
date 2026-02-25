@@ -79,7 +79,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
               </h2>
             </a>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Voters are increasingly asking AI who to trust, what candidates stand for, and even who they should vote for. AI doesn't return links - it evaluates policies, credibility, stability, and alignment, then delivers a structured answer. If your campaign hasn't shaped how AI understands you, that answer will be built from outdated media and opponent narratives. RankBee ensures your message is accurately represented at the moment voters are seeking guidance.
+              Voters are increasingly turning to AI assistants to ask direct questions about candidates, policies, and issues. When someone types, "Based on my priorities, who should I vote for?" AI evaluates policy positions, credibility, stability, electability, and issue alignment, then delivers a structured answer. If your campaign hasn't shaped how AI understands you, that answer will be built from media fragments, outdated narratives, and opponent framing. Campaigns that actively manage their presence in AI systems gain a strategic advantage, influencing how their story is interpreted at the exact moment voters are seeking guidance. RankBee helps ensure your message is visible, accurate, and consistently represented across AI-driven platforms.
             </p>
           </div>
 

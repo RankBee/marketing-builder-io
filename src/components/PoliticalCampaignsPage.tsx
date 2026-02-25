@@ -79,7 +79,7 @@ export function PoliticalCampaignsPage({ onPageChange }: PoliticalCampaignsPageP
               </h2>
             </a>
             <p className="text-lg sm:text-xl text-black max-w-3xl mx-auto">
-              Voters are increasingly asking AI assistants questions about candidates, policies, and issues. Campaigns that actively manage their AI visibility gain a strategic advantage: they influence how their story is told at the point voters are asking questions. RankBee helps campaigns ensure their message is visible, accurate, and consistent across AI-driven search platforms.
+              Voters are increasingly asking AI who to trust, what candidates stand for, and even who they should vote for. AI doesn't return links - it evaluates policies, credibility, stability, and alignment, then delivers a structured answer. If your campaign hasn't shaped how AI understands you, that answer will be built from outdated media and opponent narratives. RankBee ensures your message is accurately represented at the moment voters are seeking guidance.
             </p>
           </div>
 

@@ -53,7 +53,7 @@ export const allEvents: EventEntry[] = [
     date: '2026-03-24',
     location: 'Prague, Czech Republic',
     venue: 'HIPTHER Prague 2026',
-    url: 'https://hipther.com/events/prague-summit/',
+    url: 'https://hipther.com/events/speaker/aris-vrakas/',
     image: 'https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2F5a61c3ee853e4cdda4d735ee628489fb?format=webp&width=800&height=1200',
     type: 'conference',
     speaker: 'Aris Vrakas',

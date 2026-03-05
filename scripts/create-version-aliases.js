@@ -90,7 +90,10 @@ for (const [versioned, real] of Object.entries(aliases)) {
     // Remove stale symlink, directory, or regular file
     fs.rmSync(link, { recursive: true, force: true });
   } catch (e) {
-    // doesn't exist yet, that's fine
+    // Link doesn't exist yet — that's fine; rethrow anything else.
+    if (!e || e.code !== 'ENOENT') {
+      throw e;
+    }
   }
 
   fs.symlinkSync(target, link, 'junction');

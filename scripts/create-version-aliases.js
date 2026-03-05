@@ -80,7 +80,11 @@ for (const [versioned, real] of Object.entries(aliases)) {
           continue;
         }
       } catch (e) {
-        // Dangling symlink/junction: fall through to removal + recreation below
+        // Only treat ENOENT/EINVAL as dangling/invalid symlink; rethrow other errors.
+        if (!e || (e.code !== 'ENOENT' && e.code !== 'EINVAL')) {
+          throw e;
+        }
+        // For ENOENT/EINVAL, fall through to removal + recreation below.
       }
     }
     // Remove stale symlink, directory, or regular file

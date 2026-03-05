@@ -67,14 +67,33 @@ for (const [versioned, real] of Object.entries(aliases)) {
     fs.mkdirSync(linkDir, { recursive: true });
   }
 
-  // Remove existing symlink/dir if present
+  // Check if symlink already points to the correct target — skip if so
   try {
-    const stat = fs.lstatSync(link);
-    if (stat.isSymbolicLink() || stat.isDirectory()) {
-      fs.rmSync(link, { recursive: true, force: true });
+    const existing = fs.lstatSync(link);
+    if (existing.isSymbolicLink()) {
+      try {
+        // Compare resolved paths to avoid false mismatches from path formatting differences
+        const resolvedLink = fs.realpathSync(link);
+        const resolvedTarget = fs.realpathSync(target);
+        if (resolvedLink === resolvedTarget) {
+          console.log(`✓ ${versioned} → ${real}`);
+          continue;
+        }
+      } catch (e) {
+        // Only treat ENOENT/EINVAL as dangling/invalid symlink; rethrow other errors.
+        if (!e || (e.code !== 'ENOENT' && e.code !== 'EINVAL')) {
+          throw e;
+        }
+        // For ENOENT/EINVAL, fall through to removal + recreation below.
+      }
     }
+    // Remove stale symlink, directory, or regular file
+    fs.rmSync(link, { recursive: true, force: true });
   } catch (e) {
-    // doesn't exist, that's fine
+    // Link doesn't exist yet — that's fine; rethrow anything else.
+    if (!e || e.code !== 'ENOENT') {
+      throw e;
+    }
   }
 
   fs.symlinkSync(target, link, 'junction');

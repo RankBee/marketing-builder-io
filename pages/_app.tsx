@@ -210,6 +210,7 @@ function pathToPage(pathname: string): string {
     const slug = path.substring(6);
     if (slug && slug !== 'tag' && slug !== 'page') return `blog/${slug}`;
   }
+  if (path === '/knowledge-base/13721') return 'seo-ai-strategy';
   if (path.startsWith('/knowledge-base/')) return 'knowledge-base';
   if (path === '/press-events' || path.startsWith('/press-events/')) return 'press-events';
   switch (path) {

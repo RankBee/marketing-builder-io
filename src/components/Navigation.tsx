@@ -44,7 +44,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       submenu: [
         { name: "Blog", id: "blog" },
         { name: "Knowledge Base", id: "knowledge-base" },
-        { name: "Press & Events", id: "press-events" }
+        { name: "Press & Events", id: "press-events" },
+        { name: "SEO Strategy for AI", id: "knowledge-base/13721" }
       ]
     },
     { name: "Contact", id: "contact" }
@@ -94,7 +95,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
                   >
                     <span
                       className={`px-3 py-2 rounded-md transition-colors whitespace-nowrap flex items-center gap-1 cursor-default ${
-                        currentPage === item.id || currentPage.startsWith(item.id + '/') || item.submenu?.some(sub => currentPage === sub.id || currentPage.startsWith(sub.id + '/'))
+                        currentPage === item.id || currentPage.startsWith(item.id + '/') || item.submenu?.some(sub => currentPage === sub.id)
                           ? "text-purple-600 bg-purple-50"
                           : "text-gray-700 hover:text-purple-600 hover:bg-gray-50"
                       }`}

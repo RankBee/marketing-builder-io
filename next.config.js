@@ -77,7 +77,13 @@ const nextConfig = {
       { source: '/sitemap.xml', destination: '/api/sitemap' },
     ];
   },
-  webpack: (config) => {
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions = {
+        ...config.watchOptions,
+        ignored: /node_modules/,
+      };
+    }
     // Replicate Vite's versioned package aliases (Builder.io convention)
     // Resolve to absolute paths so both client AND server webpack can find them
     const versionedMap = {

@@ -44,7 +44,8 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       submenu: [
         { name: "Blog", id: "blog" },
         { name: "Knowledge Base", id: "knowledge-base" },
-        { name: "Press & Events", id: "press-events" }
+        { name: "Press & Events", id: "press-events" },
+        { name: "SEO Strategy for AI", id: "seo-ai-strategy" }
       ]
     },
     { name: "Contact", id: "contact" }

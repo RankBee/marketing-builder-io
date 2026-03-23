@@ -107,7 +107,6 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
   try {
     const url = `${GHOST_API_URL}/posts/?key=${getGhostContentKey()}&limit=all&include=tags,authors`;
-    if (ENV.DEV) console.log('Fetching Ghost posts from:', url);
     
     const response = await fetch(url, {
       headers: {
@@ -241,7 +240,6 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
   try {
     const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${getGhostContentKey()}&include=tags,authors`;
-    if (ENV.DEV) console.log('Fetching Ghost post from:', url);
     
     const response = await fetch(url, {
       headers: {

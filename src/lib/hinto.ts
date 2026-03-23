@@ -69,20 +69,46 @@ export interface HintoArticlesResponse {
 
 // ─── API Fetchers ────────────────────────────────────────────────────
 
+// In-memory cache for build-time optimization (SSG)
+let structureCache: HintoStructureResponse | null = null;
+let articlesCache: HintoArticlesResponse | null = null;
+
 export async function fetchStructure(): Promise<HintoStructureResponse> {
+  if (structureCache) return structureCache;
   const res = await fetch(`${HINTO_BASE_URL}/projects/structure`, { headers: headers(), cache: 'no-store' });
   if (!res.ok) {
     throw new Error(`Hinto API /projects/structure failed: ${res.status} ${res.statusText}`);
   }
-  return res.json();
+  const data: HintoStructureResponse = await res.json();
+  structureCache = data;
+  return data;
 }
 
 export async function fetchAllArticles(): Promise<HintoArticlesResponse> {
+  if (articlesCache) return articlesCache;
   const res = await fetch(`${HINTO_BASE_URL}/projects/articles`, { headers: headers(), cache: 'no-store' });
   if (!res.ok) {
     throw new Error(`Hinto API /projects/articles failed: ${res.status} ${res.statusText}`);
   }
-  return res.json();
+  const data: HintoArticlesResponse = await res.json();
+  
+  // Log article count to verify we're getting all articles
+  console.log(`[Hinto] Fetched ${data.articles?.length || 0} articles from API`);
+  
+  // Check for pagination metadata (if Hinto adds it in the future)
+  const anyData = data as any;
+  if (anyData.pagination || anyData.total || anyData.page || anyData.per_page) {
+    console.warn('[Hinto] WARNING: API response contains pagination metadata. Implementation may need updating to fetch all pages.');
+    console.warn('[Hinto] Pagination data:', { 
+      total: anyData.total, 
+      page: anyData.page, 
+      per_page: anyData.per_page,
+      pagination: anyData.pagination 
+    });
+  }
+  
+  articlesCache = data;
+  return data;
 }
 
 export async function fetchArticle(id: number): Promise<HintoArticle | null> {

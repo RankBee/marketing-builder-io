@@ -118,7 +118,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
     if (!response.ok) {
       console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText}`);
       console.error(`URL: ${GHOST_API_URL}/posts/ (key redacted)`);
-      throw new Error(`Ghost API error: ${response.status} ${response.statusText}`);
+      return [];
     }
 
     const result = await response.json();

@@ -39,7 +39,7 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
     {
       slug: "hugo-yelo",
       name: "Hugo Yelo",
-      role: "Senior Product Manager",
+      role: "Senior Product Manager.",
       bio: "Hugo is a technical SEO expert who spent five years at Amazon as Senior SEO Product Manager, helping shape SEO strategies across the EU. He now leads the automation methodology that powers RankBee's optimization engine.",
       image: "https://cdn.builder.io/api/v1/image/assets%2Fae5805f9955b4f0c90b3275922a7fc77%2Ff616f22c2b814c099c0ff114144df4aa",
       linkedinUrl: "https://www.linkedin.com/in/hugo-yelo-12298151/"

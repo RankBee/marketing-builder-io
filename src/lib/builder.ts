@@ -116,8 +116,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
     });
 
     if (!response.ok) {
-      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText}`);
-      console.error(`URL: ${GHOST_API_URL}/posts/ (key redacted)`);
+      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText} | URL: ${GHOST_API_URL}/posts/ (key redacted)`);
       return [];
     }
 
@@ -250,9 +249,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     });
 
     if (!response.ok) {
-      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}`);
-      console.error(`Slug: ${escapedSlug}`);
-      console.error(`URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
+      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText} | Slug: ${escapedSlug} | URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
       return null;
     }
 

@@ -107,7 +107,6 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
   try {
     const url = `${GHOST_API_URL}/posts/?key=${getGhostContentKey()}&limit=all&include=tags,authors`;
-    if (ENV.DEV) console.log('Fetching Ghost posts from:', url);
     
     const response = await fetch(url, {
       headers: {
@@ -117,7 +116,9 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
     });
 
     if (!response.ok) {
-      throw new Error(`Ghost API error: ${response.status} ${response.statusText}`);
+      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/ (key redacted)`);
+      return [];
     }
 
     const result = await response.json();
@@ -235,9 +236,11 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     return null;
   }
 
+  // Strip control characters from slug for safe logging (prevents log-forging)
+  const escapedSlug = slug.replace(/[\x00-\x1f\x7f-\x9f]/g, '');
+
   try {
     const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${getGhostContentKey()}&include=tags,authors`;
-    if (ENV.DEV) console.log('Fetching Ghost post from:', url);
     
     const response = await fetch(url, {
       headers: {
@@ -247,7 +250,9 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     });
 
     if (!response.ok) {
-      console.error(`Ghost API error: ${response.status} ${response.statusText}`);
+      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}`);
+      console.error(`Slug: ${escapedSlug}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
       return null;
     }
 
@@ -255,12 +260,13 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     const posts = result.posts || [];
     
     if (posts.length === 0) {
+      console.warn(`Ghost API returned 0 posts for slug: ${escapedSlug}`);
       return null;
     }
 
     return transformGhostPost(posts[0]);
   } catch (error) {
-    console.error('Error fetching blog post from Ghost:', error);
+    console.error(`Error fetching blog post from Ghost [slug: ${escapedSlug}]:`, error);
     return null;
   }
 }

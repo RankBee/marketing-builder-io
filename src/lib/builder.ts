@@ -236,6 +236,9 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     return null;
   }
 
+  // Strip control characters from slug for safe logging (prevents log-forging)
+  const escapedSlug = slug.replace(/[\x00-\x1f\x7f-\x9f]/g, '');
+
   try {
     const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${getGhostContentKey()}&include=tags,authors`;
     
@@ -248,8 +251,8 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
     if (!response.ok) {
       console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}`);
-      console.error(`Slug: "${slug}"`);
-      console.error(`URL: ${GHOST_API_URL}/posts/slug/${slug}/ (key redacted)`);
+      console.error(`Slug: ${escapedSlug}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
       return null;
     }
 
@@ -257,13 +260,13 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     const posts = result.posts || [];
     
     if (posts.length === 0) {
-      console.warn(`Ghost API returned 0 posts for slug: "${slug}"`);
+      console.warn(`Ghost API returned 0 posts for slug: ${escapedSlug}`);
       return null;
     }
 
     return transformGhostPost(posts[0]);
   } catch (error) {
-    console.error(`Error fetching blog post from Ghost [slug: "${slug}"]:`, error);
+    console.error(`Error fetching blog post from Ghost [slug: ${escapedSlug}]:`, error);
     return null;
   }
 }

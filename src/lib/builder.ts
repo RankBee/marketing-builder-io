@@ -119,7 +119,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText}`);
-      console.error(`URL: ${url}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/ (key redacted)`);
       console.error(`Response body:`, errorText);
       throw new Error(`Ghost API error: ${response.status} ${response.statusText}`);
     }
@@ -254,7 +254,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
       const errorText = await response.text();
       console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}`);
       console.error(`Slug: "${slug}"`);
-      console.error(`URL: ${url}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/slug/${slug}/ (key redacted)`);
       console.error(`Response body:`, errorText);
       return null;
     }

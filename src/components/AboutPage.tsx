@@ -98,6 +98,22 @@ export function AboutPage({ onPageChange }: AboutPageProps) {
                 We specialise in delivering audits and GEO strategies that improve and scale your visibility across AI systems - ChatGPT, Gemini, Perplexity,&nbsp;Claude and more. &nbsp; We diagnose the real drivers of AI rankings and deliver clear,&nbsp; actionable optimization to elevate your brand in an AI-first world.
               </p>
             </div>
+            
+            {/* Hero Image */}
+            <div className="relative w-full max-w-4xl mx-auto mb-8">
+              <div className="relative rounded-lg overflow-hidden shadow-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop&crop=center&auto=format"
+                  alt="AI Optimization Technology"
+                  width={1200}
+                  height={600}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
+              </div>
+            </div>
+            
             <Button
               onClick={handleMeetTeamClick}
               variant="outline"

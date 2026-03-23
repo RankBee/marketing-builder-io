@@ -236,8 +236,9 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     return null;
   }
 
+  const safeSlug = JSON.stringify(slug);
   try {
-    const url = `${GHOST_API_URL}/posts/slug/${slug}/?key=${getGhostContentKey()}&include=tags,authors`;
+    const url = `${GHOST_API_URL}/posts/slug/${encodeURIComponent(slug)}/?key=${getGhostContentKey()}&include=tags,authors`;
     
     const response = await fetch(url, {
       headers: {
@@ -245,11 +246,10 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
       },
       cache: 'no-store',
     });
-
     if (!response.ok) {
       console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}`);
-      console.error(`Slug: "${slug}"`);
-      console.error(`URL: ${GHOST_API_URL}/posts/slug/${slug}/ (key redacted)`);
+      console.error(`Slug: ${safeSlug}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/slug/[slug]/ (key redacted)`);
       return null;
     }
 
@@ -257,13 +257,13 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     const posts = result.posts || [];
     
     if (posts.length === 0) {
-      console.warn(`Ghost API returned 0 posts for slug: "${slug}"`);
+      console.warn(`Ghost API returned 0 posts for slug: ${safeSlug}`);
       return null;
     }
 
     return transformGhostPost(posts[0]);
   } catch (error) {
-    console.error(`Error fetching blog post from Ghost [slug: "${slug}"]:`, error);
+    console.error(`Error fetching blog post from Ghost [slug: ${safeSlug}]:`, error);
     return null;
   }
 }

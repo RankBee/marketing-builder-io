@@ -74,7 +74,8 @@ export async function fetchStructure(): Promise<HintoStructureResponse> {
   if (!res.ok) {
     throw new Error(`Hinto API /projects/structure failed: ${res.status} ${res.statusText}`);
   }
-  return res.json();
+  const data: HintoStructureResponse = await res.json();
+  return data;
 }
 
 export async function fetchAllArticles(): Promise<HintoArticlesResponse> {

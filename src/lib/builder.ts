@@ -247,9 +247,10 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     });
 
     if (!response.ok) {
+      const safeSlug = JSON.stringify(slug);
       console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}`);
-      console.error(`Slug: "${slug}"`);
-      console.error(`URL: ${GHOST_API_URL}/posts/slug/${slug}/ (key redacted)`);
+      console.error(`Slug: ${safeSlug}`);
+      console.error(`URL: ${GHOST_API_URL}/posts/slug/[REDACTED]/ (key redacted)`);
       return null;
     }
 
@@ -257,13 +258,13 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     const posts = result.posts || [];
     
     if (posts.length === 0) {
-      console.warn(`Ghost API returned 0 posts for slug: "${slug}"`);
+      console.warn(`Ghost API returned 0 posts for slug: ${JSON.stringify(slug)}`);
       return null;
     }
 
     return transformGhostPost(posts[0]);
   } catch (error) {
-    console.error(`Error fetching blog post from Ghost [slug: "${slug}"]:`, error);
+    console.error(`Error fetching blog post from Ghost [slug: ${JSON.stringify(slug)}]:`, error);
     return null;
   }
 }

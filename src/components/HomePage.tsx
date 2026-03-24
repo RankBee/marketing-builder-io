@@ -97,6 +97,18 @@ export function HomePage({ onPageChange }: HomePageProps) {
               <p>RankBee is your AI Visibility partner for the generative era. Combining advanced GAIO (Generative AI Optimization), proven SEO intelligence, and proprietary technology, we help brands measure, influence, and win how AI engines discover and recommend them. As search shifts to AI-driven recommendations, we provide the strategy and execution to secure lasting competitive advantage.</p>
             </div>
 
+            {/* Hero Image */}
+            <div className="mt-8 sm:mt-12 max-w-2xl mx-auto">
+              <img 
+                src="/images/man-speaking.png" 
+                alt="Aris Vrakas, Founder and CEO of RankBee" 
+                className="w-full h-auto rounded-lg shadow-xl"
+              />
+              <p className="text-center text-gray-600 mt-4" style={{ fontSize: '0.65rem' }}>
+                Aris Vrakas, Founder and CEO of RankBee
+              </p>
+            </div>
+
             {/* CTA */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <SignedOut>

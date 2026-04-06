@@ -120,18 +120,25 @@ const pages: Record<string, { title: string; description: string; path: string; 
     description: "RankBee — AI Visibility for ChatGPT, Claude, Gemini.",
     path: "/builder",
     noindex: false
+  },
+  "404": {
+    title: "Page Not Found",
+    description: "The page you're looking for doesn't exist or has been moved.",
+    path: "",
+    noindex: true
   }
 };
 
 export function getPageSeo(pageId: string): PageSeo {
   const page = pages[pageId] || pages.home;
   const baseTitle = "RankBee";
+  const canonical = pageId === '404' ? '' : `${SITE_URL.replace(/\/+$/, '')}${page.path}`;
   return {
     title: page.title,
     fullTitle: `${page.title} | ${baseTitle}`,
     description: page.description,
     path: page.path,
-    canonical: `${SITE_URL.replace(/\/+$/, '')}${page.path}`,
+    canonical,
     noindex: page.noindex,
   };
 }

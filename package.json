@@ -78,6 +78,7 @@
       ],
       "scripts": {
             "postinstall": "node scripts/create-version-aliases.js",
+            "optimize-images": "node scripts/optimize-images.js",
             "dev": "node scripts/create-version-aliases.js && next dev -p 3000",
             "build": "node scripts/create-version-aliases.js && next build",
             "build:ssg": "node scripts/create-version-aliases.js && next build",

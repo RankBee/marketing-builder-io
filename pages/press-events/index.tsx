@@ -94,6 +94,23 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Conferences, speaking engagements, awards, and press coverage - see where the RankBee team is sharing insights on AI visibility.
               </p>
+
+              {/* Hero Image */}
+              <div className="mt-8 sm:mt-12 max-w-4xl mx-auto">
+                <div className="relative w-full aspect-[16/9] rounded-lg shadow-xl overflow-hidden">
+                  <Image
+                    src="/images/aris-speaking-next-newyork.jpg"
+                    alt="Aris Vrakas, Founder and CEO of RankBee speaking at NEXT.io Summit New York 2026"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 896px"
+                  />
+                </div>
+                <p className="text-center text-gray-600 mt-4" style={{ fontSize: '0.65rem' }}>
+                  Aris Vrakas, Founder and CEO of RankBee speaking at NEXT.io Summit New York 2026
+                </p>
+              </div>
             </div>
           </div>
           <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-purple-400/20 pointer-events-none" />

@@ -1636,6 +1636,10 @@
     padding-block: calc(var(--spacing) * 3);
   }
 
+  .py-8 {
+    padding-block: calc(var(--spacing) * 8);
+  }
+
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
   }
@@ -3891,6 +3895,15 @@ button:hover {
   }
 }
 
+
+@media (min-width: 640px) {
+  .sm\:hidden {
+    display: none;
+  }
+  .sm\:block {
+    display: block;
+  }
+}
 
 @media (width >= 64rem) {
   .lg\:block {

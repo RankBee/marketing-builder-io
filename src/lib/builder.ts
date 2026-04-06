@@ -97,6 +97,38 @@ function transformGhostPost(ghostPost: GhostPost): BlogPost {
 }
 
 /**
+ * Strip the `key` query param from a Ghost API URL before logging.
+ */
+function redactKey(url: string): string {
+  try {
+    const u = new URL(url);
+    u.searchParams.delete('key');
+    return u.toString();
+  } catch {
+    return '(invalid URL)';
+  }
+}
+
+/**
+ * Safely extract a loggable error summary from a Ghost API error response.
+ * Only logs known-safe fields (message, type) to avoid leaking secrets or raw URLs.
+ */
+async function parseGhostError(response: Response): Promise<string> {
+  try {
+    const json = await response.json();
+    const first = json?.errors?.[0];
+    if (first) {
+      const type = first.type ? ` [${first.type}]` : '';
+      const message = first.message ? `: ${first.message}` : '';
+      return `${type}${message}`;
+    }
+  } catch {
+    // Non-JSON response — log nothing beyond status/statusText
+  }
+  return '';
+}
+
+/**
  * Fetch all blog posts from Ghost CMS
  */
 export async function fetchBlogPosts(): Promise<BlogPost[]> {
@@ -116,9 +148,9 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
     });
 
     if (!response.ok) {
-      const errorBody = await response.text().catch(() => 'Unable to read error body');
-      const sanitizedBody = errorBody.replace(/[\x00-\x1f\x7f-\x9f]/g, '').slice(0, 200);
-      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText} | Body: ${sanitizedBody} | URL: ${GHOST_API_URL}/posts/ (key redacted)`);
+      const ghostError = await parseGhostError(response);
+      const redactedUrl = redactKey(url);
+      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText}${ghostError} | URL: ${redactedUrl}`);
       return [];
     }
 
@@ -251,9 +283,9 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     });
 
     if (!response.ok) {
-      const errorBody = await response.text().catch(() => 'Unable to read error body');
-      const sanitizedBody = errorBody.replace(/[\x00-\x1f\x7f-\x9f]/g, '').slice(0, 200);
-      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText} | Slug: ${escapedSlug} | Body: ${sanitizedBody} | URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
+      const ghostError = await parseGhostError(response);
+      const redactedUrl = redactKey(url);
+      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText}${ghostError} | URL: ${redactedUrl}`);
       return null;
     }
 

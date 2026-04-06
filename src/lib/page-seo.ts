@@ -132,12 +132,13 @@ const pages: Record<string, { title: string; description: string; path: string; 
 export function getPageSeo(pageId: string): PageSeo {
   const page = pages[pageId] || pages.home;
   const baseTitle = "RankBee";
+  const canonical = pageId === '404' ? '' : `${SITE_URL.replace(/\/+$/, '')}${page.path}`;
   return {
     title: page.title,
     fullTitle: `${page.title} | ${baseTitle}`,
     description: page.description,
     path: page.path,
-    canonical: `${SITE_URL.replace(/\/+$/, '')}${page.path}`,
+    canonical,
     noindex: page.noindex,
   };
 }

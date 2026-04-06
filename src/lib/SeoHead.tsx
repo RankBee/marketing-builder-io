@@ -32,7 +32,7 @@ export function SeoHead({
 
   const fullTitle = titleOverride ? `${titleOverride} | RankBee` : seo.fullTitle;
   const description = descOverride || seo.description;
-  const canonical = canonicalOverride || seo.canonical;
+  const canonical = canonicalOverride ?? seo.canonical;
   const ogImage = imageOverride || `${siteUrl}/images/bee-logo.png`;
   const noindex = noindexOverride ?? seo.noindex;
   const ogType = type || 'website';

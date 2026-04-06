@@ -9,6 +9,7 @@ import { signUpUrl } from "../lib/clerk-env";
 import { trackEvent } from "../lib/posthog";
 import { NewsAnnouncementBanner } from "./NewsAnnouncementBanner";
 import Link from "next/link";
+import Image from "next/image";
 
 interface HomePageProps {
   onPageChange: (page: string) => void;
@@ -158,10 +159,14 @@ export function HomePage({ onPageChange }: HomePageProps) {
 
             {/* Hero Image */}
             <div className="mt-8 sm:mt-12 max-w-2xl mx-auto">
-              <img 
-                src="/images/man-speaking.png" 
-                alt="Aris Vrakas, Founder and CEO of RankBee" 
+              <Image
+                src="/images/man-speaking.webp"
+                alt="Aris Vrakas, Founder and CEO of RankBee"
                 className="w-full h-auto rounded-lg shadow-xl"
+                width={1539}
+                height={1116}
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 672px"
               />
               <p className="text-center text-gray-600 mt-4" style={{ fontSize: '0.65rem' }}>
                 Aris Vrakas, Founder and CEO of RankBee<br />

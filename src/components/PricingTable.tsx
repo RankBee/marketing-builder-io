@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
+import Image from "next/image";
 import { CheckIcon, MinusIcon } from "@heroicons/react/16/solid";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import {
@@ -185,7 +186,7 @@ export function PricingTable() {
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
               >
-                <img src={client.src} alt={client.name} style={{ height: `${client.height}px`, width: "auto", display: "block", filter: client.invert ? "brightness(0) invert(1)" : "none", ...client.imgStyle }} />
+                <Image src={client.src} alt={client.name} width={200} height={client.height} style={{ height: `${client.height}px`, width: "auto", display: "block", filter: client.invert ? "brightness(0) invert(1)" : "none", ...client.imgStyle }} unoptimized />
               </a>
             ))}
           </div>

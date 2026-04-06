@@ -1,4 +1,10 @@
-const sharp = require('sharp');
+let sharp;
+try {
+  sharp = require('sharp');
+} catch {
+  console.log('sharp not available — skipping image optimization');
+  process.exit(0);
+}
 const fs = require('fs');
 const path = require('path');
 
@@ -37,7 +43,8 @@ async function optimizeImages() {
       
       const webpStats = fs.statSync(webpPath);
       const webpSizeKB = Math.round(webpStats.size / 1024);
-      console.log(`✓ Created ${baseName}.webp (${webpSizeKB}KB)`);
+      fs.unlinkSync(filePath);
+      console.log(`✓ Converted ${file} → ${baseName}.webp (${sizeKB}KB → ${webpSizeKB}KB), original deleted`);
       optimized++;
     }
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import svgPaths from "../imports/svg-d2wbzq4ilg";
 import imgChatGptLogoSvg1 from "../assets/9340dc6d4f7e1823f26d71086af558cabd844e38.png";
 
@@ -28,7 +29,7 @@ export function HeroDashboard() {
 
           {/* Model Selector */}
           <div className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex items-center gap-2">
-            <img src={imgChatGptLogoSvg1} alt="ChatGPT" className="w-5 h-5" />
+            <Image src={imgChatGptLogoSvg1} alt="ChatGPT" width={20} height={20} className="w-5 h-5" />
             <span className="text-sm text-gray-700">ChatGPT 4o</span>
           </div>
         </div>

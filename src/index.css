@@ -3893,16 +3893,17 @@ button:hover {
   .logo-text {
     height: 42px;
   }
+}
 
+
+@media (min-width: 640px) {
   .sm\:hidden {
     display: none;
   }
-
   .sm\:block {
     display: block;
   }
 }
-
 
 @media (width >= 64rem) {
   .lg\:block {

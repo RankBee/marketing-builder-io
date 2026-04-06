@@ -97,11 +97,16 @@ export default function PressEventsIndex({ todayISO }: PressEventsProps) {
 
               {/* Hero Image */}
               <div className="mt-8 sm:mt-12 max-w-4xl mx-auto">
-                <img 
-                  src="/images/aris-speaking-next-newyork.jpg" 
-                  alt="Aris Vrakas, Founder and CEO of RankBee speaking at NEXT.io Summit New York 2026" 
-                  className="w-full h-auto rounded-lg shadow-xl"
-                />
+                <div className="relative w-full aspect-[16/9] rounded-lg shadow-xl overflow-hidden">
+                  <Image
+                    src="/images/aris-speaking-next-newyork.jpg"
+                    alt="Aris Vrakas, Founder and CEO of RankBee speaking at NEXT.io Summit New York 2026"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 896px"
+                  />
+                </div>
                 <p className="text-center text-gray-600 mt-4" style={{ fontSize: '0.65rem' }}>
                   Aris Vrakas, Founder and CEO of RankBee speaking at NEXT.io Summit New York 2026
                 </p>

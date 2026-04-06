@@ -117,7 +117,8 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
     if (!response.ok) {
       const errorBody = await response.text().catch(() => 'Unable to read error body');
-      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText} | Body: ${errorBody} | URL: ${GHOST_API_URL}/posts/ (key redacted)`);
+      const sanitizedBody = errorBody.replace(/[\x00-\x1f\x7f-\x9f]/g, '').slice(0, 200);
+      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText} | Body: ${sanitizedBody} | URL: ${GHOST_API_URL}/posts/ (key redacted)`);
       return [];
     }
 
@@ -251,7 +252,8 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
     if (!response.ok) {
       const errorBody = await response.text().catch(() => 'Unable to read error body');
-      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText} | Slug: ${escapedSlug} | Body: ${errorBody} | URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
+      const sanitizedBody = errorBody.replace(/[\x00-\x1f\x7f-\x9f]/g, '').slice(0, 200);
+      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText} | Slug: ${escapedSlug} | Body: ${sanitizedBody} | URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
       return null;
     }
 

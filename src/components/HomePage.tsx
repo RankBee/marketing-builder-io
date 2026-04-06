@@ -69,7 +69,7 @@ export function HomePage({ onPageChange }: HomePageProps) {
       <NewsAnnouncementBanner />
       <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-12 sm:py-16 lg:py-20">
+      <section className="relative bg-gradient-to-br from-purple-50 via-white to-purple-100 overflow-hidden py-8 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6 sm:space-y-8 mb-12">
             {/* Badge */}
@@ -93,20 +93,9 @@ export function HomePage({ onPageChange }: HomePageProps) {
             </h1>
 
             {/* Description */}
-            <div className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              <p>RankBee is your AI Visibility partner for the generative era. Combining advanced GAIO (Generative AI Optimization), proven SEO intelligence, and proprietary technology, we help brands measure, influence, and win how AI engines discover and recommend them. As search shifts to AI-driven recommendations, we provide the strategy and execution to secure lasting competitive advantage.</p>
-            </div>
-
-            {/* Hero Image */}
-            <div className="mt-8 sm:mt-12 max-w-2xl mx-auto">
-              <img 
-                src="/images/man-speaking.png" 
-                alt="Aris Vrakas, Founder and CEO of RankBee" 
-                className="w-full h-auto rounded-lg shadow-xl"
-              />
-              <p className="text-center text-gray-600 mt-4" style={{ fontSize: '0.65rem' }}>
-                Aris Vrakas, Founder and CEO of RankBee
-              </p>
+            <div className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              <p className="hidden sm:block">RankBee is your AI Visibility partner for the generative era. Combining advanced GAIO (Generative AI Optimization), proven SEO intelligence, and proprietary technology, we help brands measure, influence, and win how AI engines discover and recommend them. As search shifts to AI-driven recommendations, we provide the strategy and execution to secure lasting competitive advantage.</p>
+              <p className="sm:hidden">Your AI Visibility partner combining advanced GAIO, proven SEO intelligence, and proprietary technology to help brands win in AI-driven search and recommendations.</p>
             </div>
 
             {/* CTA */}
@@ -165,6 +154,19 @@ export function HomePage({ onPageChange }: HomePageProps) {
                   className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-3 text-lg"
                 />
               </SignedIn>
+            </div>
+
+            {/* Hero Image */}
+            <div className="mt-8 sm:mt-12 max-w-2xl mx-auto">
+              <img 
+                src="/images/man-speaking.png" 
+                alt="Aris Vrakas, Founder and CEO of RankBee" 
+                className="w-full h-auto rounded-lg shadow-xl"
+              />
+              <p className="text-center text-gray-600 mt-4" style={{ fontSize: '0.65rem' }}>
+                Aris Vrakas, Founder and CEO of RankBee<br />
+                Former Global Head of SEO, Amazon
+              </p>
             </div>
           </div>
           

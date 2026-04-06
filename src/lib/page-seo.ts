@@ -120,6 +120,12 @@ const pages: Record<string, { title: string; description: string; path: string; 
     description: "RankBee — AI Visibility for ChatGPT, Claude, Gemini.",
     path: "/builder",
     noindex: false
+  },
+  "404": {
+    title: "Page Not Found",
+    description: "The page you're looking for doesn't exist or has been moved.",
+    path: "/404",
+    noindex: true
   }
 };
 

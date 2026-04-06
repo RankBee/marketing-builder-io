@@ -116,7 +116,8 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
     });
 
     if (!response.ok) {
-      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText} | URL: ${GHOST_API_URL}/posts/ (key redacted)`);
+      const errorBody = await response.text().catch(() => 'Unable to read error body');
+      console.error(`Ghost API error [fetchBlogPosts]: ${response.status} ${response.statusText} | Body: ${errorBody} | URL: ${GHOST_API_URL}/posts/ (key redacted)`);
       return [];
     }
 
@@ -249,7 +250,8 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     });
 
     if (!response.ok) {
-      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText} | Slug: ${escapedSlug} | URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
+      const errorBody = await response.text().catch(() => 'Unable to read error body');
+      console.error(`Ghost API error [fetchBlogPost]: ${response.status} ${response.statusText} | Slug: ${escapedSlug} | Body: ${errorBody} | URL: ${GHOST_API_URL}/posts/slug/... (slug and key redacted)`);
       return null;
     }
 

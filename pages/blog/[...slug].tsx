@@ -1,4 +1,4 @@
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { GetServerSideProps } from 'next';
 import { SeoHead } from '../../src/lib/SeoHead';
 import { ArticleDetailPage } from '../../src/components/ArticleDetailPage';
 import { fetchBlogPost, fetchBlogPosts, sanitizeBlogHtml, BlogPost } from '../../src/lib/builder';
@@ -9,10 +9,26 @@ interface BlogPostPageProps {
   post: BlogPost | null;
   slug: string;
   allPosts?: BlogPost[];
+  error?: string;
 }
 
-export default function BlogPostPage({ onPageChange, post, slug, allPosts }: BlogPostPageProps) {
+export default function BlogPostPage({ onPageChange, post, slug, allPosts, error }: BlogPostPageProps) {
   const siteUrl = getSiteUrl();
+
+  if (error) {
+    return (
+      <>
+        <SeoHead pageId="blog" />
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-2xl font-bold mb-4">Blog Temporarily Unavailable</h1>
+          <p className="text-gray-600">
+            We're experiencing technical difficulties with our blog. Please try again later.
+          </p>
+          <p className="text-sm text-gray-500 mt-4">Error: {error}</p>
+        </div>
+      </>
+    );
+  }
 
   if (!post) {
     return (
@@ -56,50 +72,55 @@ export default function BlogPostPage({ onPageChange, post, slug, allPosts }: Blo
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const posts = await fetchBlogPosts();
-    const paths = posts.map((post) => ({
-      params: { slug: post.slug },
-    }));
-    return {
-      paths,
-      fallback: 'blocking', // Generate new pages on-demand
-    };
-  } catch (error) {
-    console.error('[blog] Error fetching paths:', error);
-    return {
-      paths: [],
-      fallback: 'blocking',
-    };
-  }
-};
+export const getServerSideProps: GetServerSideProps = async ({ params, res }) => {
+  const slugArray = params?.slug as string[];
+  
+  // Handle different URL patterns:
+  // /blog/my-post -> ["my-post"]
+  // /blog/category/my-post -> ["category", "my-post"] (use last segment)
+  const slug = slugArray ? slugArray[slugArray.length - 1] : '';
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params?.slug as string;
+  if (!slug) {
+    return { notFound: true };
+  }
+
+  // Set cache headers for performance
+  res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
 
   try {
     const [post, allPosts] = await Promise.all([
       fetchBlogPost(slug),
-      fetchBlogPosts(),
+      fetchBlogPosts().catch(() => []), // Don't fail if allPosts fetch fails
     ]);
+
     if (!post) {
       return { notFound: true };
     }
-    // Sanitize HTML content at build time (server-side) so the component
-    // never needs isomorphic-dompurify, which leaks memory via JSDOM.
+
+    // Sanitize HTML content server-side
     if (post.content) {
       post.content = sanitizeBlogHtml(post.content);
     }
+
     return {
-      props: { post, slug, allPosts },
-      revalidate: 300, // Revalidate every 5 minutes
+      props: { 
+        post, 
+        slug, 
+        allPosts: allPosts || [] 
+      },
     };
   } catch (error) {
     console.error(`[blog] Error fetching post ${slug}:`, error);
+    
+    // Instead of returning notFound, return an error state
+    // This allows the page to render with an error message
     return {
-      notFound: true,
-      revalidate: 60,
+      props: {
+        post: null,
+        slug,
+        allPosts: [],
+        error: 'Unable to fetch blog content. Please try again later.'
+      },
     };
   }
 };
